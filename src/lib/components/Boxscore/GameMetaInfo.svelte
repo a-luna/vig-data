@@ -1,0 +1,39 @@
+<script lang="ts">
+	import type { Umpire } from '$lib/api/types';
+
+	export let park_name: string;
+	export let field_type: string;
+	export let day_night: string;
+	export let game_start_time: string;
+	export let game_duration: string;
+	export let attendance: number;
+	export let umpires: Umpire[];
+	// export let first_pitch_temperature: number;
+	// export let first_pitch_precipitation: string;
+	// export let first_pitch_wind: string;
+	// export let first_pitch_clouds: string;
+</script>
+
+<div class="flex flex-row flex-nowrap justify-start items-start text-sm my-5">
+	<div class="flex flex-col flex-nowrap mr-2">
+		<span><strong>Start Time: </strong>{game_start_time}</span>
+		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>
+		<span><strong>Attendance: </strong>{attendance}</span>
+		<span><strong>Duration: </strong>{game_duration}</span>
+		<!-- <span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span> -->
+	</div>
+	<div class="flex flex-col flex-nowrap ml-2">
+		<div class="flex flex-col flex-nowrap justify-start">
+			<span class="mr-1"><strong>Umpires: </strong></span>
+			<div class="flex flex-col flex-nowrap justify-start">
+				{#each umpires as { field_location, umpire_name }}
+					<span><strong>{field_location} </strong>{umpire_name}</span>
+				{/each}
+			</div>
+		</div>
+	</div>
+</div>
+
+<style lang="postcss">
+	/* your styles go here */
+</style>
