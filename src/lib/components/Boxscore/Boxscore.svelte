@@ -19,7 +19,9 @@
 	export let game_id: string;
 	export let all_pbp: AtBatDetails[];
 	let success: boolean;
-	let getBoxscoreRequest: Promise<ApiResponse<Boxscore> | Result<Date> | ApiResponse<AtBatDetails[]>>;
+	let getBoxscoreRequest: Promise<
+		ApiResponse<Boxscore> | Result<Date> | ApiResponse<AtBatDetails[]>
+	>;
 	let matchup: string[];
 	let date_str: string;
 	let atBatResultsModal: AtBatResultsModal;
@@ -75,25 +77,29 @@
 			{#if result.success}
 				<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
 				<Linescore {...boxscore} expanded={true} />
-				<TeamBattingStats
-					teamData={boxscore.away_team}
-					on:viewAtBatResultsClicked={(event) => atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
-				/>
-				<TeamBattingStats
-					teamData={boxscore.home_team}
-					on:viewAtBatResultsClicked={(event) => atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
-				/>
-				<TeamPitchingStats
-					teamData={boxscore.away_team}
-					on:viewPitcherInningTotalsClicked={(event) =>
-						pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
-				/>
-				<TeamPitchingStats
-					teamData={boxscore.home_team}
-					on:viewPitcherInningTotalsClicked={(event) =>
-						pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
-				/>
-				<GameMetaInfo {...boxscore.game_meta} />
+				<div class="mx-auto my-0 w-min">
+					<TeamBattingStats
+						teamData={boxscore.away_team}
+						on:viewAtBatResultsClicked={(event) =>
+							atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
+					/>
+					<TeamBattingStats
+						teamData={boxscore.home_team}
+						on:viewAtBatResultsClicked={(event) =>
+							atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
+					/>
+					<TeamPitchingStats
+						teamData={boxscore.away_team}
+						on:viewPitcherInningTotalsClicked={(event) =>
+							pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
+					/>
+					<TeamPitchingStats
+						teamData={boxscore.home_team}
+						on:viewPitcherInningTotalsClicked={(event) =>
+							pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
+					/>
+					<GameMetaInfo {...boxscore.game_meta} />
+				</div>
 			{:else}
 				<div class="error">Error: {result.message}</div>
 			{/if}
@@ -104,10 +110,6 @@
 </div>
 
 <style lang="postcss">
-	.pending {
-		margin: auto;
-	}
-
 	.boxscore {
 		@apply flex flex-col flex-nowrap justify-start;
 	}

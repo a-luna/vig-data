@@ -10,7 +10,9 @@
 
 <div class="sidebar-component">
 	<h4>Player Search</h4>
-	<SearchForm on:searchRequest={(event) => (playerSearchRequest = playerNameSearch(event.detail))} />
+	<SearchForm
+		on:searchRequest={(event) => (playerSearchRequest = playerNameSearch(event.detail))}
+	/>
 	{#if playerSearchRequest}
 		{#await playerSearchRequest}
 			<div class="pending"><Pulse size="20" color="#5000e6" /></div>
@@ -25,9 +27,3 @@
 		{/await}
 	{/if}
 </div>
-
-<style lang="postcss">
-	.pending {
-		width: 100%;
-	}
-</style>

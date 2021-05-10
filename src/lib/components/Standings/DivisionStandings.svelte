@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TeamSeasonData } from '$lib/api/types';
 
+	export let divIndex: number;
 	export let league: string;
 	export let division: string;
 	export let teamStandings: TeamSeasonData[];
@@ -16,27 +17,42 @@
 	}
 
 	$: if (division) div_name = getDivisionName(division);
+	$: leagueName = !league ? '' : league == 'al' ? 'American League' : 'National League';
 </script>
 
-<tr class="division-name col-header">
-	<td colspan="5">{league.toUpperCase()} {div_name}</td>
-</tr>
-<tr class="col-headers">
-	<td class="team-id">&nbsp;</td>
-	<td class="num">W</td>
-	<td class="num">L</td>
-	<td class="num">RS</td>
-	<td class="num">RA</td>
-</tr>
-{#each teamStandings as team}
-	<tr>
-		<td><a sveltekit:prefetch href={`/team/${team.team_id_br}/${team.year}`}>{team.team_id_br}</a></td>
-		<td>{team.wins}</td>
-		<td>{team.losses}</td>
-		<td>{team.runs}</td>
-		<td>{team.runs_against}</td>
-	</tr>
-{/each}
+<table>
+	<thead>
+		{#if divIndex == 0}
+			<tr class="league-name col-header">
+				<th colspan="5">{leagueName}</th>
+			</tr>
+		{/if}
+		<tr class="division-name col-header">
+			<th colspan="5">{league.toUpperCase()} {div_name}</th>
+		</tr>
+		<tr class="col-headers">
+			<th class="team-id">&nbsp;</th>
+			<th class="num">W</th>
+			<th class="num">L</th>
+			<th class="num">RS</th>
+			<th class="num">RA</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each teamStandings as team}
+			<tr>
+				<td
+					><a sveltekit:prefetch href={`/team/${team.team_id_br}/${team.year}`}>{team.team_id_br}</a
+					></td
+				>
+				<td>{team.wins}</td>
+				<td>{team.losses}</td>
+				<td>{team.runs}</td>
+				<td>{team.runs_against}</td>
+			</tr>
+		{/each}
+	</tbody>
+</table>
 
 <style lang="postcss">
 	.division-name,
@@ -44,11 +60,20 @@
 		text-align: center;
 	}
 
-	td.team-id {
+	.league-name {
+		text-align: center;
+	}
+
+	.division-name {
+		border-top: 1px solid var(--table-col-header-bottom-border);
+		background-color: var(--table-col-header-bg-color);
+	}
+
+	th.team-id {
 		width: 45px;
 	}
 
-	td.num {
+	th.num {
 		width: 30px;
 	}
 </style>

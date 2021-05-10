@@ -58,9 +58,3 @@
 		</table>
 	</div>
 </div>
-
-<style lang="postcss">
-	h4 {
-		margin: 30px 0 0 0;
-	}
-</style>

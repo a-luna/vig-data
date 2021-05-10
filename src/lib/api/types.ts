@@ -344,6 +344,8 @@ export interface AtBatPitchDescription {
 	pitch_number: string;
 	description: string;
 	pitch_type: string;
+	blocked_by_c: boolean;
+	non_pitch_event: boolean;
 }
 
 export interface PitchFx {

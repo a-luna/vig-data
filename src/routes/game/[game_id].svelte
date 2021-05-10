@@ -14,8 +14,8 @@
 	$: boxShown = $contentShown === 'box';
 	// $: chartsShown = $contentShown === 'charts';
 
-	function viewAtBat(event) {
-		atBatViewer.viewAtBat(event.detail);
+	function viewAtBat(atBatId) {
+		atBatViewer.viewAtBat(atBatId);
 		$contentShown = 'pbp';
 	}
 </script>
@@ -31,7 +31,7 @@
 	bind:boxscore
 	bind:game_id
 	bind:shown={boxShown}
-	on:viewPitchFxForAtBatClicked={viewAtBat}
+	on:viewPitchFxForAtBatClicked={(event) => viewAtBat(event.detail)}
 	on:allPlayByPlayDataFetched={(event) => atBatViewer.prepData(event.detail)}
 />
 <AtBatViewer {boxscore} bind:this={atBatViewer} bind:shown={pbpShown} />

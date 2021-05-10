@@ -19,7 +19,10 @@ export function getDateFromString(date_str: string): Result<Date> {
 
 export function getSeasonDates(start_str: string, end_str: string): Result<Date[]> {
 	if (!SEASON_DATE_REGEX.test(start_str) || !SEASON_DATE_REGEX.test(end_str))
-		return { success: false, message: 'Season start/end dates must be in the correct format: YYYY-MM-DD' };
+		return {
+			success: false,
+			message: 'Season start/end dates must be in the correct format: YYYY-MM-DD'
+		};
 	const start_year = parseInt(start_str.slice(0, 4));
 	const start_month = parseInt(start_str.slice(5, 7));
 	const start_day = parseInt(start_str.slice(8, 10));
@@ -37,7 +40,10 @@ export function getSeasonDates(start_str: string, end_str: string): Result<Date[
 export function getDateFromGameId(game_id: string): Result<Date> {
 	return GAME_ID_REGEX.test(game_id)
 		? getDateFromString(game_id.slice(3, 11))
-		: { success: false, message: 'Game ID must be in the correct format: (team_id)YYYYMMDD(game_num)' };
+		: {
+				success: false,
+				message: 'Game ID must be in the correct format: (team_id)YYYYMMDD(game_num)'
+		  };
 }
 
 export function getStringFromDate(date: Date): string {
@@ -45,4 +51,35 @@ export function getStringFromDate(date: Date): string {
 	const month = (date.getMonth() + 1).toString().padStart(2, '0');
 	const day = date.getDate().toString().padStart(2, '0');
 	return `${year}${month}${day}`;
+}
+
+export function formatAtBatResult(atBatResult: string): string[] {
+	const split = atBatResult.split(';');
+	return split.length > 1 ? split : [atBatResult];
+}
+
+export function getPitchTypeAbbrevFromName(pitchType: string): string {
+	const pitchTypeToAbbrevMap = {
+		none: 'N/A',
+		changeup: 'CH',
+		curveball: 'CU',
+		eephus: 'EP',
+		fastball: 'FA',
+		cutter: 'FC',
+		'four-seam fastball': 'FF',
+		splitter: 'FS',
+		'two-seam fastball': 'FT',
+		forkball: 'FO',
+		'ball (intentional)': 'IN',
+		'knuckle ball curve': 'KC',
+		'knuckle ball': 'KN',
+		'pitch out': 'PO',
+		screwball: 'SC',
+		sinker: 'SI',
+		slider: 'SL',
+		unknown: 'UN'
+	};
+	return pitchTypeToAbbrevMap.hasOwnProperty(pitchType.toLowerCase())
+		? pitchTypeToAbbrevMap[pitchType.toLowerCase()]
+		: pitchTypeToAbbrevMap['unknown'];
 }

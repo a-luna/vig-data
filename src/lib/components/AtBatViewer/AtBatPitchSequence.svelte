@@ -1,56 +1,49 @@
 <script lang="ts">
 	import type { AtBatDetails, AtBatPitchDescription } from '$lib/api/types';
 	import { PITCH_SEQ_NUMS_REGEX, PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
+	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util';
+	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
+	import MdInfo from 'svelte-icons/md/MdInfo.svelte';
 
 	export let at_bat: AtBatDetails;
 	let pitch_sequence: AtBatPitchDescription[];
-	let at_bat_result: string;
+	let anyPitchBlocked: boolean;
+
+	const pitchBlocked = (pitchDescription) =>
+		pitchDescription.includes('pitch was blocked by catcher');
 
 	function formatPitchDescription(pitch_des: string[]): AtBatPitchDescription {
-		if (pitch_des.length > 0) {
-			const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
-			if (match) {
-				const pitch_number = match.groups.num;
-				if (pitch_des.length == 3) {
-					return {
-						pitch_number: pitch_number,
-						description: pitch_des[1],
-						pitch_type: pitch_des[2]
-					};
-				}
-				if (pitch_des.length == 2) {
-					return {
-						pitch_number: pitch_number,
-						description: pitch_des[1],
-						pitch_type: ''
-					};
-				}
-			}
-		}
-		return {
+		let atBatPitchDescription: AtBatPitchDescription = {
 			pitch_number: '',
 			description: '',
-			pitch_type: ''
+			pitch_type: '',
+			blocked_by_c: false,
+			non_pitch_event: false
 		};
+		if (pitch_des.length === 3) {
+			const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
+			const pitch_number = match ? match.groups.num : '';
+			atBatPitchDescription.pitch_number = pitch_number;
+			atBatPitchDescription.description = pitch_des[1];
+			atBatPitchDescription.pitch_type = pitch_des[2];
+			atBatPitchDescription.non_pitch_event = pitch_number === '';
+
+			if (pitchBlocked(atBatPitchDescription.description)) {
+				atBatPitchDescription.description = atBatPitchDescription.description.split('\n')[0];
+				atBatPitchDescription.blocked_by_c = true;
+				anyPitchBlocked = true;
+			}
+		}
+		return atBatPitchDescription;
 	}
 
 	function formatRunsOutsResult(runs_outs_result: string): string {
-		const outs_count = runs_outs_result.replace(/[^O]/g, '').length;
 		const runs_count = runs_outs_result.replace(/[^R]/g, '').length;
-		if (outs_count > 0 || runs_count > 0) {
-			const outs = outs_count == 0 ? undefined : outs_count == 1 ? `${outs_count} Out` : `${outs_count} Outs`;
-			const runs =
-				runs_count == 0 ? undefined : runs_count == 1 ? `${runs_count} Run Scored` : `${runs_count} Runs Scored`;
-			let results = [];
-			if (outs) {
-				results.push(outs);
-			}
-			if (runs) {
-				results.push(runs);
-			}
-			return results.length > 1 ? results.join(', ') : results[0];
-		}
-		return 'No Outs, No Runs Scored';
+		return runs_count === 0
+			? ''
+			: runs_count === 1
+			? `${runs_count} Run Scored`
+			: `${runs_count} Runs Scored`;
 	}
 
 	function getPitchSpeed(pitch_description: string): string {
@@ -72,51 +65,124 @@
 	}
 
 	$: if (at_bat) {
-		pitch_sequence = at_bat.pitch_sequence_description
-			.filter((p) => p[0].startsWith('Pitch'))
-			.map((p) => formatPitchDescription(p));
-
-		const result = formatRunsOutsResult(at_bat.runs_outs_result);
-		if (!result) {
-			at_bat_result = at_bat.play_description;
-		}
-		at_bat_result = `${at_bat.play_description} (${result})`;
+		anyPitchBlocked = false;
+		pitch_sequence = at_bat.pitch_sequence_description.map((p) => formatPitchDescription(p));
+		pitch_sequence = pitch_sequence.slice(0, -1);
+		console.log(`anyPitchBlocked=${anyPitchBlocked}`);
 	}
 </script>
 
 {#if pitch_sequence !== undefined}
-	<div class="at-bat-details-bottom">
-		<div class="at-bat-pitch-sequence">
-			<table class="m-0">
-				<tbody>
-					{#each pitch_sequence as { pitch_number, description, pitch_type }}
-						<tr>
-							<td class="pitch-description">
-								<span class="pitch-number font-bold">{pitch_number}</span>
+	<div class="at-bat-pitch-sequence responsive-vert">
+		<table class="m-0 w-min">
+			<tbody>
+				{#each pitch_sequence as { pitch_number, description, pitch_type, blocked_by_c, non_pitch_event }}
+					<tr>
+						{#if non_pitch_event}
+							<td colspan="3" class="non-pitch-event text-xs italic text-gray-600">
 								{description}
 							</td>
-							<td class="pitch-speed">{getPitchSpeed(pitch_type)}</td>
-							<td class="pitch-type">{getPitchType(pitch_type)}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-			<span class="font-bold text-center">{at_bat_result}</span>
+						{:else}
+							<td class="pitch-description">
+								<div class="flex flex-row flex-nowrap justify-start">
+									<span class="pitch-number font-bold">{pitch_number}</span>
+									<span class="ml-1">{description}</span>
+									{#if blocked_by_c}
+										<div class="icon ml-1">
+											<MdInfo />
+										</div>
+									{/if}
+								</div>
+							</td>
+							<td
+								class="pitch-speed"
+								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(pitch_type))}
+							>
+								{getPitchSpeed(pitch_type)}
+							</td>
+							<td
+								class="pitch-type"
+								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(pitch_type))}
+							>
+								{getPitchType(pitch_type)}
+							</td>
+						{/if}
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
+	{#if anyPitchBlocked}
+		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-1">
+			<div class="icon-small">
+				<MdInfo />
+			</div>
+			<span class="text-xs italic">Pitch was blocked by catcher</span>
 		</div>
+	{/if}
+	<div class="play_description text-center text-sm bg-yellow-100">
+		<FlexStrings
+			stringArray={formatAtBatResult(at_bat.play_description)}
+			runsScored={formatRunsOutsResult(at_bat.runs_outs_result)}
+		/>
 	</div>
 {/if}
 
 <style lang="postcss">
 	table tbody tr td {
+		line-height: 1.2;
 		background-color: var(--page-bg-color);
 		border: none;
 	}
 
-	.pitch-description {
+	.at-bat-pitch-sequence {
+		@apply flex flex-col flex-nowrap justify-between;
+		height: min-content;
+		border-left: 1px solid var(--table-col-header-bottom-border);
+		border-right: 1px solid var(--table-col-header-bottom-border);
+		border-top: none;
+		border-bottom: none;
+	}
+
+	.icon {
+		color: var(--link-color);
+		width: 16px;
+		height: 16px;
+	}
+
+	.icon-small {
+		color: var(--link-color);
+		width: 14px;
+		height: 14px;
+	}
+
+	:global(.at-bat-result) {
+		font-weight: 700;
+	}
+
+	.pitch-description,
+	.non-pitch-event {
 		padding: 3px 5px 3px 0;
 	}
 
 	.pitch-number {
 		margin: 0 2px 0 0;
+	}
+
+	.legend {
+		background-color: var(--table-col-header-bg-color);
+		border-left: 1px solid var(--table-col-header-bottom-border);
+		border-right: 1px solid var(--table-col-header-bottom-border);
+		border-top: 1px solid var(--table-col-header-bottom-border);
+		border-bottom: none;
+	}
+
+	.play_description {
+		border-left: 1px solid var(--table-col-header-bottom-border);
+		border-right: 1px solid var(--table-col-header-bottom-border);
+		border-top: 1px solid var(--table-col-header-bottom-border);
+		border-bottom: 1px solid var(--table-col-header-bottom-border);
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
 	}
 </style>

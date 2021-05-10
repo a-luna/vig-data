@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Vigorish | MLB Stats & Graphs</title>
+	<title>Home | Vigorish</title>
 </svelte:head>
 
 <SeasonStandings />

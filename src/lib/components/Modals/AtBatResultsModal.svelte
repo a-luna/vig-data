@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { AtBatSummary, BatStats, Boxscore, TeamData } from '$lib/api/types';
+	import type { AtBatSummary, BatStats, Boxscore } from '$lib/api/types';
 	import InningLabel from '$lib/components/Util/InningLabel.svelte';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
@@ -19,10 +19,18 @@
 
 	function createPlayerTeamMap() {
 		playerTeamMap = {};
-		boxscore.away_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id));
-		boxscore.home_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id));
-		boxscore.away_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id));
-		boxscore.home_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id));
+		boxscore.away_team.batting.map(
+			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id)
+		);
+		boxscore.home_team.batting.map(
+			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id)
+		);
+		boxscore.away_team.pitching.map(
+			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id)
+		);
+		boxscore.home_team.pitching.map(
+			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id)
+		);
 	}
 
 	function createPlayerBatStatsMap() {
@@ -62,40 +70,42 @@
 		<span class="text-base font-normal ml-2">{statLine}</span>
 	</div>
 
-	<table slot="content">
-		<thead>
-			<tr class="col-header">
-				<th>Inn</th>
-				<th>Outs</th>
-				<th>RoB</th>
-				<th>Play Description</th>
-				<th>Pitcher</th>
-				<th>Pit Seq</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each atBatResults as at_bat}
-				<tr>
-					<td class="text-center">
-						<InningLabel inning={at_bat.inning} />
-					</td>
-					<td class="text-center">{at_bat.outs}</td>
-					<td class="text-center">{at_bat.runners_on_base}</td>
-					<td>
-						<FlexStrings stringArray={formatAtBatResult(at_bat.play_description)} />
-					</td>
-					<td>{at_bat.pitcher_name}</td>
-					<td
-						><span
-							class="at-bat-link text-indigo-600 cursor-pointer"
-							title="View PitchFX Data for At Bat"
-							on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</span
-						></td
-					>
+	<div slot="content" class="table-wrapper">
+		<table>
+			<thead>
+				<tr class="col-header">
+					<th>Inn</th>
+					<th>Outs</th>
+					<th>RoB</th>
+					<th>Play Description</th>
+					<th>Pitcher</th>
+					<th>Pit Seq</th>
 				</tr>
-			{/each}
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				{#each atBatResults as at_bat}
+					<tr>
+						<td class="text-center">
+							<InningLabel inning={at_bat.inning} />
+						</td>
+						<td class="text-center">{at_bat.outs}</td>
+						<td class="text-center">{at_bat.runners_on_base}</td>
+						<td>
+							<FlexStrings stringArray={formatAtBatResult(at_bat.play_description)} />
+						</td>
+						<td>{at_bat.pitcher_name}</td>
+						<td
+							><span
+								class="at-bat-link text-indigo-600 cursor-pointer"
+								title="View PitchFX Data for At Bat"
+								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</span
+							></td
+						>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
 </ModalContainer>
 
 <style lang="postcss">

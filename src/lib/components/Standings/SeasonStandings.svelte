@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import LeagueStandings from './LeagueStandings.svelte';
-	import type { ApiResponse, MlbSeason, SeasonData } from '$lib/api/types';
+	import type { ApiResponse, SeasonData } from '$lib/api/types';
 	import { getSeasonStandings, getAllValidSeasons } from '$lib/api/season';
+	import DivisionStandings from './DivisionStandings.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let success: boolean;
 	let message: string;
-	let season_options: { text: string; value: number }[] = [];
+	let seasonOptions: { text: string; value: number }[] = [];
 	let selectedSeason: number;
 	let getStandingsRequest: Promise<ApiResponse<SeasonData>>;
 
@@ -17,9 +17,9 @@
 		if (!success) {
 			message = result.message;
 		} else {
-			season_options = [];
-			result.value.map((s) => season_options.push({ text: s.year.toString(), value: s.year }));
-			selectedSeason = season_options[season_options.length - 1].value;
+			seasonOptions = [];
+			result.value.map((s) => seasonOptions.push({ text: s.year.toString(), value: s.year }));
+			selectedSeason = seasonOptions[seasonOptions.length - 1].value;
 		}
 	});
 
@@ -30,7 +30,7 @@
 	<div class="standings-top">
 		{#if success}
 			<select bind:value={selectedSeason}>
-				{#each season_options as year}
+				{#each seasonOptions as year}
 					<option value={year.value}>{year.text}</option>
 				{/each}
 			</select>
@@ -47,7 +47,11 @@
 			{:then result}
 				{#if result.success}
 					{#each Object.entries(result.value) as [league, leagueData]}
-						<LeagueStandings {league} {leagueData} />
+						<div class="league-standings table-wrapper">
+							{#each Object.entries(leagueData) as [division, teamStandings], divIndex}
+								<DivisionStandings {divIndex} {league} {division} {teamStandings} />
+							{/each}
+						</div>
 					{/each}
 				{:else}
 					<div class="error">Error: {result.message}</div>
@@ -68,10 +72,6 @@
 		width: 68px;
 	}
 
-	.pending {
-		margin: auto;
-	}
-
 	.season-standings {
 		display: flex;
 		flex-flow: column nowrap;
@@ -84,8 +84,10 @@
 
 	.standings-body {
 		flex: 1 0 auto;
-		display: flex;
-		flex-flow: row wrap;
-		justify-content: space-evenly;
+		@apply flex flex-row flex-nowrap justify-start;
+	}
+
+	.league-standings {
+		margin: 0 10px;
 	}
 </style>

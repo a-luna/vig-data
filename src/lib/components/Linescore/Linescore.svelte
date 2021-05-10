@@ -49,6 +49,7 @@
 		padding: 0;
 		list-style-type: none;
 		border: 1px solid var(--table-outer-border-color);
+		border-radius: 4px;
 	}
 
 	li {

@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>Vigorish | MLB Scoreboard for {date_str}</title>
+	<title>MLB Scoreboard for {date_str} | Vigorish</title>
 </svelte:head>
 
 <Scoreboard bind:game_date />

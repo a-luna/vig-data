@@ -21,11 +21,15 @@
 		<div class="at-bat-matchup">
 			<span>
 				<strong>At Bat: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.batter_id_mlb}">{at_bat.batter_name}</a>
+				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.batter_id_mlb}"
+					>{at_bat.batter_name}</a
+				>
 			</span>
 			<span>
 				<strong>Pitching: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.pitcher_id_mlb}">{at_bat.pitcher_name}</a>
+				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.pitcher_id_mlb}"
+					>{at_bat.pitcher_name}</a
+				>
 			</span>
 		</div>
 		<div class="at-bat-context">
@@ -44,6 +48,11 @@
 		display: flex;
 		flex-flow: column nowrap;
 		justify-content: flex-start;
+
+		background-color: var(--table-col-header-bg-color);
+		border: 1px solid var(--table-col-header-bottom-border);
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
 	}
 
 	.at-bat-matchup,
@@ -51,7 +60,9 @@
 		flex: 1 0;
 		display: flex;
 		flex-flow: row nowrap;
-		justify-content: flex-start;
+		justify-content: center;
+
+		padding: 3px 5px;
 	}
 
 	.at-bat-matchup > span,

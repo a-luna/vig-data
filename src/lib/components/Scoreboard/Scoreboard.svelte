@@ -48,9 +48,14 @@
 	function handleDateChanged(event) {
 		date = event.detail;
 		getScoreboardRequest = getScoreboardForDate(date);
+		window.history.pushState(
+			{ date: date },
+			`Vigorish | MLB Scoreboard for ${date}`,
+			`scoreboard?date=${date}`
+		);
 	}
 
-	getScoreboardRequest = getScoreboardForDate($page.params.date);
+	getScoreboardRequest = getScoreboardForDate($page.query.get('date'));
 </script>
 
 <div id="scoreboard" class="scoreboard-wrapper">
