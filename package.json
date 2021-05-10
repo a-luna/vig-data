@@ -29,7 +29,6 @@
 		"svelte-calendar": "^2.0.4",
 		"svelte-icons": "^2.1.0",
 		"svelte-loading-spinners": "^0.1.4",
-		"svelte-preprocess": "^4.7.3",
 		"svelte-simple-datatables": "^0.1.25",
 		"tailwindcss": "^2.1.2",
 		"tinro": "^0.6.4",
@@ -44,6 +43,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-node": "1.0.0-next.19",
 		"@sveltejs/kit": "1.0.0-next.102",
-		"layercake": "^4.1.0"
+		"layercake": "^4.1.0",
+		"svelte-preprocess": "^4.7.3"
 	}
 }
