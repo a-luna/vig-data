@@ -9,11 +9,15 @@
 		const statFormatted = stat.toFixed(3);
 		return parseInt(statFormatted.slice(0, 1)) == 0 ? statFormatted.slice(1) : statFormatted;
 	}
+
+	function getCaptionId() {
+		return `${teamData.team_id.toLowerCase()}-batting`;
+	}
 </script>
 
-<div class="responsive">
-	<h4>{teamData.team_name}</h4>
+<div class="scrolling-wrapper">
 	<div class="table-wrapper">
+		<h4>{teamData.team_name}</h4>
 		<table>
 			<thead>
 				<tr class="col-header">

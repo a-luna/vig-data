@@ -8,7 +8,7 @@
 	const height = 350;
 </script>
 
-{#if !pfx}
+{#if !pfx || pfx.length == 0}
 	<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
 {:else}
 	<ScatterPlot data={pfx} {width} {height} />

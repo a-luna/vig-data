@@ -4,11 +4,15 @@
 	import PitcherStatLine from '$lib/components/Util/PitcherStatLine.svelte';
 
 	export let teamData: TeamData;
+
+	function getCaptionId() {
+		return `${teamData.team_id.toLowerCase()}-pitching`;
+	}
 </script>
 
-<div class="responsive">
-	<h4>{teamData.team_name}</h4>
+<div class="scrolling-wrapper">
 	<div class="table-wrapper">
+		<h4>{teamData.team_name}</h4>
 		<table>
 			<thead>
 				<tr class="col-header">

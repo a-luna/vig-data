@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import type { AtBatDetails, InningSummary } from '$lib/api/types';
+	import type { AtBatDetails, InningSummary, PlayerSubEvent } from '$lib/api/types';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import { formatAtBatResult, scrollToTop } from '$lib/util';
 
@@ -43,7 +43,7 @@
 			<tbody>
 				{#each Object.entries(inningAtBatMap) as [inningId, atBatIds]}
 					<tr>
-						<th colspan="10" class="text-left bg-yellow-200 text-black">
+						<th colspan="10" class="inning-begin text-left bg-yellow-200 text-black">
 							{inningSummaries[inningId].begin_inning_summary}
 						</th>
 					</tr>
@@ -80,7 +80,7 @@
 						</tr>
 					{/each}
 					<tr>
-						<td colspan="10" class="inning-end italic text-right bg-gray-100">
+						<td colspan="10" class="inning-end italic text-right">
 							{inningSummaries[inningId].end_inning_summary}
 						</td>
 					</tr>
@@ -91,7 +91,16 @@
 </div>
 
 <style lang="postcss">
+	.inning-begin,
 	.inning-end {
-		border-top: 1px solid var(--table-outer-border-color);
+		border-top: none;
+		border-bottom: none;
+	}
+
+	.inning-end {
+		font-weight: 700;
+		color: var(--table-col-header-color);
+		background-color: var(--table-col-header-bg-color);
+		border: none;
 	}
 </style>

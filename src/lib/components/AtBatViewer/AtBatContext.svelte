@@ -63,6 +63,7 @@
 		justify-content: center;
 
 		padding: 3px 5px;
+		line-height: 1.2;
 	}
 
 	.at-bat-matchup > span,

@@ -77,7 +77,7 @@
 			{#if result.success}
 				<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
 				<Linescore {...boxscore} expanded={true} />
-				<div class="mx-auto my-0 w-min">
+				<div class="mx-auto my-0 w-min flex flex-col flex-nowrap justify-start">
 					<TeamBattingStats
 						teamData={boxscore.away_team}
 						on:viewAtBatResultsClicked={(event) =>
@@ -111,7 +111,7 @@
 
 <style lang="postcss">
 	.boxscore {
-		@apply flex flex-col flex-nowrap justify-start;
+		@apply flex flex-col flex-nowrap justify-start overflow-hidden;
 	}
 
 	.not-shown {

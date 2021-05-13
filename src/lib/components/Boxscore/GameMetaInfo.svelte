@@ -14,7 +14,7 @@
 	// export let first_pitch_clouds: string;
 </script>
 
-<div class="flex flex-row flex-nowrap justify-start items-start text-sm my-5">
+<div class="flex flex-row flex-wrap justify-start items-start text-sm my-5">
 	<div class="flex flex-col flex-nowrap mr-2">
 		<span><strong>Start Time: </strong>{game_start_time}</span>
 		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>

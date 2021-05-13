@@ -6,6 +6,7 @@
 	import PlayByPlayTable from '$lib/components/AtBatViewer/PlayByPlayTable.svelte';
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
+	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let shown: boolean;
 	export let boxscore: Boxscore;
@@ -162,7 +163,7 @@
 				<AtBatContext bind:at_bat />
 				<AtBatPitchSequence bind:at_bat />
 			</div>
-			<div class="flex-grow-0 mt-2">
+			<div class="flex-grow-0 mt-2 mb-1">
 				<PlayByPlayNavigation
 					bind:goToPrevAtBatDisabled
 					bind:goToNextAtBatDisabled
@@ -173,9 +174,21 @@
 				/>
 			</div>
 		</div>
-		<div class="pitch-location flex-grow-0 table-wrapper">
-			<PitchLocationChart bind:pfx />
-		</div>
+		{#if atBatViewerReqeust}
+			<div class="pitch-location flex-grow-0 table-wrapper">
+				{#await atBatViewerReqeust}
+					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+				{:then result}
+					{#if result.success}
+						<PitchLocationChart bind:pfx />
+					{:else}
+						<div class="error">Error: {result.message}</div>
+					{/if}
+				{:catch error}
+					<div class="error">Error: {error.message}</div>
+				{/await}
+			</div>
+		{/if}
 	</div>
 	<div class="mx-auto my-0 w-min">
 		<PlayByPlayTable

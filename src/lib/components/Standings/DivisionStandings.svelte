@@ -20,16 +20,9 @@
 	$: leagueName = !league ? '' : league == 'al' ? 'American League' : 'National League';
 </script>
 
-<table>
+<h5>{league.toUpperCase()} {div_name}</h5>
+<table class="league-standings">
 	<thead>
-		{#if divIndex == 0}
-			<tr class="league-name col-header">
-				<th colspan="5">{leagueName}</th>
-			</tr>
-		{/if}
-		<tr class="division-name col-header">
-			<th colspan="5">{league.toUpperCase()} {div_name}</th>
-		</tr>
 		<tr class="col-headers">
 			<th class="team-id">&nbsp;</th>
 			<th class="num">W</th>
@@ -55,7 +48,14 @@
 </table>
 
 <style lang="postcss">
-	.division-name,
+	h5 {
+		margin: 10px 0 0 0;
+	}
+
+	.league-standings {
+		margin: 0 0 10px 0;
+	}
+
 	.col-headers {
 		text-align: center;
 	}
@@ -65,7 +65,6 @@
 	}
 
 	.division-name {
-		border-top: 1px solid var(--table-col-header-bottom-border);
 		background-color: var(--table-col-header-bg-color);
 	}
 
@@ -74,6 +73,6 @@
 	}
 
 	th.num {
-		width: 30px;
+		width: 34px;
 	}
 </style>

@@ -33,6 +33,7 @@
 	.other {
 		position: absolute;
 		transform: translate(-50%, -50%);
+		background-color: transparent;
 	}
 
 	.circle {
@@ -43,16 +44,22 @@
 	.square {
 	} */
 
+	[data-basic-type='X'] {
+		border: none;
+		background-color: transparent;
+	}
+
 	[data-basic-type='X']::after {
 		position: absolute;
 		z-index: 0;
 		top: -3px;
 		left: -1px;
-		font-size: 0.675rem;
-		font-weight: 700;
+		font-size: 0.75rem;
 		line-height: 1;
+		width: 12px;
+		height: 16px;
 		content: attr(data-basic-type);
-		background-color: var(--black4);
+		background-color: transparent;
 		border: none;
 		padding: 2px;
 	}

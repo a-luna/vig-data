@@ -9,32 +9,30 @@
 	let pitch_sequence: AtBatPitchDescription[];
 	let anyPitchBlocked: boolean;
 
-	const pitchBlocked = (pitchDescription) =>
-		pitchDescription.includes('pitch was blocked by catcher');
+	const pitchBlocked = (pitch) => pitch.description.includes('pitch was blocked by catcher');
 
 	function formatPitchDescription(pitch_des: string[]): AtBatPitchDescription {
-		let atBatPitchDescription: AtBatPitchDescription = {
-			pitch_number: '',
+		let pitch: AtBatPitchDescription = {
+			number: '',
 			description: '',
-			pitch_type: '',
+			type: '',
 			blocked_by_c: false,
 			non_pitch_event: false
 		};
 		if (pitch_des.length === 3) {
 			const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
-			const pitch_number = match ? match.groups.num : '';
-			atBatPitchDescription.pitch_number = pitch_number;
-			atBatPitchDescription.description = pitch_des[1];
-			atBatPitchDescription.pitch_type = pitch_des[2];
-			atBatPitchDescription.non_pitch_event = pitch_number === '';
+			pitch.number = match ? match.groups.num : '';
+			pitch.description = pitch_des[1];
+			pitch.type = pitch_des[2];
+			pitch.non_pitch_event = pitch.number === '';
 
-			if (pitchBlocked(atBatPitchDescription.description)) {
-				atBatPitchDescription.description = atBatPitchDescription.description.split('\n')[0];
-				atBatPitchDescription.blocked_by_c = true;
+			if (pitchBlocked(pitch)) {
+				pitch.description = pitch.description.split('\n')[0];
+				pitch.blocked_by_c = true;
 				anyPitchBlocked = true;
 			}
 		}
-		return atBatPitchDescription;
+		return pitch;
 	}
 
 	function formatRunsOutsResult(runs_outs_result: string): string {
@@ -68,7 +66,6 @@
 		anyPitchBlocked = false;
 		pitch_sequence = at_bat.pitch_sequence_description.map((p) => formatPitchDescription(p));
 		pitch_sequence = pitch_sequence.slice(0, -1);
-		console.log(`anyPitchBlocked=${anyPitchBlocked}`);
 	}
 </script>
 
@@ -76,17 +73,24 @@
 	<div class="at-bat-pitch-sequence responsive-vert">
 		<table class="m-0 w-min">
 			<tbody>
-				{#each pitch_sequence as { pitch_number, description, pitch_type, blocked_by_c, non_pitch_event }}
+				{#each pitch_sequence as { number, description, type, blocked_by_c, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
-							<td colspan="3" class="non-pitch-event text-xs italic text-gray-600">
+							<td colspan="3" class="non-pitch-event text-xs italic text-gray-700">
 								{description}
 							</td>
 						{:else}
-							<td class="pitch-description">
+							<td
+								class="pitch-description"
+								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
+							>
 								<div class="flex flex-row flex-nowrap justify-start">
-									<span class="pitch-number font-bold">{pitch_number}</span>
-									<span class="ml-1">{description}</span>
+									<span class="pitch-number font-bold rounded-full">
+										{number}
+									</span>
+									<span class="ml-1">
+										{description}
+									</span>
 									{#if blocked_by_c}
 										<div class="icon ml-1">
 											<MdInfo />
@@ -96,15 +100,15 @@
 							</td>
 							<td
 								class="pitch-speed"
-								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(pitch_type))}
+								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
 							>
-								{getPitchSpeed(pitch_type)}
+								{getPitchSpeed(type)}
 							</td>
 							<td
 								class="pitch-type"
-								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(pitch_type))}
+								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
 							>
-								{getPitchType(pitch_type)}
+								{getPitchType(type)}
 							</td>
 						{/if}
 					</tr>
@@ -113,7 +117,7 @@
 		</table>
 	</div>
 	{#if anyPitchBlocked}
-		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-1">
+		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-3">
 			<div class="icon-small">
 				<MdInfo />
 			</div>
@@ -130,13 +134,18 @@
 
 <style lang="postcss">
 	table tbody tr td {
-		line-height: 1.2;
+		line-height: 1.3;
 		background-color: var(--page-bg-color);
 		border: none;
+		padding: 3px 5px;
 	}
 
+	/* table tbody tr td span {
+		background-color: var(--page-bg-color);
+	} */
+
 	.at-bat-pitch-sequence {
-		@apply flex flex-col flex-nowrap justify-between;
+		@apply flex flex-col flex-nowrap justify-between flex-grow px-2;
 		height: min-content;
 		border-left: 1px solid var(--table-col-header-bottom-border);
 		border-right: 1px solid var(--table-col-header-bottom-border);
@@ -166,7 +175,7 @@
 	}
 
 	.pitch-number {
-		margin: 0 2px 0 0;
+		color: var(--black4);
 	}
 
 	.legend {
@@ -175,6 +184,7 @@
 		border-right: 1px solid var(--table-col-header-bottom-border);
 		border-top: 1px solid var(--table-col-header-bottom-border);
 		border-bottom: none;
+		padding: 1px;
 	}
 
 	.play_description {
