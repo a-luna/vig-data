@@ -48,8 +48,8 @@
 				{#if result.success}
 					{#each Object.entries(result.value) as [league, leagueData]}
 						<div class="league-standings table-wrapper">
-							{#each Object.entries(leagueData) as [division, teamStandings], divIndex}
-								<DivisionStandings {divIndex} {league} {division} {teamStandings} />
+							{#each Object.entries(leagueData) as [division, teamStandings]}
+								<DivisionStandings {league} {division} {teamStandings} />
 							{/each}
 						</div>
 					{/each}

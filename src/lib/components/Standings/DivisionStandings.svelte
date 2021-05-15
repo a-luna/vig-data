@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { TeamSeasonData } from '$lib/api/types';
 
-	export let divIndex: number;
 	export let league: string;
 	export let division: string;
 	export let teamStandings: TeamSeasonData[];
@@ -17,7 +16,6 @@
 	}
 
 	$: if (division) div_name = getDivisionName(division);
-	$: leagueName = !league ? '' : league == 'al' ? 'American League' : 'National League';
 </script>
 
 <h5>{league.toUpperCase()} {div_name}</h5>
@@ -58,14 +56,6 @@
 
 	.col-headers {
 		text-align: center;
-	}
-
-	.league-name {
-		text-align: center;
-	}
-
-	.division-name {
-		background-color: var(--table-col-header-bg-color);
 	}
 
 	th.team-id {
