@@ -43,7 +43,6 @@
 
 <style lang="postcss">
 	.at-bat-details-top {
-		font-size: 0.9rem;
 		flex: 0;
 		display: flex;
 		flex-flow: column nowrap;

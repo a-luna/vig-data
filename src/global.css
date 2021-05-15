@@ -192,6 +192,15 @@
 	--pitch-type-SC: var(--black4);
 	--pitch-type-UN: var(--black4);
 
+	/* At Bat Pitch Location Chart */
+
+	--at-bat-ploc-chart-size: 200px;
+	--ploc-data-point-radius: 6px;
+	--ploc-x-min: -3.5;
+	--ploc-x-max: 3.5;
+	--ploc-y-min: -5;
+	--ploc-y-max: 5;
+
 	/*
   color: none;
   background-color: none;
@@ -203,7 +212,7 @@
 }
 
 html {
-	font-size: 16px;
+	font-size: 14px;
 	text-rendering: optimizeLegibility;
 	scroll-behavior: smooth;
 }
@@ -288,7 +297,7 @@ main {
 
 .pending,
 .error {
-	margin: 20px auto auto auto;
+	margin: auto;
 }
 
 .align-left {
@@ -554,6 +563,28 @@ input {
 [data-pitch-type='UN'] {
 	color: var(--pitch-type-UN);
 	border: 1px solid var(--pitch-type-UN);
+}
+
+@media screen and (min-width: 768px) {
+	:root {
+		--at-bat-ploc-chart-size: 300px;
+		--ploc-data-point-radius: 8px;
+	}
+
+	html {
+		font-size: 15px;
+	}
+}
+
+@media screen and (min-width: 1024px) {
+	:root {
+		--at-bat-ploc-chart-size: 350px;
+		--ploc-data-point-radius: 10px;
+	}
+
+	html {
+		font-size: 16px;
+	}
 }
 
 .datatable {

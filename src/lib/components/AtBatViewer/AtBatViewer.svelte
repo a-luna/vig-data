@@ -7,6 +7,7 @@
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import { addStrikeZoneCornersToPfxData } from '$lib/util';
 
 	export let shown: boolean;
 	export let boxscore: Boxscore;
@@ -54,7 +55,7 @@
 		if (!success) {
 			return getPfxResult;
 		}
-		pfx = getPfxResult.value;
+		pfx = addStrikeZoneCornersToPfxData(getPfxResult.value);
 		return getPfxResult;
 	}
 
@@ -163,7 +164,7 @@
 				<AtBatContext bind:at_bat />
 				<AtBatPitchSequence bind:at_bat />
 			</div>
-			<div class="flex-grow-0 mt-2 mb-1">
+			<div class="flex-grow-0 mt-1">
 				<PlayByPlayNavigation
 					bind:goToPrevAtBatDisabled
 					bind:goToNextAtBatDisabled
@@ -174,8 +175,8 @@
 				/>
 			</div>
 		</div>
-		{#if atBatViewerReqeust}
-			<div class="pitch-location flex-grow-0 table-wrapper">
+		<div class="pitch-location flex-grow-0 table-wrapper">
+			{#if atBatViewerReqeust}
 				{#await atBatViewerReqeust}
 					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
 				{:then result}
@@ -187,8 +188,8 @@
 				{:catch error}
 					<div class="error">Error: {error.message}</div>
 				{/await}
-			</div>
-		{/if}
+			{/if}
+		</div>
 	</div>
 	<div class="mx-auto my-0 w-min">
 		<PlayByPlayTable
@@ -208,21 +209,42 @@
 		flex-flow: column nowrap;
 		justify-content: flex-start;
 		text-align: left;
-		flex: 1 0 314px;
-		max-height: 314px;
+		flex: 1 0 calc(var(--at-bat-ploc-chart-size) - 37px);
+		max-height: calc(var(--at-bat-ploc-chart-size) - 37px);
 
-		width: 350px;
+		width: var(--at-bat-ploc-chart-size);
 		border-radius: 4px;
 	}
 
 	.pitch-location {
 		border-radius: 4px;
 		border: 1px solid var(--table-col-header-bottom-border);
-		width: 350px;
-		height: 350px;
+		width: var(--at-bat-ploc-chart-size);
+		height: var(--at-bat-ploc-chart-size);
+		margin: 20px 0 0 0;
 	}
 
 	.not-shown {
 		display: none;
+	}
+
+	.at-bat-viewer {
+		font-size: 0.625rem;
+	}
+
+	@media screen and (min-width: 768px) {
+		.at-bat-viewer {
+			font-size: 0.75rem;
+		}
+
+		.pitch-location {
+			margin: 0;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		.at-bat-viewer {
+			font-size: 0.875rem;
+		}
 	}
 </style>

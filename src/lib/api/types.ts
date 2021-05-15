@@ -429,3 +429,16 @@ export interface PitchFx {
 	pxold?: number;
 	pzold?: number;
 }
+
+export interface StrikeZoneCorner {
+	corner: string;
+	left: number;
+	top: number;
+}
+
+export interface StrikeZoneDimensions {
+	top: string;
+	left: string;
+	width: string;
+	height: string;
+}

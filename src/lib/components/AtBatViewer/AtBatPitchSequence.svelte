@@ -76,18 +76,16 @@
 				{#each pitch_sequence as { number, description, type, blocked_by_c, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
-							<td colspan="3" class="non-pitch-event text-xs italic text-gray-700">
+							<td colspan="4" class="non-pitch-event text-xs italic text-gray-700">
 								{description}
 							</td>
 						{:else}
+							<td class="pitch-number">{number}</td>
 							<td
 								class="pitch-description"
 								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
 							>
 								<div class="flex flex-row flex-nowrap justify-start">
-									<span class="pitch-number font-bold rounded-full">
-										{number}
-									</span>
 									<span class="ml-1">
 										{description}
 									</span>
@@ -139,10 +137,6 @@
 		border: none;
 		padding: 3px 5px;
 	}
-
-	/* table tbody tr td span {
-		background-color: var(--page-bg-color);
-	} */
 
 	.at-bat-pitch-sequence {
 		@apply flex flex-col flex-nowrap justify-between flex-grow px-2;
