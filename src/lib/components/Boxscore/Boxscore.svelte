@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { page } from '$app/stores';
+	import { contentShown } from '$lib/stores';
 	import { getBoxscore, getAllPlayByPlayData } from '$lib/api/game';
 	import type { ApiResponse, AtBatDetails, Boxscore, Result } from '$lib/api/types';
 	import { getDateFromGameId } from '$lib/util';
@@ -22,7 +23,6 @@
 	let getBoxscoreRequest: Promise<
 		ApiResponse<Boxscore> | Result<Date> | ApiResponse<AtBatDetails[]>
 	>;
-	let matchup: string[];
 	let date_str: string;
 	let atBatResultsModal: AtBatResultsModal;
 	let pitcherInningTotalsModal: PitcherInningTotalsModal;
@@ -45,7 +45,6 @@
 			return getGameDateResult;
 		}
 		const game_date = getGameDateResult.value;
-		matchup = [boxscore.away_team.team_id, boxscore.home_team.team_id];
 		date_str = `${game_date.getMonth() + 1}/${game_date.getDate()}/${game_date.getFullYear()}`;
 		game_summary = `${boxscore.away_team.team_id} vs ${boxscore.home_team.team_id} (${date_str})`;
 
@@ -59,11 +58,13 @@
 		return getAllPBPResult;
 	}
 
-	onMount(() => (game_id = $page.params.game_id));
-	if (!boxscore) getBoxscoreRequest = getBoxscoreForGame($page.params.game_id);
+	onMount(() => (game_id = $page.query.get('id')));
+	if (!boxscore) getBoxscoreRequest = getBoxscoreForGame($page.query.get('id'));
 
-	$: if (game_id !== undefined && game_id !== $page.params.game_id)
-		getBoxscoreRequest = getBoxscoreForGame($page.params.game_id);
+	$: if (game_id !== undefined && game_id !== $page.query.get('id')) {
+		$contentShown = 'box';
+		getBoxscoreRequest = getBoxscoreForGame($page.query.get('id'));
+	}
 </script>
 
 <AtBatResultsModal bind:this={atBatResultsModal} {boxscore} on:viewPitchFxForAtBatClicked />

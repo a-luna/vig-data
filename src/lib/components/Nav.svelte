@@ -1,9 +1,9 @@
 <nav>
 	<a sveltekit:prefetch href="/">Home</a>
-	<a sveltekit:prefetch href="/game/ANA201905010">ANA201905010</a>
-	<a sveltekit:prefetch href="/game/KCA201905011">KCA201905011</a>
-	<a sveltekit:prefetch href="/game/BOS201909170">BOS201909170</a>
-	<a sveltekit:prefetch href="/game/ARI201909240">ARI201909240</a>
+	<a sveltekit:prefetch href="/game?id=ANA201905010&show=box">ANA201905010</a>
+	<a sveltekit:prefetch href="/game?id=KCA201905011&show=box">KCA201905011</a>
+	<a sveltekit:prefetch href="/game?id=BOS201909170&show=box">BOS201909170</a>
+	<a sveltekit:prefetch href="/game?id=ARI201909240&show=box">ARI201909240</a>
 	<a sveltekit:prefetch href="/scoreboard?date=20190501">Scoreboard</a>
 	<a sveltekit:prefetch href="/scoreboard?date=20190917">Scoreboard</a>
 </nav>

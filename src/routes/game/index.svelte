@@ -14,17 +14,26 @@
 	$: boxShown = $contentShown === 'box';
 	// $: chartsShown = $contentShown === 'charts';
 
+	function changePageAddress(gameContent: 'pbp' | 'box' | 'charts') {
+		window.history.pushState(
+			{ game_id: game_id },
+			`${game_summary} | Vigorish`,
+			`game?id=${game_id}&show=${gameContent}`
+		);
+	}
+
 	function viewAtBat(atBatId) {
 		atBatViewer.viewAtBat(atBatId);
 		$contentShown = 'pbp';
+		changePageAddress('pbp');
 	}
 </script>
 
 <svelte:head>
-	<title>Vigorish | {game_summary}</title>
+	<title>{game_summary} | Vigorish</title>
 </svelte:head>
 
-<GameContentSelector />
+<GameContentSelector on:showGameContent={(event) => changePageAddress(event.detail)} />
 
 <Boxscore
 	bind:game_summary

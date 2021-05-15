@@ -50,7 +50,7 @@
 		getScoreboardRequest = getScoreboardForDate(date);
 		window.history.pushState(
 			{ date: date },
-			`Vigorish | MLB Scoreboard for ${date}`,
+			`MLB Scoreboard for ${date} | Vigorish`,
 			`scoreboard?date=${date}`
 		);
 	}
@@ -73,7 +73,7 @@
 							<div class="game-footer flex flex-row flex-nowrap justify-between">
 								<PitcherResults {...pitcher_results} />
 								<div class="links text-right mt-1.5 mr1.5">
-									<a sveltekit:prefetch href="/game/{game_id}">Boxscore</a>
+									<a sveltekit:prefetch href="/game?id={game_id}&show=box">Boxscore</a>
 								</div>
 							</div>
 						</div>
