@@ -5,6 +5,6 @@
   package = "/.netlify/netlify-plugin-pnpm"
 
 [build]
-  command = "pnpm run build"
+  command = "npm run build"
   publish = "build/"
   functions = "functions/"
