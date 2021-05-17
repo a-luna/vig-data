@@ -196,9 +196,9 @@
 
 	--at-bat-ploc-chart-size: 200px;
 	--ploc-data-point-radius: 6px;
-	--ploc-x-min: -3.5;
-	--ploc-x-max: 3.5;
-	--ploc-y-min: -5;
+	--ploc-x-min: -3;
+	--ploc-x-max: 3;
+	--ploc-y-min: -2;
 	--ploc-y-max: 5;
 
 	/*

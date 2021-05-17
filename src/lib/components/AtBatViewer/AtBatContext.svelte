@@ -2,7 +2,7 @@
 	import type { AtBatDetails } from '$lib/api/types';
 	import { INNING_ID_REGEX } from '$lib/regex';
 
-	export let at_bat: AtBatDetails;
+	export let selectedAtBat: AtBatDetails;
 
 	function getInning(inning_id: string): string {
 		if (inning_id.length > 0) {
@@ -14,29 +14,30 @@
 			}
 		}
 	}
+
 </script>
 
-{#if at_bat !== undefined}
+{#if selectedAtBat !== undefined}
 	<div class="at-bat-details-top">
 		<div class="at-bat-matchup">
 			<span>
 				<strong>At Bat: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.batter_id_mlb}"
-					>{at_bat.batter_name}</a
+				<a class="player-name" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}"
+					>{selectedAtBat.batter_name}</a
 				>
 			</span>
 			<span>
 				<strong>Pitching: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{at_bat.pitcher_id_mlb}"
-					>{at_bat.pitcher_name}</a
+				<a class="player-name" sveltekit:prefetch href="/player/{selectedAtBat.pitcher_id_mlb}"
+					>{selectedAtBat.pitcher_name}</a
 				>
 			</span>
 		</div>
 		<div class="at-bat-context">
-			<span><strong>Inning: </strong>{getInning(at_bat.inning_id)}</span>
-			<span><strong>Score: </strong>{at_bat.score}</span>
-			<span><strong>Outs: </strong>{at_bat.outs_before_play}</span>
-			<span><strong>ROB: </strong>{at_bat.runners_on_base}</span>
+			<span><strong>Inning: </strong>{getInning(selectedAtBat.inning_id)}</span>
+			<span><strong>Score: </strong>{selectedAtBat.score}</span>
+			<span><strong>Outs: </strong>{selectedAtBat.outs_before_play}</span>
+			<span><strong>ROB: </strong>{selectedAtBat.runners_on_base}</span>
 		</div>
 	</div>
 {/if}
@@ -74,4 +75,5 @@
 	.at-bat-context > span:last-child {
 		margin: 0;
 	}
+
 </style>

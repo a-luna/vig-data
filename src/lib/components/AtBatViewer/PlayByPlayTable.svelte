@@ -15,6 +15,13 @@
 		return `${atBat.total_pitches} (${atBat.final_count_balls}-${atBat.final_count_strikes})`;
 	}
 
+	function getSubstitutions(atBat: AtBatDetails): string[] {
+		const subEvents = atBat.pbp_events.filter(
+			(event) => event.event_type === 'SUBSTITUTION'
+		) as PlayerSubEvent[];
+		return subEvents.length > 0 ? subEvents.map((e) => `(${e.sub_description})`) : [];
+	}
+
 	function viewAtBat(atBatId: string) {
 		selectedAtBatId = atBatId;
 		dispatch('showAtBat', atBatId);

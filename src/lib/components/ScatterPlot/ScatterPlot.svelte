@@ -4,7 +4,7 @@
 	import Scatter from './Scatter-html.svelte';
 	import AxisX from './AxisX-html.svelte';
 	import AxisY from './AxisY-html.svelte';
-	import { getCSSPropNumberOfPixels, getCSSPropNumber } from '$lib/util';
+	import { getXAxisMinMax, getYAxisMinMax } from '$lib/util';
 
 	export let data: PitchFx[];
 
@@ -16,20 +16,12 @@
 	});
 	const padding = 0;
 
-	function getXAxisMinMax() {
-		const xMin = getCSSPropNumber(document.documentElement, '--ploc-x-min');
-		const xMax = getCSSPropNumber(document.documentElement, '--ploc-x-max');
-		return [xMin, xMax];
-	}
-
-	function getYAxisMinMax() {
-		const yMin = getCSSPropNumber(document.documentElement, '--ploc-y-min');
-		const yMax = getCSSPropNumber(document.documentElement, '--ploc-y-max');
-		return [yMin, yMax];
-	}
 </script>
 
-<div class="chart-container">
+<div
+	class="chart-container"
+	style="width: var(--at-bat-ploc-chart-size); height: var(--at-bat-ploc-chart-size)"
+>
 	<LayerCake
 		ssr={true}
 		percentRange={true}
@@ -48,10 +40,3 @@
 		</Html>
 	</LayerCake>
 </div>
-
-<style lang="postcss">
-	.chart-container {
-		width: var(--at-bat-ploc-chart-size);
-		height: var(--at-bat-ploc-chart-size);
-	}
-</style>

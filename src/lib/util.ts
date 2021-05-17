@@ -1,8 +1,15 @@
-import type { PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from './api/types';
+import type {
+	AtBatPitchDescription,
+	PitchFx,
+	Result,
+	StrikeZoneCorner,
+	StrikeZoneDimensions
+} from './api/types';
 import {
 	GAME_DATE_REGEX,
 	GAME_ID_REGEX,
 	NUMBER_OF_PIXELS_REGEX,
+	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
 
@@ -78,6 +85,47 @@ export function formatAtBatResult(atBatResult: string): string[] {
 	return split.length > 1 ? split : [atBatResult];
 }
 
+export function createPitchDescriptionList(
+	pitchSequence: string[][],
+	pfx: PitchFx[]
+): AtBatPitchDescription[] {
+	const validPfx = pfx.filter((pfx) => pfx.basic_type !== 'Z');
+	const pitchDescriptions = pitchSequence.map((p) => formatPitchDescription(p, validPfx));
+	return pitchDescriptions.slice(0, -1);
+}
+
+function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitchDescription {
+	const pitch: AtBatPitchDescription = {
+		number: '',
+		description: '',
+		type: '',
+		blocked_by_c: false,
+		out_of_boundary: false,
+		non_pitch_event: false
+	};
+	if (pitch_des.length === 3) {
+		const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
+		pitch.number = match ? match.groups.num : '';
+		pitch.description = pitch_des[1];
+		pitch.type = pitch_des[2];
+		pitch.non_pitch_event = pitch.number === '';
+
+		if (pitch.description.includes('pitch was blocked by catcher')) {
+			pitch.description = pitch.description.split('\n')[0];
+			pitch.blocked_by_c = true;
+		}
+
+		if (pitch.number !== '') {
+			const pitchNumber = parseInt(pitch.number);
+			const matches = pfx.filter((pfx) => pfx.ab_count === pitchNumber);
+			if (matches.length === 1) {
+				pitch.out_of_boundary = matches[0].is_out_of_boundary;
+			}
+		}
+	}
+	return pitch;
+}
+
 export function getPitchTypeAbbrevFromName(pitchType: string): string {
 	const pitchTypeToAbbrevMap = {
 		none: 'N/A',
@@ -104,6 +152,28 @@ export function getPitchTypeAbbrevFromName(pitchType: string): string {
 		: pitchTypeToAbbrevMap['unknown'];
 }
 
+export function getXAxisMinMax(): [number, number] {
+	const xMin = getCSSPropNumber(document.documentElement, '--ploc-x-min');
+	const xMax = getCSSPropNumber(document.documentElement, '--ploc-x-max');
+	return [xMin, xMax];
+}
+
+export function getYAxisMinMax(): [number, number] {
+	const yMin = getCSSPropNumber(document.documentElement, '--ploc-y-min');
+	const yMax = getCSSPropNumber(document.documentElement, '--ploc-y-max');
+	return [yMin, yMax];
+}
+
+export function identifyPfxDataBeyondBoundary(pfx: PitchFx[]): PitchFx[] {
+	const [xMin, xMax] = getXAxisMinMax();
+	const [yMin, yMax] = getYAxisMinMax();
+	pfx.map(
+		(pfx) =>
+			(pfx.is_out_of_boundary = pfx.px > xMax || pfx.px < xMin || pfx.pz > yMax || pfx.pz < yMin)
+	);
+	return pfx;
+}
+
 export function addStrikeZoneCornersToPfxData(pfx: PitchFx[]): PitchFx[] {
 	const zoneLeft = -0.70833;
 	const zoneRight = 0.70833;
@@ -127,12 +197,6 @@ export function addStrikeZoneCornersToPfxData(pfx: PitchFx[]): PitchFx[] {
 	zoneBottomLeft.pz = zoneBottom;
 	zoneBottomLeft.mlbam_pitch_name = 'BL';
 	pfx.push(zoneBottomLeft);
-
-	const zoneBottomRight = fakePfxData();
-	zoneBottomRight.px = zoneRight;
-	zoneBottomRight.pz = zoneBottom;
-	zoneBottomRight.mlbam_pitch_name = 'BR';
-	pfx.push(zoneBottomRight);
 
 	return pfx;
 }
@@ -236,37 +300,43 @@ function getZoneBottom(pfx: PitchFx[]): number {
 }
 
 export function drawStrikeZoneRect(document: Document): void {
+	const strikeZone =
+		document.querySelector<HTMLElement>('.strike-zone') || document.createElement('div');
 	const dimensions = getStrikeZoneDimensions(document);
-	const strikeZone = getStrikeZoneRect(document);
-	strikeZone.className = 'strike-zone';
-	strikeZone.style.top = dimensions.top;
-	strikeZone.style.left = dimensions.left;
-	strikeZone.style.width = dimensions.width;
-	strikeZone.style.height = dimensions.height;
-	document.querySelector('.scatter-group').appendChild(strikeZone);
+	if (dimensions) {
+		strikeZone.className = 'strike-zone';
+		strikeZone.style.top = dimensions.top;
+		strikeZone.style.left = dimensions.left;
+		strikeZone.style.width = dimensions.width;
+		strikeZone.style.height = dimensions.height;
+		document.querySelector('.scatter-group').appendChild(strikeZone);
+	}
 }
 
 function getStrikeZoneDimensions(document: Document): StrikeZoneDimensions {
-	const zoneCorners = Array.from(
-		document.querySelectorAll<HTMLElement>('.strike-zone-corner')
-	).map((pfx) => getZoneCorner(pfx));
+	const zoneCornerHtmlElements = document.querySelectorAll<HTMLElement>('.strike-zone-corner');
+	const zoneCorners = Array.from(zoneCornerHtmlElements).map((pfx) => getZoneCorner(pfx));
+	if (zoneCorners.length > 0) {
+		const topLeftCorner = zoneCorners.filter((zc) => zc.corner === 'TL')?.[0];
+		const topRightCorner = zoneCorners.filter((zc) => zc.corner === 'TR')?.[0];
+		const bottomLeftCorner = zoneCorners.filter((zc) => zc.corner === 'BL')?.[0];
+		const chartSize = getCSSPropNumberOfPixels(
+			document.documentElement,
+			'--at-bat-ploc-chart-size'
+		);
 
-	const topLeftCorner = zoneCorners.filter((zc) => zc.corner === 'TL')?.[0];
-	const topRightCorner = zoneCorners.filter((zc) => zc.corner === 'TR')?.[0];
-	const bottomLeftCorner = zoneCorners.filter((zc) => zc.corner === 'BL')?.[0];
-	const chartSize = getCSSPropNumberOfPixels(document.documentElement, '--at-bat-ploc-chart-size');
+		const top = topLeftCorner.top;
+		const left = topLeftCorner.left;
+		const width = chartSize * ((topRightCorner.left - topLeftCorner.left) / 100);
+		const height = chartSize * ((bottomLeftCorner.top - topLeftCorner.top) / 100);
 
-	const top = topLeftCorner.top;
-	const left = topLeftCorner.left;
-	const width = chartSize * ((topRightCorner.left - topLeftCorner.left) / 100);
-	const height = chartSize * ((bottomLeftCorner.top - topLeftCorner.top) / 100);
-
-	return {
-		top: `${top}%`,
-		left: `${left}%`,
-		width: `${width}px`,
-		height: `${height}px`
-	};
+		return {
+			top: `${top}%`,
+			left: `${left}%`,
+			width: `${width}px`,
+			height: `${height}px`
+		};
+	}
 }
 
 function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
@@ -275,9 +345,4 @@ function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
 		left: parseFloat(pfx.dataset.leftPosition),
 		top: parseFloat(pfx.dataset.topPosition)
 	};
-}
-
-function getStrikeZoneRect(document: Document): HTMLElement {
-	const foundRect = document.querySelector<HTMLElement>('.strike-zone');
-	return foundRect !== null ? foundRect : document.createElement('div');
 }

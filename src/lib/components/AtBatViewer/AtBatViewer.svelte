@@ -1,5 +1,12 @@
 <script lang="ts">
-	import type { ApiResponse, AtBatDetails, Boxscore, InningSummary, PitchFx } from '$lib/api/types';
+	import type {
+		ApiResponse,
+		AtBatDetails,
+		AtBatPitchDescription,
+		Boxscore,
+		InningSummary,
+		PitchFx
+	} from '$lib/api/types';
 	import { getPitchFxForAtBat } from '$lib/api/pitchfx';
 	import AtBatContext from '$lib/components/AtBatViewer/AtBatContext.svelte';
 	import AtBatPitchSequence from '$lib/components/AtBatViewer/AtBatPitchSequence.svelte';
@@ -7,55 +14,78 @@
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
-	import { addStrikeZoneCornersToPfxData } from '$lib/util';
+	import {
+		addStrikeZoneCornersToPfxData,
+		createPitchDescriptionList,
+		identifyPfxDataBeyondBoundary
+	} from '$lib/util';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let shown: boolean;
-	export let boxscore: Boxscore;
-	let selectedAtBatId: string;
-	let currentPfxAtBatId: number;
 	let all_pbp: AtBatDetails[];
+	let boxscore: Boxscore;
+	let selectedAtBatId: string;
+	let selectedAtBat: AtBatDetails;
+	let selectedAtBatPfx: PitchFx[];
+	let selectedAtBatPfxAtBatId: number;
+	let pfxCache: Record<string, PitchFx[]> = {};
+	let pitchSequence: AtBatPitchDescription[];
 	let filteredAtBats: AtBatDetails[];
 	let atBatMap: Record<string, AtBatDetails>;
 	let playerTeamMap: Record<number, string>;
 	let batterAtBatMap: Record<number, string[]>;
 	let pitcherAtBatMap: Record<number, string[]>;
 	let inningAtBatMap: Record<string, string[]>;
+	let inningSummaries: Record<string, InningSummary>;
 	let pfxAtBatIds: number[];
 	let atBatOrderToAtBatId: Record<number, string> = {};
 	let atBatIdToAtBatOrder: Record<string, number> = {};
 	let goToPrevAtBatDisabled: boolean;
 	let goToNextAtBatDisabled: boolean;
-	let inningSummaries: Record<string, InningSummary>;
-	let at_bat: AtBatDetails;
-	let pfx: PitchFx[];
 	let success: boolean;
-	let atBatViewerReqeust: Promise<ApiResponse<PitchFx[]>>;
+	let getPfxForAtBatReqeust: Promise<ApiResponse<PitchFx[]>>;
+	const dispatch = createEventDispatcher();
 
-	$: if (filteredAtBats !== undefined) {
-		atBatIdToAtBatOrder = {};
-		atBatOrderToAtBatId = {};
-		pfxAtBatIds = filteredAtBats.map((atBat) => atBat.pfx_ab_id);
-		pfxAtBatIds = [...new Set(pfxAtBatIds)];
-		pfxAtBatIds.sort((a, b) => a - b);
-		pfxAtBatIds.map((pfxId) => {
-			const abId = filteredAtBats.filter((pbp) => pbp.pfx_ab_id === pfxId)[0].at_bat_id;
-			atBatIdToAtBatOrder[abId] = pfxId;
-			atBatOrderToAtBatId[pfxId] = abId;
-		});
-		currentPfxAtBatId = atBatIdToAtBatOrder[selectedAtBatId];
-		goToPrevAtBatDisabled = pfxAtBatIds.length > 0 ? currentPfxAtBatId === pfxAtBatIds[0] : true;
+	$: if (pfxAtBatIds) {
+		selectedAtBatPfxAtBatId = atBatIdToAtBatOrder[selectedAtBatId];
+		const firstPfxAtBatId = pfxAtBatIds[0];
+		const lastPfxAtBatId = pfxAtBatIds[pfxAtBatIds.length - 1];
+		goToPrevAtBatDisabled =
+			pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === firstPfxAtBatId : true;
 		goToNextAtBatDisabled =
-			pfxAtBatIds.length > 0 ? currentPfxAtBatId === pfxAtBatIds[pfxAtBatIds.length - 1] : true;
+			pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === lastPfxAtBatId : true;
+	}
+
+	onMount(() => dispatch('readyForData'));
+
+	export function init(pbp: AtBatDetails[], box: Boxscore) {
+		all_pbp = pbp;
+		boxscore = box;
+		inningSummaries = boxscore.inning_summaries;
+		filteredAtBats = [...all_pbp];
+		createAtBatMap();
+		createBatterAtBatMap();
+		createPitcherAtBatMap();
+		createInningAtBatMap();
+		createPlayerTeamMap();
+		createAtBatOrderMaps();
+		viewFirstAtBat();
 	}
 
 	async function getPfxForAtBat(): Promise<ApiResponse<PitchFx[]>> {
-		at_bat = atBatMap[selectedAtBatId];
+		selectedAtBat = atBatMap[selectedAtBatId];
 		const getPfxResult = await getPitchFxForAtBat(selectedAtBatId);
 		success = getPfxResult.success;
 		if (!success) {
 			return getPfxResult;
 		}
-		pfx = addStrikeZoneCornersToPfxData(getPfxResult.value);
+		selectedAtBatPfx = identifyPfxDataBeyondBoundary(getPfxResult.value);
+		selectedAtBatPfx = addStrikeZoneCornersToPfxData(selectedAtBatPfx);
+		pfxCache[selectedAtBatId] = selectedAtBatPfx;
+		pitchSequence = createPitchDescriptionList(
+			selectedAtBat.pitch_sequence_description,
+			selectedAtBatPfx
+		);
 		return getPfxResult;
 	}
 
@@ -116,43 +146,50 @@
 		);
 	}
 
-	export function prepData(allPBP: AtBatDetails[]) {
-		all_pbp = allPBP;
-		createAtBatMap();
-		createBatterAtBatMap();
-		createPitcherAtBatMap();
-		createInningAtBatMap();
-		createPlayerTeamMap();
-		inningSummaries = boxscore.inning_summaries;
-		selectedAtBatId = all_pbp[0].at_bat_id;
-		filteredAtBats = [...all_pbp];
-		atBatViewerReqeust = getPfxForAtBat();
+	function createAtBatOrderMaps() {
+		atBatIdToAtBatOrder = {};
+		atBatOrderToAtBatId = {};
+		pfxAtBatIds = [...new Set(filteredAtBats.map((atBat) => atBat.pfx_ab_id))];
+		pfxAtBatIds.sort((a, b) => a - b);
+		pfxAtBatIds.map((pfxId) => {
+			const abId = filteredAtBats.filter((pbp) => pbp.pfx_ab_id === pfxId)[0].at_bat_id;
+			atBatIdToAtBatOrder[abId] = pfxId;
+			atBatOrderToAtBatId[pfxId] = abId;
+		});
 	}
 
 	export function viewAtBat(viewAtBatId: string) {
-		selectedAtBatId = viewAtBatId;
-		atBatViewerReqeust = getPfxForAtBat();
+		if (viewAtBatId) {
+			selectedAtBatId = viewAtBatId;
+			if (Object.prototype.hasOwnProperty.call(pfxCache, viewAtBatId)) {
+				selectedAtBat = atBatMap[selectedAtBatId];
+				selectedAtBatPfx = pfxCache[selectedAtBatId];
+				pitchSequence = createPitchDescriptionList(
+					selectedAtBat.pitch_sequence_description,
+					selectedAtBatPfx
+				);
+			} else {
+				getPfxForAtBatReqeust = getPfxForAtBat();
+			}
+		}
 	}
 
 	function viewFirstAtBat() {
-		selectedAtBatId = atBatOrderToAtBatId[1];
-		atBatViewerReqeust = getPfxForAtBat();
+		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[0]]);
 	}
 
 	function viewPrevAtBat() {
-		selectedAtBatId = atBatOrderToAtBatId[currentPfxAtBatId - 1];
-		atBatViewerReqeust = getPfxForAtBat();
+		viewAtBat(atBatOrderToAtBatId[selectedAtBatPfxAtBatId - 1]);
 	}
 
 	function viewNextAtBat() {
-		selectedAtBatId = atBatOrderToAtBatId[currentPfxAtBatId + 1];
-		atBatViewerReqeust = getPfxForAtBat();
+		viewAtBat(atBatOrderToAtBatId[selectedAtBatPfxAtBatId + 1]);
 	}
 
 	function viewLastAtBat() {
-		selectedAtBatId = atBatOrderToAtBatId[pfxAtBatIds[pfxAtBatIds.length - 1]];
-		atBatViewerReqeust = getPfxForAtBat();
+		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[pfxAtBatIds.length - 1]]);
 	}
+
 </script>
 
 <div class:not-shown={!shown} class="flex flex-col flex-nowrap justify-start w-min mx-auto">
@@ -161,8 +198,8 @@
 	>
 		<div class="at-bat-details-wrapper flex flex-col flex-nowrap justify-between mr-3">
 			<div class="at-bat-details flex-grow-0">
-				<AtBatContext bind:at_bat />
-				<AtBatPitchSequence bind:at_bat />
+				<AtBatContext {selectedAtBat} />
+				<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
 			</div>
 			<div class="flex-grow-0 mt-1">
 				<PlayByPlayNavigation
@@ -175,13 +212,16 @@
 				/>
 			</div>
 		</div>
-		<div class="pitch-location flex-grow-0 table-wrapper">
-			{#if atBatViewerReqeust}
-				{#await atBatViewerReqeust}
+		<div
+			class="pitch-location flex-grow-0 table-wrapper"
+			style="width: var(--at-bat-ploc-chart-size); height: var(--at-bat-ploc-chart-size)"
+		>
+			{#if getPfxForAtBatReqeust}
+				{#await getPfxForAtBatReqeust}
 					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
 				{:then result}
 					{#if result.success}
-						<PitchLocationChart bind:pfx />
+						<PitchLocationChart bind:pfx={selectedAtBatPfx} />
 					{:else}
 						<div class="error">Error: {result.message}</div>
 					{/if}
@@ -247,4 +287,5 @@
 			font-size: 0.875rem;
 		}
 	}
+
 </style>

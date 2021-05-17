@@ -345,6 +345,7 @@ export interface AtBatPitchDescription {
 	description: string;
 	type: string;
 	blocked_by_c: boolean;
+	out_of_boundary: boolean;
 	non_pitch_event: boolean;
 }
 
@@ -417,6 +418,7 @@ export interface PitchFx {
 	is_patched: number;
 	is_invalid_ibb: number;
 	is_out_of_sequence: number;
+	is_out_of_boundary?: boolean;
 	start_speed?: number;
 	spin?: number;
 	zone_location?: number;

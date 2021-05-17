@@ -1,39 +1,18 @@
 <script lang="ts">
 	import type { AtBatDetails, AtBatPitchDescription } from '$lib/api/types';
-	import { PITCH_SEQ_NUMS_REGEX, PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
+	import { PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
 	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
-	import MdInfo from 'svelte-icons/md/MdInfo.svelte';
+	import MdBlock from 'svelte-icons/md/MdBlock.svelte';
+	import MdErrorOutline from 'svelte-icons/md/MdErrorOutline.svelte';
 
-	export let at_bat: AtBatDetails;
-	let pitch_sequence: AtBatPitchDescription[];
+	export let selectedAtBat: AtBatDetails;
+	export let pitchSequence: AtBatPitchDescription[];
 	let anyPitchBlocked: boolean;
+	let anyPitchOutOfBoundary: boolean;
 
-	const pitchBlocked = (pitch) => pitch.description.includes('pitch was blocked by catcher');
-
-	function formatPitchDescription(pitch_des: string[]): AtBatPitchDescription {
-		let pitch: AtBatPitchDescription = {
-			number: '',
-			description: '',
-			type: '',
-			blocked_by_c: false,
-			non_pitch_event: false
-		};
-		if (pitch_des.length === 3) {
-			const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
-			pitch.number = match ? match.groups.num : '';
-			pitch.description = pitch_des[1];
-			pitch.type = pitch_des[2];
-			pitch.non_pitch_event = pitch.number === '';
-
-			if (pitchBlocked(pitch)) {
-				pitch.description = pitch.description.split('\n')[0];
-				pitch.blocked_by_c = true;
-				anyPitchBlocked = true;
-			}
-		}
-		return pitch;
-	}
+	$: if (pitchSequence) anyPitchBlocked = pitchSequence.some((p) => p.blocked_by_c);
+	$: if (pitchSequence) anyPitchOutOfBoundary = pitchSequence.some((p) => p.out_of_boundary);
 
 	function formatRunsOutsResult(runs_outs_result: string): string {
 		const runs_count = runs_outs_result.replace(/[^R]/g, '').length;
@@ -62,18 +41,13 @@
 		}
 	}
 
-	$: if (at_bat) {
-		anyPitchBlocked = false;
-		pitch_sequence = at_bat.pitch_sequence_description.map((p) => formatPitchDescription(p));
-		pitch_sequence = pitch_sequence.slice(0, -1);
-	}
 </script>
 
-{#if pitch_sequence !== undefined}
+{#if pitchSequence !== undefined}
 	<div class="at-bat-pitch-sequence responsive-vert">
 		<table class="m-0 w-min">
 			<tbody>
-				{#each pitch_sequence as { number, description, type, blocked_by_c, non_pitch_event }}
+				{#each pitchSequence as { number, description, type, blocked_by_c, out_of_boundary, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
 							<td colspan="4" class="non-pitch-event text-xs italic text-gray-700">
@@ -91,7 +65,12 @@
 									</span>
 									{#if blocked_by_c}
 										<div class="icon ml-1">
-											<MdInfo />
+											<MdBlock />
+										</div>
+									{/if}
+									{#if out_of_boundary}
+										<div class="icon ml-1">
+											<MdErrorOutline />
 										</div>
 									{/if}
 								</div>
@@ -117,15 +96,23 @@
 	{#if anyPitchBlocked}
 		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-3">
 			<div class="icon-small">
-				<MdInfo />
+				<MdBlock />
 			</div>
 			<span class="text-xs italic">Pitch was blocked by catcher</span>
 		</div>
 	{/if}
+	{#if anyPitchOutOfBoundary}
+		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-3">
+			<div class="icon-small">
+				<MdErrorOutline />
+			</div>
+			<span class="text-xs italic">Pitch location is beyond the boundaries of this graph</span>
+		</div>
+	{/if}
 	<div class="play_description text-center text-sm bg-yellow-100">
 		<FlexStrings
-			stringArray={formatAtBatResult(at_bat.play_description)}
-			runsScored={formatRunsOutsResult(at_bat.runs_outs_result)}
+			stringArray={formatAtBatResult(selectedAtBat.play_description)}
+			runsScored={formatRunsOutsResult(selectedAtBat.runs_outs_result)}
 		/>
 	</div>
 {/if}
@@ -157,6 +144,7 @@
 		color: var(--link-color);
 		width: 14px;
 		height: 14px;
+		margin: auto 2px auto 0;
 	}
 
 	:global(.at-bat-result) {
@@ -178,7 +166,8 @@
 		border-right: 1px solid var(--table-col-header-bottom-border);
 		border-top: 1px solid var(--table-col-header-bottom-border);
 		border-bottom: none;
-		padding: 1px;
+		padding: 3px 2px;
+		line-height: 1;
 	}
 
 	.play_description {
@@ -189,4 +178,5 @@
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}
+
 </style>
