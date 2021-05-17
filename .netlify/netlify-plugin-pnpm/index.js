@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	onPreBuild: async ({ utils: { build, run } }) => {
 		try {
 			await run.command('npm install -g pnpm');
