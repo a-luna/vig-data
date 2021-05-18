@@ -27,74 +27,96 @@
 		dispatch('showAtBat', atBatId);
 		scrollToTop();
 	}
+
 </script>
 
-<div class="responsive">
-	<h4>Play-By-Play</h4>
-	<div class="table-wrapper">
-		<table class="text-xs">
-			<thead>
-				<tr class="col-header">
-					<th>Inn</th>
-					<th title="Score Before At Bat">Score</th>
-					<th title="Number of Outs Before At Bat">Out</th>
-					<th title="Runners On Base">RoB</th>
-					<th>Pitches (Count)</th>
-					<th title="Runs Scored/Outs Made This At Bat">Runs/Outs</th>
-					<th title="Team Batting">@Bat</th>
-					<th>Batter</th>
-					<th>Pitcher</th>
-					<th>Play Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#each Object.entries(inningAtBatMap) as [inningId, atBatIds]}
-					<tr>
-						<th colspan="10" class="inning-begin text-left bg-yellow-200 text-black">
-							{inningSummaries[inningId].begin_inning_summary}
-						</th>
-					</tr>
+<div id="play-by-play" class="text-xs mt-6">
+	<div class="resp-table-caption">Play-By-Play</div>
+	{#each Object.entries(inningAtBatMap) as [inningId, atBatIds], inningIndex}
+		<div class="responsive" class:mt-0={inningIndex == 0} class:mt-2={inningIndex > 0}>
+			<div class="resp-table">
+				<div class="resp-table-body">
+					<div class="resp-table-row">
+						<div class="inning-begin">{inningSummaries[inningId].begin_inning_summary}</div>
+					</div>
+				</div>
+			</div>
+			<div class="resp-table">
+				<div class="resp-table-header col-header">
+					<div class="table-header-cell">Inn</div>
+					<div class="table-header-cell col-optional" title="Score Before At Bat">Score</div>
+					<div class="table-header-cell" title="Number of Outs Before At Bat">Out</div>
+					<div class="table-header-cell" title="Runners On Base">RoB</div>
+					<div class="table-header-cell col-optional">Pitches (Count)</div>
+					<div class="table-header-cell col-optional" title="Runs Scored/Outs Made This At Bat">
+						Runs/Outs
+					</div>
+					<div class="table-header-cell" title="Team Batting">@Bat</div>
+					<div class="table-header-cell col-optional">Batter</div>
+					<div class="table-header-cell col-optional">Pitcher</div>
+					<div class="table-header-cell">Play Description</div>
+				</div>
+				<div class="resp-table-body">
 					{#each atBatIds as atBatId}
-						<tr class="cursor-pointer hover:bg-yellow-100" on:click={() => viewAtBat(atBatId)}>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].inning_label}</td
+						<div class="at-bat resp-table-row" on:click={() => viewAtBat(atBatId)}>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
+								{atBatMap[atBatId].inning_label}
+							</div>
+							<div
+								class="table-body-cell col-optional"
+								class:bg-blue-300={selectedAtBatId === atBatId}
 							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}>{atBatMap[atBatId].score}</td>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].outs_before_play}</td
+								{atBatMap[atBatId].score}
+							</div>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
+								{atBatMap[atBatId].outs_before_play}
+							</div>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
+								{atBatMap[atBatId].runners_on_base}
+							</div>
+							<div
+								class="table-body-cell col-optional"
+								class:bg-blue-300={selectedAtBatId === atBatId}
 							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].runners_on_base}</td
+								{formatPitchCount(atBatMap[atBatId])}
+							</div>
+							<div
+								class="table-body-cell col-optional"
+								class:bg-blue-300={selectedAtBatId === atBatId}
 							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{formatPitchCount(atBatMap[atBatId])}</td
+								{atBatMap[atBatId].runs_outs_result}
+							</div>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
+								{playerTeamMap[atBatMap[atBatId].batter_id_mlb]}
+							</div>
+							<div
+								class="table-body-cell col-optional"
+								class:bg-blue-300={selectedAtBatId === atBatId}
 							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].runs_outs_result}</td
+								{atBatMap[atBatId].batter_name}
+							</div>
+							<div
+								class="table-body-cell col-optional"
+								class:bg-blue-300={selectedAtBatId === atBatId}
 							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{playerTeamMap[atBatMap[atBatId].batter_id_mlb]}</td
-							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].batter_name}</td
-							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}
-								>{atBatMap[atBatId].pitcher_name}</td
-							>
-							<td class:bg-blue-300={selectedAtBatId === atBatId}>
+								{atBatMap[atBatId].pitcher_name}
+							</div>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								<FlexStrings stringArray={formatAtBatResult(atBatMap[atBatId].play_description)} />
-							</td>
-						</tr>
+							</div>
+						</div>
 					{/each}
-					<tr>
-						<td colspan="10" class="inning-end italic text-right">
-							{inningSummaries[inningId].end_inning_summary}
-						</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
+				</div>
+			</div>
+			<div class="resp-table">
+				<div class="resp-table-body">
+					<div class="resp-table-row">
+						<div class="inning-end">{inningSummaries[inningId].end_inning_summary}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/each}
 </div>
 
 <style lang="postcss">
@@ -110,4 +132,5 @@
 		background-color: var(--table-col-header-bg-color);
 		border: none;
 	}
+
 </style>
