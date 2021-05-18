@@ -20,7 +20,7 @@
 
 <div
 	class="chart-container"
-	style="width: var(--at-bat-ploc-chart-size); height: var(--at-bat-ploc-chart-size)"
+	style="width: var(--at-bat-ploc-chart-size, 350px); height: var(--at-bat-ploc-chart-size, 350px)"
 >
 	<LayerCake
 		ssr={true}

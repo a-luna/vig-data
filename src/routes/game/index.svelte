@@ -32,8 +32,12 @@
 	// $: chartsShown = $contentShown === 'charts';
 
 	$: if (game_id !== undefined && game_id !== $page.query.get('id')) {
-		$contentShown = 'box';
 		updateGameData($page.query.get('id'));
+	}
+
+	function updateGameData(newGameId: string): void {
+		getAllGameDataRequest = getAllGameData(newGameId);
+		$contentShown = 'box';
 	}
 
 	onMount(() => {
@@ -70,9 +74,10 @@
 		return getAllPBPResult;
 	}
 
-	function updateGameData(newGameId: string): void {
-		getAllGameDataRequest = getAllGameData(newGameId);
-		$contentShown = 'box';
+	function viewAtBat(atBatId: string): void {
+		atBatViewer.viewAtBat(atBatId);
+		$contentShown = 'pbp';
+		changePageAddress('pbp');
 	}
 
 	function changePageAddress(gameContent: 'pbp' | 'box' | 'charts') {
@@ -81,12 +86,6 @@
 			`${game_summary ? game_summary : getDefaultGameSummary()} | Vigorish`,
 			`game?id=${game_id}&show=${gameContent}`
 		);
-	}
-
-	function viewAtBat(atBatId: string): void {
-		atBatViewer.viewAtBat(atBatId);
-		$contentShown = 'pbp';
-		changePageAddress('pbp');
 	}
 
 	function getDefaultGameSummary(): string {
@@ -111,7 +110,6 @@
 	{:then result}
 		{#if result.success}
 			<Boxscore
-				bind:game_id
 				bind:boxscore
 				bind:shown={boxShown}
 				on:getAllGameData={(event) => (getAllGameDataRequest = getAllGameData(event.detail))}
