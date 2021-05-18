@@ -1,6 +1,6 @@
 import { HSL_COLOR_REGEX } from './regex';
 
-export type ThemeColor = 'indigo' | 'green';
+export type ThemeColor = 'indigo' | 'green' | 'blue';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}

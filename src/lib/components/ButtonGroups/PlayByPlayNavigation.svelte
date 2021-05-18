@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
@@ -7,9 +8,11 @@
 
 	export let goToPrevAtBatDisabled: boolean = false;
 	export let goToNextAtBatDisabled: boolean = false;
+	export let color: ThemeColor = 'indigo';
 	const dispatch = createEventDispatcher();
 
 	$: showBothButtons = !goToPrevAtBatDisabled && !goToNextAtBatDisabled;
+
 </script>
 
 <div
@@ -25,7 +28,7 @@
 				type="button"
 				title="Go To First At Bat"
 				disabled={goToPrevAtBatDisabled}
-				class="btn btn-primary flex-grow-0"
+				class="btn btn-{color} flex-grow-0"
 				on:click={() => dispatch('goToFirstAtBat')}
 			>
 				<div class="icon">
@@ -37,7 +40,7 @@
 				type="button"
 				title="Go To Prev At Bat"
 				disabled={goToPrevAtBatDisabled}
-				class="btn btn-primary flex-grow-0"
+				class="btn btn-{color} flex-grow-0"
 				on:click={() => dispatch('goToPrevAtBat')}
 			>
 				<div class="icon">
@@ -53,7 +56,7 @@
 				type="button"
 				title="Go To Next At Bat"
 				disabled={goToNextAtBatDisabled}
-				class="btn btn-primary flex-grow-0"
+				class="btn btn-{color} flex-grow-0"
 				on:click={() => dispatch('goToNextAtBat')}
 			>
 				<div class="icon">
@@ -65,7 +68,7 @@
 				type="button"
 				title="Go To Last At Bat"
 				disabled={goToNextAtBatDisabled}
-				class="btn btn-primary flex-grow-0"
+				class="btn btn-{color} flex-grow-0"
 				on:click={() => dispatch('goToLastAtBat')}
 			>
 				<div class="icon">
@@ -97,4 +100,5 @@
 		cursor: not-allowed;
 		background-color: var(--gray3);
 	}
+
 </style>

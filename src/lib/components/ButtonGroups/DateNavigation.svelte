@@ -4,11 +4,13 @@
 	import DatePicker from '../../../../node_modules/svelte-calendar/src/Components/Datepicker.svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
+	import type { ThemeColor } from '$lib/types';
 
 	export let start: Date;
 	export let end: Date;
 	export let date: string;
 	export let selected: Date;
+	export let color: ThemeColor = 'indigo';
 	let format: string = '#{F} #{j}, #{Y}';
 	let dateChosen: boolean;
 	let formattedSelected: string;
@@ -41,18 +43,19 @@
 		dispatch('dateChanged', date);
 		dateChosen = false;
 	}
+
 </script>
 
 <div class="btn-group">
-	<button id="prev-date" type="button" class="btn btn-primary p-1" on:click={gotoPrevDay}>
+	<button id="prev-date" type="button" class="btn btn-{color} p-1" on:click={gotoPrevDay}>
 		<MdChevronLeft />
 	</button>
 	<DatePicker {start} {end} bind:format bind:formattedSelected bind:dateChosen bind:selected>
-		<button id="date-picker" class="btn btn-primary text-lg">
+		<button id="date-picker" class="btn btn-{color} text-lg">
 			{formattedSelected}
 		</button>
 	</DatePicker>
-	<button id="next-date" type="button" class="btn btn-primary p-1" on:click={gotoNextDay}>
+	<button id="next-date" type="button" class="btn btn-{color} p-1" on:click={gotoNextDay}>
 		<MdChevronRight />
 	</button>
 </div>
@@ -72,4 +75,5 @@
 	#date-picker {
 		@apply m-0 p-2 rounded-none;
 	}
+
 </style>
