@@ -199,7 +199,19 @@
 		<div class="at-bat-details-wrapper flex flex-col flex-nowrap justify-between mr-3">
 			<div class="at-bat-details flex-grow-0">
 				<AtBatContext {selectedAtBat} />
-				<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
+				{#if getPfxForAtBatReqeust}
+					{#await getPfxForAtBatReqeust}
+						<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+					{:then result}
+						{#if result.success}
+							<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
+						{:else}
+							<div class="error">Error: {result.message}</div>
+						{/if}
+					{:catch error}
+						<div class="error">Error: {error.message}</div>
+					{/await}
+				{/if}
 			</div>
 			<div class="flex-grow-0 mt-1">
 				<PlayByPlayNavigation
@@ -212,10 +224,7 @@
 				/>
 			</div>
 		</div>
-		<div
-			class="pitch-location flex-grow-0 table-wrapper"
-			style="width: var(--at-bat-ploc-chart-size); height: var(--at-bat-ploc-chart-size)"
-		>
+		<div class="pitch-location flex-grow-0">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
 					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
@@ -231,16 +240,14 @@
 			{/if}
 		</div>
 	</div>
-	<div class="mx-auto my-0 w-min">
-		<PlayByPlayTable
-			{atBatMap}
-			{inningAtBatMap}
-			{playerTeamMap}
-			{inningSummaries}
-			{selectedAtBatId}
-			on:showAtBat={(event) => viewAtBat(event.detail)}
-		/>
-	</div>
+	<PlayByPlayTable
+		{atBatMap}
+		{inningAtBatMap}
+		{playerTeamMap}
+		{inningSummaries}
+		{selectedAtBatId}
+		on:showAtBat={(event) => viewAtBat(event.detail)}
+	/>
 </div>
 
 <style lang="postcss">
