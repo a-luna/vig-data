@@ -20,24 +20,36 @@
 {#if selectedAtBat !== undefined}
 	<div class="at-bat-details-top">
 		<div class="at-bat-matchup">
-			<span>
+			<span class="flex flex-row flex-nowrap">
 				<strong>At Bat: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}"
+				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}"
 					>{selectedAtBat.batter_name}</a
 				>
 			</span>
-			<span>
+			<span class="flex flex-row flex-nowrap">
 				<strong>Pitching: </strong>
-				<a class="player-name" sveltekit:prefetch href="/player/{selectedAtBat.pitcher_id_mlb}"
+				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.pitcher_id_mlb}"
 					>{selectedAtBat.pitcher_name}</a
 				>
 			</span>
 		</div>
 		<div class="at-bat-context">
-			<span><strong>Inning: </strong>{getInning(selectedAtBat.inning_id)}</span>
-			<span><strong>Score: </strong>{selectedAtBat.score}</span>
-			<span><strong>Outs: </strong>{selectedAtBat.outs_before_play}</span>
-			<span><strong>ROB: </strong>{selectedAtBat.runners_on_base}</span>
+			<span class="flex flex-row flex-nowrap">
+				<strong>Inning: </strong>
+				<span class="ml-1">{getInning(selectedAtBat.inning_id)}</span>
+			</span>
+			<span class="flex flex-row flex-nowrap">
+				<strong>Score: </strong>
+				<span class="ml-1">{selectedAtBat.score}</span>
+			</span>
+			<span class="flex flex-row flex-nowrap">
+				<strong>Outs: </strong>
+				<span class="ml-1">{selectedAtBat.outs_before_play}</span>
+			</span>
+			<span class="flex flex-row flex-nowrap">
+				<strong>ROB: </strong>
+				<span class="ml-1">{selectedAtBat.runners_on_base}</span>
+			</span>
 		</div>
 	</div>
 {/if}
@@ -59,7 +71,7 @@
 	.at-bat-context {
 		flex: 1 0;
 		display: flex;
-		flex-flow: row nowrap;
+		flex-flow: row wrap;
 		justify-content: center;
 
 		padding: 3px 5px;
