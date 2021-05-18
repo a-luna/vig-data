@@ -12,6 +12,7 @@
 	// export let first_pitch_precipitation: string;
 	// export let first_pitch_wind: string;
 	// export let first_pitch_clouds: string;
+
 </script>
 
 <div class="flex flex-row flex-wrap justify-start items-start text-sm my-5">
@@ -33,7 +34,3 @@
 		</div>
 	</div>
 </div>
-
-<style lang="postcss">
-	/* your styles go here */
-</style>

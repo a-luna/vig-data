@@ -12,6 +12,16 @@
 	export let boxscore: Boxscore;
 	let atBatResultsModal: AtBatResultsModal;
 	let pitcherInningTotalsModal: PitcherInningTotalsModal;
+	const { linescore, linescore_complete, extra_innings } = boxscore;
+	const {
+		park_name,
+		field_type,
+		day_night,
+		game_start_time,
+		game_duration,
+		attendance,
+		umpires
+	} = boxscore.game_meta;
 
 </script>
 
@@ -20,7 +30,7 @@
 
 <div class:not-shown={!shown} class="boxscore">
 	<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
-	<Linescore {...boxscore} expanded={true} />
+	<Linescore {linescore} {linescore_complete} {extra_innings} expanded={true} />
 	<div class="mx-auto my-0 w-min flex flex-col flex-nowrap justify-start">
 		<TeamBattingStats
 			teamData={boxscore.away_team}
@@ -42,7 +52,15 @@
 			on:viewPitcherInningTotalsClicked={(event) =>
 				pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
 		/>
-		<GameMetaInfo {...boxscore.game_meta} />
+		<GameMetaInfo
+			{park_name}
+			{field_type}
+			{day_night}
+			{game_start_time}
+			{game_duration}
+			{attendance}
+			{umpires}
+		/>
 	</div>
 </div>
 
