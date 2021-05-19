@@ -68,12 +68,28 @@
 	#prev-date,
 	#next-date {
 		@apply p-1;
-		width: 44px;
-		max-height: 44px;
+		width: 38px;
+		max-height: 38px;
 	}
 
 	#date-picker {
 		@apply m-0 p-2 rounded-none;
+	}
+
+	@media screen and (min-width: 768px) {
+		#prev-date,
+		#next-date {
+			width: 41px;
+			max-height: 41px;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		#prev-date,
+		#next-date {
+			width: 44px;
+			max-height: 44px;
+		}
 	}
 
 </style>
