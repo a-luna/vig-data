@@ -22,15 +22,21 @@
 		<div class="at-bat-matchup">
 			<span class="flex flex-row flex-nowrap">
 				<strong>At Bat: </strong>
-				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}"
-					>{selectedAtBat.batter_name}</a
-				>
+				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}">
+					{selectedAtBat.batter_name}
+				</a>
+				<span class="batter-stance ml-1">({selectedAtBat.batter_stance})</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
 				<strong>Pitching: </strong>
-				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.pitcher_id_mlb}"
-					>{selectedAtBat.pitcher_name}</a
+				<a
+					class="player-name ml-1"
+					sveltekit:prefetch
+					href="/player/{selectedAtBat.pitcher_id_mlb}"
 				>
+					{selectedAtBat.pitcher_name}
+				</a>
+				<span class="pitcher-throws ml-1">({selectedAtBat.pitcher_throws})</span>
 			</span>
 		</div>
 		<div class="at-bat-context">

@@ -319,9 +319,11 @@ export interface AtBatDetails {
 	pitcher_id_bbref: string;
 	pitcher_id_mlb: number;
 	pitcher_name: string;
+	pitcher_throws: string;
 	batter_id_bbref: string;
 	batter_id_mlb: number;
 	batter_name: string;
+	batter_stance: string;
 	first_pitch_thrown: string;
 	last_pitch_thrown: string;
 	since_game_start: number;
@@ -334,6 +336,7 @@ export interface AtBatDetails {
 	play_description: string;
 	total_pitches: number;
 	pfx_complete: boolean;
+	pfx_des: string;
 	final_count_balls: number;
 	final_count_strikes: number;
 	pitch_sequence_description: string[][];
