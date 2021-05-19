@@ -11,8 +11,10 @@
 <style lang="postcss">
 	nav {
 		display: flex;
+		flex-flow: row wrap;
 	}
 	nav a + a {
 		margin-left: 1rem;
 	}
+
 </style>
