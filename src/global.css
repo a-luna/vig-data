@@ -194,7 +194,7 @@
 
 	/* At Bat Pitch Location Chart */
 
-	--at-bat-ploc-chart-size: 200px;
+	--at-bat-ploc-chart-size: 250px;
 	--ploc-data-point-radius: 6px;
 	--ploc-x-min: -3;
 	--ploc-x-max: 3;
@@ -407,6 +407,12 @@ main {
 	background-color: var(--page-bg-color);
 }
 
+#play-by-play {
+	width: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
 #play-by-play .resp-table-caption {
 	white-space: nowrap;
 }
@@ -416,9 +422,9 @@ main {
 }
 
 #play-by-play .inning-begin {
-	color: var(--table-col-header-color);
 	white-space: nowrap;
 	font-style: italic;
+	color: var(--table-col-header-color);
 	background-color: var(--page-bg-color);
 	text-align: left;
 	display: table-cell;
@@ -426,61 +432,42 @@ main {
 }
 
 #play-by-play .inning-end {
-	@apply bg-yellow-200 text-black;
 	font-style: italic;
 	text-align: right;
 	display: table-cell;
+	color: var(--table-col-header-color);
+	background-color: var(--page-bg-color);
 	padding: 3px 5px;
-	border-right: 1px solid var(--table-outer-border-color);
-	border-left: 1px solid var(--table-outer-border-color);
-	border-bottom: 1px solid var(--table-outer-border-color);
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
 }
 
 #play-by-play .table-body-cell {
 	cursor: pointer;
 }
 
-#play-by-play .resp-table-row:last-child .table-body-cell {
-	border-bottom: none;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-#play-by-play .resp-table:last-child .resp-table-row:last-child .table-body-cell {
-	border-bottom: 1px solid var(--table-outer-border-color);
-}
-
-#play-by-play .resp-table:last-child .resp-table-row:last-child .table-body-cell:first-child {
-	border-bottom-left-radius: 4px;
-}
-
-#play-by-play .resp-table:last-child .resp-table-row:last-child .table-body-cell:last-child {
-	border-bottom-right-radius: 4px;
-}
-
-.col-optional {
-	display: none;
-}
-
 .responsive {
 	overflow-x: auto;
 	white-space: nowrap;
-	padding: 3px;
+	padding: 3px 6px;
 }
 
 .responsive-vert {
 	overflow-x: auto;
-	overflow-y: hidden;
+	overflow-y: auto;
 	width: auto;
 	padding: 3px;
 	white-space: nowrap;
-	border-radius: 4px;
 }
 
 .responsive h4 {
 	margin: 30px 0 0 0;
+}
+
+.show-on-mobile {
+	display: table-cell;
+}
+
+.hide-on-mobile {
+	display: none;
 }
 
 table {
@@ -709,18 +696,30 @@ input {
 	border: 1px solid var(--pitch-type-UN);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
 	:root {
 		--at-bat-ploc-chart-size: 300px;
 		--ploc-data-point-radius: 8px;
 	}
 
+	.show-on-mobile {
+		display: none;
+	}
+
+	.hide-on-mobile {
+		display: table-cell;
+	}
+}
+
+@media screen and (min-width: 768px) {
 	html {
 		font-size: 15px;
 	}
+}
 
-	.col-optional {
-		display: table-cell;
+@media screen and (min-width: 850px) {
+	#play-by-play {
+		width: 80%;
 	}
 }
 
@@ -732,10 +731,6 @@ input {
 
 	html {
 		font-size: 16px;
-	}
-
-	.col-optional {
-		display: table-cell;
 	}
 }
 

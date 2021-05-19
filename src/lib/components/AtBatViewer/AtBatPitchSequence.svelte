@@ -128,23 +128,20 @@
 	.at-bat-pitch-sequence {
 		@apply flex flex-col flex-nowrap justify-between flex-grow px-2;
 		height: min-content;
-		border-left: 1px solid var(--table-col-header-bottom-border);
-		border-right: 1px solid var(--table-col-header-bottom-border);
-		border-top: none;
-		border-bottom: none;
 	}
 
 	.icon {
 		color: var(--link-color);
-		width: 16px;
-		height: 16px;
+		width: 14px;
+		height: 14px;
+		margin: auto 0 auto 3px;
 	}
 
 	.icon-small {
 		color: var(--link-color);
-		width: 14px;
-		height: 14px;
-		margin: auto 2px auto 0;
+		width: 12px;
+		height: 12px;
+		margin: 0 2px 0 0;
 	}
 
 	:global(.at-bat-result) {
@@ -156,14 +153,18 @@
 		padding: 3px 5px 3px 0;
 	}
 
+	.non-pitch-event {
+		white-space: normal;
+	}
+
 	.pitch-number {
 		color: var(--black4);
 	}
 
 	.legend {
 		background-color: var(--table-col-header-bg-color);
-		border-left: 1px solid var(--table-col-header-bottom-border);
-		border-right: 1px solid var(--table-col-header-bottom-border);
+		border-left: none;
+		border-right: none;
 		border-top: 1px solid var(--table-col-header-bottom-border);
 		border-bottom: none;
 		padding: 3px 2px;
@@ -171,10 +172,10 @@
 	}
 
 	.play_description {
-		border-left: 1px solid var(--table-col-header-bottom-border);
-		border-right: 1px solid var(--table-col-header-bottom-border);
+		border-left: none;
+		border-right: none;
 		border-top: 1px solid var(--table-col-header-bottom-border);
-		border-bottom: 1px solid var(--table-col-header-bottom-border);
+		border-bottom: none;
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}

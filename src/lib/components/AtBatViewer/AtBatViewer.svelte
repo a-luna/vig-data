@@ -192,11 +192,9 @@
 
 </script>
 
-<div class:not-shown={!shown} class="flex flex-col flex-nowrap justify-start w-min mx-auto">
-	<div
-		class="at-bat-viewer flex flex-row flex-nowrap justify-start flex-grow-0 mr-auto ml-0 my-0 w-min"
-	>
-		<div class="at-bat-details-wrapper flex flex-col flex-nowrap justify-between mr-3">
+<div class:not-shown={!shown} class="flex flex-col flex-nowrap justify-start items-center w-full">
+	<div class="at-bat-viewer">
+		<div class="at-bat-details-wrapper flex flex-col flex-nowrap justify-end">
 			<div class="at-bat-details flex-grow-0">
 				<AtBatContext {selectedAtBat} />
 				{#if getPfxForAtBatReqeust}
@@ -213,7 +211,7 @@
 					{/await}
 				{/if}
 			</div>
-			<div class="flex-grow-0 mt-1">
+			<div class="pbp-nav flex-grow-0">
 				<PlayByPlayNavigation
 					bind:goToPrevAtBatDisabled
 					bind:goToNextAtBatDisabled
@@ -255,12 +253,16 @@
 		display: flex;
 		flex-flow: column nowrap;
 		justify-content: flex-start;
+		flex: 1 0 auto;
+		max-height: max-content;
 		text-align: left;
-		flex: 1 0 calc(var(--at-bat-ploc-chart-size) - 37px);
-		max-height: calc(var(--at-bat-ploc-chart-size) - 37px);
-
-		width: var(--at-bat-ploc-chart-size);
 		border-radius: 4px;
+		border: 1px solid var(--table-col-header-bottom-border);
+	}
+
+	.pbp-nav {
+		width: auto;
+		margin-top: 10px;
 	}
 
 	.pitch-location {
@@ -268,7 +270,7 @@
 		border: 1px solid var(--table-col-header-bottom-border);
 		width: var(--at-bat-ploc-chart-size);
 		height: var(--at-bat-ploc-chart-size);
-		margin: 20px 0 0 0;
+		margin-top: 20px;
 	}
 
 	.not-shown {
@@ -276,22 +278,36 @@
 	}
 
 	.at-bat-viewer {
-		font-size: 0.625rem;
+		@apply flex-grow-0 w-full;
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		font-size: 0.75rem;
 	}
 
-	@media screen and (min-width: 768px) {
-		.at-bat-viewer {
-			font-size: 0.75rem;
+	@media screen and (min-width: 600px) {
+		.at-bat-details {
+			flex: 1 0 calc(var(--at-bat-ploc-chart-size) - 43px);
+			max-height: calc(var(--at-bat-ploc-chart-size) - 43px);
 		}
 
-		.pitch-location {
-			margin: 0;
+		.at-bat-viewer {
+			flex-flow: row nowrap;
+			justify-content: space-around;
+			align-items: flex-end;
+			max-width: 670px;
+		}
+
+		.at-bat-details-wrapper {
+			margin-right: 10px;
 		}
 	}
 
 	@media screen and (min-width: 1024px) {
 		.at-bat-viewer {
 			font-size: 0.875rem;
+			max-width: 700px;
 		}
 	}
 

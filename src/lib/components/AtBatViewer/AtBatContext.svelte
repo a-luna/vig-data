@@ -62,7 +62,11 @@
 		justify-content: flex-start;
 
 		background-color: var(--table-col-header-bg-color);
-		border: 1px solid var(--table-col-header-bottom-border);
+
+		border-left: none;
+		border-right: none;
+		border-top: none;
+		border-bottom: 1px solid var(--table-col-header-bottom-border);
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 	}
@@ -71,7 +75,7 @@
 	.at-bat-context {
 		flex: 1 0;
 		display: flex;
-		flex-flow: row wrap;
+		flex-flow: row nowrap;
 		justify-content: center;
 
 		padding: 3px 5px;
@@ -80,6 +84,7 @@
 
 	.at-bat-matchup > span,
 	.at-bat-context > span {
+		white-space: nowrap;
 		margin: 0 10px 0 0;
 	}
 

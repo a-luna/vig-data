@@ -44,16 +44,14 @@
 			<div class="resp-table">
 				<div class="resp-table-header col-header">
 					<div class="table-header-cell">Inn</div>
-					<div class="table-header-cell col-optional" title="Score Before At Bat">Score</div>
+					<div class="table-header-cell" title="Score Before At Bat">Score</div>
 					<div class="table-header-cell" title="Number of Outs Before At Bat">Out</div>
 					<div class="table-header-cell" title="Runners On Base">RoB</div>
-					<div class="table-header-cell col-optional">Pitches (Count)</div>
-					<div class="table-header-cell col-optional" title="Runs Scored/Outs Made This At Bat">
-						Runs/Outs
-					</div>
+					<div class="table-header-cell">Pitches (Count)</div>
+					<div class="table-header-cell" title="Runs Scored/Outs Made This At Bat">Runs/Outs</div>
 					<div class="table-header-cell" title="Team Batting">@Bat</div>
-					<div class="table-header-cell col-optional">Batter</div>
-					<div class="table-header-cell col-optional">Pitcher</div>
+					<div class="table-header-cell">Batter</div>
+					<div class="table-header-cell">Pitcher</div>
 					<div class="table-header-cell">Play Description</div>
 				</div>
 				<div class="resp-table-body">
@@ -62,10 +60,7 @@
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].inning_label}
 							</div>
-							<div
-								class="table-body-cell col-optional"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].score}
 							</div>
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
@@ -74,35 +69,32 @@
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].runners_on_base}
 							</div>
-							<div
-								class="table-body-cell col-optional"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{formatPitchCount(atBatMap[atBatId])}
 							</div>
-							<div
-								class="table-body-cell col-optional"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].runs_outs_result}
 							</div>
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{playerTeamMap[atBatMap[atBatId].batter_id_mlb]}
 							</div>
-							<div
-								class="table-body-cell col-optional"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].batter_name}
 							</div>
-							<div
-								class="table-body-cell col-optional"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].pitcher_name}
 							</div>
-							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
+							<div
+								class="table-body-cell hide-on-mobile"
+								class:bg-blue-300={selectedAtBatId === atBatId}
+							>
 								<FlexStrings stringArray={formatAtBatResult(atBatMap[atBatId].play_description)} />
+							</div>
+							<div
+								class="table-body-cell show-on-mobile"
+								class:bg-blue-300={selectedAtBatId === atBatId}
+							>
+								{atBatMap[atBatId].pfx_des}
 							</div>
 						</div>
 					{/each}
@@ -131,6 +123,16 @@
 		color: var(--table-col-header-color);
 		background-color: var(--table-col-header-bg-color);
 		border: none;
+	}
+
+	.show-on-mobile,
+	.hide-on-mobile {
+		border-right: 1px solid var(--table-outer-border-color);
+	}
+
+	.resp-table-row:last-child .show-on-mobile,
+	.resp-table-row:last-child .hide-on-mobile {
+		border-bottom-right-radius: 4px;
 	}
 
 </style>
