@@ -12,7 +12,7 @@
 
 <button
 	on:click
-	class="btn-outline btn-round btn-outline-{color}"
+	class="btn btn-round btn-outline-{color}"
 	style="width: {buttonSize}px; height: {buttonSize}px; padding: {padding}px; border-width: 2px"
 >
 	<div style="width: {iconSize}px; height: {iconSize}px; margin: auto">

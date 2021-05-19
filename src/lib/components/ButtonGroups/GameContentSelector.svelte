@@ -20,17 +20,17 @@
 <div class="btn-group mb-5">
 	<button
 		type="button"
-		class={boxShown ? `btn btn-${color}` : `btn-outline btn-outline-${color}`}
+		class={boxShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
 		on:click={() => changeVisibleContent('box')}>Boxscore</button
 	>
 	<button
 		type="button"
-		class={pbpShown ? `btn btn-${color}` : `btn-outline btn-outline-${color}`}
+		class={pbpShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
 		on:click={() => changeVisibleContent('pbp')}>Play-By-Play</button
 	>
 	<button
 		type="button"
-		class={chartsShown ? `btn btn-${color}` : `btn-outline btn-outline-${color}`}
+		class={chartsShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
 		on:click={() => changeVisibleContent('charts')}>Charts/Graphs</button
 	>
 </div>
