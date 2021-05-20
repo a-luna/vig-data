@@ -56,6 +56,7 @@
 	}
 
 	getScoreboardRequest = getScoreboardForDate($page.query.get('date'));
+
 </script>
 
 <div id="scoreboard" class="scoreboard-wrapper">
@@ -72,8 +73,10 @@
 							<Linescore {linescore} />
 							<div class="game-footer flex flex-row flex-nowrap justify-between">
 								<PitcherResults {...pitcher_results} />
-								<div class="links text-right mt-1.5 mr1.5">
+								<div class="links flex flex-col flex-nowrap justify-start text-right mt-1.5 mr1.5">
 									<a sveltekit:prefetch href="/game?id={game_id}&show=box">Boxscore</a>
+									<a sveltekit:prefetch href="/game?id={game_id}&show=pbp">Play-By-Play</a>
+									<a sveltekit:prefetch href="/game?id={game_id}&show=charts">Charts/Graphs</a>
 								</div>
 							</div>
 						</div>
@@ -96,4 +99,5 @@
 	.game {
 		@apply self-start m-3;
 	}
+
 </style>
