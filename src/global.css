@@ -419,8 +419,11 @@ main {
 }
 
 #team-stat-tables .resp-table,
-#play-by-play .resp-table,
 #game-summary .linescore {
+	@apply text-sm;
+}
+
+#play-by-play .resp-table {
 	@apply text-xs;
 }
 
@@ -739,18 +742,9 @@ input {
 	#team-stat-tables {
 		width: 65%;
 	}
-
-	#team-stat-tables .resp-table,
-	#game-summary .linescore {
-		@apply text-sm;
-	}
 }
 
 @media screen and (min-width: 850px) {
-	#play-by-play {
-		width: 65%;
-	}
-
 	#play-by-play .resp-table {
 		@apply text-sm;
 	}

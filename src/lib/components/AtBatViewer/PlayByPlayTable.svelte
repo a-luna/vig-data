@@ -30,10 +30,10 @@
 
 </script>
 
-<div id="play-by-play" class="text-xs mt-6">
+<div id="play-by-play" class="mt-6">
 	<div class="resp-table-caption">Play-By-Play</div>
 	{#each Object.entries(inningAtBatMap) as [inningId, atBatIds], inningIndex}
-		<div class="responsive" class:mt-0={inningIndex == 0} class:mt-2={inningIndex > 0}>
+		<div class="responsive" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
 			<div class="resp-table">
 				<div class="resp-table-body">
 					<div class="resp-table-row">
