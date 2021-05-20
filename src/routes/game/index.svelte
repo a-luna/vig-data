@@ -27,6 +27,7 @@
 		ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>
 	>;
 
+	let contentShownLast: string;
 	$: pbpShown = $contentShown === 'pbp';
 	$: boxShown = $contentShown === 'box';
 	// $: chartsShown = $contentShown === 'charts';
@@ -35,13 +36,14 @@
 		updateGameData($page.query.get('id'));
 	}
 
-	function updateGameData(newGameId: string): void {
-		getAllGameDataRequest = getAllGameData(newGameId);
-		$contentShown = 'box';
-	}
+	// $: if (contentShownLast !== $page.query.get('show')) {
+	// 	$contentShown = $page.query.get('show');
+	// 	contentShownLast = $page.query.get('show');
+	// 	changePageAddress($page.query.get('show') as 'box' | 'pbp' | 'charts');
+	// }
 
 	onMount(() => {
-		$contentShown = $page.query.get('show');
+		$contentShown = $page.query.get('show') || 'box';
 		getAllGameDataRequest = getAllGameData($page.query.get('id'));
 	});
 
@@ -80,6 +82,14 @@
 		changePageAddress('pbp');
 	}
 
+	function updateGameData(newGameId: string): void {
+		if ($page.query.get('show') !== 'box') {
+			$contentShown = 'box';
+			changePageAddress('box');
+		}
+		getAllGameDataRequest = getAllGameData(newGameId);
+	}
+
 	function changePageAddress(gameContent: 'pbp' | 'box' | 'charts') {
 		window.history.pushState(
 			{ game_id: game_id },
@@ -112,8 +122,6 @@
 			<Boxscore
 				bind:boxscore
 				bind:shown={boxShown}
-				on:getAllGameData={(event) => (getAllGameDataRequest = getAllGameData(event.detail))}
-				on:updateGameData={(event) => updateGameData(event.detail)}
 				on:viewPitchFxForAtBatClicked={(event) => viewAtBat(event.detail)}
 			/>
 			<AtBatViewer
