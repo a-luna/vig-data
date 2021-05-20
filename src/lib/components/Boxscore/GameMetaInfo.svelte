@@ -19,7 +19,7 @@
 	<div class="flex flex-col flex-nowrap mr-2">
 		<span><strong>Start Time: </strong>{game_start_time}</span>
 		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>
-		<span><strong>Attendance: </strong>{attendance}</span>
+		<span><strong>Attendance: </strong>{attendance.toLocaleString(undefined)}</span>
 		<span><strong>Duration: </strong>{game_duration}</span>
 		<!-- <span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span> -->
 	</div>

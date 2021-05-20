@@ -29,9 +29,11 @@
 <PitcherInningTotalsModal bind:this={pitcherInningTotalsModal} {boxscore} />
 
 <div class:not-shown={!shown} class="boxscore">
-	<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
-	<Linescore {linescore} {linescore_complete} {extra_innings} expanded={true} />
-	<div class="mx-auto my-0 w-min flex flex-col flex-nowrap justify-start">
+	<div id="game-summary">
+		<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
+		<Linescore {linescore} {linescore_complete} {extra_innings} expanded={true} />
+	</div>
+	<div id="team-stat-tables">
 		<TeamBattingStats
 			teamData={boxscore.away_team}
 			on:viewAtBatResultsClicked={(event) =>

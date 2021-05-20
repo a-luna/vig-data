@@ -163,6 +163,8 @@
 	--page-bg-color: var(--white1);
 	--link-color: var(--purple2);
 
+	--linescore-row-bg-color: var(--light-gray1);
+
 	--table-body-bg-color-even: var(--light-gray1);
 	--table-body-bg-color-odd: var(--light-gray2);
 	--table-col-header-bg-color: var(--light-gray4);
@@ -325,7 +327,7 @@ main {
 
 .table-header-cell {
 	display: table-cell;
-	text-align: justify;
+	text-align: center;
 	font-weight: 700;
 	color: var(--table-col-header-color);
 	background-color: var(--table-col-header-bg-color);
@@ -407,14 +409,25 @@ main {
 	background-color: var(--page-bg-color);
 }
 
+#game-summary,
+#team-stat-tables,
 #play-by-play {
-	width: 100%;
 	display: flex;
 	flex-flow: column nowrap;
+	width: 95%;
+	margin: 0 auto;
 }
 
+#team-stat-tables .resp-table,
+#play-by-play .resp-table,
+#game-summary .linescore {
+	@apply text-xs;
+}
+
+#team-stat-tables .resp-table-caption,
 #play-by-play .resp-table-caption {
 	white-space: nowrap;
+	margin-top: 20px;
 }
 
 #play-by-play .at-bat:hover {
@@ -447,7 +460,6 @@ main {
 .responsive {
 	overflow-x: auto;
 	white-space: nowrap;
-	padding: 3px 6px;
 }
 
 .responsive-vert {
@@ -696,10 +708,23 @@ input {
 	border: 1px solid var(--pitch-type-UN);
 }
 
+@media screen and (min-width: 550px) {
+	:root {
+		--at-bat-ploc-chart-size: 225px;
+		--ploc-data-point-radius: 6px;
+	}
+}
+
 @media screen and (min-width: 600px) {
 	:root {
 		--at-bat-ploc-chart-size: 300px;
 		--ploc-data-point-radius: 8px;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	html {
+		font-size: 15px;
 	}
 
 	.show-on-mobile {
@@ -709,17 +734,25 @@ input {
 	.hide-on-mobile {
 		display: table-cell;
 	}
-}
 
-@media screen and (min-width: 768px) {
-	html {
-		font-size: 15px;
+	#game-summary,
+	#team-stat-tables {
+		width: 65%;
+	}
+
+	#team-stat-tables .resp-table,
+	#game-summary .linescore {
+		@apply text-sm;
 	}
 }
 
 @media screen and (min-width: 850px) {
 	#play-by-play {
-		width: 80%;
+		width: 65%;
+	}
+
+	#play-by-play .resp-table {
+		@apply text-sm;
 	}
 }
 

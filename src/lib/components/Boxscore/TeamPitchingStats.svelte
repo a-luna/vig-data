@@ -8,48 +8,43 @@
 	function getCaptionId() {
 		return `${teamData.team_id.toLowerCase()}-pitching`;
 	}
+
 </script>
 
-<div class="scrolling-wrapper">
-	<div class="table-wrapper">
-		<h4>{teamData.team_name}</h4>
-		<table>
-			<thead>
-				<tr class="col-header">
-					<th class="align-left">Pitching</th>
-					<th>IP</th>
-					<th>H</th>
-					<th>R</th>
-					<th>ER</th>
-					<th>BB</th>
-					<th>K</th>
-					<th>HR</th>
-					<th>BF</th>
-					<th>Pit</th>
-					<th class="stat-line" />
-				</tr>
-			</thead>
-			<tbody>
-				{#each teamData.pitching as pitchStats}
-					<tr>
-						<td>
-							<PitcherDetails {pitchStats} />
-						</td>
-						<td class="num-stat">{pitchStats.innings_pitched}</td>
-						<td class="num-stat">{pitchStats.hits}</td>
-						<td class="num-stat">{pitchStats.runs}</td>
-						<td class="num-stat">{pitchStats.earned_runs}</td>
-						<td class="num-stat">{pitchStats.bases_on_balls}</td>
-						<td class="num-stat">{pitchStats.strikeouts}</td>
-						<td class="num-stat">{pitchStats.homeruns}</td>
-						<td class="num-stat">{pitchStats.batters_faced}</td>
-						<td class="num-stat">{pitchStats.pitch_count}</td>
-						<td>
-							<PitcherStatLine {pitchStats} on:viewPitcherInningTotalsClicked />
-						</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
+<div class="resp-table-caption">{teamData.team_name}</div>
+<div class="responsive mt-0">
+	<div id={getCaptionId()} class="resp-table">
+		<div class="resp-table-header col-header">
+			<div class="table-header-cell align-left">Pitching</div>
+			<div class="table-header-cell">IP</div>
+			<div class="table-header-cell">H</div>
+			<div class="table-header-cell">R</div>
+			<div class="table-header-cell">ER</div>
+			<div class="table-header-cell">BB</div>
+			<div class="table-header-cell">K</div>
+			<div class="table-header-cell">HR</div>
+			<div class="table-header-cell">BF</div>
+			<div class="table-header-cell">Pit</div>
+			<div class="table-header-cell stat-line" />
+		</div>
+		<div class="resp-table-body">
+			{#each teamData.pitching as pitchStats}
+				<div class="at-bat resp-table-row">
+					<div class="table-body-cell"><PitcherDetails {pitchStats} /></div>
+					<div class="table-body-cell num-stat">{pitchStats.innings_pitched}</div>
+					<div class="table-body-cell num-stat">{pitchStats.hits}</div>
+					<div class="table-body-cell num-stat">{pitchStats.runs}</div>
+					<div class="table-body-cell num-stat">{pitchStats.earned_runs}</div>
+					<div class="table-body-cell num-stat">{pitchStats.bases_on_balls}</div>
+					<div class="table-body-cell num-stat">{pitchStats.strikeouts}</div>
+					<div class="table-body-cell num-stat">{pitchStats.homeruns}</div>
+					<div class="table-body-cell num-stat">{pitchStats.batters_faced}</div>
+					<div class="table-body-cell num-stat">{pitchStats.pitch_count}</div>
+					<div class="table-body-cell">
+						<PitcherStatLine {pitchStats} on:viewPitcherInningTotalsClicked />
+					</div>
+				</div>
+			{/each}
+		</div>
 	</div>
 </div>

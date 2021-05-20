@@ -265,12 +265,16 @@
 		margin-top: 10px;
 	}
 
+	.at-bat-details-wrapper {
+		margin: 10px 5px;
+	}
+
 	.pitch-location {
 		border-radius: 4px;
 		border: 1px solid var(--table-col-header-bottom-border);
 		width: var(--at-bat-ploc-chart-size);
 		height: var(--at-bat-ploc-chart-size);
-		margin-top: 20px;
+		margin: 10px 5px;
 	}
 
 	.not-shown {
@@ -286,7 +290,7 @@
 		font-size: 0.75rem;
 	}
 
-	@media screen and (min-width: 600px) {
+	@media screen and (min-width: 550px) {
 		.at-bat-details {
 			flex: 1 0 calc(var(--at-bat-ploc-chart-size) - 43px);
 			max-height: calc(var(--at-bat-ploc-chart-size) - 43px);
@@ -298,16 +302,12 @@
 			align-items: flex-end;
 			max-width: 670px;
 		}
-
-		.at-bat-details-wrapper {
-			margin-right: 10px;
-		}
 	}
 
 	@media screen and (min-width: 1024px) {
 		.at-bat-viewer {
 			font-size: 0.875rem;
-			max-width: 700px;
+			max-width: 775px;
 		}
 	}
 
