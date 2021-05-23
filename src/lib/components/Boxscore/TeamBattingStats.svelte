@@ -49,7 +49,7 @@
 					<div class="table-body-cell num-stat">{statFormat(batStats.obp_to_date)}</div>
 					<div class="table-body-cell num-stat">{statFormat(batStats.slg_to_date)}</div>
 					<div class="table-body-cell num-stat">{statFormat(batStats.ops_to_date)}</div>
-					<div class="table-body-cell">
+					<div class=" stat-line table-body-cell">
 						<BatterStatLine {batStats} on:viewAtBatResultsClicked />
 					</div>
 				</div>

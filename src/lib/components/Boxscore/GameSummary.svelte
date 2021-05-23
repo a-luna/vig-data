@@ -9,13 +9,13 @@
 <div class="game-summary">
 	<div class="matchup">
 		<span class="team-name">{away_team.team_name}</span>
-		<span class="text-2xl font-bold">{away_team.runs_scored_by_team}</span>
-		<span>({away_team.total_wins}-{away_team.total_losses})</span>
+		<span class="team-runs-scored font-bold">{away_team.runs_scored_by_team}</span>
+		<span class="team-record">({away_team.total_wins}-{away_team.total_losses})</span>
 	</div>
 	<div class="matchup">
 		<span class="team-name text">{home_team.team_name}</span>
-		<span class="text-2xl font-bold">{home_team.runs_scored_by_team}</span>
-		<span>({home_team.total_wins}-{home_team.total_losses})</span>
+		<span class="team-runs-scored font-bold">{home_team.runs_scored_by_team}</span>
+		<span class="team-record">({home_team.total_wins}-{home_team.total_losses})</span>
 	</div>
 </div>
 
@@ -29,24 +29,42 @@
 	}
 
 	.team-name {
-		@apply text-sm text-center;
+		@apply text-base;
+	}
+
+	.team-runs-scored {
+		@apply text-lg;
+	}
+
+	.team-record {
+		@apply text-sm;
 	}
 
 	@media screen and (min-width: 550px) {
 		.team-name {
+			@apply text-lg;
+		}
+
+		.team-runs-scored {
+			@apply text-xl;
+		}
+
+		.team-record {
 			@apply text-base;
 		}
 	}
 
 	@media screen and (min-width: 768px) {
 		.team-name {
-			@apply text-lg;
-		}
-	}
-
-	@media screen and (min-width: 1024px) {
-		.team-name {
 			@apply text-xl;
+		}
+
+		.team-runs-scored {
+			@apply text-2xl;
+		}
+
+		.team-record {
+			@apply text-lg;
 		}
 	}
 
