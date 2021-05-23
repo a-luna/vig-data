@@ -1,3 +1,4 @@
+<!-- THIS IS THE COMPONENT BOUNDARY -->
 <script lang="ts">
 	import type { TeamBatStats } from '$lib/api/types';
 	import { Datatable, rows } from 'svelte-simple-datatables';
@@ -12,36 +13,46 @@
 			paginationRowCount: false
 		}
 	};
-	// import DataTable from '@fouita/data-table';
 
 	export let selectedLeague: 'al' | 'nl' | 'both' = 'al';
 	export let teamBatStats: TeamBatStats[];
 
 	$: data = Object.values(teamBatStats).filter((t) => t.league === selectedLeague.toUpperCase());
 
-	// const head = {
-	// 	team_id_bbref: 'Team',
-	// 	avg: 'AVG',
-	// 	obp: 'OBP',
-	// 	slg: 'SLG',
-	// 	ops: 'OPS',
-	// 	bb_rate: 'BB%',
-	// 	k_rate: 'K%',
-	// 	hits: 'H',
-	// 	runs_scored: 'R',
-	// 	rbis: 'RBI',
-	// 	bases_on_balls: 'BB',
-	// 	strikeouts: 'K',
-	// 	doubles: '2B',
-	// 	triples: '3B',
-	// 	homeruns: 'HR',
-	// 	stolen_bases: 'SB',
-	// 	caught_stealing: 'CS'
-	// };
+</script>
+
+<!-- <script lang="ts">
+	import type { TeamBatStats } from '$lib/api/types';
+	import DataTable from '@fouita/data-table';
+
+	export let selectedLeague: 'al' | 'nl' | 'both' = 'al';
+	export let teamBatStats: TeamBatStats[];
+
+	$: data = Object.values(teamBatStats).filter((t) => t.league === selectedLeague.toUpperCase());
+
+	const head = {
+		team_id_bbref: 'Team',
+		avg: 'AVG',
+		obp: 'OBP',
+		slg: 'SLG',
+		ops: 'OPS',
+		bb_rate: 'BB%',
+		k_rate: 'K%',
+		hits: 'H',
+		runs_scored: 'R',
+		rbis: 'RBI',
+		bases_on_balls: 'BB',
+		strikeouts: 'K',
+		doubles: '2B',
+		triples: '3B',
+		homeruns: 'HR',
+		stolen_bases: 'SB',
+		caught_stealing: 'CS'
+	};
 
 </script>
 
-<!-- <DataTable {head} rows={data} hover stripped /> -->
+<DataTable {head} rows={data} hover stripped /> -->
 
 <Datatable {settings} {data}>
 	<thead>
@@ -88,52 +99,3 @@
 		{/each}
 	</tbody>
 </Datatable>
-
-<style lang="postcss">
-	th:first-child {
-		width: 72px;
-	}
-	th {
-		padding: 8px 0px 8px 16px;
-		text-align: center;
-		border-bottom: 1px solid #eee;
-		background: #fff;
-	}
-	th.sortable {
-		cursor: pointer;
-	}
-	th.sortable span {
-		padding-right: 16px;
-		position: relative;
-	}
-	th.sortable span:before,
-	th.sortable span:after {
-		border: 4px solid transparent;
-		content: '';
-		display: block;
-		height: 0;
-		right: 0;
-		top: 50%;
-		position: absolute;
-		width: 0;
-	}
-	th.sortable span:before {
-		border-bottom-color: #e0e0e0;
-		margin-top: -9px;
-	}
-	th.sortable span:after {
-		border-top-color: #e0e0e0;
-		margin-top: 1px;
-	}
-	th.sortable.asc:not(.desc) span:before {
-		border-bottom-color: #9e9e9e;
-	}
-	th.sortable.desc:not(.asc) span:after {
-		border-top-color: #9e9e9e;
-	}
-	td {
-		text-align: center;
-		padding: 4px 0;
-	}
-
-</style>
