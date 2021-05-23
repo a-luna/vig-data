@@ -31,57 +31,55 @@
 
 </script>
 
-<div class="flex flex-col flex-nowrap">
-	<div class="btn-group mb-2">
-		<button
-			type="button"
-			class={pitcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 1)}>P</button
-		>
-		<button
-			type="button"
-			class={catcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 2)}>C</button
-		>
-		<button
-			type="button"
-			class={firstBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 3)}>1B</button
-		>
-		<button
-			type="button"
-			class={secondBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 4)}>2B</button
-		>
-		<button
-			type="button"
-			class={thirdBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 5)}>3B</button
-		>
-		<button
-			type="button"
-			class={shortStopSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 6)}>SS</button
-		>
-		<button
-			type="button"
-			class={leftFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 7)}>LF</button
-		>
-		<button
-			type="button"
-			class={centerFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 8)}>CF</button
-		>
-		<button
-			type="button"
-			class={rightFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 9)}>RF</button
-		>
-		<button
-			type="button"
-			class={dhSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => (selectedDefPosition = 10)}>DH</button
-		>
-	</div>
+<div class="btn-group my-1">
+	<button
+		type="button"
+		class={pitcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 1)}>P</button
+	>
+	<button
+		type="button"
+		class={catcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 2)}>C</button
+	>
+	<button
+		type="button"
+		class={firstBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 3)}>1B</button
+	>
+	<button
+		type="button"
+		class={secondBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 4)}>2B</button
+	>
+	<button
+		type="button"
+		class={thirdBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 5)}>3B</button
+	>
+	<button
+		type="button"
+		class={shortStopSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 6)}>SS</button
+	>
+	<button
+		type="button"
+		class={leftFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 7)}>LF</button
+	>
+	<button
+		type="button"
+		class={centerFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 8)}>CF</button
+	>
+	<button
+		type="button"
+		class={rightFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 9)}>RF</button
+	>
+	<button
+		type="button"
+		class={dhSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		on:click={() => (selectedDefPosition = 10)}>DH</button
+	>
 </div>
