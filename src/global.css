@@ -170,8 +170,8 @@
 	--table-body-bg-color-odd: var(--light-gray2);
 	--table-col-header-bg-color: var(--light-gray4);
 	--table-col-header-color: var(--blue-gray1);
-	--table-col-header-bottom-border: var(--black4);
-	--table-outer-border-color: var(--black4);
+	--table-col-header-bottom-border: var(--dark-gray3);
+	--table-outer-border-color: var(--dark-gray3);
 	--table-inner-border-vert-color: var(--gray1);
 	--table-inner-border-horiz-color: var(--light-gray4);
 
@@ -812,11 +812,30 @@ input {
 }
 
 .datatable thead:not([style*='hidden']) th {
-	padding: 8px 0px 8px 16px;
+	padding: 4px 4px 4px 8px;
 	text-align: center;
-	border-bottom: 1px solid #eee;
-	background: #fff;
+	border-bottom: none;
+	background: var(--table-col-header-bg-color);
 }
+
+.datatable thead:not([style*='hidden']) th {
+	border-top: 1px solid var(--table-outer-border-color);
+}
+
+.datatable tbody td:first-child,
+.datatable thead:not([style*='hidden']) tr:first-child th:first-child {
+	border-left: 1px solid var(--table-outer-border-color);
+}
+
+.datatable tbody td:last-child,
+.datatable thead:not([style*='hidden']) tr:first-child th:last-child {
+	border-right: 1px solid var(--table-outer-border-color);
+}
+
+.datatable tbody tr:last-child td {
+	border-bottom: 1px solid var(--table-outer-border-color);
+}
+
 .datatable .dt-table th.sortable {
 	cursor: pointer;
 }
@@ -836,11 +855,11 @@ input {
 	width: 0;
 }
 .datatable .dt-table th.sortable span:before {
-	border-bottom-color: #e0e0e0;
+	border-bottom-color: var(--table-col-header-color);
 	margin-top: -9px;
 }
 .datatable .dt-table th.sortable span:after {
-	border-top-color: #e0e0e0;
+	border-top-color: var(--table-col-header-color);
 	margin-top: 1px;
 }
 .datatable .dt-table th.sortable.asc:not(.desc) span:before {
@@ -872,10 +891,10 @@ input {
 }
 
 .datatable .dt-table {
-	border-bottom: 1px solid #e0e0e0;
+	border-bottom: none;
 	scrollbar-width: thin;
 }
-.datatable .dt-table::-webkit-scrollbar {
+/* .datatable .dt-table::-webkit-scrollbar {
 	width: 6px;
 	height: 6px;
 }
@@ -890,12 +909,13 @@ input {
 }
 .datatable .dt-table::-webkit-scrollbar-track-piece:start {
 	top: 40px;
-}
+} */
 .datatable .dt-table table {
+	@apply text-xs;
 	width: 100%;
 	border-collapse: collapse;
 	overflow: hidden;
-	margin-bottom: 6px;
+	margin-bottom: 0;
 }
 
 .datatable .dt-pagination {
