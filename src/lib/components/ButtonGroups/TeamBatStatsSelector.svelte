@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { ThemeColor } from '$lib/types';
 	import { onMount } from 'svelte';
+	import BatOrderSelector from './BatOrderSelector.svelte';
 	import DefPositionSelector from './DefPositionSelector.svelte';
 
 	export let color: ThemeColor = 'indigo';
 	export let selectedBatSplit: 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 	export let selectedDefPosition: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-	export let selectedLineupSpot: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+	export let selectedLineupSlot: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 	$: allSelected = selectedBatSplit === 'all';
 	$: startersSelected = selectedBatSplit === 'starters';
@@ -18,8 +19,8 @@
 
 </script>
 
-<div class="flex flex-col flex-nowrap text-sm">
-	<div class="btn-group mb-2">
+<div class="flex flex-col flex-nowrap justify-center items-end text-sm">
+	<div class="btn-group my-1">
 		<button
 			type="button"
 			class={allSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
@@ -48,5 +49,7 @@
 	</div>
 	{#if defposSelected}
 		<DefPositionSelector bind:selectedDefPosition />
+	{:else if batorderSelected}
+		<BatOrderSelector bind:selectedLineupSlot />
 	{/if}
 </div>

@@ -21,7 +21,7 @@
 	let selectedLeague: 'al' | 'nl' | 'both';
 	let selectedBatSplit: 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 	let selectedDefPosition: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-	let selectedLineupSpot: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+	let selectedLineupSlot: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 	let seasonStandings: SeasonData;
 	let teamBatStats: TeamBatStats[];
 	let getStandingsRequest: Promise<ApiResponse<SeasonData>>;
@@ -74,14 +74,14 @@
 			selectedSeason,
 			selectedBatSplit,
 			selectedDefPosition,
-			selectedLineupSpot
+			selectedLineupSlot
 		);
 	}
 
 </script>
 
 <div id="season-stats" class="flex flex-col flex-nowrap mx-auto my-0">
-	<div class="flex flex-row flex-wrap justify-between">
+	<div class="flex flex-row flex-wrap justify-between items-end mb-2">
 		<h3>Season Standings</h3>
 		<div class="flex flex-row flex-nowrap items-center">
 			<SeasonSelector bind:selectedSeason />
@@ -89,7 +89,7 @@
 		</div>
 	</div>
 	<div class="flex flex-col flex-nowrap">
-		<div class="flex flex-row flex-wrap flex-auto justify-center">
+		<div class="flex flex-row flex-wrap flex-auto justify-start">
 			{#if getStandingsRequest}
 				{#await getStandingsRequest}
 					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
@@ -105,9 +105,13 @@
 			{/if}
 		</div>
 		<div class="team-stats flex-auto flex flex-col flex-nowrap">
-			<div class="flex flex-row flex-wrap justify-between">
+			<div class="flex flex-row flex-wrap justify-between items-end mb-2">
 				<h3>Team Batting Stats</h3>
-				<TeamBatStatsSelector bind:selectedBatSplit bind:selectedDefPosition />
+				<TeamBatStatsSelector
+					bind:selectedBatSplit
+					bind:selectedDefPosition
+					bind:selectedLineupSlot
+				/>
 			</div>
 			{#if getBatStatsRequest}
 				{#await getBatStatsRequest}
@@ -135,15 +139,13 @@
 		width: 100%;
 	}
 
+	h3 {
+		margin: 0;
+	}
+
 	@media screen and (min-width: 550px) {
 		#season-stats {
 			width: 95%;
-		}
-	}
-
-	@media screen and (min-width: 768px) {
-		#season-stats {
-			width: 75%;
 		}
 	}
 
