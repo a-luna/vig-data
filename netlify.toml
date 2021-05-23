@@ -1,4 +1,7 @@
+[build.environment]
+    NPM_FLAGS = "--prefix=/dev/null"
+    
 [build]
-  command = "npm run build"
+  command = "pnpm run build || ( npm install pnpm && pnpm run build )"
   publish = "build/"
   functions = "functions/"
