@@ -63,17 +63,8 @@ export interface TeamSeasonData {
 }
 
 export type DivisionSeasonData = Record<string, TeamSeasonData[]>;
-
-export interface LeagueSeasonData {
-	w: DivisionSeasonData;
-	c: DivisionSeasonData;
-	e: DivisionSeasonData;
-}
-
-export interface SeasonData {
-	al: LeagueSeasonData;
-	nl: LeagueSeasonData;
-}
+export type LeagueSeasonData = Record<'e' | 'c' | 'w', DivisionSeasonData>;
+export type SeasonData = Record<'al' | 'nl', LeagueSeasonData>;
 
 export interface AtBatEvent {
 	inning_id: string;
@@ -224,6 +215,51 @@ export interface TeamData {
 	pitcher_earned_save: string;
 	batting: BatStats[];
 	pitching: PitchStats[];
+}
+
+export interface TeamBatStats {
+	// year: number;
+	team_id_bbref: string;
+	// is_starter: boolean;
+	// bat_order: number;
+	// def_position: number;
+	// mlb_id: number;
+	// bbref_id: string;
+	// stint_number: number;
+	// total_games: number;
+	avg: number;
+	obp: number;
+	slg: number;
+	ops: number;
+	// iso: number;
+	bb_rate: number;
+	k_rate: number;
+	// contact_rate: number;
+	// plate_appearances: number;
+	// at_bats: number;
+	hits: number;
+	runs_scored: number;
+	rbis: number;
+	bases_on_balls: number;
+	strikeouts: number;
+	doubles: number;
+	triples: number;
+	homeruns: number;
+	stolen_bases: number;
+	caught_stealing: number;
+	// hit_by_pitch: number;
+	// intentional_bb: number;
+	// gdp: number;
+	// sac_fly: number;
+	// sac_hit: number;
+	// total_pitches: number;
+	// total_strikes: number;
+	// wpa_bat: number;
+	// wpa_bat_pos: number;
+	// wpa_bat_neg: number;
+	// re24_bat: number;
+	league: 'AL' | 'NL';
+	division: 'C' | 'E' | 'W';
 }
 
 export type LinescoreDigit = string | number;

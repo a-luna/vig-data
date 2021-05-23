@@ -162,6 +162,7 @@
 	--site-bg-color: var(--gray2);
 	--page-bg-color: var(--white1);
 	--link-color: var(--purple2);
+	--label-color: var(--blue-gray1);
 
 	--linescore-row-bg-color: var(--light-gray1);
 
@@ -292,6 +293,10 @@ main {
 	padding: 20px 10px;
 }
 
+label {
+	color: var(--label-color);
+}
+
 .content {
 	font-size: 1rem;
 	margin: 0 0 30px;
@@ -315,7 +320,7 @@ main {
 }
 
 .resp-table-caption {
-	@apply text-xl font-normal text-left leading-normal m-0 p-0;
+	@apply text-lg font-bold text-left leading-normal m-0 p-0;
 	display: table-caption;
 	color: var(--table-col-header-color);
 	white-space: nowrap;
@@ -414,21 +419,19 @@ main {
 #play-by-play {
 	display: flex;
 	flex-flow: column nowrap;
-	width: 95%;
+	width: 100%;
 	margin: 0 auto;
 }
 
 #team-stat-tables .resp-table,
-#game-summary .linescore {
-	@apply text-sm;
-}
-
+#game-summary .linescore,
 #play-by-play .resp-table {
 	@apply text-xs;
 }
 
 #team-stat-tables .resp-table-caption,
 #play-by-play .resp-table-caption {
+	@apply text-lg;
 	white-space: nowrap;
 	margin-top: 20px;
 }
@@ -723,6 +726,16 @@ input {
 		--at-bat-ploc-chart-size: 300px;
 		--ploc-data-point-radius: 8px;
 	}
+
+	#team-stat-tables .resp-table,
+	#game-summary .linescore {
+		@apply text-sm;
+	}
+
+	#team-stat-tables .resp-table-caption,
+	#play-by-play .resp-table-caption {
+		@apply text-xl;
+	}
 }
 
 @media screen and (min-width: 768px) {
@@ -737,16 +750,17 @@ input {
 	.hide-on-mobile {
 		display: table-cell;
 	}
-
-	#game-summary,
-	#team-stat-tables {
-		width: 65%;
-	}
 }
 
 @media screen and (min-width: 850px) {
 	#play-by-play .resp-table {
 		@apply text-sm;
+	}
+
+	#game-summary,
+	#team-stat-tables,
+	#play-by-play {
+		width: 95%;
 	}
 }
 
@@ -759,10 +773,19 @@ input {
 	html {
 		font-size: 16px;
 	}
+
+	#game-summary,
+	#team-stat-tables {
+		width: 75%;
+	}
+
+	#play-by-play {
+		width: 85%;
+	}
 }
 
 .datatable {
-	background: var(--site-bg-color);
+	background: #fff;
 }
 
 .datatable .dt-search {
@@ -789,10 +812,10 @@ input {
 }
 
 .datatable thead:not([style*='hidden']) th {
-	padding: 2px 0px 2px 4px;
+	padding: 8px 0px 8px 16px;
 	text-align: center;
-	border-bottom: 1px solid hsl(0, 0%, 20%);
-	background: var(--site-bg-color);
+	border-bottom: 1px solid #eee;
+	background: #fff;
 }
 .datatable .dt-table th.sortable {
 	cursor: pointer;
@@ -833,7 +856,7 @@ input {
 	border: 1px solid #fafafa;
 }
 .datatable .dt-table th.filter input {
-	background: var(--site-bg-color);
+	background: #fff;
 	height: 24px;
 	border: none;
 	border-bottom: 1px solid #eee;
@@ -876,7 +899,7 @@ input {
 }
 
 .datatable .dt-pagination {
-	background: var(--site-bg-color);
+	background: #fff;
 }
 
 .datatable .dt-pagination-buttons {
