@@ -1,98 +1,67 @@
 <script lang="ts">
-	import type { LinescoreColumn } from '$lib/api/types';
+	import type { Linescore } from '$lib/api/types';
 
-	export let linescore: LinescoreColumn[];
+	export let linescore: Linescore;
 	export let extra_innings: boolean = false;
-	export let linescore_complete: LinescoreColumn[] = [];
+	export let linescore_complete: Linescore;
 	export let expanded: boolean = false;
+	let displayColumns: Linescore;
 
 	$: displayColumns = extra_innings ? (expanded ? linescore_complete : linescore) : linescore;
 
 </script>
 
 <div class="linescore responsive">
-	<ul on:click={() => (expanded = !expanded)}>
-		{#each displayColumns as { css_class, col_header, away_team, home_team }}
-			<li class={css_class}>
-				<div class="col-header">{@html col_header}</div>
-				<div class="away-team">{away_team}</div>
-				<div class="home-team">{home_team}</div>
-			</li>
-		{/each}
-	</ul>
+	<div class="resp-table" on:click={() => (expanded = !expanded)}>
+		<div class="resp-table-header col-header">
+			<div class="table-header-cell align-left" />
+			{#each displayColumns.inning_numbers as num}
+				<div class="table-header-cell">{num}</div>
+			{/each}
+			{#each displayColumns.game_totals as col}
+				<div class="table-header-cell">{col}</div>
+			{/each}
+		</div>
+		<div class="resp-table-body">
+			<div class="at-bat resp-table-row">
+				<div class="team-id table-body-cell">{displayColumns.away_team_id}</div>
+				{#each displayColumns.away_team_runs as runs}
+					<div class="table-body-cell num-stat">{runs}</div>
+				{/each}
+				{#each displayColumns.away_team_totals as total}
+					<div class="game-total table-body-cell num-stat">{total}</div>
+				{/each}
+			</div>
+			<div class="at-bat resp-table-row">
+				<div class="team-id table-body-cell">{displayColumns.home_team_id}</div>
+				{#each displayColumns.home_team_runs as runs}
+					<div class="table-body-cell num-stat">{runs}</div>
+				{/each}
+				{#each displayColumns.home_team_totals as total}
+					<div class="game-total table-body-cell num-stat">{total}</div>
+				{/each}
+			</div>
+		</div>
+	</div>
 </div>
 
 <style lang="postcss">
-	.linescore {
-		display: flex;
-		justify-content: center;
+	.linescore .resp-table {
+		width: auto;
+		margin: 0 auto;
 	}
 
-	.team-id {
-		width: 37px;
-		margin: 0;
-		padding: 0;
-	}
-
-	.team-id .away-team,
-	.team-id .home-team {
-		text-align: left;
-		padding: 0 0 0 3px;
+	.linescore .table-body-cell {
 		background-color: var(--linescore-row-bg-color);
+		border-left: none;
 	}
 
-	.inning-runs-scored,
-	.game-total {
-		width: 22px;
-		background-color: var(--linescore-row-bg-color);
-	}
-
-	ul {
-		display: flex;
-		padding: 0;
-		list-style-type: none;
-		/* border: 1px solid var(--table-outer-border-color);
-		border-radius: 4px; */
-	}
-
-	li {
-		text-align: center;
-	}
-
-	li div:first-child {
-		border-top: 1px solid var(--table-outer-border-color);
-	}
-
-	li div:last-child {
-		border-bottom: 1px solid var(--table-outer-border-color);
-	}
-
-	li:first-child div {
+	.table-body-cell:first-child {
 		border-left: 1px solid var(--table-outer-border-color);
 	}
 
-	li:first-child div:first-child {
-		border-top-left-radius: 4px;
-	}
-
-	li:first-child div:last-child {
-		border-bottom-left-radius: 4px;
-	}
-
-	li:last-child div {
-		border-right: 1px solid var(--table-outer-border-color);
-	}
-
-	li:last-child div:first-child {
-		border-top-right-radius: 4px;
-	}
-
-	li:last-child div:last-child {
-		border-bottom-right-radius: 4px;
-	}
-
-	.game-total .away-team,
-	.game-total .home-team {
+	.team-id,
+	.game-total {
 		font-weight: 700;
 	}
 

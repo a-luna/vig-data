@@ -237,6 +237,19 @@ export interface LinescoreColumn {
 	removed_inning: boolean;
 }
 
+export interface Linescore {
+	inning_numbers: number[];
+	game_totals: string[];
+	away_team_id: string;
+	away_team_runs: LinescoreDigit[];
+	away_team_totals: number[];
+	home_team_id: string;
+	home_team_runs: number[];
+	home_team_totals: number[];
+	extra_innings: boolean;
+	removed_innings?: boolean[];
+}
+
 export interface PlayerId {
 	mlb_id: number;
 	name: string;
@@ -251,7 +264,7 @@ export interface PitcherResults {
 
 export interface GameData {
 	game_id: string;
-	linescore: LinescoreColumn[];
+	linescore: Linescore;
 	pitcher_results: PitcherResults;
 	extra_innings: boolean;
 }
@@ -297,8 +310,8 @@ export interface Boxscore {
 	home_team: TeamData;
 	extra_innings: boolean;
 	game_meta: GameMeta;
-	linescore: LinescoreColumn[];
-	linescore_complete?: LinescoreColumn[];
+	linescore: Linescore;
+	linescore_complete?: Linescore;
 	inning_summaries: Record<string, InningSummary>;
 }
 
