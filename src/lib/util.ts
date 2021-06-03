@@ -31,10 +31,17 @@ export const getCSSPropNumberOfPixels = (element: HTMLElement, propName: string)
 	return match ? parseInt(match.groups.pixels) : 0;
 };
 
+export function getSpinnerColor(): string {
+	return getCSSPropValue(document.documentElement, '--spinner-color');
+}
+
 export function getDateFromString(date_str: string): Result<Date> {
-	const match = GAME_DATE_REGEX.exec(date_str);
-	if (!match)
-		return { success: false, message: 'Game date must be in the correct format: YYYYMMDD' };
+	const matchFormat1 = GAME_DATE_REGEX.exec(date_str);
+	const matchFormat2 = SEASON_DATE_REGEX.exec(date_str);
+	if (!matchFormat1 && !matchFormat2)
+		return { success: false, message: 'Game date must be in either format: YYYYMMDD, YYYY-MM-DD' };
+
+	const match = matchFormat1 || matchFormat2;
 	const year = parseInt(match.groups.year);
 	const month = parseInt(match.groups.month) - 1;
 	const day = parseInt(match.groups.day);
@@ -42,6 +49,12 @@ export function getDateFromString(date_str: string): Result<Date> {
 		success: true,
 		value: new Date(year, month, day)
 	};
+}
+
+export function formatDateString(date: Date): string {
+	if (date) {
+		return date.toDateString().slice(3);
+	}
 }
 
 export function getSeasonDates(start_str: string, end_str: string): Result<Date[]> {
@@ -320,10 +333,7 @@ function getStrikeZoneDimensions(document: Document): StrikeZoneDimensions {
 		const topLeftCorner = zoneCorners.filter((zc) => zc.corner === 'TL')?.[0];
 		const topRightCorner = zoneCorners.filter((zc) => zc.corner === 'TR')?.[0];
 		const bottomLeftCorner = zoneCorners.filter((zc) => zc.corner === 'BL')?.[0];
-		const chartSize = getCSSPropNumberOfPixels(
-			document.documentElement,
-			'--at-bat-ploc-chart-size'
-		);
+		const chartSize = getCSSPropNumberOfPixels(document.documentElement, '--ploc-chart-size');
 
 		const top = topLeftCorner.top;
 		const left = topLeftCorner.left;
@@ -371,3 +381,7 @@ export const DEF_POSITION_MAP = {
 	9: 'RF',
 	10: 'DH'
 };
+
+export function prefersDarkTheme(): boolean {
+	return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+}
