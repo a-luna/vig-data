@@ -1,3 +1,5 @@
+import type { Writable } from 'svelte/store';
+
 export interface GameDate {
 	year: number;
 	month: number;
@@ -62,9 +64,16 @@ export interface TeamSeasonData {
 	team_id_retro: string;
 }
 
-export type DivisionSeasonData = Record<string, TeamSeasonData[]>;
-export type LeagueSeasonData = Record<'e' | 'c' | 'w', DivisionSeasonData>;
-export type SeasonData = Record<'al' | 'nl', LeagueSeasonData>;
+export interface LeagueSeasonData {
+	e: TeamSeasonData[];
+	c: TeamSeasonData[];
+	w: TeamSeasonData[];
+}
+
+export interface SeasonData {
+	al: LeagueSeasonData;
+	nl: LeagueSeasonData;
+}
 
 export interface AtBatEvent {
 	inning_id: string;
@@ -132,7 +141,7 @@ export interface InningTotals {
 	strikes: number;
 }
 
-export type InningTotalsMap = Record<number, InningTotals>;
+export type InningTotalsMap = { [key: string]: InningTotals };
 
 export interface BatStats {
 	row_id: number;
@@ -218,25 +227,25 @@ export interface TeamData {
 }
 
 export interface TeamBatStats {
-	// year: number;
+	year: number;
 	team_id_bbref: string;
-	// is_starter: boolean;
-	// bat_order: number;
-	// def_position: number;
-	// mlb_id: number;
-	// bbref_id: string;
-	// stint_number: number;
-	// total_games: number;
+	is_starter: boolean;
+	bat_order: number;
+	def_position: number;
+	mlb_id: number;
+	bbref_id: string;
+	stint_number: number;
+	total_games: number;
 	avg: number;
 	obp: number;
 	slg: number;
 	ops: number;
-	// iso: number;
+	iso: number;
 	bb_rate: number;
 	k_rate: number;
-	// contact_rate: number;
-	// plate_appearances: number;
-	// at_bats: number;
+	contact_rate: number;
+	plate_appearances: number;
+	at_bats: number;
 	hits: number;
 	runs_scored: number;
 	rbis: number;
@@ -247,17 +256,66 @@ export interface TeamBatStats {
 	homeruns: number;
 	stolen_bases: number;
 	caught_stealing: number;
-	// hit_by_pitch: number;
-	// intentional_bb: number;
-	// gdp: number;
-	// sac_fly: number;
-	// sac_hit: number;
-	// total_pitches: number;
-	// total_strikes: number;
-	// wpa_bat: number;
-	// wpa_bat_pos: number;
-	// wpa_bat_neg: number;
-	// re24_bat: number;
+	hit_by_pitch: number;
+	intentional_bb: number;
+	gdp: number;
+	sac_fly: number;
+	sac_hit: number;
+	total_pitches: number;
+	total_strikes: number;
+	wpa_bat: number;
+	wpa_bat_pos: number;
+	wpa_bat_neg: number;
+	re24_bat: number;
+	league: 'AL' | 'NL';
+	division: 'C' | 'E' | 'W';
+}
+
+export interface TeamPitchStats {
+	year: number;
+	team_id_bbref: string;
+	opponent_team_id_bbref: string;
+	mlb_id: number;
+	bbref_id: string;
+	stint_number: number;
+	total_games: number;
+	games_as_sp: number;
+	games_as_rp: number;
+	wins: number;
+	losses: number;
+	saves: number;
+	innings_pitched: number;
+	total_outs: number;
+	batters_faced: number;
+	runs: number;
+	earned_runs: number;
+	hits: number;
+	homeruns: number;
+	strikeouts: number;
+	bases_on_balls: number;
+	era: number;
+	whip: number;
+	k_per_nine: number;
+	bb_per_nine: number;
+	hr_per_nine: number;
+	k_per_bb: number;
+	k_rate: number;
+	bb_rate: number;
+	k_minus_bb: number;
+	hr_per_fb: number;
+	pitch_count: number;
+	strikes: number;
+	strikes_contact: number;
+	strikes_swinging: number;
+	strikes_looking: number;
+	ground_balls: number;
+	fly_balls: number;
+	line_drives: number;
+	unknown_type: number;
+	inherited_runners: number;
+	inherited_scored: number;
+	wpa_pitch: number;
+	re24_pitch: number;
 	league: 'AL' | 'NL';
 	division: 'C' | 'E' | 'W';
 }
@@ -348,7 +406,7 @@ export interface Boxscore {
 	game_meta: GameMeta;
 	linescore: Linescore;
 	linescore_complete?: Linescore;
-	inning_summaries: Record<string, InningSummary>;
+	inning_summaries: { [key: string]: InningSummary };
 }
 
 export interface Scoreboard {

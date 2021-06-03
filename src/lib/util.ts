@@ -347,6 +347,18 @@ function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
 	};
 }
 
+export function formatRateStat(value: string, precision: number): string {
+	const rate = parseFloat(value);
+	const rate_str = rate.toFixed(precision);
+	// Remove leading-zero if value is less than 1.000
+	return rate < 1.0 ? rate_str.slice(1) : rate_str;
+}
+
+export function formatPercentStat(value: string, precision: number): string {
+	const percent = (parseFloat(value) * 100).toFixed(precision);
+	return `${percent}%`;
+}
+
 export const DEF_POSITION_MAP = {
 	1: 'P',
 	2: 'C',
