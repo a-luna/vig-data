@@ -1,101 +1,80 @@
-<!-- THIS IS THE COMPONENT BOUNDARY -->
 <script lang="ts">
-	import type { TeamBatStats } from '$lib/api/types';
-	import { Datatable, rows } from 'svelte-simple-datatables';
-	const settings = {
-		rowPerPage: 10,
-		scrollY: false,
-		pagination: false,
-		columnFilter: false,
-		blocks: {
-			searchInput: false,
-			paginationButtons: false,
-			paginationRowCount: false
+	import {
+		getBatStatsForAllTeams,
+		getBatStatsForBenchForAllTeams,
+		getBatStatsForDefPositionForAllTeams,
+		getBatStatsForLineupSpotForAllTeams,
+		getBatStatsForStartingLineupForAllTeams
+	} from '$lib/api/team';
+	import type { ApiResponse, TeamBatStats } from '$lib/api/types';
+	import TeamBatStatsSelector from '$lib/components/Util/TeamBatStatSelector/TeamBatStatsSelector.svelte';
+	import TeamBattingStatsTable from '$lib/components/TeamStats/TeamBattingStatsTable.svelte';
+	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import type { BatOrder, BatStatSplit, DefPositionNumber } from '$lib/types';
+	import { teamBatStat as teamBatStatFilter } from '$lib/stores/teamBatStatFilter';
+	import { selectedSeason } from '$lib/stores/singleValueStores';
+	import { getSpinnerColor } from '$lib/util';
+
+	let teamBatStats: TeamBatStats[];
+	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;
+	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
+
+	const batStatsMap = {
+		all: getBatStatsForAllTeams,
+		starters: getBatStatsForStartingLineupForAllTeams,
+		subs: getBatStatsForBenchForAllTeams,
+		defpos: getBatStatsForDefPositionForAllTeams,
+		batorder: getBatStatsForLineupSpotForAllTeams
+	};
+
+	async function getSelectedBatStats(
+		year: number,
+		split: BatStatSplit,
+		defPos: DefPositionNumber,
+		batOrder: BatOrder
+	): Promise<ApiResponse<TeamBatStats[]>> {
+		teamBatStats = [];
+		if (split === 'all' || split === 'starters' || split === 'subs') {
+			getBatStatsResult = await batStatsMap[split](year);
+		} else if (split === 'defpos') {
+			getBatStatsResult = await batStatsMap[split](year, defPos);
+		} else {
+			getBatStatsResult = await batStatsMap[split](year, batOrder);
 		}
-	};
+		if (!getBatStatsResult.success) {
+			return getBatStatsResult;
+		}
+		teamBatStats = getBatStatsResult.value;
+		return getBatStatsResult;
+	}
 
-	export let selectedLeague: 'al' | 'nl' | 'both' = 'al';
-	export let teamBatStats: TeamBatStats[];
-
-	$: data = Object.values(teamBatStats).filter((t) => t.league === selectedLeague.toUpperCase());
-
-</script>
-
-<!-- <script lang="ts">
-	import type { TeamBatStats } from '$lib/api/types';
-	import DataTable from '@fouita/data-table';
-
-	export let selectedLeague: 'al' | 'nl' | 'both' = 'al';
-	export let teamBatStats: TeamBatStats[];
-
-	$: data = Object.values(teamBatStats).filter((t) => t.league === selectedLeague.toUpperCase());
-
-	const head = {
-		team_id_bbref: 'Team',
-		avg: 'AVG',
-		obp: 'OBP',
-		slg: 'SLG',
-		ops: 'OPS',
-		bb_rate: 'BB%',
-		k_rate: 'K%',
-		hits: 'H',
-		runs_scored: 'R',
-		rbis: 'RBI',
-		bases_on_balls: 'BB',
-		strikeouts: 'K',
-		doubles: '2B',
-		triples: '3B',
-		homeruns: 'HR',
-		stolen_bases: 'SB',
-		caught_stealing: 'CS'
-	};
+	$: if ($selectedSeason && $teamBatStatFilter.split) {
+		getBatStatsRequest = getSelectedBatStats(
+			$selectedSeason,
+			$teamBatStatFilter.split,
+			$teamBatStatFilter.defPosition,
+			$teamBatStatFilter.lineupSlot
+		);
+	}
 
 </script>
 
-<DataTable {head} rows={data} hover stripped /> -->
-
-<Datatable {settings} {data}>
-	<thead>
-		<tr>
-			<th class="sortable asc desc" data-key="team_id_bbref">Team<span /></th>
-			<th class="sortable asc desc" data-key="avg">AVG<span /></th>
-			<th class="sortable asc desc" data-key="obp">OBP<span /></th>
-			<th class="sortable asc desc" data-key="slg">SLG<span /></th>
-			<th class="sortable asc desc" data-key="ops">OPS<span /></th>
-			<th class="sortable asc desc" data-key="bb_rate">BB%<span /></th>
-			<th class="sortable asc desc" data-key="k_rate">K%<span /></th>
-			<th class="sortable asc desc" data-key="hits">H<span /></th>
-			<th class="sortable asc desc" data-key="runs_scored">R<span /></th>
-			<th class="sortable asc desc" data-key="rbis">RBI<span /></th>
-			<th class="sortable asc desc" data-key="bases_on_balls">BB<span /></th>
-			<th class="sortable asc desc" data-key="strikeouts">K<span /></th>
-			<th class="sortable asc desc" data-key="doubles">2B<span /></th>
-			<th class="sortable asc desc" data-key="triples">3B<span /></th>
-			<th class="sortable asc desc" data-key="homeruns">HR<span /></th>
-			<th class="sortable asc desc" data-key="stolen_bases">SB<span /></th>
-			<th class="sortable asc desc" data-key="caught_stealing">CS<span /></th>
-		</tr>
-	</thead><tbody>
-		{#each $rows as row}
-			<tr>
-				<td>{row.team_id_bbref}</td>
-				<td>{row.avg}</td>
-				<td>{row.obp}</td>
-				<td>{row.slg}</td>
-				<td>{row.ops}</td>
-				<td>{row.bb_rate}</td>
-				<td>{row.k_rate}</td>
-				<td>{row.hits}</td>
-				<td>{row.runs_scored}</td>
-				<td>{row.rbis}</td>
-				<td>{row.bases_on_balls}</td>
-				<td>{row.strikeouts}</td>
-				<td>{row.doubles}</td>
-				<td>{row.triples}</td>
-				<td>{row.homeruns}</td>
-				<td>{row.stolen_bases}</td>
-				<td>{row.caught_stealing}</td>
-			</tr>
-		{/each}
-	</tbody>
-</Datatable>
+<div id="team-bat-stats" class="team-stats flex-auto flex flex-col flex-nowrap mb-4">
+	<div class="flex flex-col flex-nowrap justify-end items-start mb-2">
+		<h3 class="m-0">Team Batting Stats</h3>
+		<TeamBatStatsSelector color={'secondary'} />
+	</div>
+	{#if getBatStatsRequest}
+		{#await getBatStatsRequest}
+			<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
+		{:then _result}
+			{#if getBatStatsResult.success}
+				<TeamBattingStatsTable bind:teamBatStats />
+			{:else}
+				<div class="error">Error: {getBatStatsResult.message}</div>
+			{/if}
+		{:catch error}
+			<div class="error">Error: {error.message}</div>
+		{/await}
+	{/if}
+</div>

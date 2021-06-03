@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { ThemeColor } from '$lib/types';
-	import { DEF_POSITION_MAP } from '$lib/util';
-	import { onMount } from 'svelte';
+	import { teamBatStat } from '$lib/stores/teamBatStatFilter';
 
-	export let color: ThemeColor = 'indigo';
-	export let selectedDefPosition: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+	export let color: ThemeColor = 'secondary';
 	let pitcherSelected: boolean;
 	let catcherSelected: boolean;
 	let firstBaseSelected: boolean;
@@ -16,70 +14,68 @@
 	let rightFieldSelected: boolean;
 	let dhSelected: boolean;
 
-	$: pitcherSelected = selectedDefPosition === 1;
-	$: catcherSelected = selectedDefPosition === 2;
-	$: firstBaseSelected = selectedDefPosition === 3;
-	$: secondBaseSelected = selectedDefPosition === 4;
-	$: thirdBaseSelected = selectedDefPosition === 5;
-	$: shortStopSelected = selectedDefPosition === 6;
-	$: leftFieldSelected = selectedDefPosition === 7;
-	$: centerFieldSelected = selectedDefPosition === 8;
-	$: rightFieldSelected = selectedDefPosition === 9;
-	$: dhSelected = selectedDefPosition === 10;
-
-	onMount(() => (selectedDefPosition = 3));
+	$: pitcherSelected = $teamBatStat.defPosition === 1;
+	$: catcherSelected = $teamBatStat.defPosition === 2;
+	$: firstBaseSelected = $teamBatStat.defPosition === 3;
+	$: secondBaseSelected = $teamBatStat.defPosition === 4;
+	$: thirdBaseSelected = $teamBatStat.defPosition === 5;
+	$: shortStopSelected = $teamBatStat.defPosition === 6;
+	$: leftFieldSelected = $teamBatStat.defPosition === 7;
+	$: centerFieldSelected = $teamBatStat.defPosition === 8;
+	$: rightFieldSelected = $teamBatStat.defPosition === 9;
+	$: dhSelected = $teamBatStat.defPosition === 10;
 
 </script>
 
-<div class="btn-group my-1">
+<div class="btn-group my-1 overflow-x-auto">
 	<button
 		type="button"
 		class={pitcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 1)}>P</button
+		on:click={() => teamBatStat.changeDefPosition(1)}>P</button
 	>
 	<button
 		type="button"
 		class={catcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 2)}>C</button
+		on:click={() => teamBatStat.changeDefPosition(2)}>C</button
 	>
 	<button
 		type="button"
 		class={firstBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 3)}>1B</button
+		on:click={() => teamBatStat.changeDefPosition(3)}>1B</button
 	>
 	<button
 		type="button"
 		class={secondBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 4)}>2B</button
+		on:click={() => teamBatStat.changeDefPosition(4)}>2B</button
 	>
 	<button
 		type="button"
 		class={thirdBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 5)}>3B</button
+		on:click={() => teamBatStat.changeDefPosition(5)}>3B</button
 	>
 	<button
 		type="button"
 		class={shortStopSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 6)}>SS</button
+		on:click={() => teamBatStat.changeDefPosition(6)}>SS</button
 	>
 	<button
 		type="button"
 		class={leftFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 7)}>LF</button
+		on:click={() => teamBatStat.changeDefPosition(7)}>LF</button
 	>
 	<button
 		type="button"
 		class={centerFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 8)}>CF</button
+		on:click={() => teamBatStat.changeDefPosition(8)}>CF</button
 	>
 	<button
 		type="button"
 		class={rightFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 9)}>RF</button
+		on:click={() => teamBatStat.changeDefPosition(9)}>RF</button
 	>
 	<button
 		type="button"
 		class={dhSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => (selectedDefPosition = 10)}>DH</button
+		on:click={() => teamBatStat.changeDefPosition(10)}>DH</button
 	>
 </div>
