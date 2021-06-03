@@ -1,28 +1,54 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import FaSearch from 'svelte-icons/fa/FaSearch.svelte';
 
 	let query: string;
 	const dispatch = createEventDispatcher();
+
 </script>
 
-<form on:submit|preventDefault={() => dispatch('searchRequest', query)}>
-	<input id="query" name="query" type="text" bind:value={query} />
-	<button class="btn btn-primary">Search</button>
+<form
+	method="GET"
+	class="w-full ml-4"
+	on:submit|preventDefault={() => dispatch('searchRequest', query)}
+>
+	<div class="relative w-full">
+		<span class="search-icon absolute pl-1 py-0">
+			<button type="submit" class="p-0 focus:outline-none focus:shadow-outline">
+				<FaSearch />
+			</button>
+		</span>
+		<input
+			type="search"
+			id="query"
+			name="query"
+			class="py-1.5 text-base leading-none w-full rounded-md pl-9 focus:outline-none"
+			placeholder="Player Search"
+			autocomplete="off"
+			bind:value={query}
+		/>
+	</div>
 </form>
 
 <style lang="postcss">
-	form {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: flex-start;
-		margin: 0 0 10px;
+	.search-icon {
+		color: var(--search-icon-color);
+		top: 0.45rem;
+		left: 0.3rem;
+		width: 1.3rem;
+		height: 1.3rem;
 	}
 
 	input {
-		flex: 1 0;
+		background-color: var(--search-bg-color);
+		color: var(--search-text-color);
 	}
 
-	.btn {
-		margin: 0 0 0 10px;
+	input:focus {
+		background-color: var(--search-bg-color-focus);
+		color: var(--search-text-color-focus);
+		outline: 2px solid var(--search-focus-outline-color);
+		offset: 0;
 	}
+
 </style>
