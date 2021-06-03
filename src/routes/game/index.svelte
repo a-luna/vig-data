@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { contentShown } from '$lib/stores';
+	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type {
 		ApiResponse,
 		AtBatDetails,
@@ -12,64 +12,57 @@
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { getAllPlayByPlayData, getBoxscore } from '$lib/api/game';
-	import { getDateFromGameId } from '$lib/util';
+	import { getDateFromGameId, getSpinnerColor } from '$lib/util';
 	import { onMount } from 'svelte';
 	import { SyncLoader } from '../../../node_modules/svelte-loading-spinners/src';
+	import type { GameContent } from '$lib/types';
 
+	let game_id: string;
 	let game_summary: string;
 	let boxscore: BoxscoreSchema;
 	let all_pbp: AtBatDetails[];
-	let game_id: string;
 	let atBatViewer: AtBatViewer;
 	let date_str: string;
-	let success: boolean;
 	let getAllGameDataRequest: Promise<
 		ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>
 	>;
+	let getBoxscoreResult: ApiResponse<BoxscoreSchema>;
+	let getGameDateResult: Result<Date>;
+	let getAllPBPResult: ApiResponse<AtBatDetails[]>;
 
-	let contentShownLast: string;
-	$: pbpShown = $contentShown === 'pbp';
-	$: boxShown = $contentShown === 'box';
-	// $: chartsShown = $contentShown === 'charts';
+	$: pbpShown = $gameContentShown === 'pbp';
+	$: boxShown = $gameContentShown === 'box';
+	// $: chartsShown = $gameContentShown === 'charts';
 
 	$: if (game_id !== undefined && game_id !== $page.query.get('id')) {
 		updateGameData($page.query.get('id'));
 	}
 
-	// $: if (contentShownLast !== $page.query.get('show')) {
-	// 	$contentShown = $page.query.get('show');
-	// 	contentShownLast = $page.query.get('show');
-	// 	changePageAddress($page.query.get('show') as 'box' | 'pbp' | 'charts');
-	// }
-
 	onMount(() => {
-		$contentShown = $page.query.get('show') || 'box';
+		$gameContentShown = ($page.query.get('show') as GameContent) || 'box';
 		getAllGameDataRequest = getAllGameData($page.query.get('id'));
 	});
 
 	async function getAllGameData(
 		newGameId: string
 	): Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>> {
-		const getBoxscoreResult = await getBoxscore(newGameId);
-		success = getBoxscoreResult.success;
-		if (!success) {
+		getBoxscoreResult = await getBoxscore(newGameId);
+		if (!getBoxscoreResult.success) {
 			return getBoxscoreResult;
 		}
 		game_id = newGameId;
 		boxscore = getBoxscoreResult.value;
 
-		const getGameDateResult = getDateFromGameId(game_id);
-		success = getGameDateResult.success;
-		if (!success) {
+		getGameDateResult = getDateFromGameId(game_id);
+		if (!getGameDateResult.success) {
 			return getGameDateResult;
 		}
 		const game_date = getGameDateResult.value;
 		date_str = `${game_date.getMonth() + 1}/${game_date.getDate()}/${game_date.getFullYear()}`;
 		game_summary = `${boxscore.away_team.team_id} vs ${boxscore.home_team.team_id} (${date_str})`;
 
-		const getAllPBPResult = await getAllPlayByPlayData(game_id);
-		success = getAllPBPResult.success;
-		if (!success) {
+		getAllPBPResult = await getAllPlayByPlayData(game_id);
+		if (!getAllPBPResult.success) {
 			return getAllPBPResult;
 		}
 		all_pbp = getAllPBPResult.value;
@@ -78,13 +71,13 @@
 
 	function viewAtBat(atBatId: string): void {
 		atBatViewer.viewAtBat(atBatId);
-		$contentShown = 'pbp';
+		$gameContentShown = 'pbp';
 		changePageAddress('pbp');
 	}
 
 	function updateGameData(newGameId: string): void {
 		if ($page.query.get('show') !== 'box') {
-			$contentShown = 'box';
+			$gameContentShown = 'box';
 			changePageAddress('box');
 		}
 		getAllGameDataRequest = getAllGameData(newGameId);
@@ -113,10 +106,10 @@
 	<title>{game_summary ? game_summary : getDefaultGameSummary()} | Vigorish</title>
 </svelte:head>
 
-<GameContentSelector on:showGameContent={(event) => changePageAddress(event.detail)} />
+<GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
 {#if getAllGameDataRequest}
 	{#await getAllGameDataRequest}
-		<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+		<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
 	{:then result}
 		{#if result.success}
 			<Boxscore

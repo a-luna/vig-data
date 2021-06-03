@@ -5,6 +5,7 @@
 	export let teamStandings: TeamSeasonData[];
 	let leagueName: string = '';
 	let divName: string = '';
+	let tableId: string = '';
 
 	function getDivisionName(div: string): string {
 		const divisionNameMap = {
@@ -17,11 +18,12 @@
 
 	$: if (teamStandings) leagueName = teamStandings[0].league;
 	$: if (division) divName = getDivisionName(division);
+	$: if (teamStandings && division) tableId = `${leagueName}-${divName}`.toLowerCase();
 
 </script>
 
 <div class="responsive m-2">
-	<div id={`${leagueName} ${divName}`} class="league-standings resp-table">
+	<div id={tableId} class="league-standings resp-table">
 		<div class="resp-table-caption">{`${leagueName} ${divName}`}</div>
 		<div class="resp-table-header col-header">
 			<div class="team-id table-header-cell">&nbsp;</div>
@@ -33,7 +35,7 @@
 		<div class="resp-table-body">
 			{#each teamStandings as team}
 				<div class="at-bat resp-table-row">
-					<div class="table-body-cell num-stat">
+					<div class="table-body-cell">
 						<a sveltekit:prefetch href={`/team/${team.team_id_br}/${team.year}`}
 							>{team.team_id_br}</a
 						>
@@ -51,6 +53,11 @@
 <style lang="postcss">
 	.league-standings {
 		margin: 0 0 10px 0;
+		min-width: 201px;
+	}
+
+	.resp-table-caption {
+		text-align: center;
 	}
 
 </style>

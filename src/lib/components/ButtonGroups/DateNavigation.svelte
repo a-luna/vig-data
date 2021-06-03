@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { getStringFromDate } from '$lib/util';
+	import { scoreboardDate } from '$lib/stores/singleValueStores';
 	import DatePicker from '../../../../node_modules/svelte-calendar/src/Components/Datepicker.svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
@@ -10,7 +11,7 @@
 	export let end: Date;
 	export let date: string;
 	export let selected: Date;
-	export let color: ThemeColor = 'indigo';
+	export let color: ThemeColor = 'secondary';
 	let format: string = '#{F} #{j}, #{Y}';
 	let dateChosen: boolean;
 	let formattedSelected: string;

@@ -2,13 +2,22 @@
 	import { page } from '$app/stores';
 	import { getScoreboard } from '$lib/api/game';
 	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
-	import { getDateFromString, getSeasonDates } from '$lib/util';
+	import {
+		formatDateString,
+		getDateFromString,
+		getSeasonDates,
+		getSpinnerColor,
+		getStringFromDate
+	} from '$lib/util';
+	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '../ButtonGroups/DateNavigation.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import { onMount } from 'svelte';
+	import { seasonSettings } from '$lib/stores/seasonSettings';
 
-	export let game_date: Date;
+	export let gameDate: Date;
 	let success: boolean;
 	let error_message: string;
 	let date: string;
@@ -17,7 +26,9 @@
 	let start: Date;
 	let end: Date;
 	let getScoreboardRequest: Promise<ApiResponse<Scoreboard> | Result<Date> | Result<Date[]>>;
-	let selected: Date;
+	let mounted: boolean = false;
+
+	$: gameDate = getDateFromString($scoreboardDate).value;
 
 	async function getScoreboardForDate(date_str: string) {
 		date = date_str;
@@ -35,38 +46,57 @@
 			error_message = getGameDateresult.message;
 			return getGameDateresult;
 		}
-		game_date = getGameDateresult.value;
-		selected = game_date;
+		gameDate = getGameDateresult.value;
+		$scoreboardDate = getStringFromDate(gameDate);
 		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
 		if (!getSeasonDatesResult.success) {
 			error_message = getSeasonDatesResult.message;
 			return getSeasonDatesResult;
 		}
 		[start, end] = getSeasonDatesResult.value;
+		if (!mounted) {
+			mounted = true;
+		}
 	}
 
 	function handleDateChanged(event) {
 		date = event.detail;
 		getScoreboardRequest = getScoreboardForDate(date);
+	}
+
+	function changePageAddress(newDate: Date) {
 		window.history.pushState(
-			{ date: date },
-			`MLB Scoreboard for ${date} | Vigorish`,
-			`scoreboard?date=${date}`
+			{ game_date: formatDateString(newDate) },
+			`${pageTitle} | Vigorish`,
+			`?season=${$selectedSeason}&league=${$seasonSettings.league}&show=${
+				$seasonSettings.show
+			}&date=${getStringFromDate(newDate)}`
 		);
 	}
 
-	getScoreboardRequest = getScoreboardForDate($page.query.get('date'));
+	onMount(() => {
+		getScoreboardRequest = getScoreboardForDate($page.query.get('date') || $scoreboardDate);
+	});
+
+	$: if (mounted) changePageAddress(getDateFromString($scoreboardDate).value);
+	$: pageTitle = `MLB Scoreboard for ${$scoreboardDate}`;
 
 </script>
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if getScoreboardRequest}
 		{#await getScoreboardRequest}
-			<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+			<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
 		{:then _result}
 			{#if success}
-				<DateNavigation {start} {end} {selected} {date} on:dateChanged={handleDateChanged} />
-				<h3 class="text-center my-2">Games Played on {game_date.toDateString()}</h3>
+				<DateNavigation
+					{start}
+					{end}
+					bind:selected={gameDate}
+					{date}
+					on:dateChanged={handleDateChanged}
+				/>
+				<h3 class="text-center my-2">Games Played on {gameDate.toDateString()}</h3>
 				<div class="scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
 						<div class="game">
@@ -98,6 +128,11 @@
 
 	.game {
 		@apply self-start m-3;
+		width: 295px;
+	}
+
+	#scoreboard :global(.resp-table) {
+		width: 100%;
 	}
 
 </style>
