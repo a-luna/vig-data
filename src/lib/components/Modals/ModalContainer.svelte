@@ -7,6 +7,7 @@
 		hidden = !hidden;
 		document.querySelector('body').classList.toggle('modal-active');
 	}
+
 </script>
 
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
@@ -40,12 +41,14 @@
 	}
 
 	.modal-container {
-		@apply flex flex-col bg-white border-black border-solid border-t border-r border-b border-l w-auto mx-auto rounded shadow-lg overflow-y-auto z-50;
+		@apply flex flex-col border-black border-solid border-t border-r border-b border-l w-auto mx-auto rounded shadow-lg overflow-y-auto z-50;
 		max-width: 70%;
+		background-color: var(--page-bg-color);
 	}
 
 	.modal-title-bar {
-		@apply flex flex-row justify-end bg-gray-400 p-1;
+		@apply flex flex-row justify-end p-1;
+		background-color: var(--modal-title-bar-bg-color);
 	}
 
 	.modal-heading {
@@ -59,4 +62,5 @@
 		white-space: nowrap;
 		border-radius: 4px;
 	}
+
 </style>

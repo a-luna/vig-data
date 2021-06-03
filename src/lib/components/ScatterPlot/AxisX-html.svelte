@@ -21,6 +21,7 @@
 		: typeof ticks === 'function'
 		? ticks($xScale.ticks())
 		: $xScale.ticks(ticks);
+
 </script>
 
 <div class="axis x-axis" class:snapTicks>
@@ -65,18 +66,18 @@
 	}
 
 	.gridline {
-		border-left: 1px dashed #aaa;
+		border-left: 1px dashed var(--ploc-grid-color);
 	}
 
 	.tick-mark {
-		border-left: 1px solid #aaa;
+		border-left: 1px solid var(--ploc-grid-color);
 	}
 	.baseline {
-		border-top: 1px solid #aaa;
+		border-top: 1px solid var(--ploc-grid-color);
 	}
 
 	.tick .text {
-		color: #666;
+		color: var(--ploc-axis-text-color);
 		position: relative;
 		white-space: nowrap;
 		transform: translateX(-50%);
@@ -88,4 +89,5 @@
 	.axis.snapTicks .tick.tick-0 {
 		transform: translateX(40%);
 	}
+
 </style>

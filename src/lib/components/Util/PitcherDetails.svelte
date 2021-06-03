@@ -2,6 +2,7 @@
 	import type { PitchStats } from '$lib/api/types';
 
 	export let pitchStats: PitchStats;
+
 </script>
 
 <div class="player-details flex flex-row flex-nowrap justify-start items-center">
@@ -18,7 +19,7 @@
 
 	.pitch-app-type {
 		font-size: 0.7rem;
-		color: var(--dark-gray4);
 		width: 18px;
 	}
+
 </style>

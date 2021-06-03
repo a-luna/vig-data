@@ -62,6 +62,7 @@
 		dispatch('viewPitchFxForAtBatClicked', at_bat_id);
 		modalContainer.toggleModal();
 	}
+
 </script>
 
 <ModalContainer bind:this={modalContainer}>
@@ -95,10 +96,11 @@
 						</td>
 						<td>{at_bat.pitcher_name}</td>
 						<td
-							><span
-								class="at-bat-link text-indigo-600 cursor-pointer"
+							><a
+								href="#"
+								class="at-bat-link"
 								title="View PitchFX Data for At Bat"
-								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</span
+								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</a
 							></td
 						>
 					</tr>
@@ -118,6 +120,8 @@
 	}
 
 	.at-bat-link {
+		color: var(--pri-color);
 		text-decoration: underline;
 	}
+
 </style>

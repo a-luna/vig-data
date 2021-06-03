@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ThemeColor } from '../../types';
 
-	export let color: ThemeColor = 'indigo';
+	export let color: ThemeColor = 'primary';
 	export let size: 'sm' | 'md' | 'lg' = 'md';
 
 	$: buttonSize = size === 'sm' ? 36 : size === 'md' ? 48 : 72;

@@ -50,7 +50,7 @@
 				{#each pitchSequence as { number, description, type, blocked_by_c, out_of_boundary, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
-							<td colspan="4" class="non-pitch-event text-xs italic text-gray-700">
+							<td colspan="4" class="non-pitch-event text-xs italic">
 								{description}
 							</td>
 						{:else}
@@ -109,7 +109,7 @@
 			<span class="text-xs italic">Pitch location is beyond the boundaries of this graph</span>
 		</div>
 	{/if}
-	<div class="play_description text-center text-sm bg-yellow-100">
+	<div class="play_description text-center text-sm">
 		<FlexStrings
 			stringArray={formatAtBatResult(selectedAtBat.play_description)}
 			runsScored={formatRunsOutsResult(selectedAtBat.runs_outs_result)}
@@ -118,20 +118,25 @@
 {/if}
 
 <style lang="postcss">
+	table tbody tr {
+		background-color: var(--ploc-chart-bg-color);
+	}
 	table tbody tr td {
+		background-color: var(--ploc-chart-bg-color);
+		border-color: var(--ploc-chart-bg-color);
 		line-height: 1.3;
-		background-color: var(--page-bg-color);
 		border: none;
 		padding: 3px 5px;
 	}
 
 	.at-bat-pitch-sequence {
 		@apply flex flex-col flex-nowrap justify-between flex-grow px-2;
+		background-color: var(--ploc-chart-bg-color);
 		height: min-content;
 	}
 
 	.icon {
-		color: var(--link-color);
+		color: var(--sec-color);
 		width: 14px;
 		height: 14px;
 		margin: auto 0 auto 3px;
@@ -154,27 +159,31 @@
 	}
 
 	.non-pitch-event {
+		color: var(--body-text-color);
 		white-space: normal;
 	}
 
 	.pitch-number {
-		color: var(--black4);
+		color: var(--ploc-pitch-num-color);
 	}
 
 	.legend {
-		background-color: var(--table-col-header-bg-color);
+		background-color: var(--pseq-legend-bg-color);
+		color: var(--pseq-legend-text-color);
 		border-left: none;
 		border-right: none;
-		border-top: 1px solid var(--table-col-header-bottom-border);
+		border-top: none;
 		border-bottom: none;
 		padding: 3px 2px;
 		line-height: 1;
 	}
 
 	.play_description {
+		color: var(--body-text-color);
+		background-color: var(--pseq-bottom-bg-color);
 		border-left: none;
 		border-right: none;
-		border-top: 1px solid var(--table-col-header-bottom-border);
+		border-top: none;
 		border-bottom: none;
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;

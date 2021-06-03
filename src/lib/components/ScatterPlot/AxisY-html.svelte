@@ -23,6 +23,7 @@
 		: typeof ticks === 'function'
 		? ticks($yScale.ticks())
 		: $yScale.ticks(ticks);
+
 </script>
 
 <div class="axis y-axis" style="transform:translate(-{$padding.left}px, 0)">
@@ -55,9 +56,7 @@
 				class="text"
 				style="
 					top:{yTick - 3}px;
-					left:{isBandwidth
-					? $padding.left + xTick - 4
-					: 0}px;
+					left:{isBandwidth ? $padding.left + xTick - 4 : 0}px;
 					transform: translate({isBandwidth ? '-100%' : 0}, {isBandwidth
 					? -50 - Math.floor($yScale.bandwidth() / -2)
 					: '-100'}%);
@@ -89,10 +88,10 @@
 	}
 
 	.gridline {
-		border-top: 1px dashed #aaa;
+		border-top: 1px dashed var(--ploc-grid-color);
 	}
 	.tick-mark {
-		border-top: 1px solid #aaa;
+		border-top: 1px solid var(--ploc-grid-color);
 	}
 
 	.baseline.gridline {
@@ -100,6 +99,7 @@
 	}
 
 	.tick .text {
-		color: #666;
+		color: var(--ploc-axis-text-color);
 	}
+
 </style>

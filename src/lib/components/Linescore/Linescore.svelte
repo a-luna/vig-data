@@ -3,11 +3,12 @@
 
 	export let linescore: Linescore;
 	export let extra_innings: boolean = false;
-	export let linescore_complete: Linescore;
+	export let linescore_complete: Linescore = null;
 	export let expanded: boolean = false;
 	let displayColumns: Linescore;
 
-	$: displayColumns = extra_innings ? (expanded ? linescore_complete : linescore) : linescore;
+	$: displayColumns =
+		linescore_complete && extra_innings && expanded ? linescore_complete : linescore;
 
 </script>
 

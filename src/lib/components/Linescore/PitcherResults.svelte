@@ -3,7 +3,7 @@
 
 	export let wp: PlayerId;
 	export let lp: PlayerId;
-	export let sv: PlayerId;
+	export let sv: PlayerId = null;
 
 	function formatName(name: string): string {
 		if (name === '') return '';
@@ -13,10 +13,8 @@
 
 	const wp_name = formatName(wp.name);
 	const lp_name = formatName(lp.name);
-	let sv_name = '';
-	if (sv) {
-		sv_name = formatName(sv.name);
-	}
+	const sv_name = sv ? formatName(sv.name) : '';
+
 </script>
 
 <div class="pitcher-results">
@@ -64,4 +62,5 @@
 	a {
 		margin: 0 5px 0 0;
 	}
+
 </style>

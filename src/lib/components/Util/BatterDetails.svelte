@@ -4,6 +4,7 @@
 	export let batStats: BatStats;
 
 	$: batOrder = batStats.is_starter ? batStats.bat_order.toString() : '';
+
 </script>
 
 <div class="flex flex-row flex-nowrap justify-start items-baseline">
@@ -15,14 +16,13 @@
 <style lang="postcss">
 	.bat-order {
 		font-size: 0.8rem;
-		color: var(--dark-gray4);
 		width: 13px;
 		margin: 0 0 0 5px;
 	}
 
 	.def-position {
 		font-size: 0.7rem;
-		color: var(--black4);
 		margin: 3px 0 0 3px;
 	}
+
 </style>

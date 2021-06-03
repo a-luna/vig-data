@@ -15,18 +15,18 @@
 
 </script>
 
-<div class="flex flex-row flex-wrap justify-start items-start text-sm my-5">
-	<div class="flex flex-col flex-nowrap mr-2">
+<div class="flex flex-row flex-wrap justify-start items-start text-sm whitespace-nowrap my-3">
+	<div class="flex flex-col flex-nowrap flex-grow-0 m-3">
 		<span><strong>Start Time: </strong>{game_start_time}</span>
 		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>
 		<span><strong>Attendance: </strong>{attendance.toLocaleString(undefined)}</span>
 		<span><strong>Duration: </strong>{game_duration}</span>
 		<!-- <span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span> -->
 	</div>
-	<div class="flex flex-col flex-nowrap ml-2">
-		<div class="flex flex-col flex-nowrap justify-start">
+	<div class="flex flex-col flex-nowrap flex-grow m-3">
+		<div class="flex flex-row flex-nowrap justify-start">
 			<span class="mr-1"><strong>Umpires: </strong></span>
-			<div class="flex flex-col flex-nowrap justify-start">
+			<div class="flex flex-col flex-nowrap justify-start ml-2">
 				{#each umpires as { field_location, umpire_name }}
 					<span><strong>{field_location} </strong>{umpire_name}</span>
 				{/each}

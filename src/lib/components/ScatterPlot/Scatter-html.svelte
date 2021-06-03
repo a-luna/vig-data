@@ -38,7 +38,7 @@
 	.other {
 		position: absolute;
 		transform: translate(-50%, -50%);
-		background-color: transparent;
+		background-color: currentColor;
 		width: var(--ploc-data-point-radius);
 		height: var(--ploc-data-point-radius);
 	}
@@ -74,12 +74,13 @@
 	}
 
 	div[data-pitch-type]:not([data-pitch-number='0'])::before {
-		color: var(--black4);
+		color: var(--ploc-pitch-num-color);
 		position: absolute;
 		z-index: 0;
 		top: -5px;
 		left: 12px;
 		font-size: 0.75rem;
+		font-weight: var(--ploc-pitch-num-font-weight);
 		content: attr(data-pitch-number);
 	}
 
@@ -87,7 +88,7 @@
 		position: absolute;
 		z-index: 0;
 		background-color: transparent;
-		border: 2px solid var(--black4);
+		border: 2px solid var(--strike-zone-border-color);
 	}
 
 </style>

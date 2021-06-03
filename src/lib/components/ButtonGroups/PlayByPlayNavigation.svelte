@@ -8,75 +8,64 @@
 
 	export let goToPrevAtBatDisabled: boolean = false;
 	export let goToNextAtBatDisabled: boolean = false;
-	export let color: ThemeColor = 'indigo';
+	export let color: ThemeColor = 'secondary';
 	const dispatch = createEventDispatcher();
-
-	$: showBothButtons = !goToPrevAtBatDisabled && !goToNextAtBatDisabled;
 
 </script>
 
-<div
-	class="flex flex-row flex-nowrap"
-	class:justify-between={showBothButtons}
-	class:justify-start={goToNextAtBatDisabled}
-	class:justify-end={goToPrevAtBatDisabled}
->
-	{#if !goToPrevAtBatDisabled}
-		<div class="btn-group">
-			<button
-				id="first-at-bat"
-				type="button"
-				title="Go To First At Bat"
-				disabled={goToPrevAtBatDisabled}
-				class="btn btn-{color} flex-grow-0"
-				on:click={() => dispatch('goToFirstAtBat')}
-			>
-				<div class="icon">
-					<MdFirstPage />
-				</div>
-			</button>
-			<button
-				id="prev-at-bat"
-				type="button"
-				title="Go To Prev At Bat"
-				disabled={goToPrevAtBatDisabled}
-				class="btn btn-{color} flex-grow-0"
-				on:click={() => dispatch('goToPrevAtBat')}
-			>
-				<div class="icon">
-					<MdChevronLeft />
-				</div>
-			</button>
-		</div>
-	{/if}
-	{#if !goToNextAtBatDisabled}
-		<div class="btn-group">
-			<button
-				id="next-at-bat"
-				type="button"
-				title="Go To Next At Bat"
-				disabled={goToNextAtBatDisabled}
-				class="btn btn-{color} flex-grow-0"
-				on:click={() => dispatch('goToNextAtBat')}
-			>
-				<div class="icon">
-					<MdChevronRight />
-				</div>
-			</button>
-			<button
-				id="last-at-bat"
-				type="button"
-				title="Go To Last At Bat"
-				disabled={goToNextAtBatDisabled}
-				class="btn btn-{color} flex-grow-0"
-				on:click={() => dispatch('goToLastAtBat')}
-			>
-				<div class="icon">
-					<MdLastPage />
-				</div>
-			</button>
-		</div>
-	{/if}
+<div class="flex flex-row flex-nowrap justify-center">
+	<div class="btn-group">
+		<button
+			id="first-at-bat"
+			type="button"
+			title="Go To First At Bat"
+			disabled={goToPrevAtBatDisabled}
+			class="btn btn-{color} flex-grow-0"
+			on:click={() => dispatch('goToFirstAtBat')}
+		>
+			<div class="icon">
+				<MdFirstPage />
+			</div>
+		</button>
+		<button
+			id="prev-at-bat"
+			type="button"
+			title="Go To Prev At Bat"
+			disabled={goToPrevAtBatDisabled}
+			class="btn btn-{color} flex-grow-0"
+			on:click={() => dispatch('goToPrevAtBat')}
+		>
+			<div class="icon">
+				<MdChevronLeft />
+			</div>
+		</button>
+	</div>
+	<div class="btn-group">
+		<button
+			id="next-at-bat"
+			type="button"
+			title="Go To Next At Bat"
+			disabled={goToNextAtBatDisabled}
+			class="btn btn-{color} flex-grow-0"
+			on:click={() => dispatch('goToNextAtBat')}
+		>
+			<div class="icon">
+				<MdChevronRight />
+			</div>
+		</button>
+		<button
+			id="last-at-bat"
+			type="button"
+			title="Go To Last At Bat"
+			disabled={goToNextAtBatDisabled}
+			class="btn btn-{color} flex-grow-0"
+			on:click={() => dispatch('goToLastAtBat')}
+		>
+			<div class="icon">
+				<MdLastPage />
+			</div>
+		</button>
+	</div>
 </div>
 
 <style lang="postcss">
@@ -97,8 +86,9 @@
 
 	button:disabled,
 	button:disabled:hover {
-		cursor: not-allowed;
+		cursor: default;
 		background-color: var(--gray3);
+		border: 1px solid var(--gray3);
 	}
 
 </style>

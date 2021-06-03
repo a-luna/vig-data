@@ -21,14 +21,18 @@
 	<div class="at-bat-details-top">
 		<div class="at-bat-matchup">
 			<span class="flex flex-row flex-nowrap">
-				<strong>At Bat: </strong>
+				<span>Inning:</span>
+				<span class="ml-1">{getInning(selectedAtBat.inning_id)}</span>
+			</span>
+			<span class="flex flex-row flex-nowrap">
+				<span>At Bat:</span>
 				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}">
 					{selectedAtBat.batter_name}
 				</a>
 				<span class="batter-stance ml-1">({selectedAtBat.batter_stance})</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<strong>Pitching: </strong>
+				<span>Pitching:</span>
 				<a
 					class="player-name ml-1"
 					sveltekit:prefetch
@@ -41,19 +45,15 @@
 		</div>
 		<div class="at-bat-context">
 			<span class="flex flex-row flex-nowrap">
-				<strong>Inning: </strong>
-				<span class="ml-1">{getInning(selectedAtBat.inning_id)}</span>
-			</span>
-			<span class="flex flex-row flex-nowrap">
-				<strong>Score: </strong>
+				<span>Score:</span>
 				<span class="ml-1">{selectedAtBat.score}</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<strong>Outs: </strong>
+				<span>Outs:</span>
 				<span class="ml-1">{selectedAtBat.outs_before_play}</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<strong>ROB: </strong>
+				<span>ROB:</span>
 				<span class="ml-1">{selectedAtBat.runners_on_base}</span>
 			</span>
 		</div>
@@ -64,28 +64,38 @@
 	.at-bat-details-top {
 		flex: 0;
 		display: flex;
-		flex-flow: column nowrap;
-		justify-content: flex-start;
+		flex-flow: row nowrap;
+		justify-content: space-around;
 
-		background-color: var(--table-col-header-bg-color);
+		color: var(--body-text-color);
+		background-color: var(--pseq-top-bg-color);
 
 		border-left: none;
 		border-right: none;
 		border-top: none;
-		border-bottom: 1px solid var(--table-col-header-bottom-border);
+		border-bottom: none;
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 	}
 
 	.at-bat-matchup,
 	.at-bat-context {
-		flex: 1 0;
+		flex: 0;
 		display: flex;
-		flex-flow: row nowrap;
-		justify-content: center;
+		flex-flow: column nowrap;
+		justify-content: flex-start;
+		align-items: flex-start;
 
 		padding: 3px 5px;
-		line-height: 1.2;
+		line-height: 1.4;
+	}
+
+	.at-bat-matchup > span > span:first-child {
+		width: 58px;
+	}
+
+	.at-bat-context > span > span:first-child {
+		width: 43px;
 	}
 
 	.at-bat-matchup > span,

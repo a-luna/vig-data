@@ -9,7 +9,7 @@
 {#if stringArray.length == 1}
 	<div class="flex justify-center flex-col flex-nowrap">
 		{#each stringArray as str}
-			<span class="at-bat-result whitespace-normal">{str}</span>
+			<span class="at-bat-result leading-normal whitespace-normal">{str}</span>
 		{/each}
 	</div>
 {:else if stringArray.length > 1}

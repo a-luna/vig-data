@@ -17,6 +17,7 @@
 	import {
 		addStrikeZoneCornersToPfxData,
 		createPitchDescriptionList,
+		getSpinnerColor,
 		identifyPfxDataBeyondBoundary
 	} from '$lib/util';
 	import { createEventDispatcher, onMount } from 'svelte';
@@ -42,8 +43,8 @@
 	let atBatIdToAtBatOrder: Record<string, number> = {};
 	let goToPrevAtBatDisabled: boolean;
 	let goToNextAtBatDisabled: boolean;
-	let success: boolean;
 	let getPfxForAtBatReqeust: Promise<ApiResponse<PitchFx[]>>;
+	let getPfxForAtBatResult: ApiResponse<PitchFx[]>;
 	const dispatch = createEventDispatcher();
 
 	$: if (pfxAtBatIds) {
@@ -58,6 +59,23 @@
 
 	onMount(() => dispatch('readyForData'));
 
+	async function getPfxForAtBat(): Promise<ApiResponse<PitchFx[]>> {
+		selectedAtBat = atBatMap[selectedAtBatId];
+		getPfxForAtBatResult = await getPitchFxForAtBat(selectedAtBatId);
+		if (!getPfxForAtBatResult.success) {
+			return getPfxForAtBatResult;
+		}
+		selectedAtBatPfx = addStrikeZoneCornersToPfxData(
+			identifyPfxDataBeyondBoundary(getPfxForAtBatResult.value)
+		);
+		pfxCache[selectedAtBatId] = selectedAtBatPfx;
+		pitchSequence = createPitchDescriptionList(
+			selectedAtBat.pitch_sequence_description,
+			selectedAtBatPfx
+		);
+		return getPfxForAtBatResult;
+	}
+
 	export function init(pbp: AtBatDetails[], box: Boxscore) {
 		all_pbp = pbp;
 		boxscore = box;
@@ -70,39 +88,6 @@
 		createPlayerTeamMap();
 		createAtBatOrderMaps();
 		viewFirstAtBat();
-	}
-
-	async function getPfxForAtBat(): Promise<ApiResponse<PitchFx[]>> {
-		selectedAtBat = atBatMap[selectedAtBatId];
-		const getPfxResult = await getPitchFxForAtBat(selectedAtBatId);
-		success = getPfxResult.success;
-		if (!success) {
-			return getPfxResult;
-		}
-		selectedAtBatPfx = identifyPfxDataBeyondBoundary(getPfxResult.value);
-		selectedAtBatPfx = addStrikeZoneCornersToPfxData(selectedAtBatPfx);
-		pfxCache[selectedAtBatId] = selectedAtBatPfx;
-		pitchSequence = createPitchDescriptionList(
-			selectedAtBat.pitch_sequence_description,
-			selectedAtBatPfx
-		);
-		return getPfxResult;
-	}
-
-	function createPlayerTeamMap() {
-		playerTeamMap = {};
-		boxscore.away_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.away_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.home_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id)
-		);
-		boxscore.home_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id)
-		);
 	}
 
 	function createAtBatMap() {
@@ -143,6 +128,22 @@
 				(inningAtBatMap[inn] = all_pbp
 					.filter((pbp) => pbp.inning_id === inn)
 					.map((pbp) => pbp.at_bat_id))
+		);
+	}
+
+	function createPlayerTeamMap() {
+		playerTeamMap = {};
+		boxscore.away_team.batting.map(
+			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id)
+		);
+		boxscore.away_team.pitching.map(
+			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id)
+		);
+		boxscore.home_team.batting.map(
+			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id)
+		);
+		boxscore.home_team.pitching.map(
+			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id)
 		);
 	}
 
@@ -199,7 +200,7 @@
 				<AtBatContext {selectedAtBat} />
 				{#if getPfxForAtBatReqeust}
 					{#await getPfxForAtBatReqeust}
-						<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+						<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
 					{:then result}
 						{#if result.success}
 							<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
@@ -213,6 +214,7 @@
 			</div>
 			<div class="pbp-nav flex-grow-0">
 				<PlayByPlayNavigation
+					color={'secondary'}
 					bind:goToPrevAtBatDisabled
 					bind:goToNextAtBatDisabled
 					on:goToFirstAtBat={viewFirstAtBat}
@@ -225,7 +227,7 @@
 		<div class="pitch-location flex-grow-0">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
-					<div class="pending"><SyncLoader size="40" color="#5000e6" /></div>
+					<div class="pending" />
 				{:then result}
 					{#if result.success}
 						<PitchLocationChart bind:pfx={selectedAtBatPfx} />
@@ -257,7 +259,7 @@
 		max-height: max-content;
 		text-align: left;
 		border-radius: 4px;
-		border: 1px solid var(--table-col-header-bottom-border);
+		border: 1px solid var(--pseq-outer-border-color);
 	}
 
 	.pbp-nav {
@@ -270,10 +272,11 @@
 	}
 
 	.pitch-location {
+		background-color: var(--ploc-chart-bg-color);
 		border-radius: 4px;
-		border: 1px solid var(--table-col-header-bottom-border);
-		width: var(--at-bat-ploc-chart-size);
-		height: var(--at-bat-ploc-chart-size);
+		border: 1px solid var(--ploc-outer-border-color);
+		width: var(--ploc-chart-size);
+		height: var(--ploc-chart-size);
 		margin: 10px 5px;
 	}
 
@@ -292,8 +295,8 @@
 
 	@media screen and (min-width: 550px) {
 		.at-bat-details {
-			flex: 1 0 calc(var(--at-bat-ploc-chart-size) - 43px);
-			max-height: calc(var(--at-bat-ploc-chart-size) - 43px);
+			flex: 1 0 calc(var(--ploc-chart-size) - 43px);
+			max-height: calc(var(--ploc-chart-size) - 43px);
 		}
 
 		.at-bat-viewer {
