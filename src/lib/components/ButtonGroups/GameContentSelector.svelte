@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { contentShown } from '$lib/stores';
+	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
-	export let color: ThemeColor = 'indigo';
+	export let color: ThemeColor = 'secondary';
 	const dispatch = createEventDispatcher();
 
-	$: pbpShown = $contentShown === 'pbp';
-	$: boxShown = $contentShown === 'box';
-	$: chartsShown = $contentShown === 'charts';
+	$: pbpShown = $gameContentShown === 'pbp';
+	$: boxShown = $gameContentShown === 'box';
+	$: chartsShown = $gameContentShown === 'charts';
 
-	function changeVisibleContent(showContent: 'pbp' | 'box' | 'charts') {
-		$contentShown = showContent;
-		dispatch('showGameContent', showContent);
+	function changeContent(showContent: 'pbp' | 'box' | 'charts') {
+		$gameContentShown = showContent;
+		dispatch('changed', showContent);
 	}
 
 </script>
@@ -21,16 +21,16 @@
 	<button
 		type="button"
 		class={boxShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeVisibleContent('box')}>Boxscore</button
+		on:click={() => changeContent('box')}>Boxscore</button
 	>
 	<button
 		type="button"
 		class={pbpShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeVisibleContent('pbp')}>Play-By-Play</button
+		on:click={() => changeContent('pbp')}>Play-By-Play</button
 	>
 	<button
 		type="button"
 		class={chartsShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeVisibleContent('charts')}>Charts/Graphs</button
+		on:click={() => changeContent('charts')}>Charts/Graphs</button
 	>
 </div>
