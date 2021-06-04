@@ -71,42 +71,38 @@
 		<span class="text-base font-normal ml-2">{statLine}</span>
 	</div>
 
-	<div slot="content" class="table-wrapper">
-		<table>
-			<thead>
-				<tr class="col-header">
-					<th>Inn</th>
-					<th>Outs</th>
-					<th>RoB</th>
-					<th>Play Description</th>
-					<th>Pitcher</th>
-					<th>Pit Seq</th>
-				</tr>
-			</thead>
-			<tbody>
+	<div slot="content" class="responsive">
+		<div class="resp-table text-sm">
+			<div class="resp-table-header col-header">
+				<div class="table-header-cell">Inn</div>
+				<div class="num table-header-cell">Outs</div>
+				<div class="table-header-cell">RoB</div>
+				<div class="table-header-cell">Play Description</div>
+				<div class="table-header-cell">Pitcher</div>
+				<div class="table-header-cell">Pit Seq</div>
+			</div>
+			<div class="resp-table-body">
 				{#each atBatResults as at_bat}
-					<tr>
-						<td class="text-center">
-							<InningLabel inning={at_bat.inning} />
-						</td>
-						<td class="text-center">{at_bat.outs}</td>
-						<td class="text-center">{at_bat.runners_on_base}</td>
-						<td>
+					<div class="resp-table-row">
+						<div class="table-body-cell text-center"><InningLabel inning={at_bat.inning} /></div>
+						<div class="table-body-cell text-center">{at_bat.outs}</div>
+						<div class="table-body-cell text-center">{at_bat.runners_on_base}</div>
+						<div class="table-body-cell">
 							<FlexStrings stringArray={formatAtBatResult(at_bat.play_description)} />
-						</td>
-						<td>{at_bat.pitcher_name}</td>
-						<td
-							><a
+						</div>
+						<div class="table-body-cell">{at_bat.pitcher_name}</div>
+						<div class="table-body-cell">
+							<a
 								href="#"
 								class="at-bat-link"
 								title="View PitchFX Data for At Bat"
 								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</a
-							></td
-						>
-					</tr>
+							>
+						</div>
+					</div>
 				{/each}
-			</tbody>
-		</table>
+			</div>
+		</div>
 	</div>
 </ModalContainer>
 
@@ -115,7 +111,7 @@
 		@apply flex flex-row justify-start;
 	}
 
-	td {
+	.table-body-cell {
 		vertical-align: middle;
 	}
 

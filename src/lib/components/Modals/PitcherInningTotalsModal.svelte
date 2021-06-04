@@ -61,6 +61,7 @@
 		dispatch('viewPitchFxforPitcherClicked', mlb_id);
 		modalContainer.toggleModal();
 	}
+
 </script>
 
 <ModalContainer bind:this={modalContainer}>
@@ -69,37 +70,35 @@
 		<span class="text-base font-normal">{statLine}</span>
 	</div>
 
-	<div slot="content" class="table-wrapper">
-		<table>
-			<thead>
-				<tr class="col-header">
-					<th>Inn</th>
-					<th>Out</th>
-					<th>H</th>
-					<th>R</th>
-					<th>BB</th>
-					<th>SO</th>
-					<th>BF</th>
-					<th>Pit</th>
-					<th>Str</th>
-				</tr>
-			</thead>
-			<tbody>
+	<div slot="content" class="responsive">
+		<div class="resp-table text-sm">
+			<div class="resp-table-header col-header">
+				<div class="table-header-cell">Inn</div>
+				<div class="num table-header-cell">Out</div>
+				<div class="num table-header-cell">H</div>
+				<div class="num table-header-cell">R</div>
+				<div class="num table-header-cell">BB</div>
+				<div class="num table-header-cell">SO</div>
+				<div class="num table-header-cell">BF</div>
+				<div class="num table-header-cell">Pit</div>
+				<div class="num table-header-cell">Str</div>
+			</div>
+			<div class="resp-table-body">
 				{#each Object.keys(inningTotalsMap) as inning}
-					<tr class="text-right">
-						<td>{inning}</td>
-						<td>{inningTotalsMap[inning].outs}</td>
-						<td>{inningTotalsMap[inning].hits}</td>
-						<td>{inningTotalsMap[inning].runs}</td>
-						<td>{inningTotalsMap[inning].bb}</td>
-						<td>{inningTotalsMap[inning].so}</td>
-						<td>{inningTotalsMap[inning].bf}</td>
-						<td>{inningTotalsMap[inning].pitch_count}</td>
-						<td>{inningTotalsMap[inning].strikes}</td>
-					</tr>
+					<div class="resp-table-row">
+						<div class="table-body-cell text-center">{inning}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].outs}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].hits}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].runs}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].bb}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].so}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].bf}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].pitch_count}</div>
+						<div class="table-body-cell num">{inningTotalsMap[inning].strikes}</div>
+					</div>
 				{/each}
-			</tbody>
-		</table>
+			</div>
+		</div>
 	</div>
 </ModalContainer>
 
@@ -108,7 +107,8 @@
 		@apply flex flex-col justify-start flex-grow;
 	}
 
-	td {
+	.table-body-cell {
 		vertical-align: middle;
 	}
+
 </style>
