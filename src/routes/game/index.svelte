@@ -109,7 +109,7 @@
 <GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
 {#if getAllGameDataRequest}
 	{#await getAllGameDataRequest}
-		<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
+		<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
 	{:then result}
 		{#if result.success}
 			<Boxscore

@@ -32,7 +32,7 @@
 	<div class="season-standings flex flex-row flex-wrap flex-auto justify-center mb-4 mt-0 mx-auto">
 		{#if getStandingsRequest}
 			{#await getStandingsRequest}
-				<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
+				<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
 			{:then result}
 				{#if result.success}
 					<SeasonStandingsTable bind:seasonStandings />

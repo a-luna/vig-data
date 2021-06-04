@@ -200,7 +200,7 @@
 				<AtBatContext {selectedAtBat} />
 				{#if getPfxForAtBatReqeust}
 					{#await getPfxForAtBatReqeust}
-						<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
+						<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
 					{:then result}
 						{#if result.success}
 							<AtBatPitchSequence {pitchSequence} {selectedAtBat} />

@@ -49,7 +49,7 @@
 	</div>
 	{#if getPitchStatsRequest}
 		{#await getPitchStatsRequest}
-			<div class="pending"><SyncLoader size="40" color={getSpinnerColor()} /></div>
+			<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if getPitchStatsResult.success}
 				<TeamPitchingStatsTable bind:teamPitchStats />
