@@ -13,14 +13,14 @@
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
 	<div class="modal-overlay" on:click={() => toggleModal()} />
 	<div class="modal-container">
-		<div class="modal-title-bar">
-			<CloseModalButton on:click={() => toggleModal()} />
-		</div>
 		<div class="modal-content">
 			<div class="modal-heading">
 				<slot name="heading" />
 			</div>
 			<slot name="content" />
+		</div>
+		<div class="modal-buttons">
+			<button class="btn btn-secondary" on:click={() => toggleModal()}>Close</button>
 		</div>
 	</div>
 </div>
@@ -41,14 +41,10 @@
 	}
 
 	.modal-container {
-		@apply flex flex-col border-black border-solid border-t border-r border-b border-l w-auto mx-auto rounded shadow-lg overflow-y-auto z-50;
+		@apply flex flex-col w-auto mx-auto rounded shadow-lg overflow-y-auto z-50 p-3;
+		border: 1px solid var(--body-text-color);
 		max-width: 70%;
 		background-color: var(--page-bg-color);
-	}
-
-	.modal-title-bar {
-		@apply flex flex-row justify-end p-1;
-		background-color: var(--modal-title-bar-bg-color);
 	}
 
 	.modal-heading {
@@ -56,11 +52,19 @@
 	}
 
 	.modal-content {
-		@apply pt-2 pb-3 px-3 text-left w-auto;
+		@apply text-left w-auto mb-3;
 		overflow-x: auto;
 		overflow-y: hidden;
 		white-space: nowrap;
 		border-radius: 4px;
+	}
+
+	.modal-buttons {
+		@apply flex flex-row justify-end;
+	}
+
+	button {
+		@apply text-base leading-normal py-1.5 px-3 m-0;
 	}
 
 </style>
