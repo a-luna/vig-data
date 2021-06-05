@@ -9,7 +9,7 @@
 
 <form
 	method="GET"
-	class="w-full ml-4"
+	class="w-full mt-1 sm:mt-0 sm:ml-4"
 	on:submit|preventDefault={() => dispatch('searchRequest', query)}
 >
 	<div class="relative w-full">
