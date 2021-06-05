@@ -41,6 +41,7 @@
 		background-color: currentColor;
 		width: var(--ploc-data-point-radius);
 		height: var(--ploc-data-point-radius);
+		z-index: 15;
 	}
 
 	.circle,
@@ -76,12 +77,16 @@
 	div[data-pitch-type]:not([data-pitch-number='0'])::before {
 		color: var(--ploc-pitch-num-color);
 		position: absolute;
-		z-index: 0;
+		z-index: 15;
 		top: -5px;
 		left: 12px;
 		font-size: 0.75rem;
 		font-weight: var(--ploc-pitch-num-font-weight);
 		content: attr(data-pitch-number);
+	}
+
+	:global(.layercake-layout-html) {
+		z-index: 10;
 	}
 
 	:global(.strike-zone) {
