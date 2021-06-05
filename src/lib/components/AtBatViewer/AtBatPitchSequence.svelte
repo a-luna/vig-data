@@ -143,7 +143,7 @@
 	}
 
 	.icon-small {
-		color: var(--link-color);
+		color: var(--sec-color);
 		width: 12px;
 		height: 12px;
 		margin: 0 2px 0 0;
