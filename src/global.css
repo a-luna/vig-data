@@ -271,7 +271,6 @@ body.light-mode {
 	--nav-button-bg-color-hov: var(--blue3);
 	--nav-button-text-color: var(--white4);
 	--nav-button-text-color-hov: var(--white4);
-	--nav-button-border-color: var(--blue1);
 
 	--nav-link-bg-color: var(--blue2);
 	--nav-link-bg-color-hov: var(--blue3);
@@ -325,7 +324,7 @@ body.light-mode {
 	--ploc-pitch-num-color: var(--black4);
 	--ploc-pitch-num-font-weight: 700;
 	--ploc-outer-border-color: var(--black4);
-	--strike-zone-border-color: var(--blue-gray1);
+	--strike-zone-border-color: var(--dark-gray1);
 }
 
 body.dark-mode {
@@ -360,7 +359,6 @@ body.dark-mode {
 	--nav-button-bg-color-hov: var(--rich-black3);
 	--nav-button-text-color: var(--sec-color);
 	--nav-button-text-color-hov: var(--sec-color);
-	--nav-button-border-color: var(--pri-color-active);
 
 	--search-icon-color: var(--light-gray4);
 	--search-bg-color: var(--black3);
@@ -409,12 +407,12 @@ body.dark-mode {
 	--pseq-legend-text-color: var(--white1);
 	--pseq-outer-border-color: var(--indigo1);
 	--ploc-chart-bg-color: var(--rich-black1);
-	--ploc-grid-color: var(--gray4);
+	--ploc-grid-color: var(--dark-gray4);
 	--ploc-axis-text-color: var(--white2);
-	--ploc-pitch-num-color: var(--white4);
+	--ploc-pitch-num-color: var(--white1);
 	--ploc-pitch-num-font-weight: 400;
 	--ploc-outer-border-color: var(--indigo1);
-	--strike-zone-border-color: var(--yellow1);
+	--strike-zone-border-color: var(--gray4);
 }
 
 a {
@@ -496,6 +494,7 @@ label {
 .pending,
 .error {
 	margin: auto;
+	color: var(--sec-color);
 }
 
 .align-left {
@@ -573,6 +572,10 @@ label {
 	display: table-cell;
 	border-top: none;
 	border-left: 1px solid var(--table-inner-border-vert-color);
+}
+
+.resp-table .num {
+	text-align: right;
 }
 
 .table-header-cell,
@@ -767,8 +770,17 @@ tbody tr:last-child td:last-child {
 	border: none;
 }
 
+thead th,
 tbody th {
 	border-top: 1px solid var(--table-outer-border-color);
+}
+
+thead th:first-child {
+	border-left: 1px solid var(--table-outer-border-color);
+}
+
+thead th:last-child {
+	border-right: 1px solid var(--table-outer-border-color);
 }
 
 tfoot td {
