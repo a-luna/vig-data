@@ -1,8 +1,8 @@
-import type { SeasonSettings, SeasonSettingsStore, League, SeasonContent } from '$lib/types';
 import { writable } from 'svelte/store';
+import type { SeasonSettings, SeasonSettingsStore, League, SeasonContent } from '$lib/types';
 
 function createSeasonSettingsStore(): SeasonSettingsStore {
-	const { subscribe, update } = writable<SeasonSettings>({ league: 'both', show: 'scoreboard' });
+	const { subscribe, update } = writable<SeasonSettings>({ league: 'both', show: 'standings' });
 
 	return {
 		subscribe,
