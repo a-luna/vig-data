@@ -12,7 +12,7 @@
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { getAllPlayByPlayData, getBoxscore } from '$lib/api/game';
-	import { getDateFromGameId, getSpinnerColor } from '$lib/util';
+	import { getDateFromGameId } from '$lib/util';
 	import { onMount } from 'svelte';
 	import { SyncLoader } from '../../../node_modules/svelte-loading-spinners/src';
 	import type { GameContent } from '$lib/types';

@@ -31,10 +31,6 @@ export const getCSSPropNumberOfPixels = (element: HTMLElement, propName: string)
 	return match ? parseInt(match.groups.pixels) : 0;
 };
 
-export function getSpinnerColor(): string {
-	return getCSSPropValue(document.documentElement, '--spinner-color');
-}
-
 export function getDateFromString(date_str: string): Result<Date> {
 	const matchFormat1 = GAME_DATE_REGEX.exec(date_str);
 	const matchFormat2 = SEASON_DATE_REGEX.exec(date_str);

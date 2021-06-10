@@ -4,7 +4,6 @@
 	import SeasonStandingsTable from '$lib/components/Standings/SeasonStandingsTable.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
 	import { selectedSeason } from '$lib/stores/singleValueStores';
-	import { getSpinnerColor } from '$lib/util';
 
 	let seasonStandings: SeasonData;
 	let getStandingsRequest: Promise<ApiResponse<SeasonData>>;

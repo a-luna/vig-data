@@ -13,7 +13,6 @@
 	import type { BatOrder, BatStatSplit, DefPositionNumber } from '$lib/types';
 	import { teamBatStat as teamBatStatFilter } from '$lib/stores/teamBatStatFilter';
 	import { selectedSeason } from '$lib/stores/singleValueStores';
-	import { getSpinnerColor } from '$lib/util';
 
 	let teamBatStats: TeamBatStats[];
 	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;

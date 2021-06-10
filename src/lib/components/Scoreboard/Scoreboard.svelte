@@ -6,7 +6,6 @@
 		formatDateString,
 		getDateFromString,
 		getSeasonDates,
-		getSpinnerColor,
 		getStringFromDate
 	} from '$lib/util';
 	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';

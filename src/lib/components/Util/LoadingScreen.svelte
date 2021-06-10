@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { getSpinnerColor } from '$lib/util';
-
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let loading: boolean = false;

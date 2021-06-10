@@ -11,7 +11,6 @@
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
 	import { teamPitchStat as teamPitchStatFilter } from '$lib/stores/teamPitchStatFilter';
 	import { selectedSeason } from '$lib/stores/singleValueStores';
-	import { getSpinnerColor } from '$lib/util';
 
 	let teamPitchStats: TeamPitchStats[];
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
