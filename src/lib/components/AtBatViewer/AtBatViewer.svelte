@@ -17,7 +17,8 @@
 	import {
 		addStrikeZoneCornersToPfxData,
 		createPitchDescriptionList,
-		getSpinnerColor,
+		getAngleOfPitchLocation,
+		getToolTipPositionForPfxData,
 		identifyPfxDataBeyondBoundary
 	} from '$lib/util';
 	import { createEventDispatcher, onMount } from 'svelte';
@@ -191,12 +192,19 @@
 		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[pfxAtBatIds.length - 1]]);
 	}
 
+	$: if (selectedAtBatPfx) {
+		const ttLocations = selectedAtBatPfx
+			.filter((pfx) => pfx.basic_type !== 'Z')
+			.map((pfx) => getToolTipPositionForPfxData(pfx.px, pfx.pz));
+		console.log(ttLocations);
+	}
+
 </script>
 
-<div class:not-shown={!shown} class="flex flex-col flex-nowrap justify-start items-center w-full">
+<div class:not-shown={!shown} class="flex flex-col items-center justify-start w-full flex-nowrap">
 	<div class="at-bat-viewer">
-		<div class="at-bat-details-wrapper flex flex-col flex-nowrap justify-end">
-			<div class="at-bat-details flex-grow-0">
+		<div class="flex flex-col justify-end at-bat-details-wrapper flex-nowrap">
+			<div class="flex-grow-0 at-bat-details">
 				<AtBatContext {selectedAtBat} />
 				{#if getPfxForAtBatReqeust}
 					{#await getPfxForAtBatReqeust}
@@ -212,7 +220,7 @@
 					{/await}
 				{/if}
 			</div>
-			<div class="pbp-nav flex-grow-0">
+			<div class="flex-grow-0 pbp-nav">
 				<PlayByPlayNavigation
 					color={'secondary'}
 					bind:goToPrevAtBatDisabled
@@ -224,7 +232,7 @@
 				/>
 			</div>
 		</div>
-		<div class="pitch-location flex-grow-0">
+		<div class="flex-grow-0 pitch-location">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
 					<div class="pending" />
