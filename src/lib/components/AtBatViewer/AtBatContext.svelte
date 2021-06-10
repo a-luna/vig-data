@@ -21,39 +21,39 @@
 	<div class="at-bat-details-top">
 		<div class="at-bat-matchup">
 			<span class="flex flex-row flex-nowrap">
-				<span>Inning:</span>
+				<span class="val-type">Inning:</span>
 				<span class="ml-1">{getInning(selectedAtBat.inning_id)}</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<span>At Bat:</span>
-				<a class="player-name ml-1" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}">
+				<span class="val-type">At Bat:</span>
+				<a class="ml-1 player-name" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}">
 					{selectedAtBat.batter_name}
 				</a>
-				<span class="batter-stance ml-1">({selectedAtBat.batter_stance})</span>
+				<span class="ml-1 batter-stance">({selectedAtBat.batter_stance})</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<span>Pitching:</span>
+				<span class="val-type">Pitching:</span>
 				<a
-					class="player-name ml-1"
+					class="ml-1 player-name"
 					sveltekit:prefetch
 					href="/player/{selectedAtBat.pitcher_id_mlb}"
 				>
 					{selectedAtBat.pitcher_name}
 				</a>
-				<span class="pitcher-throws ml-1">({selectedAtBat.pitcher_throws})</span>
+				<span class="ml-1 pitcher-throws">({selectedAtBat.pitcher_throws})</span>
 			</span>
 		</div>
 		<div class="at-bat-context">
 			<span class="flex flex-row flex-nowrap">
-				<span>Score:</span>
+				<span class="val-type">Score:</span>
 				<span class="ml-1">{selectedAtBat.score}</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<span>Outs:</span>
+				<span class="val-type">Outs:</span>
 				<span class="ml-1">{selectedAtBat.outs_before_play}</span>
 			</span>
 			<span class="flex flex-row flex-nowrap">
-				<span>ROB:</span>
+				<span class="val-type">ROB:</span>
 				<span class="ml-1">{selectedAtBat.runners_on_base}</span>
 			</span>
 		</div>
@@ -73,7 +73,7 @@
 		border-left: none;
 		border-right: none;
 		border-top: none;
-		border-bottom: none;
+		border-bottom: 1px solid var(--pseq-outer-border-color);
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 	}
@@ -107,6 +107,10 @@
 	.at-bat-matchup > span:last-child,
 	.at-bat-context > span:last-child {
 		margin: 0;
+	}
+
+	.val-type {
+		font-weight: 700;
 	}
 
 </style>

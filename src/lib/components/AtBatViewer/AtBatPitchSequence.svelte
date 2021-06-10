@@ -50,7 +50,7 @@
 				{#each pitchSequence as { number, description, type, blocked_by_c, out_of_boundary, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
-							<td colspan="4" class="non-pitch-event text-xs italic">
+							<td colspan="4" class="text-xs italic non-pitch-event">
 								{description}
 							</td>
 						{:else}
@@ -59,17 +59,17 @@
 								class="pitch-description"
 								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
 							>
-								<div class="flex flex-row flex-nowrap justify-start">
+								<div class="flex flex-row justify-start flex-nowrap">
 									<span class="ml-1">
 										{description}
 									</span>
 									{#if blocked_by_c}
-										<div class="icon ml-1">
+										<div class="ml-1 icon">
 											<MdBlock />
 										</div>
 									{/if}
 									{#if out_of_boundary}
-										<div class="icon ml-1">
+										<div class="ml-1 icon">
 											<MdErrorOutline />
 										</div>
 									{/if}
@@ -94,7 +94,7 @@
 		</table>
 	</div>
 	{#if anyPitchBlocked}
-		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-3">
+		<div class="flex flex-row items-baseline justify-start p-3 legend flex-nowrap">
 			<div class="icon-small">
 				<MdBlock />
 			</div>
@@ -102,14 +102,14 @@
 		</div>
 	{/if}
 	{#if anyPitchOutOfBoundary}
-		<div class="legend flex flex-row flex-nowrap justify-start items-baseline p-3">
+		<div class="flex flex-row items-baseline justify-start p-3 legend flex-nowrap">
 			<div class="icon-small">
 				<MdErrorOutline />
 			</div>
 			<span class="text-xs italic">Pitch location is beyond the boundaries of this graph</span>
 		</div>
 	{/if}
-	<div class="play_description text-center text-sm">
+	<div class="text-sm text-center play_description">
 		<FlexStrings
 			stringArray={formatAtBatResult(selectedAtBat.play_description)}
 			runsScored={formatRunsOutsResult(selectedAtBat.runs_outs_result)}
@@ -183,7 +183,7 @@
 		background-color: var(--pseq-bottom-bg-color);
 		border-left: none;
 		border-right: none;
-		border-top: none;
+		border-top: 1px solid var(--pseq-outer-border-color);
 		border-bottom: none;
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
