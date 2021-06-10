@@ -48,9 +48,9 @@
 
 	$: console.log(seasonSelected);
 
-  function changePlayerDataShown(year: number) {
-    seasonSelected = year === 0 ? 'career' : year
-  }
+	function changePlayerDataShown(year: number) {
+		seasonSelected = year === 0 ? 'career' : year;
+	}
 
 	function getPercentiles(batStance: 'both' | 'rhb' | 'lhb', pitchType: PitchType) {
 		const pfxPercentiles =
@@ -74,7 +74,7 @@
 
 </script>
 
-<PlayerSeasonSelector {seasons} on:changed={(event) => (changePlayerDataShown(event.detail))} />
+<PlayerSeasonSelector {seasons} on:changed={(event) => changePlayerDataShown(event.detail)} />
 <div class="flex flex-row justify-center responsive flex-nowrap percentiles-wrapper">
 	<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 		<h4>Both</h4>

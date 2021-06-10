@@ -5,8 +5,7 @@ import type { MlbSeason } from './api/types';
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
 	public toString = (): string => `hsl(${this.hue}, ${this.saturation}%, ${this.lightness}%)`;
-	public changeHue = (newHue: number): HslColor =>
-		new HslColor(newHue, this.saturation, this.lightness);
+	public changeHue = (newHue: number): HslColor => new HslColor(newHue, this.saturation, this.lightness);
 	public adjustSaturation = (dim: number): HslColor =>
 		new HslColor(this.hue, Math.floor(this.saturation * dim), this.lightness);
 	public adjustLightness = (dim: number): HslColor =>
@@ -14,11 +13,7 @@ export class HslColor {
 	public static fromString = (hsl_color: string): HslColor => {
 		const match = HSL_COLOR_REGEX.exec(hsl_color);
 		return match
-			? new HslColor(
-					parseInt(match.groups.hue),
-					parseInt(match.groups.saturation),
-					parseInt(match.groups.lightness)
-			  )
+			? new HslColor(parseInt(match.groups.hue), parseInt(match.groups.saturation), parseInt(match.groups.lightness))
 			: new HslColor(0, 0, 0);
 	};
 }

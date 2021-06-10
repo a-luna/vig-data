@@ -30,15 +30,9 @@ export function getPitchTypeAbbrevsForCareerPfxMetricsByYear(
 ): CareerPfxPitchingMetricsWithPercentilesByYear {
 	const { both, lhb, rhb } = careerPfxByYear;
 	let updatedCareerPfxByYear = {} as CareerPfxPitchingMetricsWithPercentilesByYear;
-	updatedCareerPfxByYear[
-		'both'
-	] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(both);
-	updatedCareerPfxByYear['lhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(
-		lhb
-	);
-	updatedCareerPfxByYear['rhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(
-		rhb
-	);
+	updatedCareerPfxByYear['both'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(both);
+	updatedCareerPfxByYear['lhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(lhb);
+	updatedCareerPfxByYear['rhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(rhb);
 	return updatedCareerPfxByYear;
 }
 
@@ -53,9 +47,10 @@ function updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(
 	};
 	for (const [year, seasonMetrics] of Object.entries(metrics)) {
 		const { pitch_type_metrics, ...pfxMetricsCollection } = seasonMetrics;
-		updatedPfxPitchingMetricsWithPercentilesByYear['metrics'][
-			year
-		] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(pfxMetricsCollection, pitch_type_metrics);
+		updatedPfxPitchingMetricsWithPercentilesByYear['metrics'][year] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(
+			pfxMetricsCollection,
+			pitch_type_metrics
+		);
 	}
 
 	updatedPfxPitchingMetricsWithPercentilesByYear['percentiles'] = {} as {
@@ -86,12 +81,13 @@ function updatePfxPitchingMetricsWithPercentilesWithPitchTypeAbbrevs(
 	let updatedPfxPitchingMetricsWithPercentiles = {} as PfxPitchingMetricsWithPercentiles;
 	const { metrics, percentiles } = pfxMetricsWithPercentiles;
 	const { pitch_type_metrics, ...pfxMetricsCollection } = metrics;
-	updatedPfxPitchingMetricsWithPercentiles[
-		'metrics'
-	] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(pfxMetricsCollection, pitch_type_metrics);
-	updatedPfxPitchingMetricsWithPercentiles[
-		'percentiles'
-	] = updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(percentiles);
+	updatedPfxPitchingMetricsWithPercentiles['metrics'] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(
+		pfxMetricsCollection,
+		pitch_type_metrics
+	);
+	updatedPfxPitchingMetricsWithPercentiles['percentiles'] = updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(
+		percentiles
+	);
 	return updatedPfxPitchingMetricsWithPercentiles;
 }
 

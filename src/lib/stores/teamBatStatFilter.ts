@@ -1,10 +1,4 @@
-import type {
-	BatOrder,
-	TeamBatStatFilter,
-	TeamBatStatFilterStore,
-	BatStatSplit,
-	DefPositionNumber
-} from '$lib/types';
+import type { BatOrder, TeamBatStatFilter, TeamBatStatFilterStore, BatStatSplit, DefPositionNumber } from '$lib/types';
 import { writable } from 'svelte/store';
 
 function createTeamBatStatFilterStore(): TeamBatStatFilterStore {
@@ -17,10 +11,8 @@ function createTeamBatStatFilterStore(): TeamBatStatFilterStore {
 	return {
 		subscribe,
 		changeSplit: (split: BatStatSplit) => update((state) => ({ ...state, split: split })),
-		changeDefPosition: (defPosition: DefPositionNumber) =>
-			update((state) => ({ ...state, defPosition: defPosition })),
-		changeLineupSlot: (lineupSlot: BatOrder) =>
-			update((state) => ({ ...state, lineupSlot: lineupSlot }))
+		changeDefPosition: (defPosition: DefPositionNumber) => update((state) => ({ ...state, defPosition: defPosition })),
+		changeLineupSlot: (lineupSlot: BatOrder) => update((state) => ({ ...state, lineupSlot: lineupSlot }))
 	};
 }
 

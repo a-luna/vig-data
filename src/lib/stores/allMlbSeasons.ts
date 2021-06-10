@@ -7,8 +7,7 @@ function createAllMlbSeasonsStore(): AllMlbSeasonsStore {
 
 	return {
 		subscribe,
-		changeMlbSeasons: (seasons: MlbSeason[]) =>
-			update((allMlbSeasons) => ({ ...allMlbSeasons, seasons: seasons }))
+		changeMlbSeasons: (seasons: MlbSeason[]) => update((allMlbSeasons) => ({ ...allMlbSeasons, seasons: seasons }))
 	};
 }
 

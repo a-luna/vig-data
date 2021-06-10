@@ -6,8 +6,7 @@ function createTeamPitchStatFilterStore(): TeamPitchStatFilterStore {
 
 	return {
 		subscribe,
-		changeSplit: (split: PitchStatSplit) =>
-			update((teamPitchStatFilter) => ({ ...teamPitchStatFilter, split: split }))
+		changeSplit: (split: PitchStatSplit) => update((teamPitchStatFilter) => ({ ...teamPitchStatFilter, split: split }))
 	};
 }
 

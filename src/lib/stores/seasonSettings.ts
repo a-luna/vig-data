@@ -6,10 +6,8 @@ function createSeasonSettingsStore(): SeasonSettingsStore {
 
 	return {
 		subscribe,
-		changeLeague: (league: League) =>
-			update((seasonSettings) => ({ ...seasonSettings, league: league })),
-		changeContent: (show: SeasonContent) =>
-			update((seasonSettings) => ({ ...seasonSettings, show: show }))
+		changeLeague: (league: League) => update((seasonSettings) => ({ ...seasonSettings, league: league })),
+		changeContent: (show: SeasonContent) => update((seasonSettings) => ({ ...seasonSettings, show: show }))
 	};
 }
 

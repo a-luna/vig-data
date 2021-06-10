@@ -96,10 +96,7 @@ export function formatAtBatResult(atBatResult: string): string[] {
 	return split.length > 1 ? split : [atBatResult];
 }
 
-export function createPitchDescriptionList(
-	pitchSequence: string[][],
-	pfx: PitchFx[]
-): AtBatPitchDescription[] {
+export function createPitchDescriptionList(pitchSequence: string[][], pfx: PitchFx[]): AtBatPitchDescription[] {
 	const validPfx = pfx.filter((pfx) => pfx.basic_type !== 'Z');
 	const pitchDescriptions = pitchSequence.map((p) => formatPitchDescription(p, validPfx));
 	return pitchDescriptions.slice(0, -1);
@@ -138,10 +135,7 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 }
 
 export function getPitchTypeAbbrevFromName(pitchType: string): string {
-	return Object.prototype.hasOwnProperty.call(
-		PITCH_TYPE_NAME_TO_ABBREV_MAP,
-		pitchType.toLowerCase()
-	)
+	return Object.prototype.hasOwnProperty.call(PITCH_TYPE_NAME_TO_ABBREV_MAP, pitchType.toLowerCase())
 		? PITCH_TYPE_NAME_TO_ABBREV_MAP[pitchType.toLowerCase()]
 		: PITCH_TYPE_NAME_TO_ABBREV_MAP['unknown'];
 }
@@ -161,10 +155,7 @@ export function getYAxisMinMax(): [number, number] {
 export function identifyPfxDataBeyondBoundary(pfx: PitchFx[]): PitchFx[] {
 	const [xMin, xMax] = getXAxisMinMax();
 	const [yMin, yMax] = getYAxisMinMax();
-	pfx.map(
-		(pfx) =>
-			(pfx.is_out_of_boundary = pfx.px > xMax || pfx.px < xMin || pfx.pz > yMax || pfx.pz < yMin)
-	);
+	pfx.map((pfx) => (pfx.is_out_of_boundary = pfx.px > xMax || pfx.px < xMin || pfx.pz > yMax || pfx.pz < yMin));
 	return pfx;
 }
 
@@ -281,21 +272,16 @@ function fakePfxData() {
 
 function getZoneTop(pfx: PitchFx[]): number {
 	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_top))];
-	return uniqueVals.length == 1
-		? uniqueVals[0]
-		: uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
+	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
 }
 
 function getZoneBottom(pfx: PitchFx[]): number {
 	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_bot))];
-	return uniqueVals.length == 1
-		? uniqueVals[0]
-		: uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
+	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
 }
 
 export function drawStrikeZoneRect(document: Document): void {
-	const strikeZone =
-		document.querySelector<HTMLElement>('.strike-zone') || document.createElement('div');
+	const strikeZone = document.querySelector<HTMLElement>('.strike-zone') || document.createElement('div');
 	const dimensions = getStrikeZoneDimensions(document);
 	if (dimensions) {
 		strikeZone.className = 'strike-zone';
@@ -358,12 +344,7 @@ export function prefersDarkTheme(): boolean {
 	return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
 }
 
-export function getAngleOfLineBetweenTwoPoints(
-	x1: number,
-	y1: number,
-	x2: number,
-	y2: number
-): number {
+export function getAngleOfLineBetweenTwoPoints(x1: number, y1: number, x2: number, y2: number): number {
 	return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
 }
 
@@ -371,10 +352,7 @@ export function getAngleOfPitchLocation(x: number, y: number): number {
 	return getAngleOfLineBetweenTwoPoints(0, 1.5, x, y);
 }
 
-export function getToolTipPositionForPfxData(
-	x: number,
-	y: number
-): 'top' | 'right' | 'bottom' | 'left' {
+export function getToolTipPositionForPfxData(x: number, y: number): 'top' | 'right' | 'bottom' | 'left' {
 	let angle = getAngleOfPitchLocation(x, y);
 	angle = angle >= 0 ? angle : angle + 360;
 	if (angle >= 315 || 45 > angle) {
