@@ -183,18 +183,14 @@
 	/* Pitch Type Colors */
 
 	--pitch-type-FF: var(--red2);
-	--pitch-type-FT: var(--pink3);
 	--pitch-type-FC: var(--orange2);
 	--pitch-type-FS: var(--pink2);
 	--pitch-type-FA: var(--red1);
 	--pitch-type-FO: var(--red1);
-	--pitch-type-CH: var(--teal1);
 	--pitch-type-CU: var(--blue4);
 	--pitch-type-EP: var(--blue-gray1);
 	--pitch-type-KC: var(--indigo3);
 	--pitch-type-KN: var(--blue3);
-	--pitch-type-SI: var(--yellow-green1);
-	--pitch-type-SL: var(--blue-green1);
 	--pitch-type-IN: var(--black4);
 	--pitch-type-PO: var(--black4);
 	--pitch-type-SC: var(--black4);
@@ -202,8 +198,8 @@
 
 	/* At Bat Pitch Location Chart */
 
-	--ploc-chart-size: 250px;
-	--ploc-data-point-radius: 6px;
+	--ploc-chart-size: 300px;
+	--ploc-data-point-radius: 8px;
 	--ploc-x-min: -3;
 	--ploc-x-max: 3;
 	--ploc-y-min: -2;
@@ -313,6 +309,12 @@ body.light-mode {
 	--player-results-modal-button-color: var(--link-color);
 	--player-results-modal-button-color-hov: var(--blue3);
 
+	--player-card-bg-color: var(--white1);
+	--player-card-border-color: var(--gray1);
+	--player-card-heading-text-color: var(--black3);
+	--player-card-text-color: var(--black1);
+	--player-card-text-color-hov: var(--black3);
+
 	--pseq-top-bg-color: var(--gray1);
 	--pseq-bottom-bg-color: var(--gray1);
 	--pseq-legend-bg-color: var(--blue1);
@@ -325,6 +327,15 @@ body.light-mode {
 	--ploc-pitch-num-font-weight: 700;
 	--ploc-outer-border-color: var(--black4);
 	--strike-zone-border-color: var(--dark-gray1);
+
+	--pitch-type-percentiles-bg-color: var(--light-gray3);
+	--pitch-type-percentiles-text-color: var(--black4);
+	--pitch-type-percentiles-border-color: var(--table-col-header-bg-color);
+
+	--pitch-type-FT: var(--pink1);
+	--pitch-type-CH: var(--dark-teal1);
+	--pitch-type-SI: var(--green1);
+	--pitch-type-SL: var(--dark-teal2);
 }
 
 body.dark-mode {
@@ -384,10 +395,10 @@ body.dark-mode {
 
 	--linescore-row-bg-color: var(--gray1);
 
-	--table-caption-color: var(--white3);
+	--table-caption-color: var(--white1);
 	--table-body-color: var(--black3);
-	--table-body-bg-color-even: var(--gray1);
-	--table-body-bg-color-odd: var(--gray2);
+	--table-body-bg-color-even: var(--gray2);
+	--table-body-bg-color-odd: var(--gray3);
 	--table-body-link-color: var(--pri-color);
 	--table-body-link-color-hov: var(--pri-color-hov);
 	--table-col-header-bg-color: var(--indigo1);
@@ -401,6 +412,12 @@ body.dark-mode {
 	--player-results-modal-button-color: var(--indigo2);
 	--player-results-modal-button-color-hov: var(--indigo3);
 
+	--player-card-bg-color: var(--indigo2);
+	--player-card-border-color: var(--indigo2);
+	--player-card-heading-text-color: var(--white3);
+	--player-card-text-color: var(--white1);
+	--player-card-text-color-hov: var(--white3);
+
 	--pseq-top-bg-color: var(--indigo1);
 	--pseq-bottom-bg-color: var(--indigo1);
 	--pseq-legend-bg-color: var(--rich-black1);
@@ -413,6 +430,15 @@ body.dark-mode {
 	--ploc-pitch-num-font-weight: 400;
 	--ploc-outer-border-color: var(--indigo1);
 	--strike-zone-border-color: var(--gray4);
+
+	--pitch-type-percentiles-bg-color: var(--rich-black2);
+	--pitch-type-percentiles-text-color: var(--white3);
+	--pitch-type-percentiles-border-color: var(--indigo1);
+
+	--pitch-type-FT: var(--pink3);
+	--pitch-type-CH: var(--teal1);
+	--pitch-type-SI: var(--yellow-green1);
+	--pitch-type-SL: var(--blue-green1);
 }
 
 a {
@@ -425,37 +451,37 @@ a:hover {
 }
 
 p {
-	@apply text-base font-light leading-relaxed mt-0 mb-4;
+	@apply mt-0 mb-4 text-base font-light leading-relaxed;
 }
 
 h1 {
 	color: var(--heading-text-color);
-	@apply text-4xl font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-4xl font-normal leading-normal;
 }
 
 h2 {
 	color: var(--heading-text-color);
-	@apply text-3xl font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-3xl font-normal leading-normal;
 }
 
 h3 {
 	color: var(--heading-text-color);
-	@apply text-2xl font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-2xl font-normal leading-normal;
 }
 
 h4 {
 	color: var(--heading-text-color);
-	@apply text-xl font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-xl font-normal leading-normal;
 }
 
 h5 {
 	color: var(--heading-text-color);
-	@apply text-lg font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-lg font-normal leading-normal;
 }
 
 h6 {
 	color: var(--heading-text-color);
-	@apply text-base font-normal leading-normal mt-0 mb-2;
+	@apply mt-0 mb-2 text-base font-normal leading-normal;
 }
 
 .flex {
@@ -512,7 +538,7 @@ label {
 }
 
 .resp-table-caption {
-	@apply text-lg font-normal text-left leading-normal m-0 p-0;
+	@apply p-0 m-0 text-lg font-normal leading-normal text-left;
 	display: table-caption;
 	color: var(--table-caption-color);
 	white-space: nowrap;
@@ -651,7 +677,7 @@ label {
 #play-by-play .inning-begin {
 	white-space: nowrap;
 	font-style: italic;
-	color: var(--table-caption-color);
+	color: var(--body-text-color);
 	background-color: var(--page-bg-color);
 	text-align: left;
 	display: table-cell;
@@ -662,7 +688,7 @@ label {
 	font-style: italic;
 	text-align: right;
 	display: table-cell;
-	color: var(--table-caption-color);
+	color: var(--body-text-color);
 	background-color: var(--page-bg-color);
 	padding: 3px 5px;
 }
@@ -697,13 +723,13 @@ label {
 }
 
 table {
-	@apply text-sm w-auto table-auto whitespace-nowrap m-0;
+	@apply w-auto m-0 text-sm table-auto whitespace-nowrap;
 	color: var(--table-body-color);
 }
 
 tr.table-header {
 	color: var(--table-col-header-color);
-	@apply text-xl font-normal text-left leading-normal m-0 p-0;
+	@apply p-0 m-0 text-xl font-normal leading-normal text-left;
 }
 
 tr.table-header th {
@@ -797,15 +823,15 @@ input {
 }
 
 .btn {
-	@apply focus:outline-none font-normal mr-1 py-1 px-2 rounded shadow-md;
+	@apply px-2 py-1 mr-1 font-normal rounded shadow-md focus:outline-none;
 }
 
 .btn.disabled {
-	@apply text-gray-500 border-gray-500 bg-current;
+	@apply text-gray-500 bg-current border-gray-500;
 }
 
 .btn-round {
-	@apply uppercase flex items-center max-w-max shadow-sm hover:shadow-lg rounded-full;
+	@apply flex items-center uppercase rounded-full shadow-sm max-w-max hover:shadow-lg;
 }
 
 .btn-primary {
@@ -851,11 +877,11 @@ input {
 }
 
 .btn-group {
-	@apply flex flex-row flex-nowrap justify-center flex-grow-0;
+	@apply flex flex-row justify-center flex-grow-0 flex-nowrap;
 }
 
 .btn-group > button {
-	@apply rounded-none m-0;
+	@apply m-0 rounded-none;
 	border-top: 1px solid var(--sec-color);
 	border-bottom: 1px solid var(--sec-color);
 	border-left: 1px solid var(--sec-color);
@@ -870,7 +896,7 @@ input {
 }
 
 .btn-group > button:first-child {
-	@apply rounded-tl-md rounded-bl-md rounded-tr-none rounded-br-none;
+	@apply rounded-tr-none rounded-br-none rounded-tl-md rounded-bl-md;
 }
 
 .btn-group > button:last-child {
@@ -1146,7 +1172,7 @@ input {
 
 #team-bat-stats .datatable .dt-pagination,
 #team-pitch-stats .datatable .dt-pagination {
-	@apply mx-0 mb-0 mt-1 p-0;
+	@apply p-0 mx-0 mt-1 mb-0;
 	background: var(--page-bg-color);
 	align-items: center;
 }
@@ -1157,7 +1183,7 @@ input {
 }
 #team-bat-stats .datatable .dt-pagination-buttons button,
 #team-pitch-stats .datatable .dt-pagination-buttons button {
-	@apply transition duration-300 ease-in-out focus:outline-none font-normal m-0 py-1 px-2 shadow-md;
+	@apply px-2 py-1 m-0 font-normal transition duration-300 ease-in-out shadow-md focus:outline-none;
 	line-height: inherit;
 	color: var(--color-on-sec);
 	background-color: var(--sec-color);

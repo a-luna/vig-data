@@ -1,6 +1,8 @@
+import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from './constants';
 import type {
 	AtBatPitchDescription,
 	PitchFx,
+	PitchType,
 	Result,
 	StrikeZoneCorner,
 	StrikeZoneDimensions
@@ -136,29 +138,12 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 }
 
 export function getPitchTypeAbbrevFromName(pitchType: string): string {
-	const pitchTypeToAbbrevMap = {
-		none: 'N/A',
-		changeup: 'CH',
-		curveball: 'CU',
-		eephus: 'EP',
-		fastball: 'FA',
-		cutter: 'FC',
-		'four-seam fastball': 'FF',
-		splitter: 'FS',
-		'two-seam fastball': 'FT',
-		forkball: 'FO',
-		'ball (intentional)': 'IN',
-		'knuckle ball curve': 'KC',
-		'knuckle ball': 'KN',
-		'pitch out': 'PO',
-		screwball: 'SC',
-		sinker: 'SI',
-		slider: 'SL',
-		unknown: 'UN'
-	};
-	return Object.prototype.hasOwnProperty.call(pitchTypeToAbbrevMap, pitchType.toLowerCase())
-		? pitchTypeToAbbrevMap[pitchType.toLowerCase()]
-		: pitchTypeToAbbrevMap['unknown'];
+	return Object.prototype.hasOwnProperty.call(
+		PITCH_TYPE_NAME_TO_ABBREV_MAP,
+		pitchType.toLowerCase()
+	)
+		? PITCH_TYPE_NAME_TO_ABBREV_MAP[pitchType.toLowerCase()]
+		: PITCH_TYPE_NAME_TO_ABBREV_MAP['unknown'];
 }
 
 export function getXAxisMinMax(): [number, number] {
@@ -365,19 +350,40 @@ export function formatPercentStat(value: string, precision: number): string {
 	return `${percent}%`;
 }
 
-export const DEF_POSITION_MAP = {
-	1: 'P',
-	2: 'C',
-	3: '1B',
-	4: '2B',
-	5: '3B',
-	6: 'SS',
-	7: 'LF',
-	8: 'CF',
-	9: 'RF',
-	10: 'DH'
-};
+export function formatSpeedStat(value: string, precision: number): string {
+	return parseFloat(value).toFixed(precision);
+}
 
 export function prefersDarkTheme(): boolean {
 	return window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : false;
+}
+
+export function getAngleOfLineBetweenTwoPoints(
+	x1: number,
+	y1: number,
+	x2: number,
+	y2: number
+): number {
+	return (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+}
+
+export function getAngleOfPitchLocation(x: number, y: number): number {
+	return getAngleOfLineBetweenTwoPoints(0, 1.5, x, y);
+}
+
+export function getToolTipPositionForPfxData(
+	x: number,
+	y: number
+): 'top' | 'right' | 'bottom' | 'left' {
+	let angle = getAngleOfPitchLocation(x, y);
+	angle = angle >= 0 ? angle : angle + 360;
+	if (angle >= 315 || 45 > angle) {
+		return 'right';
+	} else if (angle >= 45 && 135 > angle) {
+		return 'top';
+	} else if (angle >= 135 && 225 > angle) {
+		return 'left';
+	} else if (angle >= 225 && 315 > angle) {
+		return 'bottom';
+	}
 }

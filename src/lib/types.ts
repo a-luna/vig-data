@@ -32,6 +32,11 @@ export type PitchStatSplit = 'all' | 'sp' | 'rp';
 export type DefPositionNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type BatOrder = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
+export interface PlayerCardLink {
+	text: string;
+	url: string;
+}
+
 export interface SelectMenuOption {
 	text: string;
 	value: number | string;

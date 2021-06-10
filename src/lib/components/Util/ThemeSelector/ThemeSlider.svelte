@@ -38,14 +38,14 @@
 <div id="theme-toggle" class="flex items-center cursor-pointer" title="Toggle Light/Dark Theme">
 	<div class="relative" on:click={() => toggleDarkMode()}>
 		<input type="checkbox" class="sr-only" bind:checked={$useDarkTheme} />
-		<div class="slider-bg block w-16 h-8 rounded-full" />
+		<div class="block w-16 h-8 rounded-full slider-bg" />
 		<div class="dot absolute left-1 top-0.5 w-7 h-7 rounded-full">
 			{#if $useDarkTheme}
-				<div class="icon p-1.5">
+				<div class="icon icon-dark p-1.5">
 					<FaMoon />
 				</div>
 			{:else}
-				<div class="icon p-1.5">
+				<div class="icon icon-light p-1.5">
 					<FaSun />
 				</div>
 			{/if}
@@ -69,6 +69,14 @@
 
 	input:checked ~ .dot {
 		transform: translateX(100%);
+	}
+
+	.icon-dark {
+		color: var(--blue-green2);
+	}
+
+	.icon-light {
+		color: var(--yellow2);
 	}
 
 </style>

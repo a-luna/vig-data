@@ -13,14 +13,13 @@
 	on:submit|preventDefault={() => dispatch('searchRequest', query)}
 >
 	<div class="relative w-full">
-		<span class="search-icon absolute pl-1 py-0">
+		<span class="absolute py-0 pl-1 search-icon">
 			<button type="submit" class="p-0 focus:outline-none focus:shadow-outline">
 				<FaSearch />
 			</button>
 		</span>
 		<input
 			type="search"
-			id="query"
 			name="query"
 			class="py-1.5 text-base leading-none w-full rounded-md pl-9 focus:outline-none"
 			placeholder="Player Search"

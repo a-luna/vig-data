@@ -459,6 +459,26 @@ export interface AtBatPitchDescription {
 	non_pitch_event: boolean;
 }
 
+export type PitchTypeAbbrev =
+	| 'CH'
+	| 'CU'
+	| 'EP'
+	| 'FA'
+	| 'FC'
+	| 'FF'
+	| 'FS'
+	| 'FT'
+	| 'FO'
+	| 'IN'
+	| 'KC'
+	| 'KN'
+	| 'PO'
+	| 'SC'
+	| 'SI'
+	| 'SL'
+	| 'UN';
+export type PitchType = PitchTypeAbbrev | number;
+
 export interface PitchFx {
 	bb_game_id: string;
 	bbref_game_id: string;
@@ -540,6 +560,115 @@ export interface PitchFx {
 	pz?: number;
 	pxold?: number;
 	pzold?: number;
+}
+
+export interface PfxMetrics {
+	mlb_id: number;
+	avg: number;
+	obp: number;
+	slg: number;
+	ops: number;
+	iso: number;
+	fly_ball_rate: number;
+	ground_ball_rate: number;
+	line_drive_rate: number;
+	pop_up_rate: number;
+	bb_rate: number;
+	k_rate: number;
+	hr_per_fb: number;
+	zone_rate: number;
+	called_strike_rate: number;
+	swinging_strike_rate: number;
+	whiff_rate: number;
+	csw_rate: number;
+	o_swing_rate: number;
+	z_swing_rate: number;
+	swing_rate: number;
+	o_contact_rate: number;
+	z_contact_rate: number;
+	contact_rate: number;
+	total_pitches: number;
+	total_pa: number;
+	total_at_bats: number;
+	total_outs: number;
+	total_hits: number;
+	total_bb: number;
+	total_k: number;
+	total_swings: number;
+	total_swings_made_contact: number;
+	total_called_strikes: number;
+	total_swinging_strikes: number;
+	total_inside_strike_zone: number;
+	total_outside_strike_zone: number;
+	total_swings_inside_zone: number;
+	total_swings_outside_zone: number;
+	total_contact_inside_zone: number;
+	total_contact_outside_zone: number;
+	total_batted_balls: number;
+	total_ground_balls: number;
+	total_line_drives: number;
+	total_fly_balls: number;
+	total_pop_ups: number;
+	total_singles: number;
+	total_doubles: number;
+	total_triples: number;
+	total_homeruns: number;
+	total_ibb: number;
+	total_hbp: number;
+	total_errors: number;
+	total_sac_hit: number;
+	total_sac_fly: number;
+}
+
+export interface PfxPitchingMetrics extends PfxMetrics {
+	pitch_type: PitchType;
+	avg_speed: number;
+	avg_pfx_x: number;
+	avg_pfx_z: number;
+	avg_px: number;
+	avg_pz: number;
+	percent: number;
+}
+
+export interface PfxPitchingMetricsCollection {
+	pitch_types_filtered: PitchType[];
+	pitch_types_all: PitchType[];
+	total_pitches_filtered: number;
+	total_pitches_all: number;
+	total_pitches_excluded: number;
+	pitch_type_metrics?: Record<PitchType, PfxPitchingMetrics>;
+}
+
+export interface PfxPitchTypePercentiles {
+	pitch_type: PitchType;
+	avg_speed: [number, number];
+	ops: [number, number];
+	whiff_rate: [number, number];
+	zone_rate: [number, number];
+	contact_rate: [number, number];
+	o_swing_rate: [number, number];
+}
+
+export interface PfxPitchingMetricsWithPercentiles {
+	metrics: PfxPitchingMetricsCollection;
+	percentiles: PfxPitchTypePercentiles[];
+}
+
+export interface PfxPitchingMetricsWithPercentilesByYear {
+	metrics: { [key: number]: PfxPitchingMetricsCollection };
+	percentiles: { [key: number]: PfxPitchTypePercentiles[] };
+}
+
+export interface CareerPfxPitchingMetricsWithPercentiles {
+	both: PfxPitchingMetricsWithPercentiles;
+	rhb: PfxPitchingMetricsWithPercentiles;
+	lhb: PfxPitchingMetricsWithPercentiles;
+}
+
+export interface CareerPfxPitchingMetricsWithPercentilesByYear {
+	both: PfxPitchingMetricsWithPercentilesByYear;
+	rhb: PfxPitchingMetricsWithPercentilesByYear;
+	lhb: PfxPitchingMetricsWithPercentilesByYear;
 }
 
 export interface StrikeZoneCorner {
