@@ -20,18 +20,18 @@
 <div class="pitcher-results">
 	<span class="wp">
 		<span class="stat">WP</span>
-		<a sveltekit:prefetch href={`/player/${wp.mlb_id}`}>{wp_name}</a>
+		<a sveltekit:prefetch href={`/player/${wp.mlb_id}/pitching`}>{wp_name}</a>
 		<span class="team-id">({wp.team_id})</span>
 	</span>
 	<span class="lp">
 		<span class="stat">LP</span>
-		<a sveltekit:prefetch href={`/player/${lp.mlb_id}`}>{lp_name}</a>
+		<a sveltekit:prefetch href={`/player/${lp.mlb_id}/pitching`}>{lp_name}</a>
 		<span class="team-id">({lp.team_id})</span>
 	</span>
 	{#if sv}
 		<span class="sv">
 			<span class="stat">SV</span>
-			<a sveltekit:prefetch href={`/player/${sv.mlb_id}`}>{sv_name}</a>
+			<a sveltekit:prefetch href={`/player/${sv.mlb_id}/pitching`}>{sv_name}</a>
 			<span class="team-id">({wp.team_id})</span>
 		</span>
 	{/if}
