@@ -73,14 +73,6 @@
 		display: table;
 	}
 
-	.percentile-table-header {
-		display: table-header-group;
-	}
-
-	.percentile-header-cell {
-		display: table-cell;
-	}
-
 	.percentile-table-body {
 		display: table-row-group;
 	}
