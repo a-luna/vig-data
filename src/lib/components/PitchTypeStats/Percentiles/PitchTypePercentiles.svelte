@@ -46,8 +46,6 @@
 		pitchTypesLhb = metrics.map((m) => m.pitch_type);
 	}
 
-	$: console.log(seasonSelected);
-
 	function changePlayerDataShown(year: number) {
 		seasonSelected = year === 0 ? 'career' : year;
 	}

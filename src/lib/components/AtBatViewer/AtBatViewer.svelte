@@ -17,8 +17,6 @@
 	import {
 		addStrikeZoneCornersToPfxData,
 		createPitchDescriptionList,
-		getAngleOfPitchLocation,
-		getToolTipPositionForPfxData,
 		identifyPfxDataBeyondBoundary
 	} from '$lib/util';
 	import { createEventDispatcher, onMount } from 'svelte';
@@ -190,13 +188,6 @@
 
 	function viewLastAtBat() {
 		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[pfxAtBatIds.length - 1]]);
-	}
-
-	$: if (selectedAtBatPfx) {
-		const ttLocations = selectedAtBatPfx
-			.filter((pfx) => pfx.basic_type !== 'Z')
-			.map((pfx) => getToolTipPositionForPfxData(pfx.px, pfx.pz));
-		console.log(ttLocations);
 	}
 
 </script>
