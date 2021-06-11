@@ -36,7 +36,7 @@
 				<a
 					class="ml-1 player-name"
 					sveltekit:prefetch
-					href="/player/{selectedAtBat.pitcher_id_mlb}"
+					href="/player/{selectedAtBat.pitcher_id_mlb}/pitching"
 				>
 					{selectedAtBat.pitcher_name}
 				</a>

@@ -7,7 +7,7 @@
 
 <div class="player-details flex flex-row flex-nowrap justify-start items-center">
 	<span class="pitch-app-type">{pitchStats.pitch_app_type}</span>
-	<a class="player-name" sveltekit:prefetch href="/player/{pitchStats.mlb_id}">
+	<a class="player-name" sveltekit:prefetch href="/player/{pitchStats.mlb_id}/pitching">
 		{pitchStats.name}
 	</a>
 </div>
