@@ -73,71 +73,106 @@
 </script>
 
 <PlayerSeasonSelector {seasons} on:changed={(event) => changePlayerDataShown(event.detail)} />
-<div class="flex flex-row justify-center responsive flex-nowrap percentiles-wrapper">
-	<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
-		<h4>Both</h4>
-		{#each pitchTypesBoth as pitchType}
-			<Percentiles
-				pitchTypePercentiles={getPercentiles('both', pitchType)}
-				percent={getPitchMetrics('both', pitchType).percent}
-			/>
-		{/each}
-	</div>
-	<div class="flex flex-col pitch-type-percentiles flex-nowrap">
-		<h4>RHB</h4>
-		{#each pitchTypesBoth as pitchType}
-			{#if pitchTypesRhb.includes(pitchType)}
+<div class="responsive pt-3">
+	<div class="flex flex-row justify-center flex-nowrap">
+		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
+			<h4 class="text-base sm:text-large">Both</h4>
+			{#each pitchTypesBoth as pitchType}
 				<Percentiles
-					pitchTypePercentiles={getPercentiles('rhb', pitchType)}
-					percent={getPitchMetrics('rhb', pitchType).percent}
+					pitchTypePercentiles={getPercentiles('both', pitchType)}
+					percent={getPitchMetrics('both', pitchType).percent}
 				/>
-			{:else}
-				<div class="flex-grow">&nbsp;</div>
-			{/if}
-		{/each}
-	</div>
-	<div class="flex flex-col pitch-type-percentiles flex-nowrap">
-		<h4>LHB</h4>
-		{#each pitchTypesBoth as pitchType}
-			{#if pitchTypesLhb.includes(pitchType)}
-				<Percentiles
-					pitchTypePercentiles={getPercentiles('lhb', pitchType)}
-					percent={getPitchMetrics('lhb', pitchType).percent}
-				/>
-			{:else}
-				<div class="flex-grow">&nbsp;</div>
-			{/if}
-		{/each}
+			{/each}
+		</div>
+		<div class="flex flex-col pitch-type-percentiles flex-nowrap">
+			<h4 class="text-base sm:text-large">RHB</h4>
+			{#each pitchTypesBoth as pitchType}
+				{#if pitchTypesRhb.includes(pitchType)}
+					<Percentiles
+						pitchTypePercentiles={getPercentiles('rhb', pitchType)}
+						percent={getPitchMetrics('rhb', pitchType).percent}
+					/>
+				{:else}
+					<div class="flex-grow">&nbsp;</div>
+				{/if}
+			{/each}
+		</div>
+		<div class="flex flex-col pitch-type-percentiles flex-nowrap">
+			<h4 class="text-base sm:text-large">LHB</h4>
+			{#each pitchTypesBoth as pitchType}
+				{#if pitchTypesLhb.includes(pitchType)}
+					<Percentiles
+						pitchTypePercentiles={getPercentiles('lhb', pitchType)}
+						percent={getPitchMetrics('lhb', pitchType).percent}
+					/>
+				{:else}
+					<div class="flex-grow">&nbsp;</div>
+				{/if}
+			{/each}
+		</div>
 	</div>
 </div>
 
 <style lang="postcss">
 	.pitch-type-percentiles {
-		font-size: 0.8rem;
 		color: var(--pitch-type-percentiles-text-color);
 		background-color: var(--pitch-type-percentiles-bg-color);
-		border-right: 1px solid var(--pitch-type-percentiles-border-color);
-		border-bottom: 1px solid var(--pitch-type-percentiles-border-color);
+		border: none;
 		flex: 1 1 33%;
 		max-width: 260px;
 	}
 
-	.pitch-type-percentiles:first-child {
-		border-top-left-radius: 4px;
-		border-bottom-left-radius: 4px;
+	.pitch-type-percentiles:first-child > :global(div) {
 		border-left: 1px solid var(--pitch-type-percentiles-border-color);
 	}
 
-	.pitch-type-percentiles:last-child {
+	.pitch-type-percentiles:last-child > :global(div) {
+		border-right: 1px solid var(--pitch-type-percentiles-border-color);
+	}
+
+	.pitch-type-percentiles > :global(div:last-child) {
+		border-bottom: 1px solid var(--pitch-type-percentiles-border-color);
+	}
+
+	.pitch-type-percentiles:first-child > :global(div:last-child) {
+		border-bottom-left-radius: 4px;
+	}
+
+	.pitch-type-percentiles:first-child h4 {
+		border-top-left-radius: 4px;
+		border-left: 1px solid var(--pitch-type-percentiles-border-color);
+	}
+
+	.pitch-type-percentiles:last-child h4 {
 		border-top-right-radius: 4px;
+		border-right: 1px solid var(--pitch-type-percentiles-border-color);
+	}
+
+	.pitch-type-percentiles:last-child > :global(div:last-child) {
+		border-bottom: 1px solid var(--pitch-type-percentiles-border-color);
 		border-bottom-right-radius: 4px;
 	}
 
 	h4 {
+		font-size: 1.2rem;
 		text-align: center;
 		margin: 0;
+		padding: 5px 0;
 		color: var(--table-col-header-color);
 		background-color: var(--table-col-header-bg-color);
+	}
+
+	@media screen and (min-width: 640px) {
+		h4 {
+			font-size: 1.4rem;
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		h4 {
+			font-size: 1.5rem;
+			padding: 5px 0;
+		}
 	}
 
 </style>

@@ -11,7 +11,7 @@
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
 
 	function formatStatValue() {
-		if (stat === 'Avg. Speed') {
+		if (stat === 'Speed') {
 			return `${statValue.toFixed(1)}`;
 		} else if (stat === 'OPS') {
 			let ops = statValue.toFixed(3);
@@ -23,29 +23,80 @@
 
 </script>
 
-<div class="flex flex-row flex-grow flex-nowrap">
-	<div class="flex-grow-0 mr-1 stat-name">{stat}</div>
-	<div class="flex flex-row flex-grow flex-nowrap">
-		<div
-			class="my-auto gauge"
-			style="background-color: {gaugeColor}; width: {statPercentile.toFixed(0)}%"
-		/>
-		<div class="flex-grow-0 ml-1 text-left" style="color: {gaugeColor}">{statPercentile}</div>
+<div class="percentile-table-row">
+	<div class="percentile-body-cell w-auto font-bold pr-2">{stat}</div>
+	<div class="percentile-body-cell w-auto pr-2">{formatStatValue()}</div>
+	<div class="percentile-body-cell">
+		<div class="flex flex-row flex-grow flex-nowrap">
+			<div
+				class="my-auto gauge"
+				style="background-color: {gaugeColor}; width: {statPercentile.toFixed(0)}%"
+			/>
+			<div class="flex-grow-0 ml-1 text-left" style="color: {gaugeColor}">{statPercentile}</div>
+		</div>
 	</div>
-	<div class="flex-grow-0 ml-2 stat-value">{formatStatValue()}</div>
 </div>
 
 <style lang="postcss">
-	.stat-name {
-		width: 63px;
+	.percentile-table-row {
+		font-size: 0.65rem;
+		display: table-row;
 	}
 
-	.stat-value {
-		width: 37px;
+	.percentile-body-cell {
+		display: table-cell;
 	}
-
 	.gauge {
-		height: 10px;
+		display: none;
+	}
+
+	.percentile-table-row .percentile-body-cell:last-child {
+		width: auto;
+	}
+
+	@media screen and (min-width: 375px) {
+		.percentile-table-row {
+			font-size: 0.8rem;
+		}
+	}
+
+	@media screen and (min-width: 450px) {
+		.percentile-table-row {
+			font-size: 0.9rem;
+		}
+	}
+
+	@media screen and (min-width: 550px) {
+		.gauge {
+			display: block;
+			height: 8px;
+		}
+
+		.percentile-table-row {
+			font-size: 0.8rem;
+		}
+
+		.percentile-table-row .percentile-body-cell:last-child {
+			width: 100%;
+		}
+	}
+
+	@media screen and (min-width: 640px) {
+		.percentile-table-row {
+			font-size: 0.9rem;
+		}
+		.gauge {
+			height: 8px;
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		.percentile-table-row {
+			font-size: 1rem;
+		}
+		.gauge {
+			height: 10px;
+		}
 	}
 
 </style>
