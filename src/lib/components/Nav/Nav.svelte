@@ -8,7 +8,9 @@
 
 	export let items: NavMenuItem[];
 	let open: boolean = false;
-	let iconName: string;
+	let name: string;
+
+	$: random = Math.floor(Math.random() * 41);
 
 </script>
 
@@ -36,8 +38,8 @@
 			</div>
 			<div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
 				<div class="nav-icon flex-shrink-0 flex items-center">
-					<div class="block h-8 w-8 stroke-current stroke-2" title={iconName}>
-						<NavIcon bind:iconName />
+					<div class="block h-8 w-8 stroke-current stroke-2" title={name}>
+						<NavIcon bind:random bind:name />
 					</div>
 				</div>
 				<div class="hidden sm:block sm:ml-6">

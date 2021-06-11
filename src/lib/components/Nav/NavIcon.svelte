@@ -41,59 +41,97 @@
 	import GiTriangleTarget from 'svelte-icons/gi/GiTriangleTarget.svelte';
 	import GiTwoCoins from 'svelte-icons/gi/GiTwoCoins.svelte';
 
-	export let iconName: string;
-
-	const icons: { icon: any; name: string }[] = [
-		{ icon: Gi3DStairs, name: 'Gi3DStairs' },
-		{ icon: GiAbacus, name: 'GiAbacus' },
-		{ icon: GiAbstract063, name: 'GiAbstract063' },
-		{ icon: GiAllSeeingEye, name: 'GiAllSeeingEye' },
-		{ icon: GiAndroidMask, name: 'GiAndroidMask' },
-		{ icon: GiAudioCassette, name: 'GiAudioCassette' },
-		{ icon: GiAura, name: 'GiAura' },
-		{ icon: GiBestialFangs, name: 'GiBestialFangs' },
-		{ icon: GiBullseye, name: 'GiBullseye' },
-		{ icon: GiBurningDot, name: 'GiBurningDot' },
-		{ icon: GiContract, name: 'GiContract' },
-		{ icon: GiConvergenceTarget, name: 'GiConvergenceTarget' },
-		{ icon: GiConwayLifeGlider, name: 'GiConwayLifeGlider' },
-		{ icon: GiCrowNest, name: 'GiCrowNest' },
-		{ icon: GiCrownCoin, name: 'GiCrownCoin' },
-		{ icon: GiCrystalShine, name: 'GiCrystalShine' },
-		{ icon: GiDiagram, name: 'GiDiagram' },
-		{ icon: GiDividedSquare, name: 'GiDividedSquare' },
-		{ icon: GiDjinn, name: 'GiDjinn' },
-		{ icon: GiDropletSplash, name: 'GiDropletSplash' },
-		{ icon: GiDungeonLight, name: 'GiDungeonLight' },
-		{ icon: GiGems, name: 'GiGems' },
-		{ icon: GiHolosphere, name: 'GiHolosphere' },
-		{ icon: GiHoneycomb, name: 'GiHoneycomb' },
-		{ icon: GiInterstellarPath, name: 'GiInterstellarPath' },
-		{ icon: GiIsland, name: 'GiIsland' },
-		{ icon: GiJumpingDog, name: 'GiJumpingDog' },
-		{ icon: GiMantaRay, name: 'GiMantaRay' },
-		{ icon: GiMayanPyramid, name: 'GiMayanPyramid' },
-		{ icon: GiMiddleArrow, name: 'GiMiddleArrow' },
-		{ icon: GiMoebiusTriangle, name: 'GiMoebiusTriangle' },
-		{ icon: GiMultipleTargets, name: 'GiMultipleTargets' },
-		{ icon: GiOctopus, name: 'GiOctopus' },
-		{ icon: GiOrbWand, name: 'GiOrbWand' },
-		{ icon: GiPalmTree, name: 'GiPalmTree' },
-		{ icon: GiPineapple, name: 'GiPineapple' },
-		{ icon: GiPlagueDoctorProfile, name: 'GiPlagueDoctorProfile' },
-		{ icon: GiPlanetCore, name: 'GiPlanetCore' },
-		{ icon: GiReceiveMoney, name: 'GiReceiveMoney' },
-		{ icon: GiTriangleTarget, name: 'GiTriangleTarget' },
-		{ icon: GiTwoCoins, name: 'GiTwoCoins' }
+	const icons = [
+		Gi3DStairs,
+		GiAbacus,
+		GiAbstract063,
+		GiAllSeeingEye,
+		GiAndroidMask,
+		GiAudioCassette,
+		GiAura,
+		GiBestialFangs,
+		GiBullseye,
+		GiBurningDot,
+		GiContract,
+		GiConvergenceTarget,
+		GiConwayLifeGlider,
+		GiCrowNest,
+		GiCrownCoin,
+		GiCrystalShine,
+		GiDiagram,
+		GiDividedSquare,
+		GiDjinn,
+		GiDropletSplash,
+		GiDungeonLight,
+		GiGems,
+		GiHolosphere,
+		GiHoneycomb,
+		GiInterstellarPath,
+		GiIsland,
+		GiJumpingDog,
+		GiMantaRay,
+		GiMayanPyramid,
+		GiMiddleArrow,
+		GiMoebiusTriangle,
+		GiMultipleTargets,
+		GiOctopus,
+		GiOrbWand,
+		GiPalmTree,
+		GiPineapple,
+		GiPlagueDoctorProfile,
+		GiPlanetCore,
+		GiReceiveMoney,
+		GiTriangleTarget,
+		GiTwoCoins
 	];
 
-	function getRandomIcon() {
-		const max = icons.length - 1;
-		const randomIndex = Math.floor(Math.random() * max);
-		iconName = icons[randomIndex][1];
-		return icons[randomIndex][0];
-	}
+	const iconNames = [
+		'Gi3DStairs',
+		'GiAbacus',
+		'GiAbstract063',
+		'GiAllSeeingEye',
+		'GiAndroidMask',
+		'GiAudioCassette',
+		'GiAura',
+		'GiBestialFangs',
+		'GiBullseye',
+		'GiBurningDot',
+		'GiContract',
+		'GiConvergenceTarget',
+		'GiConwayLifeGlider',
+		'GiCrowNest',
+		'GiCrownCoin',
+		'GiCrystalShine',
+		'GiDiagram',
+		'GiDividedSquare',
+		'GiDjinn',
+		'GiDropletSplash',
+		'GiDungeonLight',
+		'GiGems',
+		'GiHolosphere',
+		'GiHoneycomb',
+		'GiInterstellarPath',
+		'GiIsland',
+		'GiJumpingDog',
+		'GiMantaRay',
+		'GiMayanPyramid',
+		'GiMiddleArrow',
+		'GiMoebiusTriangle',
+		'GiMultipleTargets',
+		'GiOctopus',
+		'GiOrbWand',
+		'GiPalmTree',
+		'GiPineapple',
+		'GiPlagueDoctorProfile',
+		'GiPlanetCore',
+		'GiReceiveMoney',
+		'GiTriangleTarget',
+		'GiTwoCoins'
+	];
+
+	export let random: number = 0;
+	export const name: string = iconNames?.[random];
 
 </script>
 
-<svelte:component this={getRandomIcon()} />
+<svelte:component this={icons[random]} />
