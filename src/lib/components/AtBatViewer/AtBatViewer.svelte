@@ -204,22 +204,22 @@
 <div class:not-shown={!shown} class="flex flex-col items-center justify-start w-full flex-nowrap">
 	<div class="at-bat-viewer">
 		<div class="flex flex-col justify-end at-bat-details-wrapper flex-nowrap">
-			<div class="flex-grow-0 at-bat-details">
-				<AtBatContext {selectedAtBat} />
-				{#if getPfxForAtBatReqeust}
-					{#await getPfxForAtBatReqeust}
-						<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
-					{:then result}
-						{#if result.success}
+			{#if getPfxForAtBatReqeust}
+				{#await getPfxForAtBatReqeust}
+					<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+				{:then result}
+					{#if result.success}
+						<AtBatContext {selectedAtBat} />
+						<div class="flex-grow-0 at-bat-details">
 							<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
-						{:else}
-							<div class="error">Error: {result.message}</div>
-						{/if}
-					{:catch error}
-						<div class="error">Error: {error.message}</div>
-					{/await}
-				{/if}
-			</div>
+						</div>
+					{:else}
+						<div class="error">Error: {result.message}</div>
+					{/if}
+				{:catch error}
+					<div class="error">Error: {error.message}</div>
+				{/await}
+			{/if}
 			<div class="flex-grow-0 pbp-nav">
 				<PlayByPlayNavigation
 					color={'secondary'}
@@ -267,7 +267,6 @@
 		max-height: max-content;
 		text-align: left;
 		border-radius: 4px;
-		border: 1px solid var(--pseq-outer-border-color);
 	}
 
 	.pbp-nav {
@@ -277,6 +276,7 @@
 
 	.at-bat-details-wrapper {
 		margin: 10px 5px;
+		min-width: var(--ploc-chart-size);
 	}
 
 	.pitch-location {
@@ -303,14 +303,14 @@
 
 	@media screen and (min-width: 550px) {
 		.at-bat-details {
-			flex: 1 0 calc(var(--ploc-chart-size) - 43px);
-			max-height: calc(var(--ploc-chart-size) - 43px);
+			flex: 1 0 calc(var(--ploc-chart-size) - 50px);
+			max-height: calc(var(--ploc-chart-size) - 50px);
 		}
 
 		.at-bat-viewer {
 			flex-flow: row nowrap;
 			justify-content: space-around;
-			align-items: flex-end;
+			align-items: flex-start;
 			max-width: 670px;
 		}
 	}

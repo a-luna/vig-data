@@ -133,6 +133,8 @@
 		@apply flex flex-col flex-nowrap justify-between flex-grow px-2;
 		background-color: var(--ploc-chart-bg-color);
 		height: min-content;
+		border-right: 1px solid var(--pseq-outer-border-color);
+		border-left: 1px solid var(--pseq-outer-border-color);
 	}
 
 	.icon {
@@ -170,10 +172,8 @@
 	.legend {
 		background-color: var(--pseq-legend-bg-color);
 		color: var(--pseq-legend-text-color);
-		border-left: none;
-		border-right: none;
-		border-top: none;
-		border-bottom: none;
+		border-right: 1px solid var(--pseq-outer-border-color);
+		border-left: 1px solid var(--pseq-outer-border-color);
 		padding: 3px 2px;
 		line-height: 1;
 	}
@@ -181,10 +181,7 @@
 	.play_description {
 		color: var(--body-text-color);
 		background-color: var(--pseq-bottom-bg-color);
-		border-left: none;
-		border-right: none;
-		border-top: 1px solid var(--pseq-outer-border-color);
-		border-bottom: none;
+		border: 1px solid var(--pseq-outer-border-color);
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}

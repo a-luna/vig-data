@@ -198,8 +198,8 @@
 
 	/* At Bat Pitch Location Chart */
 
-	--ploc-chart-size: 300px;
-	--ploc-data-point-radius: 8px;
+	--ploc-chart-size: 280px;
+	--ploc-data-point-radius: 6px;
 	--ploc-x-min: -3;
 	--ploc-x-max: 3;
 	--ploc-y-min: -2;
@@ -1247,17 +1247,12 @@ input {
 
 @media screen and (min-width: 550px) {
 	:root {
-		--ploc-chart-size: 225px;
-		--ploc-data-point-radius: 6px;
+		--ploc-chart-size: 250px;
+		--ploc-data-point-radius: 5px;
 	}
 }
 
 @media screen and (min-width: 600px) {
-	:root {
-		--ploc-chart-size: 300px;
-		--ploc-data-point-radius: 8px;
-	}
-
 	#team-stat-tables .resp-table,
 	#game-summary .linescore {
 		@apply text-sm;
@@ -1266,6 +1261,13 @@ input {
 	#team-stat-tables .resp-table-caption,
 	#play-by-play .resp-table-caption {
 		@apply text-xl;
+	}
+}
+
+@media screen and (min-width: 640px) {
+	:root {
+		--ploc-chart-size: 300px;
+		--ploc-data-point-radius: 8px;
 	}
 }
 

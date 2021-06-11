@@ -72,8 +72,7 @@
 
 		border-left: none;
 		border-right: none;
-		border-top: none;
-		border-bottom: 1px solid var(--pseq-outer-border-color);
+		border: 1px solid var(--pseq-outer-border-color);
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 	}
