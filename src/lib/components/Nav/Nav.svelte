@@ -1,13 +1,14 @@
 <script lang="ts">
-	import GiDinosaurBones from 'svelte-icons/gi/GiDinosaurBones.svelte';
 	import MdMenu from 'svelte-icons/md/MdMenu.svelte';
 	import MdClose from 'svelte-icons/md/MdClose.svelte';
 	import NavItem from './NavItem.svelte';
 	import ThemeSlider from '../Util/ThemeSelector/ThemeSlider.svelte';
 	import type { NavMenuItem } from '$lib/types';
+	import NavIcon from './NavIcon.svelte';
 
 	export let items: NavMenuItem[];
 	let open: boolean = false;
+	let iconName: string;
 
 </script>
 
@@ -35,8 +36,8 @@
 			</div>
 			<div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
 				<div class="nav-icon flex-shrink-0 flex items-center">
-					<div class="block h-8 w-8 stroke-current stroke-2">
-						<GiDinosaurBones />
+					<div class="block h-8 w-8 stroke-current stroke-2" title={iconName}>
+						<NavIcon bind:iconName />
 					</div>
 				</div>
 				<div class="hidden sm:block sm:ml-6">
