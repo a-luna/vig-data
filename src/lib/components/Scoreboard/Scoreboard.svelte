@@ -1,37 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { getScoreboard } from '$lib/api/game';
 	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
-	import {
-		formatDateString,
-		getDateFromString,
-		getSeasonDates,
-		getStringFromDate
-	} from '$lib/util';
-	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';
+	import { getDateFromString, getSeasonDates } from '$lib/util';
+	import { scoreboardDate } from '$lib/stores/singleValueStores';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '../ButtonGroups/DateNavigation.svelte';
 	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
-	import { onMount } from 'svelte';
-	import { seasonSettings } from '$lib/stores/seasonSettings';
 
-	export let gameDate: Date;
+	let selected: Date;
 	let success: boolean;
 	let error_message: string;
-	let date: string;
 	let games_for_date: GameData[];
 	let season: MlbSeason;
 	let start: Date;
 	let end: Date;
 	let getScoreboardRequest: Promise<ApiResponse<Scoreboard> | Result<Date> | Result<Date[]>>;
-	let mounted: boolean = false;
 
-	$: gameDate = getDateFromString($scoreboardDate).value;
-
-	async function getScoreboardForDate(date_str: string) {
-		date = date_str;
-		const getScoreboardResult = await getScoreboard(date_str);
+	async function getScoreboardForDate(date: string) {
+		const getScoreboardResult = await getScoreboard(date);
 		success = getScoreboardResult.success;
 		if (!success) {
 			error_message = getScoreboardResult.message;
@@ -45,40 +32,16 @@
 			error_message = getGameDateresult.message;
 			return getGameDateresult;
 		}
-		gameDate = getGameDateresult.value;
-		$scoreboardDate = getStringFromDate(gameDate);
+		selected = getGameDateresult.value;
 		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
 		if (!getSeasonDatesResult.success) {
 			error_message = getSeasonDatesResult.message;
 			return getSeasonDatesResult;
 		}
 		[start, end] = getSeasonDatesResult.value;
-		if (!mounted) {
-			mounted = true;
-		}
 	}
 
-	function handleDateChanged(event) {
-		date = event.detail;
-		getScoreboardRequest = getScoreboardForDate(date);
-	}
-
-	function changePageAddress(newDate: Date) {
-		window.history.pushState(
-			{ game_date: formatDateString(newDate) },
-			`${pageTitle} | Vigorish`,
-			`?season=${$selectedSeason}&league=${$seasonSettings.league}&show=${
-				$seasonSettings.show
-			}&date=${getStringFromDate(newDate)}`
-		);
-	}
-
-	onMount(() => {
-		getScoreboardRequest = getScoreboardForDate($page.query.get('date') || $scoreboardDate);
-	});
-
-	$: if (mounted) changePageAddress(getDateFromString($scoreboardDate).value);
-	$: pageTitle = `MLB Scoreboard for ${$scoreboardDate}`;
+	$: if ($scoreboardDate) getScoreboardRequest = getScoreboardForDate($scoreboardDate);
 
 </script>
 
@@ -88,14 +51,8 @@
 			<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if success}
-				<DateNavigation
-					{start}
-					{end}
-					bind:selected={gameDate}
-					{date}
-					on:dateChanged={handleDateChanged}
-				/>
-				<h3 class="text-center my-2">Games Played on {gameDate.toDateString()}</h3>
+				<DateNavigation {start} {end} bind:selected />
+				<h3 class="text-center my-2">Games Played on {selected.toDateString()}</h3>
 				<div class="scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
 						<div class="game">

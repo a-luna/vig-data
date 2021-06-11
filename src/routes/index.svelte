@@ -7,6 +7,7 @@
 	import LeagueDropDown from '$lib/components/Util/LeagueSelector/LeagueDropDown.svelte';
 	import SeasonContentSelector from '$lib/components/Util/SeasonContentSelector/SeasonContentSelector.svelte';
 	import SeasonSelector from '$lib/components/Util/SeasonSelector.svelte';
+	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { seasonSettings } from '$lib/stores/seasonSettings';
 	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';
 	import { teamBatStat } from '$lib/stores/teamBatStatFilter';
@@ -19,7 +20,12 @@
 		PitchStatSplit,
 		SeasonContent
 	} from '$lib/types';
-	import { formatDateString } from '$lib/util';
+	import {
+		formatDateString,
+		getDateFromString,
+		getSeasonDates,
+		getStringFromDate
+	} from '$lib/util';
 
 	let gameDate: Date;
 	let mounted: boolean = false;
@@ -82,10 +88,26 @@
 		pitchSplit: PitchStatSplit
 	) {
 		window.history.pushState(
-			{ game_date: formatDateString(gameDate) },
+			{ game_date: formatGameDate(date) },
 			`${pageTitle} | Vigorish`,
 			getQueryParams(season, league, seasonContent, date, batSplit, defPos, batNum, pitchSplit)
 		);
+	}
+
+	function formatGameDate(date: string): string {
+		return formatDateString(getDateFromString(date).value);
+	}
+
+	function handleSeasonChanged(year: number) {
+		const gameDate = getDateFromString($scoreboardDate).value;
+		if (gameDate.getFullYear() !== $selectedSeason) {
+			const matches = $allSeasons.seasons.filter((s) => s.year === year);
+			if (matches.length == 1) {
+				const season = matches[0];
+				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
+				$scoreboardDate = getStringFromDate(season_start);
+			}
+		}
 	}
 
 	onMount(() => {
@@ -104,6 +126,7 @@
 			$teamPitchStat.split
 		);
 	$: pageTitle = getPageTitle($seasonSettings.show, gameDate);
+	$: handleSeasonChanged($selectedSeason);
 
 </script>
 
@@ -124,7 +147,7 @@
 		<SeasonContentSelector />
 	</div>
 	{#if scoreboardShown}
-		<Scoreboard bind:gameDate />
+		<Scoreboard />
 	{:else if standingsShown}
 		<SeasonStandings />
 	{:else if teamBatStatsShown}

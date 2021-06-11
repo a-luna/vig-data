@@ -9,7 +9,6 @@
 
 	export let start: Date;
 	export let end: Date;
-	export let date: string;
 	export let selected: Date;
 	export let color: ThemeColor = 'secondary';
 	let format: string = '#{F} #{j}, #{Y}';
@@ -30,18 +29,20 @@
 	}
 
 	function gotoPrevDay() {
-		date = getStringFromDate(prevDay(selected));
-		dispatch('dateChanged', date);
+		const prev = prevDay(selected);
+		$scoreboardDate = getStringFromDate(prev);
+		dispatch('dateChanged', prev);
 	}
 
 	function gotoNextDay() {
-		date = getStringFromDate(nextDay(selected));
-		dispatch('dateChanged', date);
+		const next = nextDay(selected);
+		$scoreboardDate = getStringFromDate(next);
+		dispatch('dateChanged', next);
 	}
 
 	$: if (dateChosen) {
-		date = getStringFromDate(selected);
-		dispatch('dateChanged', date);
+		$scoreboardDate = getStringFromDate(selected);
+		dispatch('dateChanged', selected);
 		dateChosen = false;
 	}
 
