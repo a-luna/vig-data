@@ -3,6 +3,6 @@
     NODE_VERSION = "16.3.0"
     
 [build]
-  command = "pnpm run build || ( npm install pnpm && pnpm run build )"
+  command = "pnpm run build --force || ( npm install pnpm && pnpm run build --force )"
   publish = "build/"
   functions = "functions/"
