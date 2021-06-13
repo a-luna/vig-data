@@ -1,4 +1,4 @@
-import type { Writable } from 'svelte/store';
+import type { BatterStance } from '$lib/types';
 
 export interface GameDate {
 	year: number;
@@ -670,6 +670,13 @@ export interface CareerPfxPitchingMetricsWithPercentilesByYear {
 	rhb: PfxPitchingMetricsWithPercentilesByYear;
 	lhb: PfxPitchingMetricsWithPercentilesByYear;
 }
+
+export type PfxDataForPlayerSeason = Record<
+	PitchType,
+	{ percentiles: PfxPitchTypePercentiles; metrics: PfxPitchingMetrics }
+>;
+export type PfxDataForPlayerSeasonByYear = Record<number, PfxDataForPlayerSeason>;
+export type AllCareerAndYearlyPfxData = Record<BatterStance, PfxDataForPlayerSeasonByYear>;
 
 export interface StrikeZoneCorner {
 	corner: string;

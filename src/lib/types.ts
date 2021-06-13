@@ -1,6 +1,6 @@
-import { HSL_COLOR_REGEX } from './regex';
 import type { Writable } from 'svelte/store';
 import type { MlbSeason } from './api/types';
+import { HSL_COLOR_REGEX } from './regex';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -24,6 +24,7 @@ export type League = 'both' | 'al' | 'nl';
 export type SeasonContent = 'scoreboard' | 'standings' | 'team-bat' | 'team-pitch';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';
+export type BatterStance = 'both' | 'rhb' | 'lhb';
 export type DefPositionNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type BatOrder = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
