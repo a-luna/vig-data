@@ -1,5 +1,5 @@
 [build.environment]
-  NODE_ENV = "16.3.0"
+  NODE_VERSION = "16.3.0"
 
 [build]
   command = "npm run build"
