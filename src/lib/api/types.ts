@@ -24,6 +24,25 @@ export interface PlayerSearchResult {
 	result: number;
 }
 
+export interface PlayerDetails {
+	name_first: string;
+	name_last: string;
+	name_given: string;
+	bats: string;
+	throws: string;
+	weight: number;
+	height: number;
+	debut: string;
+	birth_year: number;
+	birth_month: number;
+	birth_day: number;
+	birth_country: string;
+	birth_state: string;
+	birth_city: string;
+	bbref_id: string;
+	mlb_id: number;
+}
+
 export interface MlbSeason {
 	year: number;
 	start_date: string;
