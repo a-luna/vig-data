@@ -1,12 +1,3 @@
-import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from './constants';
-import type {
-	AtBatPitchDescription,
-	PitchFx,
-	PitchType,
-	Result,
-	StrikeZoneCorner,
-	StrikeZoneDimensions
-} from './api/types';
 import {
 	GAME_DATE_REGEX,
 	GAME_ID_REGEX,
@@ -14,6 +5,9 @@ import {
 	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
+import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from './api/types';
+import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from './constants';
+import type { TimeSpan } from './types';
 
 export function scrollToTop(): void {
 	window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -364,4 +358,56 @@ export function getToolTipPositionForPfxData(x: number, y: number): 'top' | 'rig
 	} else if (angle >= 225 && 315 > angle) {
 		return 'bottom';
 	}
+}
+
+export function getTimeSpan(start: Date, end: Date): TimeSpan {
+	const timespan = {} as TimeSpan;
+	const seconds = getDurationSeconds(start, end);
+	let remainingTime = seconds;
+	const conversion = [
+		{ key: 'years', value: 60 * 60 * 24 * 365 },
+		{ key: 'days', value: 60 * 60 * 24 },
+		{ key: 'hours', value: 60 * 60 },
+		{ key: 'minutes', value: 60 },
+		{ key: 'seconds', value: 1 },
+		{ key: 'milliseconds', value: 1 / 1000 }
+	];
+	for (const def of conversion) {
+		timespan[def.key] = Math.floor(remainingTime / def.value);
+		remainingTime %= def.value;
+		const additionalKey = `total${capitalize(def.key)}`;
+		timespan[additionalKey] = seconds / def.value;
+	}
+	timespan.toString = () => {
+		let string = '';
+		for (const def of conversion) {
+			const value = timespan[def.key];
+			if (value != 0) {
+				let name = def.key;
+				if (name.endsWith('s')) {
+					name = name.substring(0, name.length - 1);
+				}
+				string += string.length > 0 ? ',' : '';
+				string += ` ${value} ${name}${value == 1 ? '' : 's'}`;
+			}
+		}
+		return string.trim();
+	};
+	return timespan;
+}
+
+function getDurationSeconds(start: Date, end: Date): number {
+	const timeStart = start ? treatAsUTC(start).getTime() : 0;
+	const timeEnd = end ? treatAsUTC(end).getTime() : 0;
+	return (timeEnd - timeStart) / 1000;
+}
+
+function treatAsUTC(date: Date): Date {
+	const result = new Date(date);
+	result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+	return result;
+}
+
+function capitalize(string): string {
+	return string.charAt(0).toUpperCase() + string.substring(1);
 }

@@ -86,3 +86,18 @@ export interface AllMlbSeasonsStore {
 	subscribe: Writable<AllMlbSeasons>['subscribe'];
 	changeMlbSeasons: (seasons: MlbSeason[]) => void;
 }
+
+export interface TimeSpan {
+	years: number;
+	days: number;
+	hours: number;
+	minutes: number;
+	seconds: number;
+	milliseconds: number;
+	totalYears: number;
+	totalDays: number;
+	totalHours: number;
+	totalMinutes: number;
+	totalSeconds: number;
+	totalMilliseconds: number;
+}
