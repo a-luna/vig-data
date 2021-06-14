@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { AtBatDetails, InningSummary, PlayerSubEvent } from '$lib/api/types';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import { formatAtBatResult, scrollToTop } from '$lib/util';
+	import { createEventDispatcher } from 'svelte';
 
 	export let atBatMap: Record<string, AtBatDetails>;
 	export let inningAtBatMap: Record<string, string[]> = {};
@@ -16,9 +16,7 @@
 	}
 
 	function getSubstitutions(atBat: AtBatDetails): string[] {
-		const subEvents = atBat.pbp_events.filter(
-			(event) => event.event_type === 'SUBSTITUTION'
-		) as PlayerSubEvent[];
+		const subEvents = atBat.pbp_events.filter((event) => event.event_type === 'SUBSTITUTION') as PlayerSubEvent[];
 		return subEvents.length > 0 ? subEvents.map((e) => `(${e.sub_description})`) : [];
 	}
 
@@ -84,16 +82,10 @@
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].pitcher_name}
 							</div>
-							<div
-								class="table-body-cell hide-on-mobile"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell hide-on-mobile" class:bg-blue-300={selectedAtBatId === atBatId}>
 								<FlexStrings stringArray={formatAtBatResult(atBatMap[atBatId].play_description)} />
 							</div>
-							<div
-								class="table-body-cell show-on-mobile"
-								class:bg-blue-300={selectedAtBatId === atBatId}
-							>
+							<div class="table-body-cell show-on-mobile" class:bg-blue-300={selectedAtBatId === atBatId}>
 								{atBatMap[atBatId].pfx_des}
 							</div>
 						</div>
@@ -114,12 +106,12 @@
 <style lang="postcss">
 	.inning-begin,
 	.inning-end {
+		font-weight: 700;
 		border-top: none;
 		border-bottom: none;
 	}
 
 	.inning-end {
-		font-weight: 700;
 		color: var(--table-col-header-color);
 		background-color: var(--table-col-header-bg-color);
 		border: none;
