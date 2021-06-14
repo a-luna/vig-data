@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PlayerCard from '$lib/components/PlayerCard/PlayerCard.svelte';
+	import PlayerCard from '$lib/components/Player/PlayerCard.svelte';
 	import type { PlayerCardLink } from '$lib/types';
 
 	const players = [

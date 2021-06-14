@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
 	import { playerSeason } from '$lib/stores/singleValueStores';
-	import PlayerSeasonSelector from '../PlayerSeasonSelector.svelte';
 	import Percentiles from './Percentiles.svelte';
 
 	export let seasons: number[];
@@ -14,7 +13,6 @@
 
 </script>
 
-<PlayerSeasonSelector {seasons} />
 <div class="responsive pt-3">
 	<div class="flex flex-row justify-center flex-nowrap">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">

@@ -1,10 +1,13 @@
 <script context="module" lang="ts">
 	import { getCareerPfxDataByYearForPitcher, getCareerPfxDataForPitcher } from '$lib/api/pitchfx';
+	import { getPlayerDetails } from '$lib/api/player';
 	import type {
 		AllCareerAndYearlyPfxData,
 		CareerPfxPitchingMetricsWithPercentiles,
 		CareerPfxPitchingMetricsWithPercentilesByYear,
-		PitchType
+		PfxPitchingMetrics,
+		PitchType,
+		PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
 	import {
 		combineAllPfxCareerAndYearlyData,
@@ -13,7 +16,9 @@
 	} from '$lib/api/util';
 	import PitchTypePercentiles from '$lib/components/PitchTypeStats/Percentiles/PitchTypePercentiles.svelte';
 	import PitchTypeContentSelector from '$lib/components/PitchTypeStats/PitchTypeContentSelector.svelte';
+	import PlayerSeasonSelector from '$lib/components/PitchTypeStats/PlayerSeasonSelector.svelte';
 	import VeloLocation from '$lib/components/PitchTypeStats/VeloLocation/VeloLocation.svelte';
+	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 
 	export async function load({ page, fetch }) {
 		const { mlb_id } = page.params;
@@ -38,14 +43,25 @@
 		let careerPfxDataByYear = getYearlyPfxDataResult.value;
 		careerPfxDataByYear = getPitchTypeAbbrevsForCareerPfxMetricsByYear(careerPfxDataByYear);
 		const seasons = Array.from(Object.keys(careerPfxDataByYear['both']['metrics']));
-		const allPitchTypes = Object.values(careerPfxData['both']['metrics']['pitch_type_metrics'])
+		const allPitchTypes = Object.values<PfxPitchingMetrics>(careerPfxData['both']['metrics']['pitch_type_metrics'])
 			.sort((a, b) => b.percent - a.percent)
 			.map((m) => m.pitch_type);
 		const allCombinedPfxData = combineAllPfxCareerAndYearlyData(careerPfxData, careerPfxDataByYear);
 
+		const getPlayerDetailsResult = await getPlayerDetails(mlb_id);
+		if (!getPlayerDetailsResult.success) {
+			return {
+				status: getPlayerDetailsResult.status,
+				error: new Error(getPlayerDetailsResult.message)
+			};
+		}
+
+		let playerDetails = getPlayerDetailsResult.value;
+
 		return {
 			props: {
 				mlb_id,
+				playerDetails,
 				seasons,
 				allPitchTypes,
 				careerPfxData,
@@ -59,6 +75,7 @@
 
 <script lang="ts">
 	export let mlb_id: number;
+	export let playerDetails: PlayerDetailsSchema;
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];
 	export let careerPfxData: CareerPfxPitchingMetricsWithPercentiles;
@@ -68,7 +85,13 @@
 
 </script>
 
-<PitchTypeContentSelector on:changed={(event) => (contentShown = event.detail)} />
+<div class="flex flex-row items-end justify-around flex-nowrap">
+	<PlayerDetails {...playerDetails} />
+	<div class="flex flex-col items-end justify-center mb-5 flex-nowrap">
+		<PitchTypeContentSelector on:changed={(event) => (contentShown = event.detail)} />
+		<PlayerSeasonSelector {seasons} />
+	</div>
+</div>
 <div id="pfx-pitcher-stats">
 	{#if contentShown === 'percentiles'}
 		<PitchTypePercentiles {seasons} {allPitchTypes} {allCombinedPfxData} />

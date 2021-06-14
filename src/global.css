@@ -261,7 +261,7 @@ body.light-mode {
 	--theme-slider-bg-color: var(--page-bg-color);
 
 	--header-bg-color: var(--blue2);
-	--nav-icon-color: var(--white4);
+	--nav-icon-color: var(--sec-color-hov);
 
 	--nav-button-bg-color: var(--blue2);
 	--nav-button-bg-color-hov: var(--blue3);
@@ -315,6 +315,8 @@ body.light-mode {
 	--player-card-heading-text-color: var(--black3);
 	--player-card-text-color: var(--black1);
 	--player-card-text-color-hov: var(--black3);
+
+	--player-details-label-color: var(--black4);
 
 	--pseq-top-bg-color: var(--gray1);
 	--pseq-bottom-bg-color: var(--gray1);
@@ -419,6 +421,8 @@ body.dark-mode {
 	--player-card-heading-text-color: var(--white3);
 	--player-card-text-color: var(--white1);
 	--player-card-text-color-hov: var(--white3);
+
+	--player-details-label-color: var(--sec-color);
 
 	--pseq-top-bg-color: var(--indigo1);
 	--pseq-bottom-bg-color: var(--indigo1);
