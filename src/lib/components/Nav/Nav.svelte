@@ -1,15 +1,21 @@
 <script lang="ts">
-	import MdMenu from 'svelte-icons/md/MdMenu.svelte';
-	import MdClose from 'svelte-icons/md/MdClose.svelte';
-	import NavItem from './NavItem.svelte';
-	import ThemeSlider from '../Util/ThemeSelector/ThemeSlider.svelte';
+	import NavIcon from '$lib/components/Nav/NavIcon.svelte';
+	import NavItem from '$lib/components/Nav/NavItem.svelte';
+	import ThemeSlider from '$lib/components/Nav/ThemeSlider.svelte';
+	import { syncHeight } from '$lib/stores/elementHeight';
 	import type { NavMenuItem } from '$lib/types';
-	import NavIcon from './NavIcon.svelte';
+	import MdClose from 'svelte-icons/md/MdClose.svelte';
+	import MdMenu from 'svelte-icons/md/MdMenu.svelte';
+	import { spring } from 'svelte/motion';
 
 	export let items: NavMenuItem[];
 	let open: boolean = false;
 	let name: string;
+	let menuElement: HTMLElement;
+	const heightSpring = spring(0, { stiffness: 0.2, damping: 0.5 });
 
+	$: heightStore = syncHeight(menuElement);
+	$: heightSpring.set(open ? $heightStore || 0 : 0);
 	$: random = Math.floor(Math.random() * 41);
 
 </script>
@@ -22,7 +28,7 @@
 				<button
 					id="menu-button"
 					type="button"
-					class="inline-flex items-center justify-center p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+					class="inline-flex items-center justify-center p-2 rounded-md"
 					aria-controls="mobile-menu"
 					aria-expanded={open}
 					on:click={() => (open = !open)}
@@ -60,10 +66,10 @@
 		</div>
 	</div>
 
-	<div class:hidden={!open} class:sm:block={open} id="mobile-menu">
-		<div class="px-2 pt-2 pb-3 space-y-1">
+	<div class:hidden={!open} class:sm:block={open} id="mobile-menu" style="overflow: hidden; height: {$heightSpring}px">
+		<div class="px-2 py-4 space-y-1" bind:this={menuElement}>
 			{#each items as { label, url }}
-				<NavItem {label} {url} />
+				<NavItem {label} {url} on:click={() => (open = !open)} />
 			{/each}
 			<div class="static flex flex-col items-center inset-auto w-full">
 				<slot />
@@ -89,6 +95,21 @@
 	#menu-button:hover {
 		color: var(--nav-button-text-color-hov);
 		background-color: var(--nav-button-bg-color-hov);
+	}
+
+	#menu-button:focus {
+		outline: 2px solid transparent;
+		outline-offset: 2px;
+		box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+		--tw-ring-inset: inset;
+		--tw-ring-opacity: 1;
+		--tw-ring-color: var(--sec-color);
+		--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+		--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+	}
+
+	#mobile-menu {
+		border-bottom: 2px solid var(--pri-color-hov);
 	}
 
 </style>
