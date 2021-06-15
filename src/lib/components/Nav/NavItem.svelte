@@ -9,15 +9,11 @@
 </script>
 
 {#if current}
-	<a
-		href={url}
-		class="current block px-3 py-1.5 rounded-md text-base font-medium"
-		aria-current="page"
-	>
+	<a href={url} class="current block px-3 py-1.5 rounded-md text-base font-medium" aria-current="page" on:click>
 		{label}
 	</a>
 {:else}
-	<a href={url} class="block px-3 py-1.5 rounded-md text-base font-medium">
+	<a href={url} class="block px-3 py-1.5 rounded-md text-base font-medium" on:click>
 		{label}
 	</a>
 {/if}
