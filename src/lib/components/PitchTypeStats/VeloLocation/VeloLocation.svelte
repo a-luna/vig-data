@@ -3,7 +3,6 @@
 		CareerPfxPitchingMetricsWithPercentiles,
 		CareerPfxPitchingMetricsWithPercentilesByYear
 	} from '$lib/api/types';
-
 	import BatterStanceSelector from '$lib/components/ButtonGroups/BatterStanceSelector.svelte';
 	import VeloLocationTable from '$lib/components/PitchTypeStats/VeloLocation/VeloLocationTable.svelte';
 
@@ -20,8 +19,7 @@
 <BatterStanceSelector on:changed={(event) => (batterStance = event.detail)} />
 <VeloLocationTable pitchTypeMetrics={pfxData} playerSeason={'career'} />
 {#each seasons as year}
-	<VeloLocationTable
-		pitchTypeMetrics={pfxDataByYear[year]['pitch_type_metrics']}
-		playerSeason={year}
-	/>
+	{#if year > 0}
+		<VeloLocationTable pitchTypeMetrics={pfxDataByYear[year]['pitch_type_metrics']} playerSeason={year} />
+	{/if}
 {/each}

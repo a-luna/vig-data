@@ -9,7 +9,7 @@
 	$: percentilesSelected = contentSelected === 'percentiles';
 	$: veloLocSelected = contentSelected === 'velo-loc';
 
-	function changeStance(content: 'percentiles' | 'velo-loc') {
+	function changeContentShown(content: 'percentiles' | 'velo-loc') {
 		contentSelected = content;
 		dispatch('changed', content);
 	}
@@ -20,11 +20,11 @@
 	<button
 		type="button"
 		class={percentilesSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('percentiles')}>Pitch Type Percentiles</button
+		on:click={() => changeContentShown('percentiles')}>Percentiles</button
 	>
 	<button
 		type="button"
 		class={veloLocSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('velo-loc')}>Velocity/Location</button
+		on:click={() => changeContentShown('velo-loc')}>Velo/Location</button
 	>
 </div>

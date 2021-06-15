@@ -1,17 +1,16 @@
 <script lang="ts">
-	import { useDarkTheme } from '$lib/stores/singleValueStores';
+	import { playerSeason, useDarkTheme } from '$lib/stores/singleValueStores';
 	import { spring } from 'svelte/motion';
 
 	export let stat: string;
-	export let value: number[];
+	export let pfxStatsBySeason: Record<number, number[]>;
 
-	$: statValue = value[0];
-	$: statPercentile = value[1];
+	$: statValue = formatStatValue(pfxStatsBySeason[$playerSeason]);
+	$: statPercentile = getStatPercentile(pfxStatsBySeason[$playerSeason]);
 	$: gaugeHue = 220 - statPercentile * 2.2;
 	$: gaugeLight = $useDarkTheme ? 50 : 30;
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
 	$: updateGauge(statPercentile);
-	$: formattedValue = formatStatValue(statValue);
 
 	const gaugeSpring = spring(statPercentile, { stiffness: 0.3, damping: 0.9 });
 
@@ -19,28 +18,40 @@
 		gaugeSpring.update((val) => (val = newPercentile));
 	}
 
-	function formatStatValue(value: number) {
-		if (value !== undefined) {
-			if (stat === 'Speed') {
-				return `${value.toFixed(1)}`;
-			} else if (stat === 'OPS') {
-				let ops = value.toFixed(3);
-				return value > 1.0 ? ops : ops.toString().slice(1);
-			} else {
-				return `${(value * 100).toFixed(1)}%`;
+	function formatStatValue(valueMap: number[]): string {
+		if (valueMap !== undefined) {
+			const value = valueMap[0];
+			if (value !== undefined) {
+				if (stat === 'Speed') {
+					return `${value.toFixed(1)}`;
+				} else if (stat === 'OPS') {
+					let ops = value.toFixed(3);
+					return value > 1.0 ? ops : ops.toString().slice(1);
+				} else {
+					return `${(value * 100).toFixed(1)}%`;
+				}
 			}
+		} else {
+			return '';
 		}
+	}
+
+	function getStatPercentile(valueMap: number[]): number {
+		return valueMap !== undefined ? valueMap[1] : 0.0;
 	}
 
 </script>
 
 <div class="percentile-table-row">
-	<div class="percentile-body-cell w-auto font-bold pr-2">{stat}</div>
-	<div class="percentile-body-cell w-auto pr-2" style="color: {gaugeColor}">{formattedValue}</div>
+	<div class="percentile-body-cell w-auto pr-2">{stat}</div>
+	<div class="percentile-body-cell w-auto pr-2 transition-colors" style="color: {gaugeColor}">{statValue}</div>
 	<div class="percentile-body-cell">
 		<div class="flex flex-row flex-grow flex-nowrap">
-			<div class="my-auto gauge" style="background-color: {gaugeColor}; width: {statPercentile.toFixed(0)}%" />
-			<div class="flex-grow-0 ml-1 text-left" style="color: {gaugeColor}">{statPercentile}</div>
+			<div
+				class="my-auto gauge transition-colors"
+				style="background-color: {gaugeColor}; width: {$gaugeSpring.toFixed(0)}%"
+			/>
+			<div class="flex-grow-0 ml-1 text-left transition-colors" style="color: {gaugeColor}">{statPercentile}</div>
 		</div>
 	</div>
 </div>

@@ -7,17 +7,19 @@
 
 </script>
 
-<div class="mb-5 btn-group">
+<div class="mb-2 sm:mb-5 btn-group">
 	<button
 		type="button"
 		class={$playerSeason === 0 ? `btn btn-${color}` : `btn btn-outline-${color}`}
 		on:click={() => ($playerSeason = 0)}>Career</button
 	>
 	{#each seasons as year}
-		<button
-			type="button"
-			class={$playerSeason === year ? `btn btn-${color}` : `btn btn-outline-${color}`}
-			on:click={() => ($playerSeason = year)}>{year}</button
-		>
+		{#if year > 0}
+			<button
+				type="button"
+				class={$playerSeason === year ? `btn btn-${color}` : `btn btn-outline-${color}`}
+				on:click={() => ($playerSeason = year)}>{year}</button
+			>
+		{/if}
 	{/each}
 </div>

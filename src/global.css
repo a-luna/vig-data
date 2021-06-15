@@ -183,12 +183,10 @@
 	/* Pitch Type Colors */
 
 	--pitch-type-FF: var(--red2);
-	--pitch-type-FC: var(--orange2);
 	--pitch-type-FS: var(--pink2);
 	--pitch-type-FA: var(--red1);
 	--pitch-type-FO: var(--red1);
 	--pitch-type-CU: var(--blue4);
-	--pitch-type-EP: var(--blue-gray1);
 	--pitch-type-KC: var(--indigo3);
 	--pitch-type-KN: var(--blue3);
 	--pitch-type-IN: var(--black4);
@@ -225,7 +223,7 @@ body {
 	font-family: roboto, Helvetica, Arial, sans-serif;
 	font-size: 1rem;
 	font-weight: 400;
-	background: var(--site-bg-color);
+	background: var(--page-bg-color);
 	color: var(--body-text-color);
 	margin: 0;
 	line-height: 1.6;
@@ -335,10 +333,13 @@ body.light-mode {
 	--pitch-type-percentiles-text-color: var(--black4);
 	--pitch-type-percentiles-border-color: var(--table-col-header-bg-color);
 
+	--pitch-type-FF: var(--red1);
 	--pitch-type-FT: var(--pink1);
+	--pitch-type-FC: var(--orange1);
 	--pitch-type-CH: var(--dark-teal1);
 	--pitch-type-SI: var(--green1);
 	--pitch-type-SL: var(--dark-teal2);
+	--pitch-type-EP: var(--dark-gray4);
 }
 
 body.dark-mode {
@@ -422,7 +423,7 @@ body.dark-mode {
 	--player-card-text-color: var(--white1);
 	--player-card-text-color-hov: var(--white3);
 
-	--player-details-label-color: var(--sec-color);
+	--player-details-label-color: var(--light-gray1);
 
 	--pseq-top-bg-color: var(--indigo1);
 	--pseq-bottom-bg-color: var(--indigo1);
@@ -441,10 +442,13 @@ body.dark-mode {
 	--pitch-type-percentiles-text-color: var(--white3);
 	--pitch-type-percentiles-border-color: var(--indigo1);
 
+	--pitch-type-FF: var(--red2);
 	--pitch-type-FT: var(--pink3);
+	--pitch-type-FC: var(--orange2);
 	--pitch-type-CH: var(--teal1);
 	--pitch-type-SI: var(--yellow-green1);
 	--pitch-type-SL: var(--blue-green1);
+	--pitch-type-EP: var(--light-gray1);
 }
 
 a {
@@ -506,12 +510,6 @@ h6 {
 
 nav {
 	background-color: var(--header-bg-color);
-}
-
-main {
-	font-size: 1rem;
-	margin: 0;
-	padding: 20px 10px;
 }
 
 label {
@@ -1311,6 +1309,10 @@ input {
 
 	html {
 		font-size: 16px;
+	}
+
+	body {
+		background: var(--site-bg-color);
 	}
 
 	#game-summary,

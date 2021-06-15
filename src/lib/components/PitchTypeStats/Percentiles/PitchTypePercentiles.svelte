@@ -5,7 +5,7 @@
 
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];
-	export let allCombinedPfxData: AllCareerAndYearlyPfxData;
+	export let allCombinedPfxData: AllCareerAndYearlyPfxData = null;
 
 	function getPitchTypes(stance: 'both' | 'rhb' | 'lhb'): PitchType[] {
 		return Object.keys(allCombinedPfxData[stance][$playerSeason]) as PitchType[];
@@ -13,29 +13,29 @@
 
 </script>
 
-<div class="responsive pt-3">
+<div class="responsive">
 	<div class="flex flex-row justify-center flex-nowrap">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4 class="text-base sm:text-large">Both</h4>
 			{#each allPitchTypes as pitchType}
-				<Percentiles {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'both'} />
+				<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'both'} />
 			{/each}
 		</div>
-		<div class="flex flex-col pitch-type-percentiles flex-nowrap">
+		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4 class="text-base sm:text-large">RHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('rhb').includes(pitchType)}
-					<Percentiles {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'rhb'} />
+					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'rhb'} />
 				{:else}
 					<div class="flex-grow">&nbsp;</div>
 				{/if}
 			{/each}
 		</div>
-		<div class="flex flex-col pitch-type-percentiles flex-nowrap">
+		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4 class="text-base sm:text-large">LHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('lhb').includes(pitchType)}
-					<Percentiles {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'lhb'} />
+					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'lhb'} />
 				{:else}
 					<div class="flex-grow">&nbsp;</div>
 				{/if}

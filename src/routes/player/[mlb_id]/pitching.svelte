@@ -42,7 +42,11 @@
 
 		let careerPfxDataByYear = getYearlyPfxDataResult.value;
 		careerPfxDataByYear = getPitchTypeAbbrevsForCareerPfxMetricsByYear(careerPfxDataByYear);
-		const seasons = Array.from(Object.keys(careerPfxDataByYear['both']['metrics']));
+
+		const seasons = Array.from(Object.keys(careerPfxDataByYear['both']['metrics'])).map((year) => parseInt(year));
+		// Combined career stats are stored under the '0' key in the seasons array.
+		seasons.push(0);
+
 		const allPitchTypes = Object.values<PfxPitchingMetrics>(careerPfxData['both']['metrics']['pitch_type_metrics'])
 			.sort((a, b) => b.percent - a.percent)
 			.map((m) => m.pitch_type);
@@ -60,7 +64,7 @@
 
 		return {
 			props: {
-				mlb_id,
+				// mlb_id,
 				playerDetails,
 				seasons,
 				allPitchTypes,
@@ -74,7 +78,7 @@
 </script>
 
 <script lang="ts">
-	export let mlb_id: number;
+	// export let mlb_id: number;
 	export let playerDetails: PlayerDetailsSchema;
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];
@@ -82,12 +86,16 @@
 	export let careerPfxDataByYear: CareerPfxPitchingMetricsWithPercentilesByYear;
 	export let allCombinedPfxData: AllCareerAndYearlyPfxData;
 	let contentShown: 'percentiles' | 'velo-loc' = 'percentiles';
+	let twMobile: string = 'flex flex-col items-center justify-center mb-2 flex-nowrap text-base w-full';
+	let twSmall: string = 'sm:items-end sm:mt-2 sm:mb-5 sm:text-sm sm:w-auto';
+	let twMedium: string = 'md:text-base';
+	let twStyles = `${twMobile} ${twSmall} ${twMedium}`;
 
 </script>
 
-<div class="flex flex-row items-end justify-around flex-nowrap">
+<div class="flex flex-col sm:flex-row items-start justify-start sm:justify-around sm:mb-5 flex-nowrap">
 	<PlayerDetails {...playerDetails} />
-	<div class="flex flex-col items-end justify-center mb-5 flex-nowrap">
+	<div class={twStyles}>
 		<PitchTypeContentSelector on:changed={(event) => (contentShown = event.detail)} />
 		<PlayerSeasonSelector {seasons} />
 	</div>

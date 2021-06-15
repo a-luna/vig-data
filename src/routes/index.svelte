@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
 	import SeasonStandings from '$lib/components/Standings/SeasonStandings.svelte';
 	import TeamBattingStats from '$lib/components/TeamStats/TeamBattingStats.svelte';
@@ -12,20 +11,9 @@
 	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';
 	import { teamBatStat } from '$lib/stores/teamBatStatFilter';
 	import { teamPitchStat } from '$lib/stores/teamPitchStatFilter';
-	import type {
-		BatOrder,
-		BatStatSplit,
-		DefPositionNumber,
-		League,
-		PitchStatSplit,
-		SeasonContent
-	} from '$lib/types';
-	import {
-		formatDateString,
-		getDateFromString,
-		getSeasonDates,
-		getStringFromDate
-	} from '$lib/util';
+	import type { BatOrder, BatStatSplit, DefPositionNumber, League, PitchStatSplit, SeasonContent } from '$lib/types';
+	import { formatDateString, getDateFromString, getSeasonDates, getStringFromDate } from '$lib/util';
+	import { onMount } from 'svelte';
 
 	let gameDate: Date;
 	let mounted: boolean = false;
@@ -100,7 +88,7 @@
 
 	function handleSeasonChanged(year: number) {
 		const gameDate = getDateFromString($scoreboardDate).value;
-		if (gameDate.getFullYear() !== $selectedSeason) {
+		if (gameDate.getFullYear() !== year) {
 			const matches = $allSeasons.seasons.filter((s) => s.year === year);
 			if (matches.length == 1) {
 				const season = matches[0];

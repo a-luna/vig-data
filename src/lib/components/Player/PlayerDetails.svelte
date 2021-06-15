@@ -31,38 +31,47 @@
 	<title>{name_first} {name_last} Stats | Vigorish</title>
 </svelte:head>
 
-<div class="flex flex-col justify-start mb-5 align-middle flex-nowrap ">
-	<h2 class="text-4xl font-medium leading-tight tracking-wide">{name_first} {name_last}</h2>
-	<div class="flex text-sm">
-		<strong class="mr-1">Full Name</strong>
-		<span class="text-sm">{name_given} {name_last}</span>
+<div class="flex flex-col justify-start mb-5 align-middle flex-nowrap w-full sm:w-auto">
+	<h2 class="text-3xl sm:text-2xl md:text-4xl font-medium leading-tight tracking-wide">{name_first} {name_last}</h2>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Full Name</strong>
+		<span>{name_given} {name_last}</span>
 	</div>
-	<div class="flex text-sm">
-		<strong class="mr-1">Bats</strong>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Bats</strong>
 		<span class="mr-2">{bats}</span>
-		<strong class="mr-1">Throws</strong>
+		<strong class="mr-2">Throws</strong>
 		<span class="mr-2">{throws}</span>
-		<strong class="mr-1">Height</strong>
+	</div>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Height</strong>
 		<span class="mr-2">{height_feet}' {height_inches}''</span>
-		<strong class="mr-1">Weight</strong>
+		<strong class="mr-2">Weight</strong>
 		<span>{weight} llb</span>
 	</div>
-	<div class="flex text-sm">
-		<strong class="mr-1">Born</strong>
-		<span class="mr-1">{birthDate.toLocaleDateString()}</span>
-		<span class="mr-1">in {birthLocation}</span>
-		<span>(Age: {playerAge['years']} years, {playerAge['days']} days)</span>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Age</strong>
+		<span class="mr-2">{playerAge['years']} years, {playerAge['days']} days</span>
 	</div>
-	<div class="flex text-sm">
-		<strong class="mr-1">Debut</strong>
-		<span class="mr-1">{debutDate.toLocaleDateString()}</span>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Born</strong>
+		<span class="mr-1">{birthDate.toLocaleDateString()} ({birthLocation})</span>
+	</div>
+	<div class="flex text-base sm:text-sm leading-snug">
+		<strong class="mr-2">Debut</strong>
+		<span class="mr-2">{debutDate.toLocaleDateString()}</span>
 		<span>(Age: {ageAtDebut['years']} years, {ageAtDebut['days']} days)</span>
 	</div>
 </div>
 
 <style lang="postcss">
 	strong {
+		font-weight: 400;
 		color: var(--player-details-label-color);
+	}
+
+	div > span {
+		font-weight: 300;
 	}
 
 </style>

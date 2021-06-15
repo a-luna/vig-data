@@ -1,10 +1,10 @@
 <script lang="ts">
-	import '../global.css';
 	import MainNav from '$lib/components/MainNav.svelte';
+	import '../global.css';
 
 </script>
 
 <MainNav />
-<main role="main">
+<main role="main" class="text-base m-0 p-5">
 	<slot />
 </main>

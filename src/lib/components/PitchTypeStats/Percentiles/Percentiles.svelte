@@ -1,73 +1,87 @@
 <script lang="ts">
-	import type {
-		AllCareerAndYearlyPfxData,
-		PfxPitchingMetrics,
-		PfxPitchTypePercentiles,
-		PitchType
-	} from '$lib/api/types';
+	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
 	import { onMount } from 'svelte';
 	import Percentile from './Percentile.svelte';
 
+	export let seasons: number[];
 	export let batterStance: BatterStance;
 	export let pitchType: PitchType;
 	export let combinedPfxCareerData: AllCareerAndYearlyPfxData;
-	let percentiles: PfxPitchTypePercentiles = null;
-	let metrics: PfxPitchingMetrics = null;
-	let percent: string;
-	let speed: number[];
-	let ops: number[];
-	let whiff: number[];
-	let zone: number[];
-	let contact: number[];
-	let oswing: number[];
+	let percentMap: Record<number, string> = {};
+	let speedMap: Record<number, number[]> = {};
+	let opsMap: Record<number, number[]> = {};
+	let whiffMap: Record<number, number[]> = {};
+	let zoneMap: Record<number, number[]> = {};
+	let contactMap: Record<number, number[]> = {};
+	let oSwingMap: Record<number, number[]> = {};
+	let initialized: boolean = false;
+	let chartHeight: number;
 
-	onMount(() => ({ percentiles, metrics } = combinedPfxCareerData[batterStance][$playerSeason][pitchType]));
+	onMount(() => getValuesForAllPlayerSeasons());
 
-	$: {
-		({ percentiles, metrics } = combinedPfxCareerData[batterStance][$playerSeason][pitchType]);
-		percent = metrics !== null ? `${(metrics?.percent * 100).toFixed(0)}%` : '0%';
-		speed = percentiles !== null ? [percentiles['avg_speed'][0], percentiles['avg_speed'][1]] : [0, 0];
-		ops = percentiles !== null ? [percentiles['ops'][0], percentiles['ops'][1]] : [0, 0];
-		whiff = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
-		zone = percentiles !== null ? [percentiles['zone_rate'][0], percentiles['zone_rate'][1]] : [0, 0];
-		contact = percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
-		oswing = percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
+	function getValuesForAllPlayerSeasons() {
+		seasons.map((year) => {
+			const { percentiles, metrics } = combinedPfxCareerData[batterStance][year][pitchType];
+			speedMap[year] = [];
+			opsMap[year] = [];
+			whiffMap[year] = [];
+			zoneMap[year] = [];
+			contactMap[year] = [];
+			oSwingMap[year] = [];
+			percentMap[year] = metrics !== null ? `${(metrics.percent * 100).toFixed(0)}%` : '0%';
+			speedMap[year] = percentiles !== null ? [percentiles['avg_speed'][0], percentiles['avg_speed'][1]] : [0, 0];
+			opsMap[year] = percentiles !== null ? [percentiles['ops'][0], percentiles['ops'][1]] : [0, 0];
+			whiffMap[year] = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
+			zoneMap[year] = percentiles !== null ? [percentiles['zone_rate'][0], percentiles['zone_rate'][1]] : [0, 0];
+			contactMap[year] =
+				percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
+			oSwingMap[year] =
+				percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
+			initialized = true;
+		});
 	}
+
+	function getChartHeight(): number {
+		const chart: HTMLElement = document.querySelector('.batter-stance-both');
+		return chart !== null ? chart.offsetHeight : 0;
+	}
+
+	$: if (initialized) chartHeight = getChartHeight();
 
 </script>
 
-{#if percentiles !== null}
-	<div class="responsive pt-3">
+{#if percentMap[$playerSeason] !== '0%'}
+	<div class="responsive pt-3 leading-snug batter-stance-{batterStance}">
 		<div class="percentile-table w-full">
 			<div class="percentile-table-body">
 				<div class="percentile-table-row text-center">
-					<div class="pitch-type-name font-bold text-center" style="color: var(--pitch-type-{pitchType})">
+					<div class="pitch-type-name text-center" style="color: var(--pitch-type-{pitchType})">
 						{PITCH_TYPE_ABBREV_TO_NAME_MAP[pitchType]}
-						{percent}
+						{percentMap[$playerSeason]}
 					</div>
-					<div class="pitch-type-abbrev font-bold text-center" style="color: var(--pitch-type-{pitchType})">
+					<div class="pitch-type-abbrev text-center" style="color: var(--pitch-type-{pitchType})">
 						{pitchType}
-						{percent}
+						{percentMap[$playerSeason]}
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="percentile-table px-2 sm:px-4 py-1 mx-auto">
 			<div class="percentile-table-body">
-				<Percentile stat={'Speed'} bind:value={speed} />
-				<Percentile stat={'OPS'} bind:value={ops} />
-				<Percentile stat={'Whiff %'} bind:value={whiff} />
-				<Percentile stat={'Zone %'} bind:value={zone} />
-				<Percentile stat={'Cont %'} bind:value={contact} />
-				<Percentile stat={'O-SW %'} bind:value={oswing} />
+				<Percentile stat={'Speed'} bind:pfxStatsBySeason={speedMap} />
+				<Percentile stat={'OPS'} bind:pfxStatsBySeason={opsMap} />
+				<Percentile stat={'Whiff %'} bind:pfxStatsBySeason={whiffMap} />
+				<Percentile stat={'Zone %'} bind:pfxStatsBySeason={zoneMap} />
+				<Percentile stat={'Cont %'} bind:pfxStatsBySeason={contactMap} />
+				<Percentile stat={'O-SW %'} bind:pfxStatsBySeason={oSwingMap} />
 			</div>
 		</div>
 	</div>
 {:else}
-	<div class="flex-grow">&nbsp;</div>
+	<div class="placeholder flex-grow" style="height: {chartHeight}">&nbsp;</div>
 {/if}
 
 <style lang="postcss">
