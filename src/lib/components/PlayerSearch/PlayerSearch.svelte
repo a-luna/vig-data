@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SearchForm from './SearchForm.svelte';
-	import SearchResults from './SearchResults.svelte';
-	import type { ApiResponse, PlayerSearchResult } from '$lib/api/types';
 	import { playerNameSearch } from '$lib/api/player';
+	import type { ApiResponse, PlayerSearchResult } from '$lib/api/types';
+	import SearchForm from '$lib/components/PlayerSearch/SearchForm.svelte';
+	import SearchResults from '$lib/components/PlayerSearch/SearchResults.svelte';
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let playerSearchRequest: Promise<ApiResponse<PlayerSearchResult[]>>;

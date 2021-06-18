@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { scale } from 'svelte/transition';
-	import { cubicIn, cubicOut } from 'svelte/easing';
+	import Option from '$lib/components/Select/Option.svelte';
+	import type { SelectMenuOption } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import MdArrowDropDown from 'svelte-icons/md/MdArrowDropDown.svelte';
-	import type { SelectMenuOption } from '$lib/types';
-	import Option from './Option.svelte';
+	import { cubicIn, cubicOut } from 'svelte/easing';
+	import { scale } from 'svelte/transition';
 
 	export let menuLabel: string = 'Options';
 	export let options: SelectMenuOption[];
@@ -14,7 +14,7 @@
 	let dropdownShown: boolean = false;
 	const dispatch = createEventDispatcher();
 
-	function clickOutside(node, { enabled: initialEnabled, cb }) {
+	function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb }) {
 		const handleOutsideClick = ({ target }) => {
 			if (!node.contains(target)) {
 				cb();
@@ -38,11 +38,9 @@
 		};
 	}
 
-	function handleOptionClicked(selectedOptionNumber) {
+	function handleOptionClicked(selectedOptionNumber: number) {
 		options.map((menuOption) => (menuOption.active = false));
-		selectedOption = options.filter(
-			(menuOption) => menuOption.optionNumber == selectedOptionNumber
-		)[0];
+		selectedOption = options.filter((menuOption) => menuOption.optionNumber == selectedOptionNumber)[0];
 		selectedOption.active = true;
 		dispatch('changed', selectedOption.value);
 		dropdownShown = false;
@@ -51,20 +49,20 @@
 </script>
 
 <div
-	class="relative inline-block text-left w-full"
+	class="relative inline-block w-full text-left"
 	use:clickOutside={{ enabled: dropdownShown, cb: () => (dropdownShown = !dropdownShown) }}
 >
 	<div>
 		<button
 			type="button"
-			class="inline-flex justify-center items-center w-full rounded-md border shadow-sm px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-800"
+			class="inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-800"
 			id="menu-button"
 			aria-expanded={dropdownShown}
 			aria-haspopup="true"
 			on:click={() => (dropdownShown = !dropdownShown)}
 		>
-			<span class="leading-none mx-auto">{menuLabel}</span>
-			<div class="-mr-2 ml-1 h-5 w-5">
+			<span class="mx-auto leading-none">{menuLabel}</span>
+			<div class="w-5 h-5 ml-1 -mr-2">
 				<MdArrowDropDown />
 			</div>
 		</button>
@@ -72,7 +70,7 @@
 
 	{#if dropdownShown}
 		<div
-			class="dropdown origin-top-right absolute right-0 mt-2 z-10 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+			class="absolute right-0 z-10 mt-2 origin-top-right rounded-md shadow-lg dropdown ring-1 ring-black ring-opacity-5 focus:outline-none"
 			role="menu"
 			aria-orientation="vertical"
 			aria-labelledby="menu-button"

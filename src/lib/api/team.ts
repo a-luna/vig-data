@@ -1,6 +1,6 @@
-import { API_URL_ROOT, API_VERSION } from './config';
-import { validateApiResponse } from './util';
-import type { ApiResponse, TeamBatStats, TeamPitchStats } from './types';
+import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import type { ApiResponse, TeamBatStats, TeamPitchStats } from '$lib/api/types';
+import { validateApiResponse } from '$lib/api/util';
 
 export async function getBatStatsForAllTeams(year: number): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!year) return { status: 400, success: false, message: 'No value was provided for year' };

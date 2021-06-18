@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import Gi3DStairs from 'svelte-icons/gi/Gi3DStairs.svelte';
 	import GiAbacus from 'svelte-icons/gi/GiAbacus.svelte';
 	import GiAbstract063 from 'svelte-icons/gi/GiAbstract063.svelte';
@@ -12,8 +12,8 @@
 	import GiContract from 'svelte-icons/gi/GiContract.svelte';
 	import GiConvergenceTarget from 'svelte-icons/gi/GiConvergenceTarget.svelte';
 	import GiConwayLifeGlider from 'svelte-icons/gi/GiConwayLifeGlider.svelte';
-	import GiCrowNest from 'svelte-icons/gi/GiCrowNest.svelte';
 	import GiCrownCoin from 'svelte-icons/gi/GiCrownCoin.svelte';
+	import GiCrowNest from 'svelte-icons/gi/GiCrowNest.svelte';
 	import GiCrystalShine from 'svelte-icons/gi/GiCrystalShine.svelte';
 	import GiDiagram from 'svelte-icons/gi/GiDiagram.svelte';
 	import GiDividedSquare from 'svelte-icons/gi/GiDividedSquare.svelte';
@@ -134,4 +134,4 @@
 
 </script>
 
-<svelte:component this={icons[random]} />
+<svelte:component this={icons[random]} /> -->

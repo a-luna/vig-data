@@ -1,26 +1,32 @@
-<script>
+<script lang="ts">
 	import { getContext } from 'svelte';
 
 	const { xScale, padding } = getContext('LayerCake');
 
 	export let gridlines = true;
 	export let tickMarks = false;
-	export let formatTick = (d) => d;
+	export let formatTick = (d: number) => d;
 	export let baseline = false;
 	export let snapTicks = false;
 	export let ticks = undefined;
 	export let yTick = 7;
 	export let dyTick = 0;
+	let tickVals: number[];
 
 	$: isBandwidth = typeof $xScale.bandwidth === 'function';
 
-	$: tickVals = Array.isArray(ticks)
-		? ticks
-		: isBandwidth
-		? $xScale.domain()
-		: typeof ticks === 'function'
-		? ticks($xScale.ticks())
-		: $xScale.ticks(ticks);
+	$: {
+		if (Array.isArray(ticks)) {
+			tickVals = ticks;
+		} else if (isBandwidth) {
+			tickVals = $xScale.domain();
+		} else if (typeof ticks === 'function') {
+			const ticksFunc: (range: number[]) => number[] = ticks;
+			tickVals = ticksFunc($xScale.ticks());
+		} else {
+			tickVals = $xScale.ticks(ticks);
+		}
+	}
 
 </script>
 
@@ -32,14 +38,10 @@
 		{#if tickMarks === true}
 			<div
 				class="tick-mark"
-				style="left:{$xScale(tick) +
-					(isBandwidth ? $xScale.bandwidth() / 2 : 0)}%;height:6px;bottom: -6px;"
+				style="left:{$xScale(tick) + (isBandwidth ? $xScale.bandwidth() / 2 : 0)}%;height:6px;bottom: -6px;"
 			/>
 		{/if}
-		<div
-			class="tick tick-{i}"
-			style="left:{$xScale(tick) + (isBandwidth ? $xScale.bandwidth() / 2 : 0)}%;top:100%;"
-		>
+		<div class="tick tick-{i}" style="left:{$xScale(tick) + (isBandwidth ? $xScale.bandwidth() / 2 : 0)}%;top:100%;">
 			<div class="text" style="top:{yTick + dyTick}px;">{formatTick(tick)}</div>
 		</div>
 	{/each}

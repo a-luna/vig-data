@@ -1,6 +1,6 @@
-import { API_URL_ROOT, API_VERSION } from './config';
-import type { ApiResponse, PlayerDetails, PlayerSearchResult } from './types';
-import { validateApiResponse } from './util';
+import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import type { ApiResponse, PlayerDetails, PlayerSearchResult } from '$lib/api/types';
+import { validateApiResponse } from '$lib/api/util';
 
 export async function playerNameSearch(query: string): Promise<ApiResponse<PlayerSearchResult[]>> {
 	if (!query) return { status: 400, success: false, message: 'You must enter a search term' };

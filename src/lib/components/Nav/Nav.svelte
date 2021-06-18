@@ -1,27 +1,25 @@
 <script lang="ts">
-	import NavIcon from '$lib/components/Nav/NavIcon.svelte';
 	import NavItem from '$lib/components/Nav/NavItem.svelte';
 	import ThemeSlider from '$lib/components/Nav/ThemeSlider.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import type { NavMenuItem } from '$lib/types';
+	import GiMoebiusTriangle from 'svelte-icons/gi/GiMoebiusTriangle.svelte';
 	import MdClose from 'svelte-icons/md/MdClose.svelte';
 	import MdMenu from 'svelte-icons/md/MdMenu.svelte';
 	import { spring } from 'svelte/motion';
 
 	export let items: NavMenuItem[];
 	let open: boolean = false;
-	let name: string;
 	let menuElement: HTMLElement;
 	const heightSpring = spring(0, { stiffness: 0.2, damping: 0.5 });
 
 	$: heightStore = syncHeight(menuElement);
 	$: heightSpring.set(open ? $heightStore || 0 : 0);
-	$: random = Math.floor(Math.random() * 41);
 
 </script>
 
 <nav>
-	<div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+	<div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
 		<div class="relative flex items-center justify-between h-14">
 			<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
 				<!-- Mobile menu button-->
@@ -34,18 +32,18 @@
 					on:click={() => (open = !open)}
 				>
 					<span class="sr-only">Open main menu</span>
-					<div class:hidden={open} class:block={!open} class="h-6 w-6 stroke-current stroke-2">
+					<div class:hidden={open} class:block={!open} class="w-6 h-6 stroke-current stroke-2">
 						<MdMenu />
 					</div>
-					<div class:hidden={!open} class:block={open} class="h-6 w-6 stroke-current stroke-2">
+					<div class:hidden={!open} class:block={open} class="w-6 h-6 stroke-current stroke-2">
 						<MdClose />
 					</div>
 				</button>
 			</div>
-			<div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-				<div class="nav-icon flex-shrink-0 flex items-center">
-					<div class="block h-8 w-8 stroke-current stroke-2" title={name}>
-						<NavIcon bind:random bind:name />
+			<div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+				<div class="flex items-center flex-shrink-0 nav-icon">
+					<div class="block w-8 h-8 stroke-current stroke-2">
+						<GiMoebiusTriangle />
 					</div>
 				</div>
 				<div class="hidden sm:block sm:ml-6">
@@ -56,10 +54,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="absolute inset-y-0 right-0 items-center pr-2 flex sm:hidden">
+			<div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:hidden">
 				<ThemeSlider />
 			</div>
-			<div class="absolute inset-y-0 right-0 items-center pr-2 hidden sm:flex">
+			<div class="absolute inset-y-0 right-0 items-center hidden pr-2 sm:flex">
 				<ThemeSlider />
 				<slot />
 			</div>
@@ -71,7 +69,7 @@
 			{#each items as { label, url }}
 				<NavItem {label} {url} on:click={() => (open = !open)} />
 			{/each}
-			<div class="static flex flex-col items-center inset-auto w-full">
+			<div class="static inset-auto flex flex-col items-center w-full">
 				<slot />
 			</div>
 		</div>

@@ -15,7 +15,7 @@
 	const gaugeSpring = spring(statPercentile, { stiffness: 0.3, damping: 0.9 });
 
 	function updateGauge(newPercentile: number) {
-		gaugeSpring.update((val) => (val = newPercentile));
+		gaugeSpring.update((_val) => (_val = newPercentile));
 	}
 
 	function formatStatValue(valueMap: number[]): string {
@@ -43,12 +43,12 @@
 </script>
 
 <div class="percentile-table-row">
-	<div class="percentile-body-cell w-auto pr-2">{stat}</div>
-	<div class="percentile-body-cell w-auto pr-2 transition-colors" style="color: {gaugeColor}">{statValue}</div>
+	<div class="w-auto pr-2 percentile-body-cell">{stat}</div>
+	<div class="w-auto pr-2 transition-colors percentile-body-cell" style="color: {gaugeColor}">{statValue}</div>
 	<div class="percentile-body-cell">
 		<div class="flex flex-row flex-grow flex-nowrap">
 			<div
-				class="my-auto gauge transition-colors"
+				class="my-auto transition-colors gauge"
 				style="background-color: {gaugeColor}; width: {$gaugeSpring.toFixed(0)}%"
 			/>
 			<div class="flex-grow-0 ml-1 text-left transition-colors" style="color: {gaugeColor}">{statPercentile}</div>

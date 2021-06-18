@@ -1,21 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { gameContentShown } from '$lib/stores/singleValueStores';
-	import type {
-		ApiResponse,
-		AtBatDetails,
-		Boxscore as BoxscoreSchema,
-		Result
-	} from '$lib/api/types';
+	import { getAllPlayByPlayData, getBoxscore } from '$lib/api/game';
+	import type { ApiResponse, AtBatDetails, Boxscore as BoxscoreSchema, Result } from '$lib/api/types';
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
-	import { getAllPlayByPlayData, getBoxscore } from '$lib/api/game';
+	import { gameContentShown } from '$lib/stores/singleValueStores';
+	import type { GameContent } from '$lib/types';
 	import { getDateFromGameId } from '$lib/util';
 	import { onMount } from 'svelte';
-	import { SyncLoader } from '../../../node_modules/svelte-loading-spinners/src';
-	import type { GameContent } from '$lib/types';
+	import { Pulse } from '../../../node_modules/svelte-loading-spinners/src';
 
 	let game_id: string;
 	let game_summary: string;
@@ -23,9 +18,7 @@
 	let all_pbp: AtBatDetails[];
 	let atBatViewer: AtBatViewer;
 	let date_str: string;
-	let getAllGameDataRequest: Promise<
-		ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>
-	>;
+	let getAllGameDataRequest: Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>>;
 	let getBoxscoreResult: ApiResponse<BoxscoreSchema>;
 	let getGameDateResult: Result<Date>;
 	let getAllPBPResult: ApiResponse<AtBatDetails[]>;
@@ -109,7 +102,7 @@
 <GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
 {#if getAllGameDataRequest}
 	{#await getAllGameDataRequest}
-		<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+		<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 	{:then result}
 		{#if result.success}
 			<Boxscore

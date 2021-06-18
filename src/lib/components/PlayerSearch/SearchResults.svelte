@@ -1,9 +1,10 @@
 <script lang="ts">
-	import PlayerMatch from './PlayerMatch.svelte';
 	import type { PlayerSearchResult } from '$lib/api/types';
+	import PlayerMatch from '$lib/components/PlayerSearch/PlayerMatch.svelte';
 	export let searchResults: PlayerSearchResult[];
 
 	$: endIndex = searchResults.length <= 10 ? searchResults.length - 1 : 10;
+
 </script>
 
 <ul>
@@ -20,4 +21,5 @@
 		padding: 0;
 		margin: 0;
 	}
+
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let loading: boolean = false;
 
@@ -12,7 +12,7 @@
 
 <div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading}>
 	<div class="loading-overlay" on:click={() => toggleLoading()} />
-	<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+	<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 </div>
 
 <style lang="postcss">

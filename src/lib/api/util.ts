@@ -1,4 +1,3 @@
-import { PITCH_TYPE_MAP } from '$lib/constants';
 import type {
 	AllCareerAndYearlyPfxData,
 	ApiResponse,
@@ -12,7 +11,8 @@ import type {
 	PfxPitchingMetricsWithPercentilesByYear,
 	PfxPitchTypePercentiles,
 	PitchType
-} from './types';
+} from '$lib/api/types';
+import { PITCH_TYPE_MAP } from '$lib/constants';
 
 export async function validateApiResponse<T>(response: Response): Promise<ApiResponse<T>> {
 	if (!response.ok || response.status >= 400)

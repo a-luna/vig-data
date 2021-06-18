@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
+	import Percentiles from '$lib/components/PitchTypeStats/Percentiles/Percentiles.svelte';
 	import { playerSeason } from '$lib/stores/singleValueStores';
-	import Percentiles from './Percentiles.svelte';
 
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];

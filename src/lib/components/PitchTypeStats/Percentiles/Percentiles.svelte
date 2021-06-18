@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
+	import Percentile from '$lib/components/PitchTypeStats/Percentiles/Percentile.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
 	import { onMount } from 'svelte';
-	import Percentile from './Percentile.svelte';
 
 	export let seasons: number[];
 	export let batterStance: BatterStance;
@@ -55,21 +55,21 @@
 
 {#if percentMap[$playerSeason] !== '0%'}
 	<div class="responsive pt-3 leading-snug batter-stance-{batterStance}">
-		<div class="percentile-table w-full">
+		<div class="w-full percentile-table">
 			<div class="percentile-table-body">
-				<div class="percentile-table-row text-center">
-					<div class="pitch-type-name text-center" style="color: var(--pitch-type-{pitchType})">
+				<div class="text-center percentile-table-row">
+					<div class="text-center pitch-type-name" style="color: var(--pitch-type-{pitchType})">
 						{PITCH_TYPE_ABBREV_TO_NAME_MAP[pitchType]}
 						{percentMap[$playerSeason]}
 					</div>
-					<div class="pitch-type-abbrev text-center" style="color: var(--pitch-type-{pitchType})">
+					<div class="text-center pitch-type-abbrev" style="color: var(--pitch-type-{pitchType})">
 						{pitchType}
 						{percentMap[$playerSeason]}
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="percentile-table px-2 sm:px-4 py-1 mx-auto">
+		<div class="px-2 py-1 mx-auto percentile-table sm:px-4">
 			<div class="percentile-table-body">
 				<Percentile stat={'Speed'} bind:pfxStatsBySeason={speedMap} />
 				<Percentile stat={'OPS'} bind:pfxStatsBySeason={opsMap} />
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="placeholder flex-grow" style="height: {chartHeight}">&nbsp;</div>
+	<div class="flex-grow placeholder" style="height: {chartHeight}">&nbsp;</div>
 {/if}
 
 <style lang="postcss">

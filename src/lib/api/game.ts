@@ -1,6 +1,6 @@
-import { API_URL_ROOT, API_VERSION } from './config';
-import { validateApiResponse } from './util';
-import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard } from './types';
+import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard } from '$lib/api/types';
+import { validateApiResponse } from '$lib/api/util';
 import { AT_BAT_ID_REGEX, GAME_DATE_REGEX } from '$lib/regex';
 
 export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore>> {

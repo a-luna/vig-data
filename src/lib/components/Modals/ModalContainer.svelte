@@ -1,6 +1,4 @@
 <script lang="ts">
-	import CloseModalButton from '$lib/components/Buttons/CloseModalButton.svelte';
-
 	let hidden: boolean = false;
 
 	export function toggleModal() {

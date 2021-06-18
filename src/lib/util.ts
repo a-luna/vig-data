@@ -1,3 +1,5 @@
+import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
+import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
 import {
 	GAME_DATE_REGEX,
 	GAME_ID_REGEX,
@@ -5,9 +7,7 @@ import {
 	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
-import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from './api/types';
-import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from './constants';
-import type { TimeSpan } from './types';
+import type { TimeSpan } from '$lib/types';
 
 export function scrollToTop(): void {
 	window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -361,8 +361,18 @@ export function getToolTipPositionForPfxData(x: number, y: number): 'top' | 'rig
 }
 
 export function getTimeSpan(start: Date, end: Date): TimeSpan {
-	const timespan = {} as TimeSpan;
 	const seconds = getDurationSeconds(start, end);
+	return convertTotalSecondsToTimeSpan(seconds);
+}
+
+function getDurationSeconds(start: Date, end: Date): number {
+	const timeStart = start ? treatAsUTC(start).getTime() : 0;
+	const timeEnd = end ? treatAsUTC(end).getTime() : 0;
+	return (timeEnd - timeStart) / 1000;
+}
+
+function convertTotalSecondsToTimeSpan(seconds: number): TimeSpan {
+	const timespan = {} as TimeSpan;
 	let remainingTime = seconds;
 	const conversion = [
 		{ key: 'years', value: 60 * 60 * 24 * 365 },
@@ -394,12 +404,6 @@ export function getTimeSpan(start: Date, end: Date): TimeSpan {
 		return string.trim();
 	};
 	return timespan;
-}
-
-function getDurationSeconds(start: Date, end: Date): number {
-	const timeStart = start ? treatAsUTC(start).getTime() : 0;
-	const timeEnd = end ? treatAsUTC(end).getTime() : 0;
-	return (timeEnd - timeStart) / 1000;
 }
 
 function treatAsUTC(date: Date): Date {

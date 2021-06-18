@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ThemeColor } from '../../types';
+	import type { ThemeColor } from '$lib/types';
 
 	export let color: ThemeColor = 'primary';
 	export let size: 'sm' | 'md' | 'lg' = 'md';

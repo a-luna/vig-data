@@ -1,6 +1,6 @@
-import type { ApiResponse, MlbSeason, SeasonData } from './types';
-import { API_URL_ROOT, API_VERSION } from './config';
-import { validateApiResponse } from './util';
+import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import type { ApiResponse, MlbSeason, SeasonData } from '$lib/api/types';
+import { validateApiResponse } from '$lib/api/util';
 
 export async function getAllValidSeasons(): Promise<ApiResponse<MlbSeason[]>> {
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/all`);

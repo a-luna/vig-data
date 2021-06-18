@@ -20,9 +20,9 @@
 	import VeloLocation from '$lib/components/PitchTypeStats/VeloLocation/VeloLocation.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 
-	export async function load({ page, fetch }) {
+	export async function load({ page }) {
 		const { mlb_id } = page.params;
-		const getCareerPfxDataResult = await getCareerPfxDataForPitcher(mlb_id, fetch);
+		const getCareerPfxDataResult = await getCareerPfxDataForPitcher(mlb_id);
 		if (!getCareerPfxDataResult.success) {
 			return {
 				status: getCareerPfxDataResult.status,
@@ -32,7 +32,7 @@
 		let careerPfxData = getCareerPfxDataResult.value;
 		careerPfxData = getPitchTypeAbbrevsForCareerPfxMetrics(careerPfxData);
 
-		const getYearlyPfxDataResult = await getCareerPfxDataByYearForPitcher(mlb_id, fetch);
+		const getYearlyPfxDataResult = await getCareerPfxDataByYearForPitcher(mlb_id);
 		if (!getYearlyPfxDataResult.success) {
 			return {
 				status: getYearlyPfxDataResult.status,
@@ -93,7 +93,7 @@
 
 </script>
 
-<div class="flex flex-col sm:flex-row items-start justify-start sm:justify-around sm:mb-5 flex-nowrap">
+<div class="flex flex-col items-start justify-start sm:flex-row sm:justify-around sm:mb-5 flex-nowrap">
 	<PlayerDetails {...playerDetails} />
 	<div class={twStyles}>
 		<PitchTypeContentSelector on:changed={(event) => (contentShown = event.detail)} />
