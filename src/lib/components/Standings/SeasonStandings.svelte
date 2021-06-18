@@ -2,8 +2,8 @@
 	import { getSeasonStandings } from '$lib/api/season';
 	import type { ApiResponse, SeasonData } from '$lib/api/types';
 	import SeasonStandingsTable from '$lib/components/Standings/SeasonStandingsTable.svelte';
-	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
-	import { selectedSeason } from '$lib/stores/singleValueStores';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let seasonStandings: SeasonData;
 	let getStandingsRequest: Promise<ApiResponse<SeasonData>>;
@@ -18,8 +18,8 @@
 		return getStandingsResult;
 	}
 
-	$: if ($selectedSeason) {
-		getStandingsRequest = getStandings($selectedSeason);
+	$: if ($seasonStatFilter.season) {
+		getStandingsRequest = getStandings($seasonStatFilter.season);
 	}
 
 </script>
@@ -31,7 +31,7 @@
 	<div class="season-standings flex flex-row flex-wrap flex-auto justify-center mb-4 mt-0 mx-auto">
 		{#if getStandingsRequest}
 			{#await getStandingsRequest}
-				<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+				<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 			{:then result}
 				{#if result.success}
 					<SeasonStandingsTable bind:seasonStandings />

@@ -1,6 +1,6 @@
+import type { MlbSeason } from '$lib/api/types';
+import { HSL_COLOR_REGEX } from '$lib/regex';
 import type { Writable } from 'svelte/store';
-import type { MlbSeason } from './api/types';
-import { HSL_COLOR_REGEX } from './regex';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -20,8 +20,9 @@ export class HslColor {
 
 export type ThemeColor = 'primary' | 'secondary';
 export type GameContent = 'box' | 'pbp' | 'charts';
-export type League = 'both' | 'al' | 'nl';
 export type SeasonContent = 'scoreboard' | 'standings' | 'team-bat' | 'team-pitch';
+export type PlayerContent = 'percentiles' | 'velo-loc';
+export type League = 'both' | 'al' | 'nl';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';
 export type BatterStance = 'both' | 'rhb' | 'lhb';
@@ -45,41 +46,29 @@ export interface NavMenuItem {
 	url: string;
 }
 
-export interface SeasonSettings {
-	show: SeasonContent;
+export interface SeasonStatFilter {
+	season: number;
 	league: League;
-}
-
-export interface TeamBatStatFilter {
-	split: BatStatSplit;
+	gameDate: string;
+	pitchStatSplit: PitchStatSplit;
+	batStatSplit: BatStatSplit;
 	defPosition: DefPositionNumber;
-	lineupSlot: BatOrder;
-}
-
-export interface TeamPitchStatFilter {
-	split: PitchStatSplit;
+	batOrder: BatOrder;
 }
 
 export interface AllMlbSeasons {
 	seasons: MlbSeason[];
 }
 
-export interface SeasonSettingsStore {
-	subscribe: Writable<SeasonSettings>['subscribe'];
+export interface SeasonStatFilterStore {
+	subscribe: Writable<SeasonStatFilter>['subscribe'];
+	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
-	changeContent: (show: SeasonContent) => void;
-}
-
-export interface TeamBatStatFilterStore {
-	subscribe: Writable<TeamBatStatFilter>['subscribe'];
-	changeSplit: (split: BatStatSplit) => void;
+	changeGameDate: (gameDate: string) => void;
+	changePitchStatSplit: (split: PitchStatSplit) => void;
+	changeBatStatSplit: (split: BatStatSplit) => void;
 	changeDefPosition: (defPosition: DefPositionNumber) => void;
-	changeLineupSlot: (lineupSlot: BatOrder) => void;
-}
-
-export interface TeamPitchStatFilterStore {
-	subscribe: Writable<TeamPitchStatFilter>['subscribe'];
-	changeSplit: (split: PitchStatSplit) => void;
+	changeBatOrder: (batOrder: BatOrder) => void;
 }
 
 export interface AllMlbSeasonsStore {

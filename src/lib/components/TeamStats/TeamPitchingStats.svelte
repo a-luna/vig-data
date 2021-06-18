@@ -5,12 +5,11 @@
 		getPitchStatsForSpForAllTeams
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
-	import TeamPitchStatsSelector from '$lib/components/ButtonGroups/TeamPitchStatsSelector.svelte';
 	import TeamPitchingStatsTable from '$lib/components/TeamStats/TeamPitchingStatsTable.svelte';
+	import TeamPitchStatsSelector from '$lib/components/TeamStats/TeamPitchStatSelector/TeamPitchStatRadioButtons.svelte';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { PitchStatSplit } from '$lib/types';
-	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
-	import { teamPitchStat as teamPitchStatFilter } from '$lib/stores/teamPitchStatFilter';
-	import { selectedSeason } from '$lib/stores/singleValueStores';
+	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let teamPitchStats: TeamPitchStats[];
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
@@ -22,10 +21,7 @@
 		rp: getPitchStatsForRpForAllTeams
 	};
 
-	async function getSelectedPitchStats(
-		year: number,
-		split: PitchStatSplit
-	): Promise<ApiResponse<TeamPitchStats[]>> {
+	async function getSelectedPitchStats(year: number, split: PitchStatSplit): Promise<ApiResponse<TeamPitchStats[]>> {
 		teamPitchStats = [];
 		getPitchStatsResult = await pitchStatsMap[split](year);
 		if (!getPitchStatsResult.success) {
@@ -35,8 +31,8 @@
 		return getPitchStatsResult;
 	}
 
-	$: if ($selectedSeason && $teamPitchStatFilter.split) {
-		getPitchStatsRequest = getSelectedPitchStats($selectedSeason, $teamPitchStatFilter.split);
+	$: if ($seasonStatFilter.season && $seasonStatFilter.pitchStatSplit) {
+		getPitchStatsRequest = getSelectedPitchStats($seasonStatFilter.season, $seasonStatFilter.pitchStatSplit);
 	}
 
 </script>
@@ -48,7 +44,7 @@
 	</div>
 	{#if getPitchStatsRequest}
 		{#await getPitchStatsRequest}
-			<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if getPitchStatsResult.success}
 				<TeamPitchingStatsTable bind:teamPitchStats />

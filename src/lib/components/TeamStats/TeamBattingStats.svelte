@@ -7,12 +7,11 @@
 		getBatStatsForStartingLineupForAllTeams
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamBatStats } from '$lib/api/types';
-	import TeamBatStatsSelector from '$lib/components/Util/TeamBatStatSelector/TeamBatStatsSelector.svelte';
+	import TeamBatStatSelector from '$lib/components/TeamStats/TeamBatStatSelector.svelte';
 	import TeamBattingStatsTable from '$lib/components/TeamStats/TeamBattingStatsTable.svelte';
-	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { BatOrder, BatStatSplit, DefPositionNumber } from '$lib/types';
-	import { teamBatStat as teamBatStatFilter } from '$lib/stores/teamBatStatFilter';
-	import { selectedSeason } from '$lib/stores/singleValueStores';
+	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let teamBatStats: TeamBatStats[];
 	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;
@@ -47,25 +46,23 @@
 		return getBatStatsResult;
 	}
 
-	$: if ($selectedSeason && $teamBatStatFilter.split) {
+	$: if ($seasonStatFilter.season && $seasonStatFilter.batStatSplit) {
 		getBatStatsRequest = getSelectedBatStats(
-			$selectedSeason,
-			$teamBatStatFilter.split,
-			$teamBatStatFilter.defPosition,
-			$teamBatStatFilter.lineupSlot
+			$seasonStatFilter.season,
+			$seasonStatFilter.batStatSplit,
+			$seasonStatFilter.defPosition,
+			$seasonStatFilter.batOrder
 		);
 	}
 
 </script>
 
 <div id="team-bat-stats" class="team-stats flex-auto flex flex-col flex-nowrap mb-4">
-	<div class="flex flex-col flex-nowrap justify-end items-start mb-2">
-		<h3 class="m-0">Team Batting Stats</h3>
-		<TeamBatStatsSelector color={'secondary'} />
-	</div>
+	<h3 class="mb-2 text-center text-3xl">Team Batting Stats</h3>
+	<TeamBatStatSelector color={'secondary'} />
 	{#if getBatStatsRequest}
 		{#await getBatStatsRequest}
-			<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if getBatStatsResult.success}
 				<TeamBattingStatsTable bind:teamBatStats />

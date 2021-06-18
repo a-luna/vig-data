@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { TeamBatStats } from '$lib/api/types';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
-	import { Datatable, rows } from 'svelte-simple-datatables';
-	import { seasonSettings } from '$lib/stores/seasonSettings';
+	import Datatable from '../../../../node_modules/svelte-simple-datatables/src/Datatable.svelte';
+	import { rows } from '../../../../node_modules/svelte-simple-datatables/src/stores/data';
 
 	const settings = {
 		rowPerPage: 15,
@@ -17,13 +18,9 @@
 	export let teamBatStats: TeamBatStats[];
 
 	$: data =
-		$seasonSettings.league === 'both'
-			? Object.values<TeamBatStats>(teamBatStats).filter(
-					(t) => t.league === 'AL' || t.league === 'NL'
-			  )
-			: Object.values<TeamBatStats>(teamBatStats).filter(
-					(t) => t.league === $seasonSettings.league.toUpperCase()
-			  );
+		$seasonStatFilter.league === 'both'
+			? Object.values<TeamBatStats>(teamBatStats).filter((t) => t.league === 'AL' || t.league === 'NL')
+			: Object.values<TeamBatStats>(teamBatStats).filter((t) => t.league === $seasonStatFilter.league.toUpperCase());
 
 </script>
 

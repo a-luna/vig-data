@@ -1,4 +1,4 @@
-export const DEF_POSITION_MAP = {
+export const DEF_POS_NUM_TO_ABBREV_MAP = {
 	1: 'P',
 	2: 'C',
 	3: '1B',
@@ -9,6 +9,19 @@ export const DEF_POSITION_MAP = {
 	8: 'CF',
 	9: 'RF',
 	10: 'DH'
+};
+
+export const DEF_POS_ABBREV_TO_NUM_MAP = {
+	P: 1,
+	C: 2,
+	'1B': 3,
+	'2B': 4,
+	'3B': 5,
+	SS: 6,
+	LF: 7,
+	CF: 8,
+	RF: 9,
+	DH: 10
 };
 
 export const PITCH_TYPE_MAP = {

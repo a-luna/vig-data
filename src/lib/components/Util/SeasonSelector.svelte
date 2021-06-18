@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { getAllValidSeasons } from '$lib/api/season';
 	import type { ApiResponse, MlbSeason } from '$lib/api/types';
-	import { onMount } from 'svelte';
 	import Select from '$lib/components/Select/Select.svelte';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
-	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { selectedSeason } from '$lib/stores/singleValueStores';
+	import { onMount } from 'svelte';
 
 	export let width = '100%';
+	let seasons: MlbSeason[];
 	let currentSeason: number;
 	let options: SelectMenuOption[] = [];
 	let getAllSeasonsRequest: Promise<ApiResponse<MlbSeason[]>>;
@@ -21,28 +21,28 @@
 		if (!getAllSeasonsResult.success) {
 			return getAllSeasonsResult;
 		}
-		allSeasons.changeMlbSeasons(getAllSeasonsResult.value);
-		currentSeason = $selectedSeason;
+		seasons = getAllSeasonsResult.value;
+		currentSeason = $seasonStatFilter.season;
 		menuLabel = `MLB ${currentSeason}`;
 		return getAllSeasonsResult;
 	}
 
 	onMount(() => (getAllSeasonsRequest = getAllMlbSeasons()));
 
-	$: if (currentSeason && currentSeason !== $selectedSeason) handleChanged(currentSeason);
+	$: if (currentSeason && currentSeason !== $seasonStatFilter.season) handleChanged(currentSeason);
 	$: if (getAllSeasonsResult?.success) {
-		options = $allSeasons.seasons.map((s, i) => ({
+		options = seasons.map((s, i) => ({
 			text: s.year.toString(),
 			value: s.year,
 			optionNumber: i + 1,
-			active: $selectedSeason === s.year
+			active: $seasonStatFilter.season === s.year
 		}));
 	}
 
-	function handleChanged(season) {
+	function handleChanged(season: number) {
 		currentSeason = season;
 		menuLabel = `MLB ${currentSeason}`;
-		$selectedSeason = currentSeason;
+		seasonStatFilter.changeSeason(currentSeason);
 	}
 
 </script>
@@ -52,13 +52,7 @@
 		<Select {menuLabel} options={placeHolderMenuOption} />
 	{:then _result}
 		{#if getAllSeasonsResult.success}
-			<Select
-				{menuLabel}
-				{options}
-				{menuId}
-				{width}
-				on:changed={(event) => handleChanged(event.detail)}
-			/>
+			<Select {menuLabel} {options} {menuId} {width} on:changed={(event) => handleChanged(event.detail)} />
 		{:else}
 			<div class="error">Error: {getAllSeasonsResult.message}</div>
 		{/if}
