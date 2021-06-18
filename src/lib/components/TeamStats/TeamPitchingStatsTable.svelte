@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { TeamPitchStats } from '$lib/api/types';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
-	import { Datatable, rows } from 'svelte-simple-datatables';
-	import { seasonSettings } from '$lib/stores/seasonSettings';
+	import Datatable from '../../../../node_modules/svelte-simple-datatables/src/Datatable.svelte';
+	import { rows } from '../../../../node_modules/svelte-simple-datatables/src/stores/data';
 
 	const settings = {
 		rowPerPage: 15,
@@ -17,12 +18,10 @@
 	export let teamPitchStats: TeamPitchStats[];
 
 	$: data =
-		teamPitchStats && $seasonSettings.league === 'both'
-			? Object.values<TeamPitchStats>(teamPitchStats).filter(
-					(t) => t.league === 'AL' || t.league === 'NL'
-			  )
+		teamPitchStats && $seasonStatFilter.league === 'both'
+			? Object.values<TeamPitchStats>(teamPitchStats).filter((t) => t.league === 'AL' || t.league === 'NL')
 			: Object.values<TeamPitchStats>(teamPitchStats).filter(
-					(t) => t.league === $seasonSettings.league.toUpperCase()
+					(t) => t.league === $seasonStatFilter.league.toUpperCase()
 			  );
 
 </script>
@@ -58,25 +57,15 @@
 			<th class="sortable asc desc" data-key="hr_per_fb">HR/FB<span /></th>
 			<th class="sortable asc desc" data-key="pitch_count" title="total pitches">Pit.<span /></th>
 			<th class="sortable asc desc" data-key="strikes" title="total strikes"><span />Str.</th>
-			<th class="sortable asc desc" data-key="strikes_contact" title="strikes (contact)"
-				>Str. Cn<span /></th
-			>
-			<th class="sortable asc desc" data-key="strikes_swinging" title="strikes (swinging)"
-				>Str. Sw<span /></th
-			>
-			<th class="sortable asc desc" data-key="strikes_looking" title="strikes (looking)"
-				>Str. Lk<span /></th
-			>
+			<th class="sortable asc desc" data-key="strikes_contact" title="strikes (contact)">Str. Cn<span /></th>
+			<th class="sortable asc desc" data-key="strikes_swinging" title="strikes (swinging)">Str. Sw<span /></th>
+			<th class="sortable asc desc" data-key="strikes_looking" title="strikes (looking)">Str. Lk<span /></th>
 			<th class="sortable asc desc" data-key="ground_balls">GB<span /></th>
 			<th class="sortable asc desc" data-key="fly_balls">FB<span /></th>
 			<th class="sortable asc desc" data-key="line_drives">LD<span /></th>
 			<th class="sortable asc desc" data-key="unknown_type">Unk<span /></th>
-			<th class="sortable asc desc" data-key="inherited_runners" title="inherited runners"
-				>IR<span /></th
-			>
-			<th class="sortable asc desc" data-key="inherited_scored" title="inherited runners (scored)"
-				>IR Scr<span /></th
-			>
+			<th class="sortable asc desc" data-key="inherited_runners" title="inherited runners">IR<span /></th>
+			<th class="sortable asc desc" data-key="inherited_scored" title="inherited runners (scored)">IR Scr<span /></th>
 			<th class="sortable asc desc" data-key="wpa_pitch">WPA<span /></th>
 			<th class="sortable asc desc" data-key="re24_pitch">RE24<span /></th>
 		</tr>

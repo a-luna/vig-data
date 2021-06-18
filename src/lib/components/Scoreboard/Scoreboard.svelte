@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { getScoreboard } from '$lib/api/game';
 	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
-	import { getDateFromString, getSeasonDates } from '$lib/util';
-	import { scoreboardDate } from '$lib/stores/singleValueStores';
+	import DateNavigation from '$lib/components/ButtonGroups/DateNavigation.svelte';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
-	import DateNavigation from '../ButtonGroups/DateNavigation.svelte';
-	import { SyncLoader } from '../../../../node_modules/svelte-loading-spinners/src';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { getDateFromString, getSeasonDates } from '$lib/util';
+	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let selected: Date;
 	let success: boolean;
@@ -41,14 +41,14 @@
 		[start, end] = getSeasonDatesResult.value;
 	}
 
-	$: if ($scoreboardDate) getScoreboardRequest = getScoreboardForDate($scoreboardDate);
+	$: if ($seasonStatFilter.gameDate) getScoreboardRequest = getScoreboardForDate($seasonStatFilter.gameDate);
 
 </script>
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if getScoreboardRequest}
 		{#await getScoreboardRequest}
-			<div class="pending"><SyncLoader size="40" color={`currentColor`} /></div>
+			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if success}
 				<DateNavigation {start} {end} bind:selected />

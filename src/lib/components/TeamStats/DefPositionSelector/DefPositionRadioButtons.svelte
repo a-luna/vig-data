@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { ThemeColor } from '$lib/types';
-	import { teamBatStat } from '$lib/stores/teamBatStatFilter';
 
 	export let color: ThemeColor = 'secondary';
 	let pitcherSelected: boolean;
@@ -14,16 +14,16 @@
 	let rightFieldSelected: boolean;
 	let dhSelected: boolean;
 
-	$: pitcherSelected = $teamBatStat.defPosition === 1;
-	$: catcherSelected = $teamBatStat.defPosition === 2;
-	$: firstBaseSelected = $teamBatStat.defPosition === 3;
-	$: secondBaseSelected = $teamBatStat.defPosition === 4;
-	$: thirdBaseSelected = $teamBatStat.defPosition === 5;
-	$: shortStopSelected = $teamBatStat.defPosition === 6;
-	$: leftFieldSelected = $teamBatStat.defPosition === 7;
-	$: centerFieldSelected = $teamBatStat.defPosition === 8;
-	$: rightFieldSelected = $teamBatStat.defPosition === 9;
-	$: dhSelected = $teamBatStat.defPosition === 10;
+	$: pitcherSelected = $seasonStatFilter.defPosition === 1;
+	$: catcherSelected = $seasonStatFilter.defPosition === 2;
+	$: firstBaseSelected = $seasonStatFilter.defPosition === 3;
+	$: secondBaseSelected = $seasonStatFilter.defPosition === 4;
+	$: thirdBaseSelected = $seasonStatFilter.defPosition === 5;
+	$: shortStopSelected = $seasonStatFilter.defPosition === 6;
+	$: leftFieldSelected = $seasonStatFilter.defPosition === 7;
+	$: centerFieldSelected = $seasonStatFilter.defPosition === 8;
+	$: rightFieldSelected = $seasonStatFilter.defPosition === 9;
+	$: dhSelected = $seasonStatFilter.defPosition === 10;
 
 </script>
 
@@ -31,51 +31,51 @@
 	<button
 		type="button"
 		class={pitcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(1)}>P</button
+		on:click={() => seasonStatFilter.changeDefPosition(1)}>P</button
 	>
 	<button
 		type="button"
 		class={catcherSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(2)}>C</button
+		on:click={() => seasonStatFilter.changeDefPosition(2)}>C</button
 	>
 	<button
 		type="button"
 		class={firstBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(3)}>1B</button
+		on:click={() => seasonStatFilter.changeDefPosition(3)}>1B</button
 	>
 	<button
 		type="button"
 		class={secondBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(4)}>2B</button
+		on:click={() => seasonStatFilter.changeDefPosition(4)}>2B</button
 	>
 	<button
 		type="button"
 		class={thirdBaseSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(5)}>3B</button
+		on:click={() => seasonStatFilter.changeDefPosition(5)}>3B</button
 	>
 	<button
 		type="button"
 		class={shortStopSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(6)}>SS</button
+		on:click={() => seasonStatFilter.changeDefPosition(6)}>SS</button
 	>
 	<button
 		type="button"
 		class={leftFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(7)}>LF</button
+		on:click={() => seasonStatFilter.changeDefPosition(7)}>LF</button
 	>
 	<button
 		type="button"
 		class={centerFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(8)}>CF</button
+		on:click={() => seasonStatFilter.changeDefPosition(8)}>CF</button
 	>
 	<button
 		type="button"
 		class={rightFieldSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(9)}>RF</button
+		on:click={() => seasonStatFilter.changeDefPosition(9)}>RF</button
 	>
 	<button
 		type="button"
 		class={dhSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => teamBatStat.changeDefPosition(10)}>DH</button
+		on:click={() => seasonStatFilter.changeDefPosition(10)}>DH</button
 	>
 </div>

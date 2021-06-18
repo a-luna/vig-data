@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import type { ThemeColor } from '$lib/types';
 	import { getStringFromDate } from '$lib/util';
-	import { scoreboardDate } from '$lib/stores/singleValueStores';
-	import DatePicker from '../../../../node_modules/svelte-calendar/src/Components/Datepicker.svelte';
+	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
-	import type { ThemeColor } from '$lib/types';
+	import DatePicker from '../../../../node_modules/svelte-calendar/src/Components/Datepicker.svelte';
 
 	export let start: Date;
 	export let end: Date;
@@ -30,18 +30,18 @@
 
 	function gotoPrevDay() {
 		const prev = prevDay(selected);
-		$scoreboardDate = getStringFromDate(prev);
+		seasonStatFilter.changeGameDate(getStringFromDate(prev));
 		dispatch('dateChanged', prev);
 	}
 
 	function gotoNextDay() {
 		const next = nextDay(selected);
-		$scoreboardDate = getStringFromDate(next);
+		seasonStatFilter.changeGameDate(getStringFromDate(next));
 		dispatch('dateChanged', next);
 	}
 
 	$: if (dateChosen) {
-		$scoreboardDate = getStringFromDate(selected);
+		seasonStatFilter.changeGameDate(getStringFromDate(selected));
 		dispatch('dateChanged', selected);
 		dateChosen = false;
 	}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { seasonSettings } from '$lib/stores/seasonSettings';
+	import { seasonContentShown } from '$lib/stores/singleValueStores';
 	import type { SelectMenuOption } from '$lib/types';
 
 	export let width = '100%';
@@ -13,11 +13,11 @@
 	const menuId = 'season-content';
 	let selectedOption: SelectMenuOption;
 
-	$: selectedOption = options.filter((item) => item.value === $seasonSettings.show)?.[0];
+	$: selectedOption = options.filter((item) => item.value === $seasonContentShown)?.[0];
 	$: menuLabel = selectedOption?.text || '';
 
 	function findActiveItem() {
-		const match = options.filter((item) => item.value === $seasonSettings.show);
+		const match = options.filter((item) => item.value === $seasonContentShown);
 		if (match?.length === 1) {
 			match['active'] = true;
 		}
@@ -27,10 +27,4 @@
 
 </script>
 
-<Select
-	{menuLabel}
-	{options}
-	{menuId}
-	{width}
-	on:changed={(event) => seasonSettings.changeContent(event.detail)}
-/>
+<Select {menuLabel} {options} {menuId} {width} on:changed={(event) => ($seasonContentShown = event.detail)} />

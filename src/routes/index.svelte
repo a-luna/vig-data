@@ -7,10 +7,8 @@
 	import SeasonContentSelector from '$lib/components/Util/SeasonContentSelector/SeasonContentSelector.svelte';
 	import SeasonSelector from '$lib/components/Util/SeasonSelector.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { seasonSettings } from '$lib/stores/seasonSettings';
-	import { scoreboardDate, selectedSeason } from '$lib/stores/singleValueStores';
-	import { teamBatStat } from '$lib/stores/teamBatStatFilter';
-	import { teamPitchStat } from '$lib/stores/teamPitchStatFilter';
+	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { seasonContentShown } from '$lib/stores/singleValueStores';
 	import type { BatOrder, BatStatSplit, DefPositionNumber, League, PitchStatSplit, SeasonContent } from '$lib/types';
 	import { formatDateString, getDateFromString, getSeasonDates, getStringFromDate } from '$lib/util';
 	import { onMount } from 'svelte';
@@ -18,23 +16,23 @@
 	let gameDate: Date;
 	let mounted: boolean = false;
 
-	$: scoreboardShown = $seasonSettings.show === 'scoreboard';
-	$: standingsShown = $seasonSettings.show === 'standings';
-	$: teamBatStatsShown = $seasonSettings.show === 'team-bat';
-	$: teamPitchStatsShown = $seasonSettings.show === 'team-pitch';
+	$: scoreboardShown = $seasonContentShown === 'scoreboard';
+	$: standingsShown = $seasonContentShown === 'standings';
+	$: teamBatStatsShown = $seasonContentShown === 'team-bat';
+	$: teamPitchStatsShown = $seasonContentShown === 'team-pitch';
 
 	function getPageTitle(seasonContent: SeasonContent, date: Date) {
 		if (seasonContent === 'scoreboard') {
 			return `MLB Scoreboard for ${formatDateString(date)}`;
 		}
 		if (seasonContent === 'standings') {
-			return `${$selectedSeason} MLB Standings`;
+			return `${$seasonStatFilter.season} MLB Standings`;
 		}
 		if (seasonContent === 'team-bat') {
-			return `${$selectedSeason} Team Batting Stats`;
+			return `${$seasonStatFilter.season} Team Batting Stats`;
 		}
 		if (seasonContent === 'team-pitch') {
-			return `${$selectedSeason} Team Pitching Stats`;
+			return `${$seasonStatFilter.season} Team Pitching Stats`;
 		}
 		return 'Home';
 	}
@@ -87,13 +85,13 @@
 	}
 
 	function handleSeasonChanged(year: number) {
-		const gameDate = getDateFromString($scoreboardDate).value;
+		const gameDate = getDateFromString($seasonStatFilter.gameDate).value;
 		if (gameDate.getFullYear() !== year) {
 			const matches = $allSeasons.seasons.filter((s) => s.year === year);
 			if (matches.length == 1) {
 				const season = matches[0];
 				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
-				$scoreboardDate = getStringFromDate(season_start);
+				$seasonStatFilter.gameDate = getStringFromDate(season_start);
 			}
 		}
 	}
@@ -104,17 +102,17 @@
 
 	$: if (mounted)
 		changePageAddress(
-			$selectedSeason,
-			$seasonSettings.league,
-			$seasonSettings.show,
-			$scoreboardDate,
-			$teamBatStat.split,
-			$teamBatStat.defPosition,
-			$teamBatStat.lineupSlot,
-			$teamPitchStat.split
+			$seasonStatFilter.season,
+			$seasonStatFilter.league,
+			$seasonContentShown,
+			$seasonStatFilter.gameDate,
+			$seasonStatFilter.batStatSplit,
+			$seasonStatFilter.defPosition,
+			$seasonStatFilter.batOrder,
+			$seasonStatFilter.pitchStatSplit
 		);
-	$: pageTitle = getPageTitle($seasonSettings.show, gameDate);
-	$: handleSeasonChanged($selectedSeason);
+	$: pageTitle = getPageTitle($seasonContentShown, getDateFromString($seasonStatFilter.gameDate).value);
+	$: handleSeasonChanged($seasonStatFilter.season);
 
 </script>
 
@@ -122,12 +120,12 @@
 	<title>{pageTitle} | Vigorish</title>
 </svelte:head>
 
-<div id="season-stats" class="flex flex-col flex-nowrap mx-auto my-0">
-	<div class="flex flex-row flex-nowrap justify-center mb-5">
-		<div class="season-settings flex-grow sm:flex-grow-0 w-full sm:w-auto">
+<div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">
+	<div class="flex flex-row justify-center mb-5 flex-nowrap">
+		<div class="flex-grow w-full season-settings sm:flex-grow-0 sm:w-auto">
 			<SeasonSelector width={'100%'} />
 		</div>
-		<div class="season-settings flex-grow sm:flex-grow-0 w-full sm:w-auto ml-4">
+		<div class="flex-grow w-full ml-4 season-settings sm:flex-grow-0 sm:w-auto">
 			<LeagueDropDown width={'100%'} />
 		</div>
 	</div>
