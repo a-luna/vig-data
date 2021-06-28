@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { TeamPitchStats } from '$lib/api/types';
+	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
+	import { rows } from '$lib/components/TypeTables/stores/data';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
-	import Datatable from '../../../../node_modules/svelte-simple-datatables/src/Datatable.svelte';
-	import { rows } from '../../../../node_modules/svelte-simple-datatables/src/stores/data';
+	import type { RowData } from '../TypeTables/types';
 
 	const settings = {
 		rowPerPage: 15,
@@ -15,18 +15,16 @@
 		}
 	};
 
-	export let teamPitchStats: TeamPitchStats[];
+	export let teamPitchStats: RowData[];
+	export let data: RowData[];
 
 	$: data =
 		teamPitchStats && $seasonStatFilter.league === 'both'
-			? Object.values<TeamPitchStats>(teamPitchStats).filter((t) => t.league === 'AL' || t.league === 'NL')
-			: Object.values<TeamPitchStats>(teamPitchStats).filter(
-					(t) => t.league === $seasonStatFilter.league.toUpperCase()
-			  );
-
+			? Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
+			: Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === $seasonStatFilter.league.toUpperCase());
 </script>
 
-<Datatable {settings} {data}>
+<Datatable id={'team-pitch-stats-table'} {settings} {data}>
 	<thead>
 		<tr>
 			<th class="sortable asc desc" data-key="team_id_bbref">Team<span /></th>
@@ -72,45 +70,45 @@
 	</thead><tbody>
 		{#each $rows as row}
 			<tr>
-				<td>{row.team_id_bbref}</td>
-				<td>{row.total_games}</td>
-				<td>{row.games_as_sp}</td>
-				<td>{row.games_as_rp}</td>
-				<td>{row.wins}</td>
-				<td>{row.losses}</td>
-				<td>{row.saves}</td>
-				<td>{formatRateStat(row.innings_pitched, 1)}</td>
-				<td>{row.total_outs}</td>
-				<td>{row.batters_faced}</td>
-				<td>{row.runs}</td>
-				<td>{row.earned_runs}</td>
-				<td>{row.hits}</td>
-				<td>{row.homeruns}</td>
-				<td>{row.strikeouts}</td>
-				<td>{row.bases_on_balls}</td>
-				<td>{formatRateStat(row.era, 2)}</td>
-				<td>{formatRateStat(row.whip, 2)}</td>
-				<td>{formatRateStat(row.k_per_nine, 1)}</td>
-				<td>{formatRateStat(row.bb_per_nine, 1)}</td>
-				<td>{formatRateStat(row.hr_per_nine, 1)}</td>
-				<td>{formatRateStat(row.k_per_bb, 1)}</td>
-				<td>{formatPercentStat(row.k_rate, 0)}</td>
-				<td>{formatPercentStat(row.bb_rate, 0)}</td>
-				<td>{formatPercentStat(row.k_minus_bb, 0)}</td>
-				<td>{formatRateStat(row.hr_per_fb, 1)}</td>
-				<td>{row.pitch_count}</td>
-				<td>{row.strikes}</td>
-				<td>{row.strikes_contact}</td>
-				<td>{row.strikes_swinging}</td>
-				<td>{row.strikes_looking}</td>
-				<td>{row.ground_balls}</td>
-				<td>{row.fly_balls}</td>
-				<td>{row.line_drives}</td>
-				<td>{row.unknown_type}</td>
-				<td>{row.inherited_runners}</td>
-				<td>{row.inherited_scored}</td>
-				<td>{formatRateStat(row.wpa_pitch, 2)}</td>
-				<td>{formatRateStat(row.re24_pitch, 2)}</td>
+				<td>{row['team_id_bbref']}</td>
+				<td>{row['total_games']}</td>
+				<td>{row['games_as_sp']}</td>
+				<td>{row['games_as_rp']}</td>
+				<td>{row['wins']}</td>
+				<td>{row['losses']}</td>
+				<td>{row['saves']}</td>
+				<td>{formatRateStat(row['innings_pitched'], 1)}</td>
+				<td>{row['total_outs']}</td>
+				<td>{row['batters_faced']}</td>
+				<td>{row['runs']}</td>
+				<td>{row['earned_runs']}</td>
+				<td>{row['hits']}</td>
+				<td>{row['homeruns']}</td>
+				<td>{row['strikeouts']}</td>
+				<td>{row['bases_on_balls']}</td>
+				<td>{formatRateStat(row['era'], 2)}</td>
+				<td>{formatRateStat(row['whip'], 2)}</td>
+				<td>{formatRateStat(row['k_per_nine'], 1)}</td>
+				<td>{formatRateStat(row['bb_per_nine'], 1)}</td>
+				<td>{formatRateStat(row['hr_per_nine'], 1)}</td>
+				<td>{formatRateStat(row['k_per_bb'], 1)}</td>
+				<td>{formatPercentStat(row['k_rate'], 0)}</td>
+				<td>{formatPercentStat(row['bb_rate'], 0)}</td>
+				<td>{formatPercentStat(row['k_minus_bb'], 0)}</td>
+				<td>{formatRateStat(row['hr_per_fb'], 1)}</td>
+				<td>{row['pitch_count']}</td>
+				<td>{row['strikes']}</td>
+				<td>{row['strikes_contact']}</td>
+				<td>{row['strikes_swinging']}</td>
+				<td>{row['strikes_looking']}</td>
+				<td>{row['ground_balls']}</td>
+				<td>{row['fly_balls']}</td>
+				<td>{row['line_drives']}</td>
+				<td>{row['unknown_type']}</td>
+				<td>{row['inherited_runners']}</td>
+				<td>{row['inherited_scored']}</td>
+				<td>{formatRateStat(row['wpa_pitch'], 2)}</td>
+				<td>{formatRateStat(row['re24_pitch'], 2)}</td>
 			</tr>
 		{/each}
 	</tbody>

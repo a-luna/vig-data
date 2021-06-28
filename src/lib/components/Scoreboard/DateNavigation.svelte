@@ -5,16 +5,18 @@
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
-	import DatePicker from '../../../../node_modules/svelte-calendar/src/Components/Datepicker.svelte';
 
-	export let start: Date;
-	export let end: Date;
-	export let selected: Date;
+	export let minDate: Date;
+	export let maxDate: Date;
+	export let value: Date;
+	export let formatted: string;
 	export let color: ThemeColor = 'secondary';
-	let format: string = '#{F} #{j}, #{Y}';
-	let dateChosen: boolean;
-	let formattedSelected: string;
 	const dispatch = createEventDispatcher();
+
+	$: previous = prevDay(value);
+	$: next = nextDay(value);
+	$: canGoToPrevDay = previous >= minDate;
+	$: canGoToNextDay = next <= maxDate;
 
 	function nextDay(date: Date): Date {
 		var result = new Date(date);
@@ -29,37 +31,26 @@
 	}
 
 	function gotoPrevDay() {
-		const prev = prevDay(selected);
-		seasonStatFilter.changeGameDate(getStringFromDate(prev));
-		dispatch('dateChanged', prev);
+		seasonStatFilter.changeGameDate(getStringFromDate(prevDay(value)));
 	}
 
 	function gotoNextDay() {
-		const next = nextDay(selected);
-		seasonStatFilter.changeGameDate(getStringFromDate(next));
-		dispatch('dateChanged', next);
+		seasonStatFilter.changeGameDate(getStringFromDate(nextDay(value)));
 	}
-
-	$: if (dateChosen) {
-		seasonStatFilter.changeGameDate(getStringFromDate(selected));
-		dispatch('dateChanged', selected);
-		dateChosen = false;
-	}
-
 </script>
 
-<div class="btn-group">
-	<button id="prev-date" type="button" class="btn btn-{color} p-1" on:click={gotoPrevDay}>
-		<MdChevronLeft />
-	</button>
-	<DatePicker {start} {end} bind:format bind:formattedSelected bind:dateChosen bind:selected>
-		<button id="date-picker" class="btn btn-{color} text-lg">
-			{formattedSelected}
+<div id="date-nav" class="pos">
+	<div class="btn-group">
+		<button id="prev-date" type="button" class="btn btn-{color} p-1" disabled={!canGoToPrevDay} on:click={gotoPrevDay}>
+			<MdChevronLeft />
 		</button>
-	</DatePicker>
-	<button id="next-date" type="button" class="btn btn-{color} p-1" on:click={gotoNextDay}>
-		<MdChevronRight />
-	</button>
+		<button class="btn btn-{color} text-lg" on:click={() => dispatch('showDatePicker')}>
+			{formatted}
+		</button>
+		<button id="next-date" type="button" class="btn btn-{color} p-1" disabled={!canGoToNextDay} on:click={gotoNextDay}>
+			<MdChevronRight />
+		</button>
+	</div>
 </div>
 
 <style lang="postcss">
@@ -72,10 +63,6 @@
 		@apply p-1;
 		width: 38px;
 		max-height: 38px;
-	}
-
-	#date-picker {
-		@apply m-0 p-2 rounded-none;
 	}
 
 	@media screen and (min-width: 768px) {
@@ -93,5 +80,4 @@
 			max-height: 44px;
 		}
 	}
-
 </style>

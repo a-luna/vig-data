@@ -182,7 +182,6 @@
 
 	/* Pitch Type Colors */
 
-	--pitch-type-FF: var(--red2);
 	--pitch-type-FS: var(--pink2);
 	--pitch-type-FA: var(--red1);
 	--pitch-type-FO: var(--red1);
@@ -248,7 +247,7 @@ body.light-mode {
 	--color-on-sec-hov: var(--white4);
 	--color-on-sec-active: var(--white4);
 
-	--body-text-color: var(--black4);
+	--body-text-color: var(--black3);
 	--heading-text-color: var(--black1);
 	--site-bg-color: var(--gray1);
 	--page-bg-color: var(--light-gray2);
@@ -314,7 +313,8 @@ body.light-mode {
 	--player-card-text-color: var(--black1);
 	--player-card-text-color-hov: var(--black3);
 
-	--player-details-label-color: var(--black4);
+	--player-details-label-color: var(--black3);
+	--player-details-text-color: var(--black1);
 
 	--pseq-top-bg-color: var(--gray1);
 	--pseq-bottom-bg-color: var(--gray1);
@@ -340,6 +340,15 @@ body.light-mode {
 	--pitch-type-SI: var(--green1);
 	--pitch-type-SL: var(--dark-teal2);
 	--pitch-type-EP: var(--dark-gray4);
+
+	--sdb-disabled-date-color: var(--dark-gray4);
+	--sdp-header-bg-color: var(--white1);
+	--sdp-color-grey-400: var(--sec-color);
+	--sdp-accent-color: var(--pri-color);
+	--sdp-bg-focus-color: var(--pri-color);
+	--sdp-bg-active-color: var(--pri-color);
+	--sdp-bg-selected-color: var(--pri-color);
+	--sdp-bg-color: var(--page-bg-color);
 }
 
 body.dark-mode {
@@ -400,7 +409,7 @@ body.dark-mode {
 
 	--linescore-row-bg-color: var(--gray1);
 
-	--table-caption-color: var(--white1);
+	--table-caption-color: var(--white3);
 	--table-body-color: var(--black3);
 	--table-body-bg-color-even: var(--gray2);
 	--table-body-bg-color-odd: var(--gray3);
@@ -418,12 +427,13 @@ body.dark-mode {
 	--player-results-modal-button-color-hov: var(--indigo3);
 
 	--player-card-bg-color: var(--indigo2);
-	--player-card-border-color: var(--indigo2);
+	--player-card-border-color: var(--dark-gray1);
 	--player-card-heading-text-color: var(--white3);
 	--player-card-text-color: var(--white1);
 	--player-card-text-color-hov: var(--white3);
 
-	--player-details-label-color: var(--light-gray1);
+	--player-details-label-color: var(--white3);
+	--player-details-text-color: var(--light-gray1);
 
 	--pseq-top-bg-color: var(--indigo1);
 	--pseq-bottom-bg-color: var(--indigo1);
@@ -449,6 +459,100 @@ body.dark-mode {
 	--pitch-type-SI: var(--yellow-green1);
 	--pitch-type-SL: var(--blue-green1);
 	--pitch-type-EP: var(--light-gray1);
+
+	--sdb-disabled-date-color: var(--light-gray1);
+	--sdp-header-bg-color: var(--rich-black2);
+	--sdp-color-grey-400: var(--sec-color);
+	--sdp-accent-color: var(--pri-color);
+	--sdp-bg-focus-color: var(--pri-color);
+	--sdp-bg-active-color: var(--pri-color);
+	--sdp-bg-selected-color: var(--pri-color);
+	--sdp-bg-color: var(--page-bg-color);
+}
+
+[data-pitch-type='FF'] {
+	color: var(--pitch-type-FF);
+	border: 1px solid var(--pitch-type-FF);
+}
+
+[data-pitch-type='FT'] {
+	color: var(--pitch-type-FT);
+	border: 1px solid var(--pitch-type-FT);
+}
+
+[data-pitch-type='FC'] {
+	color: var(--pitch-type-FC);
+	border: 1px solid var(--pitch-type-FC);
+}
+
+[data-pitch-type='FS'] {
+	color: var(--pitch-type-FS);
+	border: 1px solid var(--pitch-type-FS);
+}
+
+[data-pitch-type='FA'] {
+	color: var(--pitch-type-FA);
+	border: 1px solid var(--pitch-type-FA);
+}
+
+[data-pitch-type='FO'] {
+	color: var(--pitch-type-FO);
+	border: 1px solid var(--pitch-type-FO);
+}
+
+[data-pitch-type='CH'] {
+	color: var(--pitch-type-CH);
+	border: 1px solid var(--pitch-type-CH);
+}
+
+[data-pitch-type='CU'] {
+	color: var(--pitch-type-CU);
+	border: 1px solid var(--pitch-type-CU);
+}
+
+[data-pitch-type='EP'] {
+	color: var(--pitch-type-EP);
+	border: 1px solid var(--pitch-type-EP);
+}
+
+[data-pitch-type='KC'] {
+	color: var(--pitch-type-KC);
+	border: 1px solid var(--pitch-type-KC);
+}
+
+[data-pitch-type='KN'] {
+	color: var(--pitch-type-KN);
+	border: 1px solid var(--pitch-type-KN);
+}
+
+[data-pitch-type='SI'] {
+	color: var(--pitch-type-SI);
+	border: 1px solid var(--pitch-type-SI);
+}
+
+[data-pitch-type='SL'] {
+	color: var(--pitch-type-SL);
+	border: 1px solid var(--pitch-type-SL);
+}
+
+[data-pitch-type='IN'] {
+	color: var(--pitch-type-IN);
+	border: 1px solid var(--pitch-type-IN);
+}
+
+[data-pitch-type='PO'] {
+	color: var(--pitch-type-PO);
+	border: 1px solid var(--pitch-type-PO);
+}
+
+[data-pitch-type='SC'] {
+	color: var(--pitch-type-SC);
+	border: 1px solid var(--pitch-type-SC);
+}
+
+[data-pitch-type='UN'] {
+	color: var(--pitch-type-UN);
+	border: 1px solid var(--pitch-type-UN);
 }
 
 a {
@@ -457,6 +561,7 @@ a {
 }
 
 a:hover {
+	color: var(--link-color);
 	text-decoration: underline;
 }
 
@@ -834,6 +939,21 @@ input {
 	@apply text-gray-500 bg-current border-gray-500;
 }
 
+button:disabled,
+button:disabled:hover,
+.btn-group > button:disabled,
+.btn-group > button:disabled:hover,
+.btn-group > button:last-child:disabled,
+.btn-group > button:last-child:disabled:hover {
+	color: var(--button-disabled-text-color);
+	background-color: var(--button-disabled-bg-color);
+	border-top: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-bottom: 1px solid transparent;
+	border-right: 1px solid transparent;
+	cursor: default;
+}
+
 .btn-round {
 	@apply flex items-center uppercase rounded-full shadow-sm max-w-max hover:shadow-lg;
 }
@@ -908,89 +1028,8 @@ input {
 	border-right: 1px solid var(--sec-color);
 }
 
-[data-pitch-type='FF'] {
-	color: var(--pitch-type-FF);
-	border: 1px solid var(--pitch-type-FF);
-}
-
-[data-pitch-type='FT'] {
-	color: var(--pitch-type-FT);
-	border: 1px solid var(--pitch-type-FT);
-}
-
-[data-pitch-type='FC'] {
-	color: var(--pitch-type-FC);
-	border: 1px solid var(--pitch-type-FC);
-}
-
-[data-pitch-type='FS'] {
-	color: var(--pitch-type-FS);
-	border: 1px solid var(--pitch-type-FS);
-}
-
-[data-pitch-type='FA'] {
-	color: var(--pitch-type-FA);
-	border: 1px solid var(--pitch-type-FA);
-}
-
-[data-pitch-type='FO'] {
-	color: var(--pitch-type-FO);
-	border: 1px solid var(--pitch-type-FO);
-}
-
-[data-pitch-type='CH'] {
-	color: var(--pitch-type-CH);
-	border: 1px solid var(--pitch-type-CH);
-}
-
-[data-pitch-type='CU'] {
-	color: var(--pitch-type-CU);
-	border: 1px solid var(--pitch-type-CU);
-}
-
-[data-pitch-type='EP'] {
-	color: var(--pitch-type-EP);
-	border: 1px solid var(--pitch-type-EP);
-}
-
-[data-pitch-type='KC'] {
-	color: var(--pitch-type-KC);
-	border: 1px solid var(--pitch-type-KC);
-}
-
-[data-pitch-type='KN'] {
-	color: var(--pitch-type-KN);
-	border: 1px solid var(--pitch-type-KN);
-}
-
-[data-pitch-type='SI'] {
-	color: var(--pitch-type-SI);
-	border: 1px solid var(--pitch-type-SI);
-}
-
-[data-pitch-type='SL'] {
-	color: var(--pitch-type-SL);
-	border: 1px solid var(--pitch-type-SL);
-}
-
-[data-pitch-type='IN'] {
-	color: var(--pitch-type-IN);
-	border: 1px solid var(--pitch-type-IN);
-}
-
-[data-pitch-type='PO'] {
-	color: var(--pitch-type-PO);
-	border: 1px solid var(--pitch-type-PO);
-}
-
-[data-pitch-type='SC'] {
-	color: var(--pitch-type-SC);
-	border: 1px solid var(--pitch-type-SC);
-}
-
-[data-pitch-type='UN'] {
-	color: var(--pitch-type-UN);
-	border: 1px solid var(--pitch-type-UN);
+.btn-group > button:last-child:hover {
+	border-right: 1px solid transparent;
 }
 
 .datatable {
@@ -1181,7 +1220,8 @@ input {
 	align-items: center;
 }
 
-.datatable .dt-pagination-buttons {
+#team-bat-stats .datatable .dt-pagination-buttons,
+#team-pitch-stats .datatable .dt-pagination-buttons {
 	position: relative;
 	margin-right: 0;
 }
@@ -1197,6 +1237,7 @@ input {
 #team-pitch-stats .datatable .dt-pagination-buttons button:hover {
 	color: var(--color-on-sec-hov);
 	background-color: var(--sec-color-hov);
+	border: 1px solid var(--sec-color-hov);
 }
 #team-bat-stats .datatable .dt-pagination-buttons button:first-child,
 #team-pitch-stats .datatable .dt-pagination-buttons button:first-child {
@@ -1245,7 +1286,7 @@ input {
 #team-pitch-stats .datatable .dt-pagination-rowcount {
 	color: var(--sec-color);
 	line-height: inherit;
-	margin-left: 16px;
+	margin-left: 0;
 	font-size: 14px;
 }
 

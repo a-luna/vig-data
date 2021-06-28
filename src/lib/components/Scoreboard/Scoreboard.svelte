@@ -1,21 +1,24 @@
 <script lang="ts">
 	import { getScoreboard } from '$lib/api/game';
 	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
-	import DateNavigation from '$lib/components/ButtonGroups/DateNavigation.svelte';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
+	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
+	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
-	import { getDateFromString, getSeasonDates } from '$lib/util';
+	import { getSeasonDates } from '$lib/util';
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
-	let selected: Date;
+	export let value: Date;
+	export let formatted: string;
 	let success: boolean;
 	let error_message: string;
 	let games_for_date: GameData[];
 	let season: MlbSeason;
-	let start: Date;
-	let end: Date;
+	let minDate: Date;
+	let maxDate: Date;
 	let getScoreboardRequest: Promise<ApiResponse<Scoreboard> | Result<Date> | Result<Date[]>>;
+	let datePickerModal: DatePickerModal;
 
 	async function getScoreboardForDate(date: string) {
 		const getScoreboardResult = await getScoreboard(date);
@@ -27,23 +30,18 @@
 		const scoreboard = getScoreboardResult.value;
 		season = scoreboard.season;
 		games_for_date = scoreboard.games_for_date;
-		const getGameDateresult = getDateFromString(date);
-		if (!getGameDateresult.success) {
-			error_message = getGameDateresult.message;
-			return getGameDateresult;
-		}
-		selected = getGameDateresult.value;
 		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
 		if (!getSeasonDatesResult.success) {
 			error_message = getSeasonDatesResult.message;
 			return getSeasonDatesResult;
 		}
-		[start, end] = getSeasonDatesResult.value;
+		[minDate, maxDate] = getSeasonDatesResult.value;
 	}
 
 	$: if ($seasonStatFilter.gameDate) getScoreboardRequest = getScoreboardForDate($seasonStatFilter.gameDate);
-
 </script>
+
+<DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate bind:value />
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if getScoreboardRequest}
@@ -51,8 +49,14 @@
 			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if success}
-				<DateNavigation {start} {end} bind:selected />
-				<h3 class="text-center my-2">Games Played on {selected.toDateString()}</h3>
+				<DateNavigation
+					{minDate}
+					{maxDate}
+					bind:value
+					bind:formatted
+					on:showDatePicker={() => datePickerModal.toggleModal()}
+				/>
+				<h3 class="text-center my-2">Games Played on {value.toDateString()}</h3>
 				<div class="scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
 						<div class="game">
@@ -90,5 +94,4 @@
 	#scoreboard :global(.resp-table) {
 		width: 100%;
 	}
-
 </style>

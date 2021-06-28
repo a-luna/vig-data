@@ -34,7 +34,6 @@
 	$: if ($seasonStatFilter.season && $seasonStatFilter.pitchStatSplit) {
 		getPitchStatsRequest = getSelectedPitchStats($seasonStatFilter.season, $seasonStatFilter.pitchStatSplit);
 	}
-
 </script>
 
 <div id="team-pitch-stats" class="team-stats flex-auto flex flex-col flex-nowrap">
