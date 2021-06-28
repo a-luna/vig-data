@@ -1,0 +1,90 @@
+<script lang="ts">
+	import { onDestroy, onMount } from 'svelte'
+	import Pagination from './components/Pagination.svelte'
+	import Search from './components/Search.svelte'
+	import StickyHeader from './components/StickyHeader.svelte'
+	import { datatable } from './datatable'
+	import { options } from './stores/options'
+	import type { RowData, TableOptions } from './types'
+
+	export let id: string = null
+	export let data: RowData[] = []
+	export let settings = {} as TableOptions
+	export let classList = ''
+	$: {
+		datatable.setRows(data)
+		options.update(settings)
+	}
+	onMount(() => datatable.init())
+	onDestroy(() => datatable.reset())
+</script>
+
+<section
+	{id}
+	class="datatable {classList}"
+	class:scroll-y={$options.scrollY}
+	class:css={$options.css}
+>
+	{#if $options.blocks.searchInput === true}
+		<Search />
+	{/if}
+	<article class="dt-table">
+		{#if $options.scrollY}
+			<StickyHeader />
+		{/if}
+		<table>
+			<slot />
+		</table>
+	</article>
+	{#if $options.blocks.paginationRowCount === true || $options.blocks.paginationButtons === true}
+		<Pagination />
+	{/if}
+</section>
+
+<style>
+	.datatable {
+		position: relative;
+	}
+	.css.datatable {
+		background: #fff;
+	}
+	.datatable.scroll-y {
+		height: 160px;
+	}
+	.datatable * {
+		box-sizing: border-box;
+	}
+	article {
+		position: relative;
+		overflow-y: auto;
+		overflow-x: hidden;
+		width: 100%;
+		background: inherit;
+	}
+	.css article {
+		border-bottom: 1px solid #e0e0e0;
+		scrollbar-width: thin;
+	}
+	.css article::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+	.css article::-webkit-scrollbar-track {
+		background: #f5f5f5;
+	}
+	.css article::-webkit-scrollbar-thumb {
+		background: #c2c2c2;
+	}
+	.css article::-webkit-scrollbar-thumb:hover {
+		background: #9e9e9e;
+	}
+	.css article::-webkit-scrollbar-track-piece:start {
+		top: 40px;
+	}
+	.css table {
+		width: 100%;
+		border-collapse: collapse;
+		overflow: hidden;
+		margin-bottom: 6px;
+	}
+</style>
