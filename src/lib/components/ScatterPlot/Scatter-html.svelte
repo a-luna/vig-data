@@ -1,37 +1,45 @@
 <script>
+	import PitchFxToolTip from '$lib/components/AtBatViewer/PitchFxToolTip.svelte';
+	import Hoverable from '$lib/components/Util/Hoverable.svelte';
 	import { getContext } from 'svelte';
 
 	const { data, xGet, yGet, xScale, yScale } = getContext('LayerCake');
 
+	function getLeftPosition(pfx) {
+		return $xGet(pfx) + ($xScale.bandwidth ? $xScale.bandwidth() / 2 : 0);
+	}
+
+	function getTopPosition(pfx) {
+		return $yGet(pfx) + ($yScale.bandwidth ? $yScale.bandwidth() / 2 : 0);
+	}
 </script>
 
 <div class="scatter-group">
 	{#each $data as d}
 		{#if !d.is_out_of_boundary}
-			<div
-				class:circle={d.basic_type === 'S'}
-				class:square={d.basic_type === 'B'}
-				class:in-play={d.basic_type === 'X'}
-				class:strike-zone-corner={d.basic_type === 'Z'}
-				class:other={d.basic_type !== 'S' &&
-					d.basic_type !== 'B' &&
-					d.basic_type !== 'X' &&
-					d.basic_type !== 'Z'}
-				data-pitch-number={d.ab_count}
-				data-pitch-type={d.mlbam_pitch_name}
-				data-basic-type={d.basic_type}
-				data-left-position={`${$xGet(d) + ($xScale.bandwidth ? $xScale.bandwidth() / 2 : 0)}`}
-				data-top-position={`${$yGet(d) + ($yScale.bandwidth ? $yScale.bandwidth() / 2 : 0)}`}
-				style="
-          left: {$xGet(d) + ($xScale.bandwidth ? $xScale.bandwidth() / 2 : 0)}%;
-          top: {$yGet(d) + ($yScale.bandwidth ? $yScale.bandwidth() / 2 : 0)}%;
-        "
-			/>
+			<Hoverable let:hovering>
+				<div
+					class:circle={d.basic_type === 'S'}
+					class:square={d.basic_type === 'B'}
+					class:in-play={d.basic_type === 'X'}
+					class:strike-zone-corner={d.basic_type === 'Z'}
+					class:other={d.basic_type !== 'S' && d.basic_type !== 'B' && d.basic_type !== 'X' && d.basic_type !== 'Z'}
+					data-pitch-number={d.ab_count}
+					data-pitch-type={d.mlbam_pitch_name}
+					data-basic-type={d.basic_type}
+					data-left-position={getLeftPosition(d)}
+					data-top-position={getTopPosition(d)}
+					style="left: {getLeftPosition(d)}%; top: {getTopPosition(d)}%;"
+				/>
+				{#if hovering}
+					<PitchFxToolTip {d} pLocLeft={getLeftPosition(d)} pLocTop={getTopPosition(d)} />
+				{/if}
+			</Hoverable>
 		{/if}
 	{/each}
 </div>
 
-<style>
+<style lang="postcss">
 	.circle,
 	.square,
 	.in-play,
@@ -74,12 +82,21 @@
 		padding: 2px;
 	}
 
-	div[data-pitch-type]:not([data-pitch-number='0'])::before {
+	[data-basic-type='X']::before {
+		top: -8px;
+		left: 10px;
+	}
+
+	div[data-pitch-type]:not([data-basic-type='X']):not([data-pitch-number='0'])::before {
+		top: -10px;
+		left: 7px;
+	}
+
+	[data-basic-type='X']::before,
+	div[data-pitch-type]:not([data-basic-type='X']):not([data-pitch-number='0'])::before {
 		color: var(--ploc-pitch-num-color);
 		position: absolute;
 		z-index: 15;
-		top: -5px;
-		left: 12px;
 		font-size: 0.75rem;
 		font-weight: var(--ploc-pitch-num-font-weight);
 		content: attr(data-pitch-number);
@@ -96,4 +113,11 @@
 		border: 2px solid var(--strike-zone-border-color);
 	}
 
+	@media screen and (min-width: 640px) {
+		[data-basic-type='X']::before,
+		div[data-pitch-type]:not([data-basic-type='X']):not([data-pitch-number='0'])::before {
+			top: -9px;
+			left: 10px;
+		}
+	}
 </style>

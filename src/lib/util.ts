@@ -27,6 +27,30 @@ export const getCSSPropNumberOfPixels = (element: HTMLElement, propName: string)
 	return match ? parseInt(match.groups.pixels) : 0;
 };
 
+export function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb }) {
+	const handleOutsideClick = ({ target }) => {
+		if (!node.contains(target)) {
+			cb();
+		}
+	};
+
+	function update({ enabled }) {
+		if (enabled) {
+			window.addEventListener('click', handleOutsideClick);
+		} else {
+			window.removeEventListener('click', handleOutsideClick);
+		}
+	}
+
+	update(initialEnabled);
+	return {
+		update,
+		destroy() {
+			window.removeEventListener('click', handleOutsideClick);
+		}
+	};
+}
+
 export function getDateFromString(date_str: string): Result<Date> {
 	const matchFormat1 = GAME_DATE_REGEX.exec(date_str);
 	const matchFormat2 = SEASON_DATE_REGEX.exec(date_str);
@@ -180,6 +204,16 @@ export function addStrikeZoneCornersToPfxData(pfx: PitchFx[]): PitchFx[] {
 	return pfx;
 }
 
+function getZoneTop(pfx: PitchFx[]): number {
+	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_top))];
+	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
+}
+
+function getZoneBottom(pfx: PitchFx[]): number {
+	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_bot))];
+	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
+}
+
 function fakePfxData() {
 	return {
 		bb_game_id: '',
@@ -264,16 +298,6 @@ function fakePfxData() {
 	};
 }
 
-function getZoneTop(pfx: PitchFx[]): number {
-	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_top))];
-	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
-}
-
-function getZoneBottom(pfx: PitchFx[]): number {
-	const uniqueVals = [...new Set(pfx.map((pfx) => pfx.sz_bot))];
-	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
-}
-
 export function drawStrikeZoneRect(document: Document): void {
 	const strikeZone = document.querySelector<HTMLElement>('.strike-zone') || document.createElement('div');
 	const dimensions = getStrikeZoneDimensions(document);
@@ -283,31 +307,27 @@ export function drawStrikeZoneRect(document: Document): void {
 		strikeZone.style.left = dimensions.left;
 		strikeZone.style.width = dimensions.width;
 		strikeZone.style.height = dimensions.height;
-		document.querySelector('.scatter-group').appendChild(strikeZone);
+		document.querySelector('.scatter-group')?.appendChild(strikeZone);
 	}
 }
 
 function getStrikeZoneDimensions(document: Document): StrikeZoneDimensions {
-	const zoneCornerHtmlElements = document.querySelectorAll<HTMLElement>('.strike-zone-corner');
-	const zoneCorners = Array.from(zoneCornerHtmlElements).map((pfx) => getZoneCorner(pfx));
-	if (zoneCorners.length > 0) {
-		const topLeftCorner = zoneCorners.filter((zc) => zc.corner === 'TL')?.[0];
-		const topRightCorner = zoneCorners.filter((zc) => zc.corner === 'TR')?.[0];
-		const bottomLeftCorner = zoneCorners.filter((zc) => zc.corner === 'BL')?.[0];
-		const chartSize = getCSSPropNumberOfPixels(document.documentElement, '--ploc-chart-size');
-
-		const top = topLeftCorner.top;
-		const left = topLeftCorner.left;
-		const width = chartSize * ((topRightCorner.left - topLeftCorner.left) / 100);
-		const height = chartSize * ((bottomLeftCorner.top - topLeftCorner.top) / 100);
-
-		return {
-			top: `${top}%`,
-			left: `${left}%`,
-			width: `${width}px`,
-			height: `${height}px`
-		};
+	const szCornerDivs = document.querySelectorAll<HTMLElement>('.strike-zone-corner');
+	const szCorners = Array.from(szCornerDivs).map((pfx) => getZoneCorner(pfx));
+	if (szCorners.length == 0) {
+		return { top: `0`, left: `0`, width: `0`, height: `0` };
 	}
+	const topLeftCorner = szCorners.filter((zc) => zc.corner === 'TL')?.[0] || null;
+	const topRightCorner = szCorners.filter((zc) => zc.corner === 'TR')?.[0] || null;
+	const bottomLeftCorner = szCorners.filter((zc) => zc.corner === 'BL')?.[0] || null;
+	if (topLeftCorner === null || topRightCorner === null || bottomLeftCorner === null) {
+		return { top: `0`, left: `0`, width: `0`, height: `0` };
+	}
+
+	const chartSize = getCSSPropNumberOfPixels(document.documentElement, '--ploc-chart-size');
+	const width = chartSize * ((topRightCorner.left - topLeftCorner.left) / 100);
+	const height = chartSize * ((bottomLeftCorner.top - topLeftCorner.top) / 100);
+	return { top: `${topLeftCorner.top}%`, left: `${topLeftCorner.left}%`, width: `${width}px`, height: `${height}px` };
 }
 
 function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
@@ -412,6 +432,6 @@ function treatAsUTC(date: Date): Date {
 	return result;
 }
 
-function capitalize(string): string {
+export function capitalize(string: string): string {
 	return string.charAt(0).toUpperCase() + string.substring(1);
 }
