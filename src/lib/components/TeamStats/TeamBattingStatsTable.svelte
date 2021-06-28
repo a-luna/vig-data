@@ -1,13 +1,14 @@
 <script lang="ts">
-	import type { TeamBatStats } from '$lib/api/types';
+	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
+	import { rows } from '$lib/components/TypeTables/stores/data';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
-	import Datatable from '../../../../node_modules/svelte-simple-datatables/src/Datatable.svelte';
-	import { rows } from '../../../../node_modules/svelte-simple-datatables/src/stores/data';
+	import type { RowData } from '../TypeTables/types';
 
 	const settings = {
 		rowPerPage: 15,
 		scrollY: false,
+		css: false,
 		pagination: true,
 		columnFilter: false,
 		blocks: {
@@ -15,13 +16,13 @@
 		}
 	};
 
-	export let teamBatStats: TeamBatStats[];
+	export let teamBatStats: RowData[];
+	let data: RowData[];
 
 	$: data =
 		$seasonStatFilter.league === 'both'
-			? Object.values<TeamBatStats>(teamBatStats).filter((t) => t.league === 'AL' || t.league === 'NL')
-			: Object.values<TeamBatStats>(teamBatStats).filter((t) => t.league === $seasonStatFilter.league.toUpperCase());
-
+			? Object.values<RowData>(teamBatStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
+			: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $seasonStatFilter.league.toUpperCase());
 </script>
 
 <Datatable {settings} {data}>
@@ -51,26 +52,26 @@
 	</thead><tbody>
 		{#each $rows as row}
 			<tr>
-				<td>{row.team_id_bbref}</td>
-				<td>{formatRateStat(row.avg, 3)}</td>
-				<td>{formatRateStat(row.obp, 3)}</td>
-				<td>{formatRateStat(row.slg, 3)}</td>
-				<td>{formatRateStat(row.ops, 3)}</td>
-				<td>{formatPercentStat(row.bb_rate, 0)}</td>
-				<td>{formatPercentStat(row.k_rate, 0)}</td>
-				<td>{row.at_bats}</td>
-				<td>{row.hits}</td>
-				<td>{row.runs_scored}</td>
-				<td>{row.rbis}</td>
-				<td>{row.bases_on_balls}</td>
-				<td>{row.strikeouts}</td>
-				<td>{row.doubles}</td>
-				<td>{row.triples}</td>
-				<td>{row.homeruns}</td>
-				<td>{row.stolen_bases}</td>
-				<td>{row.caught_stealing}</td>
-				<td>{formatRateStat(row.wpa_bat, 2)}</td>
-				<td>{formatRateStat(row.re24_bat, 2)}</td>
+				<td>{row['team_id_bbref']}</td>
+				<td>{formatRateStat(row['avg'], 3)}</td>
+				<td>{formatRateStat(row['obp'], 3)}</td>
+				<td>{formatRateStat(row['slg'], 3)}</td>
+				<td>{formatRateStat(row['ops'], 3)}</td>
+				<td>{formatPercentStat(row['bb_rate'], 0)}</td>
+				<td>{formatPercentStat(row['k_rate'], 0)}</td>
+				<td>{row['at_bats']}</td>
+				<td>{row['hits']}</td>
+				<td>{row['runs_scored']}</td>
+				<td>{row['rbis']}</td>
+				<td>{row['bases_on_balls']}</td>
+				<td>{row['strikeouts']}</td>
+				<td>{row['doubles']}</td>
+				<td>{row['triples']}</td>
+				<td>{row['homeruns']}</td>
+				<td>{row['stolen_bases']}</td>
+				<td>{row['caught_stealing']}</td>
+				<td>{formatRateStat(row['wpa_bat'], 2)}</td>
+				<td>{formatRateStat(row['re24_bat'], 2)}</td>
 			</tr>
 		{/each}
 	</tbody>
