@@ -1,4 +1,4 @@
-import type { MlbSeason } from '$lib/api/types';
+import type { MlbSeason, PlayerSearchResult } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 import type { Writable } from 'svelte/store';
 
@@ -60,6 +60,10 @@ export interface AllMlbSeasons {
 	seasons: MlbSeason[];
 }
 
+export interface SearchResults {
+	results: PlayerSearchResult[];
+}
+
 export interface SeasonStatFilterStore {
 	subscribe: Writable<SeasonStatFilter>['subscribe'];
 	changeSeason: (season: number) => void;
@@ -74,6 +78,11 @@ export interface SeasonStatFilterStore {
 export interface AllMlbSeasonsStore {
 	subscribe: Writable<AllMlbSeasons>['subscribe'];
 	changeMlbSeasons: (seasons: MlbSeason[]) => void;
+}
+
+export interface SearchResultsStore {
+	subscribe: Writable<SearchResults>['subscribe'];
+	changeSearchResults: (seasons: PlayerSearchResult[]) => void;
 }
 
 export interface TimeSpan {
