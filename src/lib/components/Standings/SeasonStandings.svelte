@@ -25,10 +25,10 @@
 </script>
 
 <div class="mb-2">
-	<h3 class="m-0">Season Standings</h3>
+	<h3 class="m-0 text-center">{$seasonStatFilter.season} Season Standings</h3>
 </div>
 <div class="flex flex-col flex-nowrap">
-	<div class="season-standings flex flex-row flex-wrap flex-auto justify-center mb-4 mt-0 mx-auto">
+	<div class="flex flex-row flex-wrap justify-center flex-auto mx-auto mt-0 mb-4 season-standings">
 		{#if getStandingsRequest}
 			{#await getStandingsRequest}
 				<div class="pending"><Pulse size="40" color={`currentColor`} /></div>

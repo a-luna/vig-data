@@ -10,7 +10,6 @@
 	export let goToNextAtBatDisabled: boolean = false;
 	export let color: ThemeColor = 'secondary';
 	const dispatch = createEventDispatcher();
-
 </script>
 
 <div class="flex flex-row flex-nowrap justify-center">
@@ -83,12 +82,4 @@
 		width: 25px;
 		height: 25px;
 	}
-
-	button:disabled,
-	button:disabled:hover {
-		cursor: default;
-		background-color: var(--gray3);
-		border: 1px solid var(--gray3);
-	}
-
 </style>

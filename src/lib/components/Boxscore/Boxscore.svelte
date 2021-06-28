@@ -14,7 +14,6 @@
 	let pitcherInningTotalsModal: PitcherInningTotalsModal;
 	const { linescore, linescore_complete, extra_innings } = boxscore;
 	const { park_name, field_type, day_night, game_start_time, game_duration, attendance, umpires } = boxscore.game_meta;
-
 </script>
 
 <AtBatResultsModal bind:this={atBatResultsModal} {boxscore} on:viewPitchFxForAtBatClicked />
@@ -28,19 +27,19 @@
 	<div id="team-stat-tables">
 		<TeamBattingStats
 			teamData={boxscore.away_team}
-			on:viewAtBatResultsClicked={(event) => atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
+			on:viewAtBatResultsClicked={(e) => atBatResultsModal.viewAtBatResultsForPlayer(e.detail)}
 		/>
 		<TeamBattingStats
 			teamData={boxscore.home_team}
-			on:viewAtBatResultsClicked={(event) => atBatResultsModal.viewAtBatResultsForPlayer(event.detail)}
+			on:viewAtBatResultsClicked={(e) => atBatResultsModal.viewAtBatResultsForPlayer(e.detail)}
 		/>
 		<TeamPitchingStats
 			teamData={boxscore.away_team}
-			on:viewPitcherInningTotalsClicked={(event) => pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
+			on:viewPitcherInningTotalsClicked={(e) => pitcherInningTotalsModal.viewInningTotalsForPitcher(e.detail)}
 		/>
 		<TeamPitchingStats
 			teamData={boxscore.home_team}
-			on:viewPitcherInningTotalsClicked={(event) => pitcherInningTotalsModal.viewInningTotalsForPitcher(event.detail)}
+			on:viewPitcherInningTotalsClicked={(e) => pitcherInningTotalsModal.viewInningTotalsForPitcher(e.detail)}
 		/>
 		<GameMetaInfo {park_name} {field_type} {day_night} {game_start_time} {game_duration} {attendance} {umpires} />
 	</div>
@@ -54,5 +53,4 @@
 	.not-shown {
 		display: none;
 	}
-
 </style>

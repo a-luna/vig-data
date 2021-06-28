@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Option from '$lib/components/Select/Option.svelte';
 	import type { SelectMenuOption } from '$lib/types';
+	import { clickOutside } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 	import MdArrowDropDown from 'svelte-icons/md/MdArrowDropDown.svelte';
 	import { cubicIn, cubicOut } from 'svelte/easing';
@@ -13,30 +14,6 @@
 	let selectedOption: SelectMenuOption;
 	let dropdownShown: boolean = false;
 	const dispatch = createEventDispatcher();
-
-	function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb }) {
-		const handleOutsideClick = ({ target }) => {
-			if (!node.contains(target)) {
-				cb();
-			}
-		};
-
-		function update({ enabled }) {
-			if (enabled) {
-				window.addEventListener('click', handleOutsideClick);
-			} else {
-				window.removeEventListener('click', handleOutsideClick);
-			}
-		}
-
-		update(initialEnabled);
-		return {
-			update,
-			destroy() {
-				window.removeEventListener('click', handleOutsideClick);
-			}
-		};
-	}
 
 	function handleOptionClicked(selectedOptionNumber: number) {
 		options.map((menuOption) => (menuOption.active = false));

@@ -13,6 +13,7 @@
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayTable from '$lib/components/AtBatViewer/PlayByPlayTable.svelte';
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
+	import { syncHeight } from '$lib/stores/elementHeight';
 	import { addStrikeZoneCornersToPfxData, createPitchDescriptionList, identifyPfxDataBeyondBoundary } from '$lib/util';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
@@ -40,6 +41,7 @@
 	let goToNextAtBatDisabled: boolean;
 	let getPfxForAtBatReqeust: Promise<ApiResponse<PitchFx[]>>;
 	let getPfxForAtBatResult: ApiResponse<PitchFx[]>;
+	let chartContainer: HTMLElement;
 	const dispatch = createEventDispatcher();
 
 	$: if (pfxAtBatIds) {
@@ -49,6 +51,7 @@
 		goToPrevAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === firstPfxAtBatId : true;
 		goToNextAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === lastPfxAtBatId : true;
 	}
+	$: heightStore = syncHeight(chartContainer);
 
 	onMount(() => dispatch('readyForData'));
 
@@ -160,7 +163,6 @@
 	function viewLastAtBat() {
 		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[pfxAtBatIds.length - 1]]);
 	}
-
 </script>
 
 <div class:not-shown={!shown} class="flex flex-col items-center justify-start w-full flex-nowrap">
@@ -168,12 +170,18 @@
 		<div class="flex flex-col justify-end at-bat-details-wrapper flex-nowrap">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
-					<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+					<div class="pending" style="height: {$heightStore}px">
+						<div class="m-auto">
+							<Pulse size="40" color={`currentColor`} />
+						</div>
+					</div>
 				{:then result}
 					{#if result.success}
-						<AtBatContext {selectedAtBat} />
-						<div class="flex-grow-0 at-bat-details">
-							<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
+						<div class="flex flex-col" style="height: {$heightStore}px">
+							<AtBatContext {selectedAtBat} />
+							<div class="flex-grow-0 at-bat-details">
+								<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
+							</div>
 						</div>
 					{:else}
 						<div class="error">Error: {result.message}</div>
@@ -194,7 +202,7 @@
 				/>
 			</div>
 		</div>
-		<div class="flex-grow-0 pitch-location">
+		<div class="flex-grow-0 pitch-location" bind:this={chartContainer}>
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
 					<div class="pending" />
@@ -283,5 +291,4 @@
 			max-width: 775px;
 		}
 	}
-
 </style>
