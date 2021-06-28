@@ -10,19 +10,18 @@
 	function getPitchTypes(stance: 'both' | 'rhb' | 'lhb'): PitchType[] {
 		return Object.keys(allCombinedPfxData[stance][$playerSeason]) as PitchType[];
 	}
-
 </script>
 
 <div class="responsive">
-	<div class="flex flex-row justify-center flex-nowrap">
+	<div class="flex flex-row justify-center flex-nowrap overflow-x-auto">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
-			<h4 class="text-base sm:text-large">Both</h4>
+			<h4>Both</h4>
 			{#each allPitchTypes as pitchType}
 				<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'both'} />
 			{/each}
 		</div>
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
-			<h4 class="text-base sm:text-large">RHB</h4>
+			<h4>RHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('rhb').includes(pitchType)}
 					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'rhb'} />
@@ -32,7 +31,7 @@
 			{/each}
 		</div>
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
-			<h4 class="text-base sm:text-large">LHB</h4>
+			<h4>LHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('lhb').includes(pitchType)}
 					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'lhb'} />
@@ -63,6 +62,7 @@
 
 	.pitch-type-percentiles > :global(div:last-child) {
 		border-bottom: 1px solid var(--pitch-type-percentiles-border-color);
+		padding: 0 0 10px 0;
 	}
 
 	.pitch-type-percentiles:first-child > :global(div:last-child) {
@@ -85,7 +85,7 @@
 	}
 
 	h4 {
-		font-size: 1.2rem;
+		font-size: 1.1rem;
 		text-align: center;
 		margin: 0;
 		padding: 5px 0;
@@ -105,5 +105,4 @@
 			padding: 5px 0;
 		}
 	}
-
 </style>

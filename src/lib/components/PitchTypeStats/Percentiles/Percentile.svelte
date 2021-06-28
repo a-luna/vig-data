@@ -7,7 +7,7 @@
 
 	$: statValue = formatStatValue(pfxStatsBySeason[$playerSeason]);
 	$: statPercentile = getStatPercentile(pfxStatsBySeason[$playerSeason]);
-	$: gaugeHue = 220 - statPercentile * 2.2;
+	$: gaugeHue = statPercentile * 1.1;
 	$: gaugeLight = $useDarkTheme ? 50 : 30;
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
 	$: updateGauge(statPercentile);
@@ -39,7 +39,6 @@
 	function getStatPercentile(valueMap: number[]): number {
 		return valueMap !== undefined ? valueMap[1] : 0.0;
 	}
-
 </script>
 
 <div class="percentile-table-row">
@@ -51,7 +50,9 @@
 				class="my-auto transition-colors gauge"
 				style="background-color: {gaugeColor}; width: {$gaugeSpring.toFixed(0)}%"
 			/>
-			<div class="flex-grow-0 ml-1 text-left transition-colors" style="color: {gaugeColor}">{statPercentile}</div>
+			<div class="flex-grow-0 ml-1 text-left transition-colors" style="color: {gaugeColor}">
+				{statPercentile.toFixed(0)}
+			</div>
 		</div>
 	</div>
 </div>
@@ -75,7 +76,7 @@
 
 	@media screen and (min-width: 375px) {
 		.percentile-table-row {
-			font-size: 0.8rem;
+			font-size: 0.6rem;
 		}
 	}
 
@@ -117,5 +118,4 @@
 			height: 10px;
 		}
 	}
-
 </style>

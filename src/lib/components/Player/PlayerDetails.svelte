@@ -23,8 +23,7 @@
 	$: height_feet = Math.floor(height / 12);
 	$: height_inches = height % 12;
 	$: birthLocation =
-		birth_state !== birth_city ? `${birth_city}, ${birth_state} (${birth_country})` : `${birth_city}, ${birth_country}`;
-
+		birth_state !== birth_city ? `${birth_city}, ${birth_state}, ${birth_country}` : `${birth_city}, ${birth_country}`;
 </script>
 
 <svelte:head>
@@ -66,12 +65,12 @@
 
 <style lang="postcss">
 	strong {
-		font-weight: 400;
+		font-weight: 500;
 		color: var(--player-details-label-color);
 	}
 
 	div > span {
-		font-weight: 300;
+		font-weight: 400;
+		color: var(--player-details-text-color);
 	}
-
 </style>

@@ -50,7 +50,6 @@
 	}
 
 	$: if (initialized) chartHeight = getChartHeight();
-
 </script>
 
 {#if percentMap[$playerSeason] !== '0%'}
@@ -69,7 +68,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="px-2 py-1 mx-auto percentile-table sm:px-4">
+		<div class="px-1 mx-auto percentile-table sm:py-1 sm:px-4">
 			<div class="percentile-table-body">
 				<Percentile stat={'Speed'} bind:pfxStatsBySeason={speedMap} />
 				<Percentile stat={'OPS'} bind:pfxStatsBySeason={opsMap} />
@@ -134,5 +133,4 @@
 			font-size: 1.15rem;
 		}
 	}
-
 </style>
