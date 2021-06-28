@@ -2,6 +2,7 @@
 	import { getAllValidSeasons } from '$lib/api/season';
 	import type { ApiResponse, MlbSeason } from '$lib/api/types';
 	import Select from '$lib/components/Select/Select.svelte';
+	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -22,6 +23,7 @@
 			return getAllSeasonsResult;
 		}
 		seasons = getAllSeasonsResult.value;
+		allSeasons.changeMlbSeasons(seasons);
 		currentSeason = $seasonStatFilter.season;
 		menuLabel = `MLB ${currentSeason}`;
 		return getAllSeasonsResult;
@@ -44,7 +46,6 @@
 		menuLabel = `MLB ${currentSeason}`;
 		seasonStatFilter.changeSeason(currentSeason);
 	}
-
 </script>
 
 {#if getAllSeasonsRequest}
