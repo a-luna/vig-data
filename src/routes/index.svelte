@@ -9,17 +9,36 @@
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { seasonContentShown } from '$lib/stores/singleValueStores';
-	import type { BatOrder, BatStatSplit, DefPositionNumber, League, PitchStatSplit, SeasonContent } from '$lib/types';
-	import { formatDateString, getDateFromString, getSeasonDates, getStringFromDate } from '$lib/util';
+	import type { BatOrder,BatStatSplit,DefPositionNumber,League,PitchStatSplit,SeasonContent } from '$lib/types';
+	import { formatDateString,getDateFromString,getSeasonDates,getStringFromDate } from '$lib/util';
+	import { format } from 'date-fns';
 	import { onMount } from 'svelte';
 
 	let gameDate: Date;
 	let mounted: boolean = false;
+	const displayDateformat: string = 'P';
 
+	$: if (mounted)
+		changePageAddress(
+			$seasonStatFilter.season,
+			$seasonStatFilter.league,
+			$seasonContentShown,
+			$seasonStatFilter.gameDate,
+			$seasonStatFilter.batStatSplit,
+			$seasonStatFilter.defPosition,
+			$seasonStatFilter.batOrder,
+			$seasonStatFilter.pitchStatSplit
+		);
 	$: scoreboardShown = $seasonContentShown === 'scoreboard';
 	$: standingsShown = $seasonContentShown === 'standings';
 	$: teamBatStatsShown = $seasonContentShown === 'team-bat';
 	$: teamPitchStatsShown = $seasonContentShown === 'team-pitch';
+	$: gameDate = getGameDate($seasonStatFilter.gameDate);
+	$: formatted = gameDate ? format(gameDate, displayDateformat) : '';
+	$: pageTitle = getPageTitle($seasonContentShown, gameDate);
+	$: if (gameDate.getFullYear() !== $seasonStatFilter.season) {
+		handleSeasonChanged($seasonStatFilter.season);
+	}
 
 	function getPageTitle(seasonContent: SeasonContent, date: Date) {
 		if (seasonContent === 'scoreboard') {
@@ -74,46 +93,29 @@
 		pitchSplit: PitchStatSplit
 	) {
 		window.history.pushState(
-			{ game_date: formatGameDate(date) },
+			{ game_date: { formatted } },
 			`${pageTitle} | Vigorish`,
 			getQueryParams(season, league, seasonContent, date, batSplit, defPos, batNum, pitchSplit)
 		);
 	}
 
-	function formatGameDate(date: string): string {
-		return formatDateString(getDateFromString(date).value);
-	}
-
 	function handleSeasonChanged(year: number) {
-		const gameDate = getDateFromString($seasonStatFilter.gameDate).value;
-		if (gameDate.getFullYear() !== year) {
-			const matches = $allSeasons.seasons.filter((s) => s.year === year);
-			if (matches.length == 1) {
-				const season = matches[0];
-				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
-				$seasonStatFilter.gameDate = getStringFromDate(season_start);
-			}
+		const matches = $allSeasons.seasons.filter((s) => s.year === year);
+		if (matches.length == 1) {
+			const season = matches[0];
+			const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
+			seasonStatFilter.changeGameDate(getStringFromDate(season_start));
 		}
 	}
 
-	onMount(() => {
-		mounted = true;
-	});
+	function getGameDate(date: string): Date {
+		const result = getDateFromString(date);
+		if (result.success) {
+			return result.value;
+		}
+	}
 
-	$: if (mounted)
-		changePageAddress(
-			$seasonStatFilter.season,
-			$seasonStatFilter.league,
-			$seasonContentShown,
-			$seasonStatFilter.gameDate,
-			$seasonStatFilter.batStatSplit,
-			$seasonStatFilter.defPosition,
-			$seasonStatFilter.batOrder,
-			$seasonStatFilter.pitchStatSplit
-		);
-	$: pageTitle = getPageTitle($seasonContentShown, getDateFromString($seasonStatFilter.gameDate).value);
-	$: handleSeasonChanged($seasonStatFilter.season);
-
+	onMount(() => (mounted = true));
 </script>
 
 <svelte:head>
@@ -133,7 +135,7 @@
 		<SeasonContentSelector />
 	</div>
 	{#if scoreboardShown}
-		<Scoreboard />
+		<Scoreboard bind:value={gameDate} bind:formatted />
 	{:else if standingsShown}
 		<SeasonStandings />
 	{:else if teamBatStatsShown}
@@ -153,5 +155,4 @@
 			width: 95%;
 		}
 	}
-
 </style>
