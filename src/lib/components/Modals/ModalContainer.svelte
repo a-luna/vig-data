@@ -1,5 +1,5 @@
 <script lang="ts">
-	let hidden: boolean = false;
+	export let hidden: boolean = false;
 
 	export function toggleModal() {
 		hidden = !hidden;
@@ -28,28 +28,28 @@
 		overflow-y: visible !important;
 	}
 
-	.modal-wrapper {
+	:global(.modal-wrapper) {
 		@apply fixed w-full h-full top-0 left-0 flex items-center justify-center;
 		transition: opacity 0.4s ease;
 	}
 
-	.modal-overlay {
+	:global(.modal-overlay) {
 		@apply absolute w-full h-full bg-gray-900 opacity-50;
 	}
 
-	.modal-container {
+	:global(.modal-container) {
 		@apply flex flex-col items-end w-auto mx-auto rounded shadow-lg overflow-y-auto z-50 p-3;
 		border: 1px solid var(--body-text-color);
 		max-width: 70%;
 		background-color: var(--page-bg-color);
 	}
 
-	.modal-heading {
+	:global(.modal-heading) {
 		@apply flex flex-row justify-between items-start pb-1;
 	}
 
-	.modal-content {
-		@apply text-left w-auto mb-3;
+	:global(.modal-content) {
+		@apply text-left w-full mx-auto mb-3;
 		overflow-x: auto;
 		overflow-y: hidden;
 		white-space: nowrap;

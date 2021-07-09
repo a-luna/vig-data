@@ -296,6 +296,7 @@ export interface TeamPitchStats {
 	opponent_team_id_bbref: string;
 	mlb_id: number;
 	bbref_id: string;
+	player_name?: string;
 	stint_number: number;
 	total_games: number;
 	games_as_sp: number;

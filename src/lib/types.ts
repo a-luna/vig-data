@@ -18,6 +18,37 @@ export class HslColor {
 	};
 }
 
+export type TeamID =
+	| 'ARI'
+	| 'ATL'
+	| 'BAL'
+	| 'BOS'
+	| 'CHW'
+	| 'CHC'
+	| 'CIN'
+	| 'CLE'
+	| 'COL'
+	| 'DET'
+	| 'HOU'
+	| 'KCR'
+	| 'LAA'
+	| 'LAD'
+	| 'MIA'
+	| 'MIL'
+	| 'MIN'
+	| 'NYY'
+	| 'NYM'
+	| 'OAK'
+	| 'PHI'
+	| 'PIT'
+	| 'SDP'
+	| 'SEA'
+	| 'SFG'
+	| 'STL'
+	| 'TBR'
+	| 'TEX'
+	| 'TOR'
+	| 'WSN';
 export type ThemeColor = 'primary' | 'secondary';
 export type GameContent = 'box' | 'pbp' | 'charts';
 export type SeasonContent = 'scoreboard' | 'standings' | 'team-bat' | 'team-pitch';

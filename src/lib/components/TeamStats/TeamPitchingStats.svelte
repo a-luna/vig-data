@@ -46,7 +46,7 @@
 			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 		{:then _result}
 			{#if getPitchStatsResult.success}
-				<TeamPitchingStatsTable bind:teamPitchStats />
+				<TeamPitchingStatsTable bind:teamPitchStats on:showPlayerStatsModal />
 			{:else}
 				<div class="error">Error: {getPitchStatsResult.message}</div>
 			{/if}

@@ -3,6 +3,7 @@
 	import { rows } from '$lib/components/TypeTables/stores/data';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
+	import { createEventDispatcher } from 'svelte';
 	import type { RowData } from '../TypeTables/types';
 
 	const settings = {
@@ -17,6 +18,7 @@
 
 	export let teamPitchStats: RowData[];
 	export let data: RowData[];
+	const dispatch = createEventDispatcher();
 
 	$: data =
 		teamPitchStats && $seasonStatFilter.league === 'both'
@@ -58,9 +60,9 @@
 			<th class="sortable asc desc" data-key="strikes_contact" title="strikes (contact)">Str. Cn<span /></th>
 			<th class="sortable asc desc" data-key="strikes_swinging" title="strikes (swinging)">Str. Sw<span /></th>
 			<th class="sortable asc desc" data-key="strikes_looking" title="strikes (looking)">Str. Lk<span /></th>
+			<th class="sortable asc desc" data-key="line_drives">LD<span /></th>
 			<th class="sortable asc desc" data-key="ground_balls">GB<span /></th>
 			<th class="sortable asc desc" data-key="fly_balls">FB<span /></th>
-			<th class="sortable asc desc" data-key="line_drives">LD<span /></th>
 			<th class="sortable asc desc" data-key="unknown_type">Unk<span /></th>
 			<th class="sortable asc desc" data-key="inherited_runners" title="inherited runners">IR<span /></th>
 			<th class="sortable asc desc" data-key="inherited_scored" title="inherited runners (scored)">IR Scr<span /></th>
@@ -69,7 +71,7 @@
 		</tr>
 	</thead><tbody>
 		{#each $rows as row}
-			<tr>
+			<tr on:click={() => dispatch('showPlayerStatsModal', row['team_id_bbref'])} class="cursor-pointer">
 				<td>{row['team_id_bbref']}</td>
 				<td>{row['total_games']}</td>
 				<td>{row['games_as_sp']}</td>
@@ -101,9 +103,9 @@
 				<td>{row['strikes_contact']}</td>
 				<td>{row['strikes_swinging']}</td>
 				<td>{row['strikes_looking']}</td>
+				<td>{row['line_drives']}</td>
 				<td>{row['ground_balls']}</td>
 				<td>{row['fly_balls']}</td>
-				<td>{row['line_drives']}</td>
 				<td>{row['unknown_type']}</td>
 				<td>{row['inherited_runners']}</td>
 				<td>{row['inherited_scored']}</td>
@@ -113,3 +115,9 @@
 		{/each}
 	</tbody>
 </Datatable>
+
+<style lang="postcss">
+	tbody tr:hover {
+		background-color: var(--sec-color-hov);
+	}
+</style>
