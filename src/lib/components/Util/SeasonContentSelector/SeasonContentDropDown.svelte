@@ -5,10 +5,9 @@
 
 	export let width = '100%';
 	const options: SelectMenuOption[] = [
-		{ text: 'Scoreboard', value: 'scoreboard', optionNumber: 1, active: false },
-		{ text: 'Standings', value: 'standings', optionNumber: 2, active: false },
-		{ text: 'Team Batting Stats', value: 'team-bat', optionNumber: 3, active: false },
-		{ text: 'Team Pitching Stats', value: 'team-pitch', optionNumber: 4, active: false }
+		{ text: 'Standings', value: 'standings', optionNumber: 1, active: false },
+		{ text: 'Team Batting Stats', value: 'team-bat', optionNumber: 2, active: false },
+		{ text: 'Team Pitching Stats', value: 'team-pitch', optionNumber: 3, active: false }
 	];
 	const menuId = 'season-content';
 	let selectedOption: SelectMenuOption;
@@ -24,7 +23,6 @@
 	}
 
 	findActiveItem();
-
 </script>
 
 <Select {menuLabel} {options} {menuId} {width} on:changed={(event) => ($seasonContentShown = event.detail)} />

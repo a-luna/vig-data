@@ -5,8 +5,8 @@
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
-	import { getSeasonDates } from '$lib/util';
+	import { gameDate } from '$lib/stores/singleValueStores';
+	import { getSeasonDates, getStringFromDate } from '$lib/util';
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let value: Date;
@@ -20,8 +20,8 @@
 	let getScoreboardRequest: Promise<ApiResponse<Scoreboard> | Result<Date> | Result<Date[]>>;
 	let datePickerModal: DatePickerModal;
 
-	async function getScoreboardForDate(date: string) {
-		const getScoreboardResult = await getScoreboard(date);
+	async function getScoreboardForDate(date: Date) {
+		const getScoreboardResult = await getScoreboard(getStringFromDate(date));
 		success = getScoreboardResult.success;
 		if (!success) {
 			error_message = getScoreboardResult.message;
@@ -38,7 +38,7 @@
 		[minDate, maxDate] = getSeasonDatesResult.value;
 	}
 
-	$: if ($seasonStatFilter.gameDate) getScoreboardRequest = getScoreboardForDate($seasonStatFilter.gameDate);
+	$: if ($gameDate) getScoreboardRequest = getScoreboardForDate($gameDate);
 </script>
 
 <DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate bind:value />

@@ -51,7 +51,7 @@ export type TeamID =
 	| 'WSN';
 export type ThemeColor = 'primary' | 'secondary';
 export type GameContent = 'box' | 'pbp' | 'charts';
-export type SeasonContent = 'scoreboard' | 'standings' | 'team-bat' | 'team-pitch';
+export type SeasonContent = 'standings' | 'team-bat' | 'team-pitch';
 export type PlayerContent = 'percentiles' | 'velo-loc';
 export type League = 'both' | 'al' | 'nl';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
@@ -80,7 +80,6 @@ export interface NavMenuItem {
 export interface SeasonStatFilter {
 	season: number;
 	league: League;
-	gameDate: string;
 	pitchStatSplit: PitchStatSplit;
 	batStatSplit: BatStatSplit;
 	defPosition: DefPositionNumber;
@@ -99,7 +98,6 @@ export interface SeasonStatFilterStore {
 	subscribe: Writable<SeasonStatFilter>['subscribe'];
 	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
-	changeGameDate: (gameDate: string) => void;
 	changePitchStatSplit: (split: PitchStatSplit) => void;
 	changeBatStatSplit: (split: BatStatSplit) => void;
 	changeDefPosition: (defPosition: DefPositionNumber) => void;

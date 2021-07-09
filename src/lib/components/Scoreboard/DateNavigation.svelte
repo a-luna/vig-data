@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { gameDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
-	import { getStringFromDate } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
@@ -29,25 +28,29 @@
 		result.setDate(result.getDate() - 1);
 		return result;
 	}
-
-	function gotoPrevDay() {
-		seasonStatFilter.changeGameDate(getStringFromDate(prevDay(value)));
-	}
-
-	function gotoNextDay() {
-		seasonStatFilter.changeGameDate(getStringFromDate(nextDay(value)));
-	}
 </script>
 
 <div id="date-nav" class="pos">
 	<div class="btn-group">
-		<button id="prev-date" type="button" class="btn btn-{color} p-1" disabled={!canGoToPrevDay} on:click={gotoPrevDay}>
+		<button
+			id="prev-date"
+			type="button"
+			class="btn btn-{color} p-1"
+			disabled={!canGoToPrevDay}
+			on:click={() => ($gameDate = prevDay(value))}
+		>
 			<MdChevronLeft />
 		</button>
 		<button class="btn btn-{color} text-lg" on:click={() => dispatch('showDatePicker')}>
 			{formatted}
 		</button>
-		<button id="next-date" type="button" class="btn btn-{color} p-1" disabled={!canGoToNextDay} on:click={gotoNextDay}>
+		<button
+			id="next-date"
+			type="button"
+			class="btn btn-{color} p-1"
+			disabled={!canGoToNextDay}
+			on:click={() => ($gameDate = nextDay(value))}
+		>
 			<MdChevronRight />
 		</button>
 	</div>

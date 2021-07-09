@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { gameDate } from '$lib/stores/singleValueStores';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
-	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
+	import { enUS } from 'date-fns/locale';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
 	export let minDate: Date;
@@ -22,7 +22,7 @@
 
 	function changeGameDate() {
 		if (dateChanged) {
-			seasonStatFilter.changeGameDate(getStringFromDate(selectedDate));
+			$gameDate = selectedDate;
 			modalContainer.toggleModal();
 		}
 	}

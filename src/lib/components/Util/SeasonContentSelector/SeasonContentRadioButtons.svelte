@@ -4,19 +4,12 @@
 
 	export let color: ThemeColor = 'secondary';
 
-	$: scoreboardSelected = $seasonContentShown === 'scoreboard';
 	$: standingsSelected = $seasonContentShown === 'standings';
 	$: teamBatSelected = $seasonContentShown === 'team-bat';
 	$: teamPitchSelected = $seasonContentShown === 'team-pitch';
-
 </script>
 
 <div class="btn-group text-base ml-4">
-	<button
-		type="button"
-		class={scoreboardSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => ($seasonContentShown = 'scoreboard')}>Scoreboard</button
-	>
 	<button
 		type="button"
 		class={standingsSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
