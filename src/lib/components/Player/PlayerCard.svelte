@@ -4,7 +4,6 @@
 	export let name: string;
 	export let description: string = null;
 	export let links: PlayerCardLink[];
-
 </script>
 
 <div
@@ -42,5 +41,4 @@
 	p:hover {
 		color: var(--player-card-text-color-hov);
 	}
-
 </style>

@@ -8,13 +8,10 @@
 
 	let searching: boolean = false;
 	let errorModal: ErrorMessageModal;
-	let loadingComponent: LoadingScreen;
 
 	async function performSearch(query) {
 		searching = true;
-		loadingComponent.toggleLoading();
 		const result = await playerNameSearch(query);
-		loadingComponent.toggleLoading();
 		searching = false;
 		if (!result.success) {
 			errorModal.toggleModal(result.message);
@@ -26,5 +23,5 @@
 </script>
 
 <ErrorMessageModal bind:this={errorModal} />
-<LoadingScreen bind:this={loadingComponent} />
+<LoadingScreen bind:loading={searching} />
 <SearchForm bind:disabled={searching} on:searchRequest={(e) => performSearch(e.detail)} />

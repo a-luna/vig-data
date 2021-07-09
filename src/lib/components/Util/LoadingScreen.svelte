@@ -1,17 +1,21 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let loading: boolean = false;
+	let mounted: boolean = false;
 
-	export function toggleLoading() {
-		loading = !loading;
-		document.querySelector('body').classList.toggle('loading-active');
+	onMount(() => (mounted = true));
+
+	$: if (mounted && loading) {
+		document.querySelector('body').classList.add('loading-active');
+	} else if (mounted) {
+		document.querySelector('body').classList.remove('loading-active');
 	}
-
 </script>
 
 <div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading}>
-	<div class="loading-overlay" on:click={() => toggleLoading()} />
+	<div class="loading-overlay" on:click={() => (loading = !loading)} />
 	<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
 </div>
 
@@ -29,5 +33,4 @@
 	.loading-overlay {
 		@apply absolute w-full h-full bg-gray-900 opacity-50;
 	}
-
 </style>
