@@ -30,7 +30,7 @@
 	<div class="flex flex-row flex-wrap justify-center flex-auto mx-auto mt-0 mb-4 season-standings">
 		{#if getStandingsRequest}
 			{#await getStandingsRequest}
-				<Spinner />>
+				<Spinner />
 			{:then result}
 				{#if result.success}
 					<SeasonStandingsTable bind:seasonStandings />
