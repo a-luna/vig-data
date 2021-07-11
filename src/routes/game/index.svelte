@@ -5,12 +5,12 @@
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { GameContent } from '$lib/types';
 	import { getDateFromGameId } from '$lib/util';
 	import { onMount } from 'svelte';
-	import { Pulse } from '../../../node_modules/svelte-loading-spinners/src';
 
 	let game_id: string;
 	let game_summary: string;
@@ -92,7 +92,6 @@
 		}
 		return 'MLB Boxscore';
 	}
-
 </script>
 
 <svelte:head>
@@ -102,7 +101,7 @@
 <GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
 {#if getAllGameDataRequest}
 	{#await getAllGameDataRequest}
-		<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+		<Spinner />
 	{:then result}
 		{#if result.success}
 			<Boxscore

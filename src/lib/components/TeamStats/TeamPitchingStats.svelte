@@ -7,9 +7,9 @@
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
 	import TeamPitchingStatsTable from '$lib/components/TeamStats/TeamPitchingStatsTable.svelte';
 	import TeamPitchStatsSelector from '$lib/components/TeamStats/TeamPitchStatSelector/TeamPitchStatRadioButtons.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { PitchStatSplit } from '$lib/types';
-	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let teamPitchStats: TeamPitchStats[];
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
@@ -43,7 +43,7 @@
 	</div>
 	{#if getPitchStatsRequest}
 		{#await getPitchStatsRequest}
-			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+			<Spinner />
 		{:then _result}
 			{#if getPitchStatsResult.success}
 				<TeamPitchingStatsTable bind:teamPitchStats on:showPlayerStatsModal />

@@ -5,9 +5,9 @@
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { gameDate } from '$lib/stores/singleValueStores';
 	import { getSeasonDates, getStringFromDate } from '$lib/util';
-	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let value: Date;
 	export let formatted: string;
@@ -46,7 +46,7 @@
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if getScoreboardRequest}
 		{#await getScoreboardRequest}
-			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+			<Spinner />
 		{:then _result}
 			{#if success}
 				<DateNavigation
@@ -56,7 +56,7 @@
 					bind:formatted
 					on:showDatePicker={() => datePickerModal.toggleModal()}
 				/>
-				<h3 class="text-center my-2">Games Played on {value.toDateString()}</h3>
+				<h3 class="text-center text-xl sm:text-2xl my-2">Games Played on {value.toDateString()}</h3>
 				<div class="scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
 						<div class="game">

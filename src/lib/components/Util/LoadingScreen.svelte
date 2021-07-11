@@ -16,7 +16,11 @@
 
 <div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading}>
 	<div class="loading-overlay" on:click={() => (loading = !loading)} />
-	<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+	<div class="vertical-outer">
+		<div class="vertical-inner">
+			<Pulse size="40" color={`currentColor`} />
+		</div>
+	</div>
 </div>
 
 <style lang="postcss">

@@ -9,9 +9,9 @@
 	import type { ApiResponse, TeamBatStats } from '$lib/api/types';
 	import TeamBatStatSelector from '$lib/components/TeamStats/TeamBatStatSelector.svelte';
 	import TeamBattingStatsTable from '$lib/components/TeamStats/TeamBattingStatsTable.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { BatOrder, BatStatSplit, DefPositionNumber } from '$lib/types';
-	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	let teamBatStats: TeamBatStats[];
 	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;
@@ -54,7 +54,6 @@
 			$seasonStatFilter.batOrder
 		);
 	}
-
 </script>
 
 <div id="team-bat-stats" class="team-stats flex-auto flex flex-col flex-nowrap mb-4">
@@ -62,7 +61,7 @@
 	<TeamBatStatSelector color={'secondary'} />
 	{#if getBatStatsRequest}
 		{#await getBatStatsRequest}
-			<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+			<Spinner />
 		{:then _result}
 			{#if getBatStatsResult.success}
 				<TeamBattingStatsTable bind:teamBatStats />

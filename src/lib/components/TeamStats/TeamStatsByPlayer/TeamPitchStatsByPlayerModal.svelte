@@ -7,10 +7,10 @@
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { Pulse } from '../../../../../node_modules/svelte-loading-spinners/src';
 
 	let hidden: boolean;
 	let mounted: boolean;
@@ -66,7 +66,7 @@
 	<div slot="content" id="player-stats-detail" class="responsive">
 		{#if getPitchStatsRequest}
 			{#await getPitchStatsRequest}
-				<div class="pending"><Pulse size="40" color={`currentColor`} /></div>
+				<Spinner />>
 			{:then _result}
 				{#if getPitchStatsResult.success}
 					<TeamPitchStatsByPlayerTable bind:teamPitchStats />
