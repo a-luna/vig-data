@@ -30,7 +30,7 @@
 	}
 </script>
 
-<div id="date-nav" class="pos">
+<div id="date-nav" class="pos mb-5">
 	<div class="btn-group">
 		<button
 			id="prev-date"

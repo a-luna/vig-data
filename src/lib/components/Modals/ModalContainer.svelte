@@ -1,5 +1,14 @@
 <script lang="ts">
 	export let hidden: boolean = false;
+	export let bgColor: string = null;
+
+	function getContainerBgColor() {
+		return bgColor !== null ? `background-color: ${bgColor}` : '';
+	}
+
+	function getContentBgColor() {
+		return bgColor !== null ? `background-color: ${bgColor}` : 'background-color: var(--page-bg-color)';
+	}
 
 	export function toggleModal() {
 		hidden = !hidden;
@@ -9,8 +18,8 @@
 
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
 	<div class="modal-overlay" on:click={() => toggleModal()} />
-	<div class="modal-container">
-		<div class="modal-content">
+	<div class="modal-container" style={getContainerBgColor()}>
+		<div class="modal-content" style={getContentBgColor()}>
 			<div class="modal-heading">
 				<slot name="heading" />
 			</div>
@@ -40,8 +49,7 @@
 	:global(.modal-container) {
 		@apply flex flex-col items-end w-auto mx-auto rounded shadow-lg overflow-y-auto z-50 p-3;
 		border: 1px solid var(--body-text-color);
-		max-width: 70%;
-		background-color: var(--page-bg-color);
+		max-width: 80%;
 	}
 
 	:global(.modal-heading) {
@@ -59,5 +67,11 @@
 	button {
 		@apply text-base leading-normal py-1.5 px-3 m-0;
 		width: 75px;
+	}
+
+	@media screen and (min-width: 450px) {
+		:global(.modal-container) {
+			max-width: 70%;
+		}
 	}
 </style>

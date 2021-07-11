@@ -28,7 +28,7 @@
 	}
 </script>
 
-<ModalContainer bind:this={modalContainer}>
+<ModalContainer bind:this={modalContainer} bgColor={'var(--sdp-bg-color)'}>
 	<!-- <div slot="heading" class="modal-heading-flex">
 		<span class="text-base font-bold">Change Date</span>
 		<span class="text-base font-normal ml-2">&nbsp;</span>
@@ -52,6 +52,52 @@
 </ModalContainer>
 
 <style lang="postcss">
+	#date-picker {
+		--day-size: 32px;
+		--font-size: 0.85rem;
+	}
+
+	#date-picker :global(.datepicker-header) {
+		background-color: var(--table-col-header-bg-color);
+		color: var(--table-col-header-color);
+		height: var(--day-size);
+		padding: 0;
+	}
+
+	#date-picker :global(.datepicker-header button) {
+		background-color: var(--table-col-header-bg-color);
+		color: var(--table-col-header-color);
+	}
+
+	#date-picker :global(.day) {
+		font-size: var(--font-size);
+		background-color: var(--sdp-current-month);
+	}
+
+	#date-picker :global(.day),
+	#date-picker :global(.weekday-label) {
+		margin: 0 2px;
+	}
+
+	#date-picker :global(.day),
+	#date-picker :global(.weekday-label),
+	#date-picker :global(.month-switcher) {
+		height: var(--day-size);
+		width: var(--day-size);
+	}
+
+	:global(#date-picker .date-picker) {
+		border: 1px solid var(--table-col-header-bg-color);
+		border-radius: 4px;
+		width: auto;
+		min-width: 260px;
+		min-height: 296px;
+	}
+
+	:global(#date-picker .year-picker) {
+		height: 226px;
+	}
+
 	:global(#date-picker .datepicker-header) {
 		background-color: var(--sdp-header-bg-color);
 		padding: 4px;
@@ -68,6 +114,15 @@
 		box-shadow: none;
 	}
 
+	#date-picker :global(.weekdays),
+	#date-picker :global(div[role='grid']) {
+		padding: 0 3px;
+	}
+
+	#date-picker :global(div[role='grid']) {
+		height: auto;
+	}
+
 	:global(#date-picker div[role='grid'] button:hover),
 	:global(#date-picker div[role='grid'] button:focus),
 	:global(#date-picker div[role='grid'] button:focus:hover) {
@@ -78,17 +133,33 @@
 	:global(#date-picker div[role='grid'] button:disabled),
 	:global(#date-picker div[role='grid'] button:disabled:hover) {
 		color: var(--sdb-disabled-date-color);
-		background-color: var(--page-bg-color);
+		background-color: var(--sdp-current-month);
 	}
 
 	:global(#date-picker div[role='grid'] button.selected),
 	:global(#date-picker div[role='grid'] button.selected:hover) {
 		color: var(--body-text-color);
-		background-color: var(--page-bg-color);
+		background-color: var(--sdp-current-month);
 		border: 2px solid var(--pri-color);
 	}
 
 	.buttons button {
 		width: 75px;
+	}
+
+	@media screen and (min-width: 450px) {
+		#date-picker {
+			--day-size: 36px;
+			--font-size: 1rem;
+		}
+
+		:global(#date-picker .date-picker) {
+			min-width: 288px;
+			min-height: 324px;
+		}
+
+		:global(#date-picker .year-picker) {
+			height: 246px;
+		}
 	}
 </style>
