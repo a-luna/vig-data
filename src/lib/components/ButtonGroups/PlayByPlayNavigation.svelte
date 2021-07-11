@@ -68,14 +68,22 @@
 </div>
 
 <style lang="postcss">
+	#first-at-bat {
+		padding: 2px 8px;
+	}
+
 	#prev-at-bat {
 		margin: 0 5px 0 0;
-		padding: 4px 12px 4px 4px;
+		padding: 2px 12px 2px 4px;
 	}
 
 	#next-at-bat {
 		margin: 0 0 0 5px;
-		padding: 4px 4px 4px 12px;
+		padding: 2px 4px 2px 12px;
+	}
+
+	#last-at-bat {
+		padding: 2px 8px;
 	}
 
 	.icon {

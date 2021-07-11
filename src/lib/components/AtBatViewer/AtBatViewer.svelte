@@ -177,7 +177,7 @@
 					</div>
 				{:then result}
 					{#if result.success}
-						<div class="flex flex-col" style="height: {$heightStore}px">
+						<div class="flex flex-col">
 							<AtBatContext {selectedAtBat} />
 							<div class="flex-grow-0 at-bat-details">
 								<AtBatPitchSequence {pitchSequence} {selectedAtBat} />
@@ -273,8 +273,8 @@
 
 	@media screen and (min-width: 550px) {
 		.at-bat-details {
-			flex: 1 0 calc(var(--ploc-chart-size) - 50px);
-			max-height: calc(var(--ploc-chart-size) - 50px);
+			flex: 1 0 calc(var(--ploc-chart-size) - 105px);
+			max-height: calc(var(--ploc-chart-size) - 105px);
 		}
 
 		.at-bat-viewer {
@@ -286,6 +286,11 @@
 	}
 
 	@media screen and (min-width: 1024px) {
+		.at-bat-details {
+			flex: 1 0 calc(var(--ploc-chart-size) - 115px);
+			max-height: calc(var(--ploc-chart-size) - 115px);
+		}
+
 		.at-bat-viewer {
 			font-size: 0.875rem;
 			max-width: 775px;
