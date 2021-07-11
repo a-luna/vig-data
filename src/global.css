@@ -341,14 +341,15 @@ body.light-mode {
 	--pitch-type-SL: var(--dark-teal2);
 	--pitch-type-EP: var(--dark-gray4);
 
-	--sdb-disabled-date-color: var(--dark-gray4);
+	--sdp-bg-color: var(--light-gray3);
+	--sdp-current-month: var(--light-gray4);
+	--sdb-disabled-date-color: var(--dark-gray1);
 	--sdp-header-bg-color: var(--white1);
 	--sdp-color-grey-400: var(--sec-color);
 	--sdp-accent-color: var(--pri-color);
 	--sdp-bg-focus-color: var(--pri-color);
 	--sdp-bg-active-color: var(--pri-color);
 	--sdp-bg-selected-color: var(--pri-color);
-	--sdp-bg-color: var(--page-bg-color);
 }
 
 body.dark-mode {
@@ -460,6 +461,8 @@ body.dark-mode {
 	--pitch-type-SL: var(--blue-green1);
 	--pitch-type-EP: var(--light-gray1);
 
+	--sdp-bg-color: var(--rich-black2);
+	--sdp-current-month: var(--rich-black3);
 	--sdb-disabled-date-color: var(--light-gray1);
 	--sdp-header-bg-color: var(--rich-black2);
 	--sdp-color-grey-400: var(--sec-color);
@@ -467,7 +470,6 @@ body.dark-mode {
 	--sdp-bg-focus-color: var(--pri-color);
 	--sdp-bg-active-color: var(--pri-color);
 	--sdp-bg-selected-color: var(--pri-color);
-	--sdp-bg-color: var(--page-bg-color);
 }
 
 [data-pitch-type='FF'] {
@@ -626,10 +628,19 @@ label {
 	margin: 0 0 30px;
 }
 
-.pending,
 .error {
 	margin: auto;
 	color: var(--sec-color);
+}
+
+.vertical-outer {
+	display: table;
+	height: 100%;
+}
+
+.vertical-inner {
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .align-left {
