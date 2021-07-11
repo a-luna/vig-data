@@ -66,7 +66,7 @@
 	<div slot="content" id="player-stats-detail" class="responsive">
 		{#if getPitchStatsRequest}
 			{#await getPitchStatsRequest}
-				<Spinner />>
+				<Spinner />
 			{:then _result}
 				{#if getPitchStatsResult.success}
 					<TeamPitchStatsByPlayerTable bind:teamPitchStats />
