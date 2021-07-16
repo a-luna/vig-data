@@ -31,7 +31,7 @@
 <ModalContainer bind:this={modalContainer} bgColor={'var(--sdp-bg-color)'}>
 	<!-- <div slot="heading" class="modal-heading-flex">
 		<span class="text-base font-bold">Change Date</span>
-		<span class="text-base font-normal ml-2">&nbsp;</span>
+		<span class="ml-2 text-base font-normal">&nbsp;</span>
 	</div> -->
 
 	<div slot="content" id="date-picker" class="responsive">
@@ -45,7 +45,7 @@
 		/>
 	</div>
 
-	<div slot="buttons" class="buttons flex flex-row flex-nowrap justify-end">
+	<div slot="buttons" class="flex flex-row justify-end buttons flex-nowrap">
 		<button class="btn btn-secondary" disabled={!dateChanged} on:click={() => changeGameDate()}>Save</button>
 		<button class="btn btn-secondary" on:click={() => modalContainer.toggleModal()}>Cancel</button>
 	</div>
