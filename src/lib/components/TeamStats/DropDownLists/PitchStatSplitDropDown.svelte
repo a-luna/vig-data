@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
 
 	export let width = 'auto';
@@ -12,9 +12,8 @@
 	const menuId = 'teamPitchStats';
 	let selectedOption: SelectMenuOption;
 
-	$: selectedOption = options.filter((l) => l.value === $seasonStatFilter.pitchStatSplit)?.[0];
+	$: selectedOption = options.filter((l) => l.value === $teamStatFilter.pitchStatSplit)?.[0];
 	$: menuLabel = selectedOption?.text || 'Team Pitching Splits';
-
 </script>
 
 <Select
@@ -22,5 +21,5 @@
 	{options}
 	{menuId}
 	{width}
-	on:changed={(event) => seasonStatFilter.changePitchStatSplit(event.detail)}
+	on:changed={(event) => teamStatFilter.changePitchStatSplit(event.detail)}
 />

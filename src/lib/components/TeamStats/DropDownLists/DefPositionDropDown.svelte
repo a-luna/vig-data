@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
 	import { DEF_POS_ABBREV_TO_NUM_MAP, DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { DefPositionNumber, SelectMenuOption } from '$lib/types';
 
 	export let width = 'auto';
@@ -21,14 +21,13 @@
 	let selectedOption: SelectMenuOption;
 
 	$: selectedOption = options.filter(
-		(item) => item.value === DEF_POS_NUM_TO_ABBREV_MAP[$seasonStatFilter.defPosition]
+		(item) => item.value === DEF_POS_NUM_TO_ABBREV_MAP[$teamStatFilter.defPosition]
 	)?.[0];
 	$: menuLabel = selectedOption?.text || 'Def. Position';
 
 	function getDefPosition(selectedItemValue: string): DefPositionNumber {
 		return DEF_POS_ABBREV_TO_NUM_MAP[selectedItemValue];
 	}
-
 </script>
 
 <Select
@@ -36,5 +35,5 @@
 	{options}
 	{menuId}
 	{width}
-	on:changed={(event) => seasonStatFilter.changeDefPosition(getDefPosition(event.detail))}
+	on:changed={(event) => teamStatFilter.changeDefPosition(getDefPosition(event.detail))}
 />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { BatOrder, SelectMenuOption } from '$lib/types';
 
 	export let width = 'auto';
@@ -18,13 +18,12 @@
 	const menuId = 'bat-order';
 	let selectedOption: SelectMenuOption;
 
-	$: selectedOption = options.filter((item) => item.value === $seasonStatFilter.batOrder.toString())?.[0];
+	$: selectedOption = options.filter((item) => item.value === $teamStatFilter.batOrder.toString())?.[0];
 	$: menuLabel = selectedOption?.text || 'Bat Order';
 
 	function getBatOrder(selectedItemValue: string): BatOrder {
 		return parseInt(selectedItemValue) as BatOrder;
 	}
-
 </script>
 
 <Select
@@ -32,5 +31,5 @@
 	{options}
 	{menuId}
 	{width}
-	on:changed={(event) => seasonStatFilter.changeBatOrder(getBatOrder(event.detail))}
+	on:changed={(event) => teamStatFilter.changeBatOrder(getBatOrder(event.detail))}
 />

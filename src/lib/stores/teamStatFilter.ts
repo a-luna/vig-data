@@ -4,13 +4,13 @@ import type {
 	DefPositionNumber,
 	League,
 	PitchStatSplit,
-	SeasonStatFilter,
-	SeasonStatFilterStore
+	TeamStatFilter,
+	TeamStatFilterStore
 } from '$lib/types';
 import { writable } from 'svelte/store';
 
-function createSeasonStatFilterStore(): SeasonStatFilterStore {
-	const { subscribe, update } = writable<SeasonStatFilter>({
+function createTeamStatFilterStore(): TeamStatFilterStore {
+	const { subscribe, update } = writable<TeamStatFilter>({
 		season: 2019,
 		league: 'both',
 		pitchStatSplit: 'all',
@@ -30,4 +30,4 @@ function createSeasonStatFilterStore(): SeasonStatFilterStore {
 	};
 }
 
-export const seasonStatFilter = createSeasonStatFilterStore();
+export const teamStatFilter = createTeamStatFilterStore();

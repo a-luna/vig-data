@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
 	import { rows } from '$lib/components/TypeTables/stores/data';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
+	import { createEventDispatcher } from 'svelte';
 	import type { RowData } from '../TypeTables/types';
 
 	const settings = {
@@ -18,14 +20,15 @@
 
 	export let teamBatStats: RowData[];
 	let data: RowData[];
+	const dispatch = createEventDispatcher();
 
 	$: data =
-		$seasonStatFilter.league === 'both'
+		$teamStatFilter.league === 'both'
 			? Object.values<RowData>(teamBatStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
-			: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $seasonStatFilter.league.toUpperCase());
+			: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
 </script>
 
-<Datatable {settings} {data}>
+<Datatable id={'team-bat-stats-table'} {settings} {data}>
 	<thead>
 		<tr>
 			<th class="sortable asc desc" data-key="team_id_bbref">Team<span /></th>
@@ -51,7 +54,11 @@
 		</tr>
 	</thead><tbody>
 		{#each $rows as row}
-			<tr>
+			<tr
+				on:click={() => dispatch('showPlayerStatsModal', row['team_id_bbref'])}
+				class="cursor-pointer"
+				title="Click to expand results for {TEAM_ID_TO_NAME_MAP[row['team_id_bbref']]}"
+			>
 				<td>{row['team_id_bbref']}</td>
 				<td>{formatRateStat(row['avg'], 3)}</td>
 				<td>{formatRateStat(row['obp'], 3)}</td>
@@ -76,3 +83,9 @@
 		{/each}
 	</tbody>
 </Datatable>
+
+<style lang="postcss">
+	tbody tr:hover {
+		background-color: var(--sec-color-hov);
+	}
+</style>

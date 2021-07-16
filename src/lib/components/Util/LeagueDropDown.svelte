@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
 	import { onMount } from 'svelte';
 
@@ -13,11 +13,10 @@
 	const menuId = 'league';
 	let selectedOption: SelectMenuOption;
 
-	$: selectedOption = options.filter((l) => l.value === $seasonStatFilter.league)?.[0];
+	$: selectedOption = options.filter((l) => l.value === $teamStatFilter.league)?.[0];
 	$: menuLabel = selectedOption?.text || 'Select League';
 
-	onMount(() => options.map((l) => (l.active = l.value === $seasonStatFilter.league)));
-
+	onMount(() => options.map((l) => (l.active = l.value === $teamStatFilter.league)));
 </script>
 
-<Select {menuLabel} {options} {menuId} {width} on:changed={(event) => seasonStatFilter.changeLeague(event.detail)} />
+<Select {menuLabel} {options} {menuId} {width} on:changed={(event) => teamStatFilter.changeLeague(event.detail)} />

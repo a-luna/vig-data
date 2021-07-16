@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
 	import { rows } from '$lib/components/TypeTables/stores/data';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 	import type { RowData } from '../TypeTables/types';
@@ -9,6 +9,7 @@
 	const settings = {
 		rowPerPage: 15,
 		scrollY: false,
+		css: false,
 		pagination: true,
 		columnFilter: false,
 		blocks: {
@@ -21,9 +22,9 @@
 	const dispatch = createEventDispatcher();
 
 	$: data =
-		teamPitchStats && $seasonStatFilter.league === 'both'
+		teamPitchStats && $teamStatFilter.league === 'both'
 			? Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
-			: Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === $seasonStatFilter.league.toUpperCase());
+			: Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
 </script>
 
 <Datatable id={'team-pitch-stats-table'} {settings} {data}>

@@ -3,7 +3,8 @@
 	import type { ApiResponse, MlbSeason } from '$lib/api/types';
 	import Select from '$lib/components/Select/Select.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { season } from '$lib/stores/singleValueStores';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
 	import { onMount } from 'svelte';
 
@@ -24,27 +25,28 @@
 		}
 		seasons = getAllSeasonsResult.value;
 		allSeasons.changeMlbSeasons(seasons);
-		currentSeason = $seasonStatFilter.season;
+		currentSeason = $season;
 		menuLabel = `MLB ${currentSeason}`;
 		return getAllSeasonsResult;
 	}
 
 	onMount(() => (getAllSeasonsRequest = getAllMlbSeasons()));
 
-	$: if (currentSeason && currentSeason !== $seasonStatFilter.season) handleChanged(currentSeason);
+	$: if (currentSeason && currentSeason !== $season) handleChanged(currentSeason);
 	$: if (getAllSeasonsResult?.success) {
 		options = seasons.map((s, i) => ({
 			text: s.year.toString(),
 			value: s.year,
 			optionNumber: i + 1,
-			active: $seasonStatFilter.season === s.year
+			active: $season === s.year
 		}));
 	}
 
-	function handleChanged(season: number) {
-		currentSeason = season;
+	function handleChanged(selectedSeason: number) {
+		currentSeason = selectedSeason;
 		menuLabel = `MLB ${currentSeason}`;
-		seasonStatFilter.changeSeason(currentSeason);
+		$season = currentSeason;
+		teamStatFilter.changeSeason(currentSeason);
 	}
 </script>
 

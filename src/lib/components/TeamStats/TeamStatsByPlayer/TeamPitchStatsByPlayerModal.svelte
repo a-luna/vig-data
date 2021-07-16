@@ -7,27 +7,39 @@
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
+	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { onMount } from 'svelte';
+	import Pagination from './Pagination.svelte';
+	import RowsPerPage from './RowsPerPage.svelte';
 
 	let hidden: boolean;
 	let mounted: boolean;
 	let modalContainer: ModalContainer;
-	let teamPitchStats: TeamPitchStats[];
+	let teamPitchStats: TeamPitchStats[] = [];
 	let team: TeamID;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
+	let loading: boolean = false;
 
-	$: split = $seasonStatFilter.pitchStatSplit;
-	$: year = $seasonStatFilter.season;
+	$: totalRows = teamPitchStats.length;
+	$: pageSize = 5;
+	$: currentPage = 1;
+	$: startRow = 0;
+	$: endRow = 5;
+
+	$: split = $teamStatFilter.pitchStatSplit;
+	$: year = $teamStatFilter.season;
 	$: if (hidden && mounted) {
 		document.querySelector<HTMLElement>('#team-pitch-stats-table')?.classList.add('hidden');
+		document.querySelector<HTMLElement>('#season-content')?.classList.add('hidden');
 		document.querySelector<HTMLElement>('#stat-filters')?.classList.add('hidden');
 		document.querySelector<HTMLElement>('#stat-filters')?.classList.remove('flex');
 	} else if (mounted) {
 		document.querySelector<HTMLElement>('#team-pitch-stats-table')?.classList.remove('hidden');
+		document.querySelector<HTMLElement>('#season-content')?.classList.remove('hidden');
 		document.querySelector<HTMLElement>('#stat-filters')?.classList.remove('hidden');
 		document.querySelector<HTMLElement>('#stat-filters')?.classList.add('flex');
 	}
@@ -42,43 +54,63 @@
 
 	async function getSelectedPitchStats(): Promise<ApiResponse<TeamPitchStats[]>> {
 		teamPitchStats = [];
+		loading = true;
 		getPitchStatsResult = await pitchStatsMap[split](year, team);
 		if (!getPitchStatsResult.success) {
 			return getPitchStatsResult;
 		}
+		loading = false;
 		teamPitchStats = getPitchStatsResult.value;
 		return getPitchStatsResult;
 	}
 
 	export function showModal(teamId: TeamID) {
 		team = teamId;
+		pageSize = 5;
+		currentPage = 1;
+		startRow = 0;
+		endRow = 5;
 		getPitchStatsRequest = getSelectedPitchStats();
 		modalContainer.toggleModal();
 	}
 </script>
 
-<ModalContainer bind:this={modalContainer} bind:hidden>
-	<div slot="heading" class="modal-heading-flex">
-		<span class="text-base font-bold">{year} {team} {split.toUpperCase()} {'Pitching Stats by Player'}</span>
-		<span class="text-base font-normal ml-2">&nbsp;</span>
-	</div>
+<LoadingScreen bind:loading />
 
-	<div slot="content" id="player-stats-detail" class="responsive">
-		{#if getPitchStatsRequest}
-			{#await getPitchStatsRequest}
-				<Spinner />
-			{:then _result}
-				{#if getPitchStatsResult.success}
-					<TeamPitchStatsByPlayerTable bind:teamPitchStats />
-				{:else}
-					<div class="error">Error: {getPitchStatsResult.message}</div>
-				{/if}
-			{:catch error}
-				<div class="error">Error: {error.message}</div>
-			{/await}
-		{/if}
-	</div>
-</ModalContainer>
+{#if !loading}
+	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
+		<div slot="heading" class="flex flex-row items-center justify-between w-full flex-nowrap">
+			<span class="text-lg">{year} {team} {split.toUpperCase()} {'Pitching Stats by Player'}</span>
+			<RowsPerPage bind:totalRows bind:pageSize on:changed={() => (currentPage = 1)} />
+		</div>
+
+		<div slot="content" id="player-stats-detail" class="responsive">
+			{#if getPitchStatsRequest}
+				{#await getPitchStatsRequest}
+					<Spinner />
+				{:then _result}
+					{#if getPitchStatsResult.success}
+						<TeamPitchStatsByPlayerTable bind:teamPitchStats bind:startRow bind:endRow {backgroundColorRule} />
+						<Pagination
+							bind:totalRows
+							bind:pageSize
+							bind:currentPage
+							bind:startRow
+							bind:endRow
+							{backgroundColorRule}
+							rowTypeSingle={'player'}
+							rowTypePlural={'players'}
+						/>
+					{:else}
+						<div class="error">Error: {getPitchStatsResult.message}</div>
+					{/if}
+				{:catch error}
+					<div class="error">Error: {error.message}</div>
+				{/await}
+			{/if}
+		</div>
+	</ModalContainer>
+{/if}
 
 <style lang="postcss">
 	#player-stats-detail {
