@@ -2,11 +2,9 @@
 	export let hidden: boolean = false;
 	export let bgColor: string = null;
 
-	function getContainerBgColor() {
-		return bgColor !== null ? `background-color: ${bgColor}` : '';
-	}
+	$: backgroundColorRule = getBgColor();
 
-	function getContentBgColor() {
+	function getBgColor() {
 		return bgColor !== null ? `background-color: ${bgColor}` : 'background-color: var(--page-bg-color)';
 	}
 
@@ -18,12 +16,12 @@
 
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
 	<div class="modal-overlay" on:click={() => toggleModal()} />
-	<div class="modal-container" style={getContainerBgColor()}>
-		<div class="modal-content" style={getContentBgColor()}>
-			<div class="modal-heading">
+	<div class="modal-container" style={backgroundColorRule}>
+		<div class="modal-content">
+			<div class="modal-heading tracking-wide mb-0.5">
 				<slot name="heading" />
 			</div>
-			<slot name="content" />
+			<slot name="content" {backgroundColorRule} />
 		</div>
 		<slot name="buttons">
 			<button class="btn btn-secondary" on:click={() => toggleModal()}>Close</button>
@@ -49,7 +47,7 @@
 	:global(.modal-container) {
 		@apply flex flex-col items-end w-auto mx-auto rounded shadow-lg overflow-y-auto z-50 p-3;
 		border: 1px solid var(--body-text-color);
-		max-width: 80%;
+		max-width: 90%;
 	}
 
 	:global(.modal-heading) {
@@ -62,16 +60,11 @@
 		overflow-y: hidden;
 		white-space: nowrap;
 		border-radius: 4px;
+		background-color: inherit;
 	}
 
 	button {
 		@apply text-base leading-normal py-1.5 px-3 m-0;
 		width: 75px;
-	}
-
-	@media screen and (min-width: 450px) {
-		:global(.modal-container) {
-			max-width: 70%;
-		}
 	}
 </style>
