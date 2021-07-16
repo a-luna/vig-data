@@ -5,6 +5,7 @@
 	import { syncWidth } from '$lib/stores/elementWidth';
 	import { capitalize, getCSSPropNumberOfPixels, getToolTipPositionForPfxData } from '$lib/util';
 	import { format, parseISO } from 'date-fns';
+	import { utcToZonedTime } from 'date-fns-tz';
 
 	export let d: PitchFx;
 	export let pLocLeft: number;
@@ -12,9 +13,11 @@
 	let toolTipDiv: HTMLElement;
 	let dimensions: [number, number];
 	let toolTipPosition: string;
+	const timeZone = 'America/New_York';
 
 	$: position = getToolTipPositionForPfxData(d.px, d.pz);
-	$: thrown_at = format(parseISO(d.time_pitch_thrown_utc), 'pp');
+	$: thrown_at = format(utcToZonedTime(parseISO(d.time_pitch_thrown_utc), timeZone), 'pp');
+	$: ballInPlay = d.basic_type === 'X';
 	$: wrongCalledStrike = d.pdes === 'Called strike' && !isWithinStrikeZone(d);
 	$: wrongCalledBall = d.pdes === 'Ball' && isWithinStrikeZone(d);
 	$: heightStore = syncHeight(toolTipDiv);
@@ -31,6 +34,13 @@
 	function isWithinStrikeZone(pfx: PitchFx): boolean {
 		return pfx.px <= 0.70833 && pfx.px >= -0.70833 && pfx.pz <= pfx.sz_top && pfx.pz >= pfx.sz_bot;
 	}
+
+	const bb_type_map = {
+		ground_ball: 'Ground Ball',
+		line_drive: 'Line Drive',
+		fly_ball: 'Fly Ball',
+		popup: 'Popup'
+	};
 
 	function getPosition() {
 		let top: number;
@@ -58,32 +68,49 @@
 
 <div
 	bind:this={toolTipDiv}
-	class="tooltip absolute flex flex-col justify-start items-start p-1 z-50 leading-snug tracking-wide"
+	class="absolute z-50 flex flex-col items-start justify-start p-1 leading-snug tracking-wide tooltip"
 	style={toolTipPosition}
 >
-	<strong>
-		{d.start_speed.toFixed(1)}mph {capitalize(PITCH_TYPE_ABBREV_TO_NAME_MAP[d.mlbam_pitch_name])}
+	<strong class="description">
+		{d.start_speed.toFixed(1)} mph {capitalize(PITCH_TYPE_ABBREV_TO_NAME_MAP[d.mlbam_pitch_name])}
 	</strong>
-	<div class="flex flex-row flex-nowrap justify-start mr-1">
-		<strong class="mr-1">Count </strong><span>{d.balls}-{d.strikes}</span>
+	{#if ballInPlay}
+		<strong class="description">{bb_type_map[d.trajectory]} ({capitalize(d.hardness)} hit)</strong>
+	{:else}
+		<strong class="description">{d.pdes}</strong>
+	{/if}
+	<div class="flex flex-row justify-start flex-nowrap">
+		<strong class="mr-1">Spin Rate </strong><span>{d.spin_rate}</span>
 	</div>
-	<div class="flex flex-row flex-nowrap justify-start">
-		<strong class="mr-1">Result </strong><span>{d.pdes}</span>
-	</div>
+	{#if ballInPlay}
+		<div class="flex flex-row justify-start flex-nowrap">
+			<strong class="mr-1">Exit Velo. </strong><span>{d.launch_speed} mph</span>
+		</div>
+		<div class="flex flex-row justify-start flex-nowrap">
+			<strong class="mr-1">Launch Angle </strong><span>{d.launch_angle} deg</span>
+		</div>
+		<div class="flex flex-row justify-start flex-nowrap">
+			<strong class="mr-1">Distance </strong><span>{d.total_distance} ft</span>
+		</div>
+	{/if}
 	{#if wrongCalledStrike}
 		<strong class="error">Called strike, outside strike zone!</strong>
 	{:else if wrongCalledBall}
 		<strong class="error">Called ball, inside strike zone!</strong>
 	{/if}
-	<div class="flex flex-row flex-nowrap justify-start">
+	<div class="flex flex-row justify-start flex-nowrap">
 		<strong class="mr-1">Thrown At </strong><span>{thrown_at}</span>
 	</div>
-	<div class="flex flex-row flex-nowrap justify-start">
+	<div class="flex flex-row justify-start flex-nowrap">
 		<strong class="mr-1">Location </strong><span>X: {d.px.toFixed(2)}ft, Y: {d.pz.toFixed(2)}ft</span>
 	</div>
 </div>
 
 <style lang="postcss">
+	.description {
+		color: var(--sec-color);
+	}
+
 	.tooltip {
 		white-space: nowrap;
 		color: var(--table-col-header-color);
