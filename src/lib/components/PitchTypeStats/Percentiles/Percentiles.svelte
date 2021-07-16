@@ -17,6 +17,9 @@
 	let zoneMap: Record<number, number[]> = {};
 	let contactMap: Record<number, number[]> = {};
 	let oSwingMap: Record<number, number[]> = {};
+	let gbRateMap: Record<number, number[]> = {};
+	let barrelRateMap: Record<number, number[]> = {};
+	let exitVeloMap: Record<number, number[]> = {};
 	let initialized: boolean = false;
 	let chartHeight: number;
 
@@ -40,6 +43,12 @@
 				percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
 			oSwingMap[year] =
 				percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
+			gbRateMap[year] =
+				percentiles !== null ? [percentiles['ground_ball_rate'][0], percentiles['ground_ball_rate'][1]] : [0, 0];
+			barrelRateMap[year] =
+				percentiles !== null ? [percentiles['barrel_rate'][0], percentiles['barrel_rate'][1]] : [0, 0];
+			exitVeloMap[year] =
+				percentiles !== null ? [percentiles['avg_exit_velocity'][0], percentiles['avg_exit_velocity'][1]] : [0, 0];
 			initialized = true;
 		});
 	}
@@ -76,6 +85,9 @@
 				<Percentile stat={'Zone %'} bind:pfxStatsBySeason={zoneMap} />
 				<Percentile stat={'Cont %'} bind:pfxStatsBySeason={contactMap} />
 				<Percentile stat={'O-SW %'} bind:pfxStatsBySeason={oSwingMap} />
+				<Percentile stat={'GB %'} bind:pfxStatsBySeason={gbRateMap} />
+				<Percentile stat={'Barrel %'} bind:pfxStatsBySeason={barrelRateMap} />
+				<Percentile stat={'Ex.Velo.'} bind:pfxStatsBySeason={exitVeloMap} />
 			</div>
 		</div>
 	</div>
