@@ -22,7 +22,6 @@
 		dispatch('changed', selectedOption.value);
 		dropdownShown = false;
 	}
-
 </script>
 
 <div
@@ -38,7 +37,7 @@
 			aria-haspopup="true"
 			on:click={() => (dropdownShown = !dropdownShown)}
 		>
-			<span class="mx-auto leading-none">{menuLabel}</span>
+			<span class="mx-auto leading-none whitespace-nowrap">{menuLabel}</span>
 			<div class="w-5 h-5 ml-1 -mr-2">
 				<MdArrowDropDown />
 			</div>
@@ -82,5 +81,4 @@
 	#menu-button:hover {
 		background-color: var(--select-bg-color-hov);
 	}
-
 </style>
