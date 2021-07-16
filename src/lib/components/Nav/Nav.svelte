@@ -15,13 +15,12 @@
 
 	$: heightStore = syncHeight(menuElement);
 	$: heightSpring.set(open ? $heightStore || 0 : 0);
-
 </script>
 
 <nav>
-	<div class="px-2 mx-auto max-w-7xl sm:px-6 lg:px-8">
+	<div class="px-2 mx-auto max-w-7xl md:px-6 lg:px-8">
 		<div class="relative flex items-center justify-between h-14">
-			<div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+			<div class="absolute inset-y-0 left-0 flex items-center md:hidden">
 				<!-- Mobile menu button-->
 				<button
 					id="menu-button"
@@ -40,13 +39,13 @@
 					</div>
 				</button>
 			</div>
-			<div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+			<div class="flex items-center justify-center flex-1 md:items-stretch md:justify-start">
 				<div class="flex items-center flex-shrink-0 nav-icon">
 					<div class="block w-8 h-8 stroke-current stroke-2">
 						<GiMoebiusTriangle />
 					</div>
 				</div>
-				<div class="hidden sm:block sm:ml-6">
+				<div class="hidden md:block md:ml-6">
 					<div class="flex space-x-4">
 						{#each items as { label, url }}
 							<NavItem {label} {url} />
@@ -54,17 +53,17 @@
 					</div>
 				</div>
 			</div>
-			<div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:hidden">
+			<div class="absolute inset-y-0 right-0 flex items-center pr-2 md:hidden">
 				<ThemeSlider />
 			</div>
-			<div class="absolute inset-y-0 right-0 items-center hidden pr-2 sm:flex">
+			<div class="absolute inset-y-0 right-0 items-center hidden pr-2 md:flex">
 				<ThemeSlider />
 				<slot />
 			</div>
 		</div>
 	</div>
 
-	<div class:hidden={!open} class:sm:block={open} id="mobile-menu" style="overflow: hidden; height: {$heightSpring}px">
+	<div class:hidden={!open} class:md:block={open} id="mobile-menu" style="overflow: hidden; height: {$heightSpring}px">
 		<div class="px-2 py-4 space-y-1" bind:this={menuElement}>
 			{#each items as { label, url }}
 				<NavItem {label} {url} on:click={() => (open = !open)} />
@@ -109,5 +108,4 @@
 	#mobile-menu {
 		border-bottom: 2px solid var(--pri-color-hov);
 	}
-
 </style>
