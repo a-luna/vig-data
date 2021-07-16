@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
+	import Spinner from './Spinner.svelte';
 
 	export let loading: boolean = false;
 	let mounted: boolean = false;
@@ -16,11 +16,7 @@
 
 <div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading}>
 	<div class="loading-overlay" on:click={() => (loading = !loading)} />
-	<div class="vertical-outer">
-		<div class="vertical-inner">
-			<Pulse size="40" color={`currentColor`} />
-		</div>
-	</div>
+	<Spinner />
 </div>
 
 <style lang="postcss">
@@ -29,12 +25,12 @@
 		overflow-y: visible !important;
 	}
 
+	.loading-overlay {
+		@apply absolute w-full h-full bg-gray-900 opacity-50;
+	}
+
 	.loading-wrapper {
 		@apply fixed w-full h-full top-0 left-0 flex items-center justify-center;
 		transition: opacity 0.25s ease;
-	}
-
-	.loading-overlay {
-		@apply absolute w-full h-full bg-gray-900 opacity-50;
 	}
 </style>

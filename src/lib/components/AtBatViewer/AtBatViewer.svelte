@@ -13,10 +13,10 @@
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayTable from '$lib/components/AtBatViewer/PlayByPlayTable.svelte';
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
+	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import { addStrikeZoneCornersToPfxData, createPitchDescriptionList, identifyPfxDataBeyondBoundary } from '$lib/util';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 
 	export let shown: boolean;
 	let all_pbp: AtBatDetails[];
@@ -172,7 +172,7 @@
 				{#await getPfxForAtBatReqeust}
 					<div class="pending" style="height: {$heightStore}px">
 						<div class="m-auto">
-							<Pulse size="40" color={`currentColor`} />
+							<Spinner />
 						</div>
 					</div>
 				{:then result}
