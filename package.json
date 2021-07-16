@@ -11,13 +11,13 @@
 	},
 	"devDependencies": {
 		"@date-io/date-fns": "^2.11.0",
-		"@sveltejs/adapter-netlify": "^1.0.0-next.19",
+		"@sveltejs/adapter-netlify": "^1.0.0-next.23",
 		"@sveltejs/adapter-node": "1.0.0-next.19",
 		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.12",
 		"@tsconfig/svelte": "^2.0.1",
-		"@typescript-eslint/eslint-plugin": "^4.28.2",
-		"@typescript-eslint/parser": "^4.28.2",
-		"autoprefixer": "^10.3.0",
+		"@typescript-eslint/eslint-plugin": "^4.28.3",
+		"@typescript-eslint/parser": "^4.28.3",
+		"autoprefixer": "^10.3.1",
 		"cssnano": "^5.0.6",
 		"d3-array": "^3.0.1",
 		"d3-format": "^3.0.1",
@@ -25,6 +25,7 @@
 		"d3-scale": "^4.0.0",
 		"d3-time": "^3.0.0",
 		"date-fns": "^2.22.1",
+		"date-fns-tz": "^1.1.4",
 		"eslint": "^7.30.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-svelte3": "^3.2.0",
@@ -39,18 +40,18 @@
 		"svelte-check": "^2.2.2",
 		"svelte-icons": "^2.1.0",
 		"svelte-inclusive-datepicker": "^1.0.2",
-		"svelte-loading-spinners": "^0.1.6",
+		"svelte-loading-spinners": "^0.1.7",
 		"tailwindcss": "^2.2.4",
 		"tslib": "^2.3.0",
 		"typescript": "^4.3.5",
-		"vite": "^2.4.1"
+		"vite": "^2.4.2"
 	},
 	"type": "module",
 	"engines": {
 		"node": ">= 12.17.0"
 	},
 	"dependencies": {
-		"@sveltejs/kit": "^1.0.0-next.124",
+		"@sveltejs/kit": "^1.0.0-next.131",
 		"cross-fetch": "^3.1.4",
 		"layercake": "^4.1.1",
 		"svelte-preprocess": "^4.7.4",

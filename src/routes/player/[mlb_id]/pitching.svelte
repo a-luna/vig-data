@@ -74,7 +74,6 @@
 			}
 		};
 	}
-
 </script>
 
 <script lang="ts">
@@ -90,7 +89,6 @@
 	let twSmall: string = 'sm:items-end sm:mt-2 sm:mb-5 sm:text-sm sm:w-auto';
 	let twMedium: string = 'md:text-base';
 	let twStyles = `${twMobile} ${twSmall} ${twMedium}`;
-
 </script>
 
 <div class="flex flex-col items-start justify-start sm:flex-row sm:justify-around sm:mb-5 flex-nowrap">
