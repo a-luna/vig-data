@@ -3,7 +3,7 @@
 	import type { ApiResponse, SeasonData } from '$lib/api/types';
 	import SeasonStandingsTable from '$lib/components/Standings/SeasonStandingsTable.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { season } from '$lib/stores/singleValueStores';
 
 	let seasonStandings: SeasonData;
 	let getStandingsRequest: Promise<ApiResponse<SeasonData>>;
@@ -18,13 +18,13 @@
 		return getStandingsResult;
 	}
 
-	$: if ($seasonStatFilter.season) {
-		getStandingsRequest = getStandings($seasonStatFilter.season);
+	$: if ($season) {
+		getStandingsRequest = getStandings($season);
 	}
 </script>
 
 <div class="mb-2">
-	<h3 class="m-0 text-center">{$seasonStatFilter.season} Season Standings</h3>
+	<h3 class="m-0 text-center">{$season} Season Standings</h3>
 </div>
 <div class="flex flex-col flex-nowrap">
 	<div class="flex flex-row flex-wrap justify-center flex-auto mx-auto mt-0 mb-4 season-standings">

@@ -1,6 +1,7 @@
 import type { MlbSeason, PlayerSearchResult } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 import type { Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -16,6 +17,23 @@ export class HslColor {
 			? new HslColor(parseInt(match.groups.hue), parseInt(match.groups.saturation), parseInt(match.groups.lightness))
 			: new HslColor(0, 0, 0);
 	};
+}
+
+export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
+
+function persist(key, value) {
+	localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function createWritableSession<JsonValue>(key: string, initialValue: JsonValue): Writable<JsonValue> {
+	if (typeof window !== 'undefined') {
+		const sessionValue = JSON.parse(localStorage.getItem(key));
+		if (!sessionValue) persist(key, initialValue);
+
+		const store = writable(sessionValue || initialValue);
+		store.subscribe((value) => persist(key, value));
+		return store;
+	}
 }
 
 export type TeamID =
@@ -50,8 +68,9 @@ export type TeamID =
 	| 'TOR'
 	| 'WSN';
 export type ThemeColor = 'primary' | 'secondary';
+export type SiteTheme = 'light' | 'dark' | 'notset';
 export type GameContent = 'box' | 'pbp' | 'charts';
-export type SeasonContent = 'standings' | 'team-bat' | 'team-pitch';
+export type TeamStatType = 'bat' | 'pitch';
 export type PlayerContent = 'percentiles' | 'velo-loc';
 export type League = 'both' | 'al' | 'nl';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
@@ -77,7 +96,7 @@ export interface NavMenuItem {
 	url: string;
 }
 
-export interface SeasonStatFilter {
+export interface TeamStatFilter {
 	season: number;
 	league: League;
 	pitchStatSplit: PitchStatSplit;
@@ -94,8 +113,8 @@ export interface SearchResults {
 	results: PlayerSearchResult[];
 }
 
-export interface SeasonStatFilterStore {
-	subscribe: Writable<SeasonStatFilter>['subscribe'];
+export interface TeamStatFilterStore {
+	subscribe: Writable<TeamStatFilter>['subscribe'];
 	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
 	changePitchStatSplit: (split: PitchStatSplit) => void;

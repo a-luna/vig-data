@@ -85,3 +85,37 @@ export const PITCH_TYPE_ABBREV_TO_NAME_MAP = {
 	SL: 'slider',
 	UN: 'unknown'
 };
+
+export const TEAM_ID_TO_NAME_MAP = {
+	ARI: 'Arizona Diamondbacks',
+	ATL: 'Atlanta Braves',
+	BAL: 'Baltimore Orioles',
+	BOS: 'Boston Red Sox',
+	CHW: 'Chicago White Sox',
+	CHC: 'Chicago Cubs',
+	CIN: 'Cincinnati Reds',
+	CLE: 'Cleveland Indians',
+	COL: 'Colorado Rockies',
+	DET: 'Detroit Tigers',
+	HOU: 'Houston Astros',
+	KCR: 'Kansas City Royals',
+	ANA: 'Los Angeles Angels of Anaheim',
+	LAA: 'Los Angeles Angels',
+	LAD: 'Los Angeles Dodgers',
+	MIA: 'Miami Marlins',
+	MIL: 'Milwaukee Brewers',
+	MIN: 'Minnesota Twins',
+	NYY: 'New York Yankees',
+	NYM: 'New York Mets',
+	OAK: 'Oakland Athletics',
+	PHI: 'Philadelphia Phillies',
+	PIT: 'Pittsburgh Pirates',
+	SDP: 'San Diego Padres',
+	SEA: 'Seattle Mariners',
+	SFG: 'San Francisco Giants',
+	STL: 'St. Louis Cardinals',
+	TBR: 'Tampa Bay Rays',
+	TEX: 'Texas Rangers',
+	TOR: 'Toronto Blue Jays',
+	WSN: 'Washington Nationals'
+};

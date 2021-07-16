@@ -274,7 +274,7 @@ body.light-mode {
 
 	--search-icon-color: var(--light-gray4);
 	--search-bg-color: var(--blue1);
-	--search-bg-color-focus: var(--blue2);
+	--search-bg-color-focus: var(--blue1);
 	--search-text-color: var(--white1);
 	--search-text-color-focus: var(--white4);
 	--search-focus-outline-color: transparent;
@@ -633,16 +633,6 @@ label {
 	color: var(--sec-color);
 }
 
-.vertical-outer {
-	display: table;
-	height: 100%;
-}
-
-.vertical-inner {
-	display: table-cell;
-	vertical-align: middle;
-}
-
 .align-left {
 	text-align: left;
 }
@@ -979,7 +969,7 @@ button:disabled:hover,
 }
 
 .btn-outline-primary {
-	color: var(--color-on-pri);
+	color: var(--pri-color);
 	border: 1px solid var(--pri-color);
 }
 
@@ -1016,6 +1006,16 @@ button:disabled:hover,
 
 .btn-group > button {
 	@apply m-0 rounded-none;
+}
+
+.btn-group-primary > button {
+	border-top: 1px solid var(--pri-color);
+	border-bottom: 1px solid var(--pri-color);
+	border-left: 1px solid var(--pri-color);
+	border-right: none;
+}
+
+.btn-group-secondary > button {
 	border-top: 1px solid var(--sec-color);
 	border-bottom: 1px solid var(--sec-color);
 	border-left: 1px solid var(--sec-color);
@@ -1035,6 +1035,13 @@ button:disabled:hover,
 
 .btn-group > button:last-child {
 	@apply rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md;
+}
+
+.btn-group-primary > button:last-child {
+	border-right: 1px solid var(--pri-color);
+}
+
+.btn-group-secondary > button:last-child {
 	border-right: 1px solid var(--sec-color);
 }
 
@@ -1224,19 +1231,25 @@ button:disabled:hover,
 }
 
 #team-bat-stats .datatable .dt-pagination,
-#team-pitch-stats .datatable .dt-pagination {
+#team-pitch-stats .datatable .dt-pagination,
+.dt-pagination {
 	@apply p-0 mx-0 mt-1 mb-0;
 	background: var(--page-bg-color);
 	align-items: center;
 }
 
 #team-bat-stats .datatable .dt-pagination-buttons,
-#team-pitch-stats .datatable .dt-pagination-buttons {
+#team-pitch-stats .datatable .dt-pagination-buttons,
+.dt-pagination-buttons,
+.rows-per-page {
+	font-size: 0.875rem;
 	position: relative;
 	margin-right: 0;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button,
-#team-pitch-stats .datatable .dt-pagination-buttons button {
+#team-pitch-stats .datatable .dt-pagination-buttons button,
+.dt-pagination-buttons button,
+.rows-per-page button {
 	@apply px-2 py-1 m-0 font-normal transition duration-300 ease-in-out shadow-md focus:outline-none;
 	line-height: inherit;
 	color: var(--color-on-sec);
@@ -1244,39 +1257,56 @@ button:disabled:hover,
 	border: 1px solid var(--sec-color);
 }
 #team-bat-stats .datatable .dt-pagination-buttons button:hover,
-#team-pitch-stats .datatable .dt-pagination-buttons button:hover {
+#team-pitch-stats .datatable .dt-pagination-buttons button:hover,
+.dt-pagination-buttons button:hover,
+.rows-per-page button:hover {
 	color: var(--color-on-sec-hov);
 	background-color: var(--sec-color-hov);
 	border: 1px solid var(--sec-color-hov);
 }
 #team-bat-stats .datatable .dt-pagination-buttons button:first-child,
-#team-pitch-stats .datatable .dt-pagination-buttons button:first-child {
+#team-pitch-stats .datatable .dt-pagination-buttons button:first-child,
+.dt-pagination-buttons button:first-child,
+.rows-per-page button:first-child {
 	border-radius: 4px 0 0 4px;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button:last-child,
-#team-pitch-stats .datatable .dt-pagination-buttons button:last-child {
+#team-pitch-stats .datatable .dt-pagination-buttons button:last-child,
+.dt-pagination-buttons button:last-child,
+.rows-per-page button:last-child {
 	border-radius: 0 4px 4px 0;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button.text,
-#team-pitch-stats .datatable .dt-pagination-buttons button.text {
+#team-pitch-stats .datatable .dt-pagination-buttons button.text,
+.dt-pagination-buttons button.text,
+.rows-per-page button {
 	width: auto;
 	cursor: pointer;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button.active,
-#team-pitch-stats .datatable .dt-pagination-buttons button.active {
+#team-pitch-stats .datatable .dt-pagination-buttons button.active,
+.dt-pagination-buttons button.active,
+.rows-per-page button.active {
 	text-decoration: underline;
 	text-underline-offset: 3px;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button.ellipse:hover,
-#team-pitch-stats .datatable .dt-pagination-buttons button.ellipse:hover {
+#team-pitch-stats .datatable .dt-pagination-buttons button.ellipse:hover,
+.dt-pagination-buttons button.ellipse:hover {
 	cursor: default;
 }
 #team-bat-stats .datatable .dt-pagination-buttons button.disabled,
 #team-pitch-stats .datatable .dt-pagination-buttons button.disabled,
+.dt-pagination-buttons button.disabled,
+.rows-per-page button.disabled,
 #team-bat-stats .datatable .dt-pagination-buttons button.disabled:hover,
 #team-pitch-stats .datatable .dt-pagination-buttons button.disabled:hover,
+.datatable .dt-pagination-buttons button.disabled:hover,
+.rows-per-page button.disabled:hover,
 #team-bat-stats .datatable .dt-pagination-buttons button.disabled.active,
-#team-pitch-stats .datatable .dt-pagination-buttons button.disabled.active {
+#team-pitch-stats .datatable .dt-pagination-buttons button.disabled.active,
+.dt-pagination-buttons button.disabled.active,
+.rows-per-page button.disabled.active {
 	color: var(--button-disabled-text-color);
 	background-color: var(--button-disabled-bg-color);
 	border-top: 1px solid transparent;
@@ -1285,15 +1315,19 @@ button:disabled:hover,
 	border-right: none;
 	cursor: default;
 }
-#team-bat-stats .datatable .dt-pagination-buttons button.disabled:last-child {
+#team-bat-stats .datatable .dt-pagination-buttons button.disabled:last-child,
+.dt-pagination-buttons button.disabled:last-child,
+.rows-per-page button.disabled:last-child {
 	border-right: 1px solid transparent;
 }
 #team-bat-stats .datatable .dt-pagination-buttons.mobile button,
-#team-pitch-stats .datatable .dt-pagination-buttons.mobile button {
+#team-pitch-stats .datatable .dt-pagination-buttons.mobile button,
+.dt-pagination-buttons.mobile button {
 	font-weight: bold;
 }
 #team-bat-stats .datatable .dt-pagination-rowcount,
-#team-pitch-stats .datatable .dt-pagination-rowcount {
+#team-pitch-stats .datatable .dt-pagination-rowcount,
+.dt-pagination-rowcount {
 	color: var(--sec-color);
 	line-height: inherit;
 	margin-left: 0;

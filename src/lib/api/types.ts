@@ -253,6 +253,7 @@ export interface TeamBatStats {
 	def_position: number;
 	mlb_id: number;
 	bbref_id: string;
+	player_name?: string;
 	stint_number: number;
 	total_games: number;
 	avg: number;
@@ -518,14 +519,45 @@ export interface PitchFx {
 	ab_total: number;
 	ab_count: number;
 	ab_id: number;
-	table_row_number: number;
 	des: string;
 	strikes: number;
 	balls: number;
 	basic_type: string;
 	pdes: string;
 	mlbam_pitch_name: string;
+	start_speed?: number;
+	zone_location?: number;
+	sz_top?: number;
+	sz_bot?: number;
+	pfx_x?: number;
+	pfx_z?: number;
+	x0: number;
+	y0: number;
+	z0: number;
+	vx0: number;
+	vy0: number;
+	vz0: number;
+	ax: number;
+	ay: number;
+	az: number;
+	px?: number;
+	pz?: number;
 	park_sv_id: string;
+	plate_time: number;
+	extension: number;
+	break_angle: number;
+	break_length: number;
+	break_y: number;
+	spin_rate: number;
+	spin_direction: number;
+	launch_speed: number;
+	launch_angle: number;
+	total_distance: number;
+	trajectory: string;
+	hardness: string;
+	location: number;
+	coord_x: number;
+	coord_y: number;
 	game_start_time_utc: string;
 	time_pitch_thrown_utc: string;
 	seconds_since_game_start: number;
@@ -540,11 +572,15 @@ export interface PitchFx {
 	swing_outside_zone: number;
 	contact_inside_zone: number;
 	contact_outside_zone: number;
-	is_batted_ball: number;
+	is_in_play: number;
 	is_ground_ball: number;
 	is_fly_ball: number;
 	is_line_drive: number;
-	is_pop_up: number;
+	is_popup: number;
+	is_hard_hit: number;
+	is_medium_hit: number;
+	is_soft_hit: number;
+	is_barreled: number;
 	is_final_pitch_of_ab: number;
 	ab_result_out: number;
 	ab_result_hit: number;
@@ -569,17 +605,6 @@ export interface PitchFx {
 	is_invalid_ibb: number;
 	is_out_of_sequence: number;
 	is_out_of_boundary?: boolean;
-	start_speed?: number;
-	spin?: number;
-	zone_location?: number;
-	sz_top?: number;
-	sz_bot?: number;
-	pfx_x?: number;
-	pfx_z?: number;
-	px?: number;
-	pz?: number;
-	pxold?: number;
-	pzold?: number;
 }
 
 export interface PfxMetrics {
@@ -592,7 +617,14 @@ export interface PfxMetrics {
 	fly_ball_rate: number;
 	ground_ball_rate: number;
 	line_drive_rate: number;
-	pop_up_rate: number;
+	popup_rate: number;
+	hard_hit_rate: number;
+	medium_hit_rate: number;
+	soft_hit_rate: number;
+	barrel_rate: number;
+	avg_launch_speed: number;
+	avg_launch_angle: number;
+	avg_hit_distance: number;
 	bb_rate: number;
 	k_rate: number;
 	hr_per_fb: number;
@@ -624,11 +656,15 @@ export interface PfxMetrics {
 	total_swings_outside_zone: number;
 	total_contact_inside_zone: number;
 	total_contact_outside_zone: number;
-	total_batted_balls: number;
+	total_balls_in_play: number;
 	total_ground_balls: number;
 	total_line_drives: number;
 	total_fly_balls: number;
-	total_pop_ups: number;
+	total_popups: number;
+	total_hard_hits: number;
+	total_medium_hits: number;
+	total_soft_hits: number;
+	total_barrels: number;
 	total_singles: number;
 	total_doubles: number;
 	total_triples: number;
@@ -641,12 +677,20 @@ export interface PfxMetrics {
 }
 
 export interface PfxPitchingMetrics extends PfxMetrics {
+	p_throws: string;
 	pitch_type: PitchType;
 	avg_speed: number;
 	avg_pfx_x: number;
 	avg_pfx_z: number;
 	avg_px: number;
 	avg_pz: number;
+	avg_plate_time: number;
+	avg_extension: number;
+	avg_break_angle: number;
+	avg_break_length: number;
+	avg_break_y: number;
+	avg_spin_rate: number;
+	avg_spin_direction: number;
 	percent: number;
 }
 
@@ -667,6 +711,9 @@ export interface PfxPitchTypePercentiles {
 	zone_rate: [number, number];
 	contact_rate: [number, number];
 	o_swing_rate: [number, number];
+	ground_ball_rate: [number, number];
+	barrel_rate: [number, number];
+	avg_exit_velocity: [number, number];
 }
 
 export interface PfxPitchingMetricsWithPercentiles {

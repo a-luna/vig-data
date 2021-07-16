@@ -1,22 +1,21 @@
 <script lang="ts">
 	import type { SeasonData } from '$lib/api/types';
 	import DivisionStandings from '$lib/components/Standings/DivisionStandings.svelte';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 
 	export let seasonStandings: SeasonData;
-
 </script>
 
 <div class="overflow-x-auto season-wrapper">
-	{#if $seasonStatFilter.league === 'both' || $seasonStatFilter.league === 'al'}
-		<div class={$seasonStatFilter.league === 'both' ? 'league-wrapper' : 'solo-wrapper'}>
+	{#if $teamStatFilter.league === 'both' || $teamStatFilter.league === 'al'}
+		<div class={$teamStatFilter.league === 'both' ? 'league-wrapper' : 'solo-wrapper'}>
 			<DivisionStandings division={'e'} teamStandings={seasonStandings['al']['e']} />
 			<DivisionStandings division={'c'} teamStandings={seasonStandings['al']['c']} />
 			<DivisionStandings division={'w'} teamStandings={seasonStandings['al']['w']} />
 		</div>
 	{/if}
-	{#if $seasonStatFilter.league === 'both' || $seasonStatFilter.league === 'nl'}
-		<div class={$seasonStatFilter.league === 'both' ? 'league-wrapper' : 'solo-wrapper'}>
+	{#if $teamStatFilter.league === 'both' || $teamStatFilter.league === 'nl'}
+		<div class={$teamStatFilter.league === 'both' ? 'league-wrapper' : 'solo-wrapper'}>
 			<DivisionStandings division={'e'} teamStandings={seasonStandings['nl']['e']} />
 			<DivisionStandings division={'c'} teamStandings={seasonStandings['nl']['c']} />
 			<DivisionStandings division={'w'} teamStandings={seasonStandings['nl']['w']} />
@@ -67,5 +66,4 @@
 			@apply justify-around text-base;
 		}
 	}
-
 </style>
