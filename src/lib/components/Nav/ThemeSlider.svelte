@@ -1,29 +1,33 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { useDarkTheme } from '$lib/stores/singleValueStores';
+	import { siteTheme } from '$lib/stores/singleValueStores';
 	import { prefersDarkTheme } from '$lib/util';
-	import FaSun from 'svelte-icons/fa/FaSun.svelte';
+	import { onMount } from 'svelte';
 	import FaMoon from 'svelte-icons/fa/FaMoon.svelte';
+	import FaSun from 'svelte-icons/fa/FaSun.svelte';
+
+	$: checked = $siteTheme === 'dark';
 
 	onMount(() => {
-		$useDarkTheme = prefersDarkTheme();
+		if ($siteTheme === 'notset') {
+			$siteTheme = prefersDarkTheme() ? 'dark' : 'light';
+		}
 		updateBodyClasslist();
 	});
 
 	function toggleDarkMode() {
-		$useDarkTheme = !$useDarkTheme;
+		$siteTheme = $siteTheme === 'light' ? 'dark' : 'light';
 		updateBodyClasslist();
 	}
 
 	function updateBodyClasslist() {
-		if ($useDarkTheme) {
+		if ($siteTheme === 'dark') {
 			if (!window.document.body.classList.contains('dark-mode')) {
 				window.document.body.classList.add('dark-mode');
 			}
 			if (window.document.body.classList.contains('light-mode')) {
 				window.document.body.classList.remove('light-mode');
 			}
-		} else if (!$useDarkTheme) {
+		} else if ($siteTheme === 'light') {
 			if (window.document.body.classList.contains('dark-mode')) {
 				window.document.body.classList.remove('dark-mode');
 			}
@@ -32,15 +36,14 @@
 			}
 		}
 	}
-
 </script>
 
 <div id="theme-toggle" class="flex items-center cursor-pointer" title="Toggle Light/Dark Theme">
 	<div class="relative" on:click={() => toggleDarkMode()}>
-		<input type="checkbox" class="sr-only" bind:checked={$useDarkTheme} />
+		<input type="checkbox" class="sr-only" bind:checked />
 		<div class="block w-16 h-8 rounded-full slider-bg" />
 		<div class="dot absolute left-1 top-0.5 w-7 h-7 rounded-full">
-			{#if $useDarkTheme}
+			{#if checked}
 				<div class="icon icon-dark p-1.5">
 					<FaMoon />
 				</div>
@@ -78,5 +81,4 @@
 	.icon-light {
 		color: var(--yellow2);
 	}
-
 </style>

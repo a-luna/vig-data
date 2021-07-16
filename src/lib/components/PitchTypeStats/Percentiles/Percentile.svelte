@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { playerSeason, useDarkTheme } from '$lib/stores/singleValueStores';
+	import { playerSeason, siteTheme } from '$lib/stores/singleValueStores';
 	import { spring } from 'svelte/motion';
 
 	export let stat: string;
@@ -8,7 +8,7 @@
 	$: statValue = formatStatValue(pfxStatsBySeason[$playerSeason]);
 	$: statPercentile = getStatPercentile(pfxStatsBySeason[$playerSeason]);
 	$: gaugeHue = statPercentile * 1.1;
-	$: gaugeLight = $useDarkTheme ? 50 : 30;
+	$: gaugeLight = $siteTheme === 'dark' ? 50 : 30;
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
 	$: updateGauge(statPercentile);
 
