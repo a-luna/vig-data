@@ -7,14 +7,18 @@
 
 	function formatName(name: string): string {
 		if (name === '') return '';
-		const [fname, lname] = name.split(' ', 2);
-		return `${fname.slice(0, 1)} ${lname}`;
+		const pieces = name.split(' ');
+		if (pieces.length > 1) {
+			const firstInitial = pieces[0].slice(0, 1);
+			const lastName = pieces.slice(1).join(' ');
+			return `${firstInitial} ${lastName}`;
+		}
+		return name;
 	}
 
 	const wp_name = formatName(wp.name);
 	const lp_name = formatName(lp.name);
 	const sv_name = sv ? formatName(sv.name) : '';
-
 </script>
 
 <div class="pitcher-results">
@@ -62,5 +66,4 @@
 	a {
 		margin: 0 5px 0 0;
 	}
-
 </style>
