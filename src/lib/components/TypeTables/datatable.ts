@@ -9,13 +9,13 @@ export const datatable = {
 	init: (): void => {
 		datatable.resize();
 		datatable.addEventScrollX();
-    datatable.getColumns();
-    const tableEl = document.querySelector('section.datatable');
-    if (tableEl !== null && tableEl.parentElement !== null) {
-      new ResizeObserver(() => {
-        datatable.resize();
-      }).observe(tableEl.parentElement);
-    }
+		datatable.getColumns();
+		const tableEl = document.querySelector('section.datatable');
+		if (tableEl !== null && tableEl.parentElement !== null) {
+			new ResizeObserver(() => {
+				datatable.resize();
+			}).observe(tableEl.parentElement);
+		}
 	},
 	reset: (): void => {
 		pageNumber.update((store) => {
@@ -76,7 +76,7 @@ export const datatable = {
 			columns.redraw();
 		}
 		datatableWidth.set(size.parentWidth * size.width);
-		if (size.parentWidth * size.width < document.querySelector<HTMLElement>('section.datatable table').offsetWidth) {
+		if (size.parentWidth * size.width < document.querySelector<HTMLElement>('section.datatable table')?.offsetWidth) {
 			tableContainer.style.overflowX = 'auto';
 		}
 	},
