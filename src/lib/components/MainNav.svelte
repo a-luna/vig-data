@@ -4,8 +4,8 @@
 
 	const items = [
 		{ label: 'Home', url: '/', current: false },
-		{ label: 'Scoreboard', url: '/scoreboard', current: false },
-		{ label: 'Game', url: '/game?id=BOS201909170', current: false },
+		{ label: 'Scores', url: '/scoreboard', current: false },
+		{ label: 'Team', url: '/team', current: false },
 		{ label: 'Players', url: '/player', current: false }
 	];
 </script>
