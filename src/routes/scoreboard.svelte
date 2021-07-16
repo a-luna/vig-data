@@ -1,9 +1,8 @@
 <script lang="ts">
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
-	import SeasonSelector from '$lib/components/Util/SeasonSelector.svelte';
+	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { seasonStatFilter } from '$lib/stores/seasonStatFilter';
-	import { gameDate } from '$lib/stores/singleValueStores';
+	import { gameDate, season } from '$lib/stores/singleValueStores';
 	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util';
 	import { format } from 'date-fns';
 	import { onMount } from 'svelte';
@@ -14,7 +13,7 @@
 
 	$: if (mounted) changePageAddress($gameDate);
 	$: formatted = currentDate ? format(currentDate, displayDateformat) : '';
-	$: handleSeasonChanged($seasonStatFilter.season);
+	$: handleSeasonChanged($season);
 	$: pageTitle = `MLB Scoreboard for ${formatDateString(currentDate)}`;
 
 	function handleSeasonChanged(year: number) {
@@ -42,7 +41,7 @@
 <div class="flex flex-col mx-auto my-0 flex-nowrap w-">
 	<div class="flex flex-row justify-center mb-5 flex-nowrap">
 		<div class="flex-grow w-full sm:flex-grow-0 sm:w-auto">
-			<SeasonSelector width={'100%'} />
+			<SeasonDropDown width={'100%'} />
 		</div>
 	</div>
 	<div class="mb-5 sm:w-full">
