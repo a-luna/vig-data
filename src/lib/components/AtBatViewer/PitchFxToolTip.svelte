@@ -5,7 +5,7 @@
 	import { syncWidth } from '$lib/stores/elementWidth';
 	import { capitalize, getCSSPropNumberOfPixels, getToolTipPositionForPfxData } from '$lib/util';
 	import { format, parseISO } from 'date-fns';
-	import { utcToZonedTime } from 'date-fns-tz';
+	import utcToZonedTime from '../../../../node_modules/date-fns-tz/utcToZonedTime/index';
 
 	export let d: PitchFx;
 	export let pLocLeft: number;
@@ -64,6 +64,7 @@
 		}
 		return `top: ${top.toFixed(1)}%; left: ${left.toFixed(1)}%;`;
 	}
+	// import utcToZonedTime from '../../../../node_modules/date-fns-tz/utcToZonedTime/index';
 </script>
 
 <div
