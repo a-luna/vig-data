@@ -560,6 +560,8 @@ export interface PitchFx {
 	coord_y: number;
 	game_start_time_utc: string;
 	time_pitch_thrown_utc: string;
+	game_start_time_est: string;
+	time_pitch_thrown_est: string;
 	seconds_since_game_start: number;
 	has_zone_location: number;
 	batter_did_swing: number;

@@ -4,8 +4,6 @@
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import { syncWidth } from '$lib/stores/elementWidth';
 	import { capitalize, getCSSPropNumberOfPixels, getToolTipPositionForPfxData } from '$lib/util';
-	import { format, parseISO } from 'date-fns';
-	import utcToZonedTime from '../../../../node_modules/date-fns-tz/utcToZonedTime/index';
 
 	export let d: PitchFx;
 	export let pLocLeft: number;
@@ -16,7 +14,6 @@
 	const timeZone = 'America/New_York';
 
 	$: position = getToolTipPositionForPfxData(d.px, d.pz);
-	$: thrown_at = format(utcToZonedTime(parseISO(d.time_pitch_thrown_utc), timeZone), 'pp');
 	$: ballInPlay = d.basic_type === 'X';
 	$: wrongCalledStrike = d.pdes === 'Called strike' && !isWithinStrikeZone(d);
 	$: wrongCalledBall = d.pdes === 'Ball' && isWithinStrikeZone(d);
@@ -64,7 +61,6 @@
 		}
 		return `top: ${top.toFixed(1)}%; left: ${left.toFixed(1)}%;`;
 	}
-	// import utcToZonedTime from '../../../../node_modules/date-fns-tz/utcToZonedTime/index';
 </script>
 
 <div
@@ -100,7 +96,7 @@
 		<strong class="error">Called ball, inside strike zone!</strong>
 	{/if}
 	<div class="flex flex-row justify-start flex-nowrap">
-		<strong class="mr-1">Thrown At </strong><span>{thrown_at}</span>
+		<strong class="mr-1">Thrown At </strong><span>{d.time_pitch_thrown_est}</span>
 	</div>
 	<div class="flex flex-row justify-start flex-nowrap">
 		<strong class="mr-1">Location </strong><span>X: {d.px.toFixed(2)}ft, Y: {d.pz.toFixed(2)}ft</span>
