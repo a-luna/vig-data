@@ -262,8 +262,8 @@ body.light-mode {
 
 	--nav-button-bg-color: var(--blue2);
 	--nav-button-bg-color-hov: var(--blue3);
-	--nav-button-text-color: var(--white4);
-	--nav-button-text-color-hov: var(--white4);
+	--nav-button-text-color: var(--sec-color-hov);
+	--nav-button-text-color-hov: var(--sec-color-hov);
 
 	--nav-link-bg-color: var(--blue2);
 	--nav-link-bg-color-hov: var(--blue3);
