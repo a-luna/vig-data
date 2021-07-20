@@ -2,27 +2,30 @@
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
 	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { gameDate, season } from '$lib/stores/singleValueStores';
+	import { scoreboardDate, season } from '$lib/stores/singleValueStores';
 	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util';
 	import { format } from 'date-fns';
 	import { onMount } from 'svelte';
 
 	let mounted: boolean = false;
 	const displayDateformat: string = 'P';
-	let currentDate: Date = new Date();
+	let currentDate: Date = $scoreboardDate;
 
-	$: if (mounted) changePageAddress($gameDate);
+	$: if (mounted) changePageAddress($scoreboardDate);
 	$: formatted = currentDate ? format(currentDate, displayDateformat) : '';
+	$: currentYear = $scoreboardDate.getFullYear();
 	$: handleSeasonChanged($season);
 	$: pageTitle = `MLB Scoreboard for ${formatDateString(currentDate)}`;
 
 	function handleSeasonChanged(year: number) {
-		const matches = $allSeasons.seasons.filter((s) => s.year === year);
-		if (matches.length == 1) {
-			const season = matches[0];
-			const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
-			$gameDate = season_start;
-			currentDate = $gameDate;
+		if (currentYear !== year) {
+			const matches = $allSeasons.seasons.filter((s) => s.year === year);
+			if (matches.length == 1) {
+				const season = matches[0];
+				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
+				$scoreboardDate = season_start;
+				currentDate = $scoreboardDate;
+			}
 		}
 	}
 
@@ -41,7 +44,7 @@
 <div class="flex flex-col mx-auto my-0 flex-nowrap w-">
 	<div class="flex flex-row justify-center mb-5 flex-nowrap">
 		<div class="flex-grow w-full sm:flex-grow-0 sm:w-auto">
-			<SeasonDropDown width={'100%'} />
+			<SeasonDropDown width={'100%'} on:changed={(e) => ($season = e.detail)} />
 		</div>
 	</div>
 	<div class="mb-5 sm:w-full">

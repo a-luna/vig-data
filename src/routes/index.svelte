@@ -27,7 +27,7 @@
 <div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">
 	<div id="stat-filters" class="flex flex-row justify-center mb-5 flex-nowrap">
 		<div class="flex-grow w-full sm:flex-grow-0 sm:w-auto">
-			<SeasonDropDown width={'100%'} />
+			<SeasonDropDown currentSeason={$season} width={'100%'} on:changed={(e) => ($season = e.detail)} />
 		</div>
 		<div class="flex-grow w-full ml-4 sm:flex-grow-0 sm:w-auto">
 			<LeagueDropDown width={'100%'} />

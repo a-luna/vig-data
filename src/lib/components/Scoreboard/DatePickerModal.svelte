@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
-	import { gameDate } from '$lib/stores/singleValueStores';
+	import { scoreboardDate } from '$lib/stores/singleValueStores';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
 	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
@@ -20,9 +20,9 @@
 		modalContainer.toggleModal();
 	}
 
-	function changeGameDate() {
+	function changeDate() {
 		if (dateChanged) {
-			$gameDate = selectedDate;
+			$scoreboardDate = selectedDate;
 			modalContainer.toggleModal();
 		}
 	}
@@ -46,7 +46,7 @@
 	</div>
 
 	<div slot="buttons" class="flex flex-row justify-end buttons flex-nowrap">
-		<button class="btn btn-secondary" disabled={!dateChanged} on:click={() => changeGameDate()}>Save</button>
+		<button class="btn btn-secondary" disabled={!dateChanged} on:click={() => changeDate()}>Save</button>
 		<button class="btn btn-secondary" on:click={() => modalContainer.toggleModal()}>Cancel</button>
 	</div>
 </ModalContainer>

@@ -6,7 +6,7 @@
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { gameDate } from '$lib/stores/singleValueStores';
+	import { scoreboardDate } from '$lib/stores/singleValueStores';
 	import { getSeasonDates, getStringFromDate } from '$lib/util';
 
 	export let value: Date;
@@ -38,7 +38,7 @@
 		[minDate, maxDate] = getSeasonDatesResult.value;
 	}
 
-	$: if ($gameDate) getScoreboardRequest = getScoreboardForDate($gameDate);
+	$: if ($scoreboardDate) getScoreboardRequest = getScoreboardForDate($scoreboardDate);
 </script>
 
 <DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate bind:value />
@@ -56,12 +56,12 @@
 					bind:formatted
 					on:showDatePicker={() => datePickerModal.toggleModal()}
 				/>
-				<h3 class="text-center text-xl sm:text-2xl my-2">Games Played on {value.toDateString()}</h3>
-				<div class="scoreboard">
+				<h3 class="my-2 text-xl text-center sm:text-2xl">Games Played on {value.toDateString()}</h3>
+				<div class="flex flex-row flex-wrap justify-center flex-grow-0 mx-auto my-0 text-sm scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
-						<div class="game">
+						<div class="self-start m-3 game">
 							<Linescore {linescore} />
-							<div class="game-footer flex flex-row flex-nowrap justify-between">
+							<div class="flex flex-row justify-between game-footer flex-nowrap">
 								<PitcherResults {...pitcher_results} />
 								<div class="links flex flex-col flex-nowrap justify-start text-right mt-1.5 mr1.5">
 									<a sveltekit:prefetch href="/game?id={game_id}&show=box">Boxscore</a>
@@ -82,12 +82,7 @@
 </div>
 
 <style lang="postcss">
-	.scoreboard {
-		@apply text-sm flex flex-row flex-wrap justify-center flex-grow-0 mx-auto my-0;
-	}
-
 	.game {
-		@apply self-start m-3;
 		width: 295px;
 	}
 

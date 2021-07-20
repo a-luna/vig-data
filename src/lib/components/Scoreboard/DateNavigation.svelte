@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameDate } from '$lib/stores/singleValueStores';
+	import { scoreboardDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
@@ -14,8 +14,6 @@
 
 	$: previous = prevDay(value);
 	$: next = nextDay(value);
-	$: canGoToPrevDay = previous >= minDate;
-	$: canGoToNextDay = next <= maxDate;
 
 	function nextDay(date: Date): Date {
 		var result = new Date(date);
@@ -30,14 +28,14 @@
 	}
 </script>
 
-<div id="date-nav" class="pos mb-5">
+<div id="date-nav" class="mb-5 pos">
 	<div class="btn-group">
 		<button
 			id="prev-date"
 			type="button"
 			class="btn btn-{color} p-1"
-			disabled={!canGoToPrevDay}
-			on:click={() => ($gameDate = prevDay(value))}
+			disabled={previous < minDate}
+			on:click={() => ($scoreboardDate = previous)}
 		>
 			<MdChevronLeft />
 		</button>
@@ -48,8 +46,8 @@
 			id="next-date"
 			type="button"
 			class="btn btn-{color} p-1"
-			disabled={!canGoToNextDay}
-			on:click={() => ($gameDate = nextDay(value))}
+			disabled={next > maxDate}
+			on:click={() => ($scoreboardDate = next)}
 		>
 			<MdChevronRight />
 		</button>
