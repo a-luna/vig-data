@@ -26,6 +26,8 @@
 			modalContainer.toggleModal();
 		}
 	}
+	// import { enUS } from 'date-fns/locale';
+	// import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
 </script>
 
 <ModalContainer bind:this={modalContainer} bgColor={'var(--sdp-bg-color)'}>
