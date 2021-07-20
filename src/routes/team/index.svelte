@@ -1,34 +1,28 @@
 <script lang="ts">
-	import PitchStatSplitDropDown from '$lib/components/TeamStats/DropDownLists/PitchStatSplitDropDown.svelte';
-	import TeamStatTypeDropDown from '$lib/components/TeamStats/DropDownLists/TeamStatTypeDropDown.svelte';
-	import TeamBatStatDropDowns from '$lib/components/TeamStats/TeamBatStatDropDowns.svelte';
+	import FilterSettings from '$lib/components/TeamStats/FilterSettings/FilterSettings.svelte';
 	import TeamBattingStats from '$lib/components/TeamStats/TeamBattingStats.svelte';
 	import TeamPitchingStats from '$lib/components/TeamStats/TeamPitchingStats.svelte';
 	import TeamBattingStatsByPlayerModal from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerModal.svelte';
 	import TeamPitchStatsByPlayerModal from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerModal.svelte';
-	import LeagueDropDown from '$lib/components/Util/LeagueDropDown.svelte';
-	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
-	import { season, teamStatType } from '$lib/stores/singleValueStores';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID, TeamStatType } from '$lib/types';
-	import { onMount } from 'svelte';
 
-	let pageLoaded: boolean = false;
 	let teamPitchStatsByPlayerModal: TeamPitchStatsByPlayerModal;
 	let teamBattingStatsByPlayerModal: TeamBattingStatsByPlayerModal;
-	let showFilters: boolean = false;
+	let filterSettings: FilterSettings;
 	let teamBatStatsComponent: TeamBattingStats;
 	let teamPitchStatsComponent: TeamPitchingStats;
-	let teamBatStatsShown: boolean = $teamStatType === 'bat';
-	let teamPitchStatsShown: boolean = $teamStatType === 'pitch';
+	let teamBatStatsShown: boolean = $teamStatFilter.statType === 'bat';
+	let teamPitchStatsShown: boolean = $teamStatFilter.statType === 'pitch';
 
-	$: pageTitle = getPageTitle($teamStatType);
+	$: pageTitle = getPageTitle($teamStatFilter.statType);
 
 	function getPageTitle(seasonContent: TeamStatType) {
 		if (seasonContent === 'bat') {
-			return `${$season} Team Batting Stats`;
+			return `${$teamStatFilter.season} Team Batting Stats`;
 		}
 		if (seasonContent === 'pitch') {
-			return `${$season} Team Pitching Stats`;
+			return `${$teamStatFilter.season} Team Pitching Stats`;
 		}
 		return 'Home';
 	}
@@ -47,15 +41,9 @@
 		} else if (teamBatStatsShown) {
 			teamBatStatsComponent.updateTeamBatStats();
 		}
-
-		teamBatStatsShown = $teamStatType === 'bat';
-		teamPitchStatsShown = $teamStatType === 'pitch';
-		showFilters = false;
+		teamBatStatsShown = $teamStatFilter.statType === 'bat';
+		teamPitchStatsShown = $teamStatFilter.statType === 'pitch';
 	}
-
-	onMount(() => {
-		pageLoaded = true;
-	});
 </script>
 
 <svelte:head>
@@ -66,40 +54,17 @@
 <TeamPitchStatsByPlayerModal bind:this={teamPitchStatsByPlayerModal} />
 
 <div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">
-	{#if showFilters}
-		<div id="stat-filters" class="flex flex-row flex-wrap justify-center mb-5">
-			<div class="flex-grow-0 w-auto m-1">
-				<SeasonDropDown width={'100%'} />
-			</div>
-			<div class="flex-grow-0 w-auto m-1">
-				<LeagueDropDown width={'100%'} />
-			</div>
-			<div class="flex-grow-0 w-auto m-1">
-				<TeamStatTypeDropDown width={'100%'} />
-			</div>
-			{#if $teamStatType === 'pitch'}
-				<div class="flex-grow-0 w-auto m-1">
-					<PitchStatSplitDropDown width={'100%'} />
-				</div>
-			{:else if $teamStatType === 'bat'}
-				<TeamBatStatDropDowns />
-			{/if}
-			<button class="w-auto m-1 btn btn-secondary" on:click={() => updateTeamStatsTable()}>Update</button>
-		</div>
-	{/if}
-
+	<FilterSettings bind:this={filterSettings} on:changed={() => updateTeamStatsTable()} />
 	{#if teamBatStatsShown}
 		<TeamBattingStats
 			bind:this={teamBatStatsComponent}
-			bind:pageLoaded
-			on:showFilterControls={() => (showFilters = true)}
+			on:showFilterControls={() => filterSettings.handleShowFilters()}
 			on:showPlayerStatsModal={(e) => showBattingStatsDetailModal(e.detail)}
 		/>
 	{:else if teamPitchStatsShown}
 		<TeamPitchingStats
 			bind:this={teamPitchStatsComponent}
-			bind:pageLoaded
-			on:showFilterControls={() => (showFilters = true)}
+			on:showFilterControls={() => filterSettings.handleShowFilters()}
 			on:showPlayerStatsModal={(e) => showPitchStatsDetailModal(e.detail)}
 		/>
 	{/if}
@@ -110,7 +75,7 @@
 		width: 100%;
 	}
 
-	@media screen and (min-width: 550px) {
+	@media screen and (min-width: 550) {
 		#season-stats {
 			width: 95%;
 		}

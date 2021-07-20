@@ -7,7 +7,7 @@ import {
 	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
-import type { TimeSpan } from '$lib/types';
+import type { BatOrder, BatStatSplit, DefPositionNumber, TeamStatType, TimeSpan } from '$lib/types';
 
 export function scrollToTop(): void {
 	window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -460,4 +460,25 @@ function treatAsUTC(date: Date): Date {
 
 export function capitalize(string: string): string {
 	return string.charAt(0).toUpperCase() + string.substring(1);
+}
+
+export function teamStatFilterSettingsAreInvalid(
+	teamStatType: TeamStatType,
+	batStatSplit: BatStatSplit,
+	defPositions: DefPositionNumber[],
+	batOrderNumbers: BatOrder[]
+): { invalid: boolean; error: string } {
+	if (teamStatType === 'bat') {
+		if (batStatSplit === 'defpos') {
+			if (defPositions.length === 0) {
+				return { invalid: true, error: 'You must select at least one Defensive Position!' };
+			}
+		}
+		if (batStatSplit === 'batorder') {
+			if (batOrderNumbers.length === 0) {
+				return { invalid: true, error: 'You must select at least one Bat Order number!' };
+			}
+		}
+	}
+	return { invalid: false, error: '' };
 }

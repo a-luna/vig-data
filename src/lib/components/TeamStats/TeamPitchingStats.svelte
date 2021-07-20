@@ -9,16 +9,17 @@
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { PitchStatSplit } from '$lib/types';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import MdSettings from 'svelte-icons/md/MdSettings.svelte';
 
-	export let pageLoaded: boolean = false;
 	let teamPitchStats: TeamPitchStats[];
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
-	let year: number;
-	let league: string;
-	let splitSetting: string;
+	let year: number = $teamStatFilter.season;
+	let league: string = $teamStatFilter.league === 'both' ? 'AL & NL' : $teamStatFilter.league.toUpperCase();
+	let splitSetting: string = getPitchStatSplitSetting();
+	let teamPitchingStatsTable: TeamPitchingStatsTable;
+	let updated: boolean = false;
 	const dispatch = createEventDispatcher();
 
 	const pitchStatsMap = {
@@ -27,7 +28,7 @@
 		rp: getPitchStatsForRpForAllTeams
 	};
 
-	$: if (pageLoaded) updateTeamPitchStats();
+	onMount(() => (getPitchStatsRequest = getSelectedPitchStats($teamStatFilter.season, $teamStatFilter.pitchStatSplit)));
 
 	export function updateTeamPitchStats() {
 		year = $teamStatFilter.season;
@@ -43,6 +44,7 @@
 			return getPitchStatsResult;
 		}
 		teamPitchStats = getPitchStatsResult.value;
+		updated = true;
 		return getPitchStatsResult;
 	}
 
@@ -61,22 +63,22 @@
 
 <div id="team-pitch-stats" class="flex flex-col flex-auto team-stats flex-nowrap">
 	<div class="flex flex-col items-start justify-end mb-2 flex-nowrap">
-		<h3 class="m-0">Team Pitching Stats</h3>
-		<div class="flex flex-row justify-between w-full flex-nowrap">
+		<h3 class="mb-2 text-2xl sm:text-3xl">Team Pitching Stats</h3>
+		<div class="flex flex-row items-center justify-start w-full text-sm leading-none flex-nowrap sm:text-base">
 			<div
-				class="flex flex-row flex-wrap items-center justify-start mt-1 italic leading-none cursor-pointer change-settings"
+				class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings sm:w-5 sm:h-5"
+				title="Change Settings"
 				on:click={() => dispatch('showFilterControls')}
 			>
-				<div
-					class="block w-5 h-5 my-auto cursor-pointer stroke-current stroke-2"
-					title="Change Settings"
-					on:click={() => dispatch('showFilterControls')}
-				>
-					<MdSettings />
-				</div>
-				<strong class="my-auto ml-1 mr-1">Year:</strong><span class="my-auto">{year}</span>
-				<strong class="my-auto ml-3 mr-1">League:</strong><span class="my-auto">{league}</span>
-				<strong class="my-auto ml-3 mr-1">Split:</strong><span class="my-auto">{splitSetting}</span>
+				<MdSettings />
+			</div>
+			<div
+				class="flex flex-row flex-wrap items-end justify-start italic cursor-pointer current-settings"
+				on:click={() => dispatch('showFilterControls')}
+			>
+				<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{year},</span>
+				<strong class="ml-2 mr-1 filter-label">League</strong><span class="filter-value">{league},</span>
+				<strong class="ml-2 mr-1 filter-label">Split</strong><span class="filter-value">{splitSetting}</span>
 			</div>
 		</div>
 	</div>
@@ -85,7 +87,12 @@
 			<Spinner />
 		{:then _result}
 			{#if getPitchStatsResult.success}
-				<TeamPitchingStatsTable bind:teamPitchStats on:showPlayerStatsModal />
+				<TeamPitchingStatsTable
+					bind:this={teamPitchingStatsTable}
+					bind:teamPitchStats
+					bind:updated
+					on:showPlayerStatsModal
+				/>
 			{:else}
 				<div class="error">Error: {getPitchStatsResult.message}</div>
 			{/if}
@@ -96,7 +103,21 @@
 </div>
 
 <style lang="postcss">
+	.current-settings {
+		color: var(--sec-color);
+	}
+
 	.change-settings {
+		color: var(--sec-color);
+	}
+
+	.filter-label {
+		font-weight: 500;
+		color: var(--sec-color);
+	}
+
+	.filter-value {
+		font-weight: 400;
 		color: var(--sec-color);
 	}
 </style>

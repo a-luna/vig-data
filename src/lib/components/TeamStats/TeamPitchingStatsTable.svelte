@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
 	import { rows } from '$lib/components/TypeTables/stores/data';
+	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import { formatPercentStat, formatRateStat } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
@@ -18,13 +19,17 @@
 	};
 
 	export let teamPitchStats: RowData[];
+	export let updated: boolean = false;
 	export let data: RowData[];
 	const dispatch = createEventDispatcher();
 
-	$: data =
-		teamPitchStats && $teamStatFilter.league === 'both'
-			? Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
-			: Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
+	$: if (updated) {
+		data =
+			teamPitchStats && $teamStatFilter.league === 'both'
+				? Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
+				: Object.values<RowData>(teamPitchStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
+		updated = false;
+	}
 </script>
 
 <Datatable id={'team-pitch-stats-table'} {settings} {data}>
@@ -72,7 +77,11 @@
 		</tr>
 	</thead><tbody>
 		{#each $rows as row}
-			<tr on:click={() => dispatch('showPlayerStatsModal', row['team_id_bbref'])} class="cursor-pointer">
+			<tr
+				on:click={() => dispatch('showPlayerStatsModal', row['team_id_bbref'])}
+				class="cursor-pointer"
+				title="Click to expand results for {TEAM_ID_TO_NAME_MAP[row['team_id_bbref']]}"
+			>
 				<td>{row['team_id_bbref']}</td>
 				<td>{row['total_games']}</td>
 				<td>{row['games_as_sp']}</td>

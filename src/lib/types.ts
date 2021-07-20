@@ -99,10 +99,11 @@ export interface NavMenuItem {
 export interface TeamStatFilter {
 	season: number;
 	league: League;
+	statType: TeamStatType;
 	pitchStatSplit: PitchStatSplit;
 	batStatSplit: BatStatSplit;
-	defPosition: DefPositionNumber;
-	batOrder: BatOrder;
+	defPosition: DefPositionNumber[];
+	batOrder: BatOrder[];
 }
 
 export interface AllMlbSeasons {
@@ -117,10 +118,11 @@ export interface TeamStatFilterStore {
 	subscribe: Writable<TeamStatFilter>['subscribe'];
 	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
+	changeStatType: (statType: TeamStatType) => void;
 	changePitchStatSplit: (split: PitchStatSplit) => void;
 	changeBatStatSplit: (split: BatStatSplit) => void;
-	changeDefPosition: (defPosition: DefPositionNumber) => void;
-	changeBatOrder: (batOrder: BatOrder) => void;
+	changeDefPosition: (defPosition: DefPositionNumber[]) => void;
+	changeBatOrder: (batOrder: BatOrder[]) => void;
 }
 
 export interface AllMlbSeasonsStore {

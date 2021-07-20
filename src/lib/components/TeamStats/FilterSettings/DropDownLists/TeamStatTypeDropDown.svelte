@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { teamStatType } from '$lib/stores/singleValueStores';
+	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { SelectMenuOption } from '$lib/types';
 
 	export let width = '100%';
@@ -11,11 +11,11 @@
 	const menuId = 'stat-type';
 	let selectedOption: SelectMenuOption;
 
-	$: selectedOption = options.filter((item) => item.value === $teamStatType)?.[0];
+	$: selectedOption = options.filter((item) => item.value === $teamStatFilter.statType)?.[0];
 	$: menuLabel = selectedOption?.text || '';
 
 	function findActiveItem() {
-		const match = options.filter((item) => item.value === $teamStatType);
+		const match = options.filter((item) => item.value === $teamStatFilter.statType);
 		if (match?.length === 1) {
 			match['active'] = true;
 		}
@@ -24,4 +24,4 @@
 	findActiveItem();
 </script>
 
-<Select {menuLabel} {options} {menuId} {width} on:changed={(event) => ($teamStatType = event.detail)} />
+<Select {menuLabel} {options} {menuId} {width} on:changed={(e) => teamStatFilter.changeStatType(e.detail)} />

@@ -18,14 +18,18 @@
 		}
 	};
 
-	export let teamBatStats: RowData[];
+	export let teamBatStats: RowData[] = [];
+	export let updated: boolean = false;
 	let data: RowData[];
 	const dispatch = createEventDispatcher();
 
-	$: data =
-		$teamStatFilter.league === 'both'
-			? Object.values<RowData>(teamBatStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
-			: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
+	$: if (updated) {
+		data =
+			$teamStatFilter.league === 'both'
+				? Object.values<RowData>(teamBatStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
+				: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
+		updated = false;
+	}
 </script>
 
 <Datatable id={'team-bat-stats-table'} {settings} {data}>
