@@ -9,11 +9,11 @@
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
+	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { onMount } from 'svelte';
 	import Pagination from './Pagination.svelte';
-	import RowsPerPage from './RowsPerPage.svelte';
 
 	let hidden: boolean;
 	let mounted: boolean;
@@ -32,6 +32,7 @@
 
 	$: split = $teamStatFilter.pitchStatSplit;
 	$: year = $teamStatFilter.season;
+	$: heading = getTableHeading(team);
 	$: if (hidden && mounted) {
 		document.querySelector<HTMLElement>('#team-pitch-stats-table')?.classList.add('hidden');
 		document.querySelector<HTMLElement>('#season-content')?.classList.add('hidden');
@@ -64,6 +65,14 @@
 		return getPitchStatsResult;
 	}
 
+	function getTableHeading(teamId) {
+		let heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Pitching Stats by Player `;
+		if (split !== 'all') {
+			heading += `(${split.toUpperCase()} Only)`;
+		}
+		return heading;
+	}
+
 	export function showModal(teamId: TeamID) {
 		team = teamId;
 		pageSize = 5;
@@ -80,11 +89,10 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="heading" class="flex flex-row items-center justify-between w-full flex-nowrap">
-			<span class="text-lg">{year} {team} {split.toUpperCase()} {'Pitching Stats by Player'}</span>
-			<RowsPerPage bind:totalRows bind:pageSize on:changed={() => (currentPage = 1)} />
+			<span class="text-base font-bold overflow-x-hidden overflow-ellipsis">{heading}</span>
 		</div>
 
-		<div slot="content" id="player-stats-detail" class="responsive">
+		<div slot="content" id="player-stats-detail" class="responsive mb-2">
 			{#if getPitchStatsRequest}
 				{#await getPitchStatsRequest}
 					<Spinner />
@@ -114,7 +122,6 @@
 
 <style lang="postcss">
 	#player-stats-detail {
-		min-height: 30vh;
-		max-height: 70vh;
+		max-height: 90%;
 	}
 </style>

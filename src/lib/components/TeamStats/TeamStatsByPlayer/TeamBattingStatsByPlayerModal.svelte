@@ -11,12 +11,11 @@
 	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
+	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { onMount } from 'svelte';
 	import Pagination from './Pagination.svelte';
-	import RowsPerPage from './RowsPerPage.svelte';
 
 	let hidden: boolean;
 	let mounted: boolean;
@@ -79,7 +78,7 @@
 	}
 
 	function getTableHeading(teamId) {
-		let heading = `${year} ${teamId} Batting Stats by Player `;
+		let heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Batting Stats by Player `;
 		if (split === 'all') {
 			heading += '(Split: All Players)';
 		} else if (split === 'starters') {
@@ -87,11 +86,20 @@
 		} else if (split === 'subs') {
 			heading += '(Split: Bench Players)';
 		} else if (split === 'defpos') {
-			heading += `(Split: ${DEF_POS_NUM_TO_ABBREV_MAP[defPosition]} Only)`;
+			heading += `(Def. Position: ${getDefPosAbbreviations()})`;
 		} else {
-			heading += `(Split: Bat Order #${batOrder} Only)`;
+			heading += `(Bat Order: ${getBatOrderNumbers()})`;
 		}
 		return heading;
+	}
+
+	function getDefPosAbbreviations() {
+		const defPosAbbrevs = defPosition.sort((a, b) => a - b).map((def) => DEF_POS_NUM_TO_ABBREV_MAP[def]);
+		return defPosAbbrevs.join(', ');
+	}
+
+	function getBatOrderNumbers() {
+		return batOrder.sort((a, b) => a - b).join(', ');
 	}
 
 	export function showModal(teamId: TeamID) {
@@ -110,11 +118,10 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="heading" class="flex flex-row flex-nowrap justify-between items-center w-full">
-			<span class="text-lg">{heading}</span>
-			<RowsPerPage bind:totalRows bind:pageSize on:changed={() => (currentPage = 1)} />
+			<span class="text-base sm:text-lg overflow-x-hidden overflow-ellipsis">{heading}</span>
 		</div>
 
-		<div slot="content" id="player-stats-detail" class="responsive">
+		<div slot="content" id="player-stats-detail" class="responsive mb-2">
 			{#if getBatStatsRequest}
 				{#await getBatStatsRequest}
 					<Spinner />>
@@ -144,7 +151,6 @@
 
 <style lang="postcss">
 	#player-stats-detail {
-		min-height: 30vh;
-		max-height: 70vh;
+		max-height: 90%;
 	}
 </style>

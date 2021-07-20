@@ -1,4 +1,9 @@
 <script lang="ts">
+	import MdSettings from 'svelte-icons/md/MdSettings.svelte';
+	import { cubicInOut } from 'svelte/easing';
+	import { slide } from 'svelte/transition';
+	import RowsPerPage from './RowsPerPage.svelte';
+
 	export let backgroundColorRule: string;
 	export let totalRows: number;
 	export let pageSize: number = 5;
@@ -7,6 +12,8 @@
 	export let endRow: number;
 	export let rowTypeSingle: string = 'entry';
 	export let rowTypePlural: string = 'entries';
+	let showRowsPerPage: boolean = false;
+	const options = { duration: 500, easing: cubicInOut };
 
 	$: totalPages = Math.ceil(totalRows / pageSize);
 	$: pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -18,60 +25,90 @@
 	function getlastRowNumber(current, size, total) {
 		return current < totalPages ? current * size : total;
 	}
+
+	function handlePageSizeChanged() {
+		currentPage = 1;
+		showRowsPerPage = false;
+	}
 </script>
 
-<section
-	id="modal-pagination"
-	class="dt-pagination flex flex-row flex-nowrap justify-between"
-	style={backgroundColorRule}
->
-	<div class="flex flex-row flex-nowrap justify-start items-center">
-		<aside class="dt-pagination-rowcount mr-2">
-			Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of
-			<b>{totalRows}</b>
-			{rowType}
-		</aside>
+<section id="modal-pagination" class="flex flex-col justify-start mt-3" style={backgroundColorRule}>
+	<div class="flex flex-row justify-between dt-pagination flex-nowrap">
+		<div class="flex flex-col justify-center items-center">
+			<div class="flex flex-row items-center justify-start flex-nowrap leading-none">
+				<div
+					class="dt-pagination-rowcount block mx-1 mb-0.5 sm:w-5 sm:h-4 w-4 h-3 cursor-pointer stroke-current stroke-2"
+					title="Click to change # of rows displayed per page"
+					on:click={() => (showRowsPerPage = true)}
+				>
+					<MdSettings />
+				</div>
+				<aside
+					class="dt-pagination-rowcount cursor-pointer text-sm sm:text-base"
+					title="Click to change # of rows displayed per page"
+					on:click={() => (showRowsPerPage = true)}
+				>
+					Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of
+					<b>{totalRows}</b>
+					{rowType}
+				</aside>
+			</div>
+			{#if showRowsPerPage}
+				<div
+					transition:slide={options}
+					id="rows-per-page"
+					class="flex flex-row items-center justify-start mt-2 rows-per-page"
+				>
+					<RowsPerPage bind:totalRows bind:pageSize on:changed={() => handlePageSizeChanged()} />
+				</div>
+			{/if}
+		</div>
+		<section class="flex flex-row mx-1 dt-pagination-buttons">
+			<button
+				class="text btn-secondary"
+				class:disabled={currentPage === 1}
+				disabled={currentPage === 1}
+				title="First Page"
+				on:click={() => (currentPage = 1)}>❬❬</button
+			>
+			<button
+				class="text btn-secondary"
+				class:disabled={currentPage === 1}
+				disabled={currentPage === 1}
+				title="Previous Page"
+				on:click={() => (currentPage -= 1)}>❬</button
+			>
+			{#if totalPages <= 4}
+				{#each pageNumbers as num}
+					<button
+						class="btn-secondary hidden sm:block"
+						class:active={currentPage === num}
+						on:click={() => (currentPage = num)}>{num}</button
+					>
+				{/each}
+			{/if}
+			<button
+				class="text btn-secondary"
+				class:disabled={currentPage === totalPages}
+				disabled={currentPage === totalPages}
+				title="Next Page"
+				on:click={() => (currentPage += 1)}>❭</button
+			>
+			<button
+				class="text btn-secondary"
+				class:disabled={currentPage === totalPages}
+				disabled={currentPage === totalPages}
+				title="Last Page"
+				on:click={() => (currentPage = totalPages)}>❭❭</button
+			>
+		</section>
 	</div>
-	<section class="dt-pagination-buttons flex flex-row mx-1">
-		<button
-			class="text"
-			class:disabled={currentPage === 1}
-			disabled={currentPage === 1}
-			title="First Page"
-			on:click={() => (currentPage = 1)}>❬❬</button
-		>
-		<button
-			class="text"
-			class:disabled={currentPage === 1}
-			disabled={currentPage === 1}
-			title="Previous Page"
-			on:click={() => (currentPage -= 1)}>❬</button
-		>
-		{#if totalPages <= 4}
-			{#each pageNumbers as num}
-				<button class:active={currentPage === num} on:click={() => (currentPage = num)}>{num}</button>
-			{/each}
-		{/if}
-		<button
-			class="text"
-			class:disabled={currentPage === totalPages}
-			disabled={currentPage === totalPages}
-			title="Next Page"
-			on:click={() => (currentPage += 1)}>❭</button
-		>
-		<button
-			class="text"
-			class:disabled={currentPage === totalPages}
-			disabled={currentPage === totalPages}
-			title="Last Page"
-			on:click={() => (currentPage = totalPages)}>❭❭</button
-		>
-	</section>
 </section>
 
 <style lang="postcss">
 	.dt-pagination-rowcount {
 		color: var(--sec-color);
+		line-height: inherit;
 	}
 
 	#modal-pagination button {
