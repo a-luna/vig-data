@@ -65,8 +65,6 @@
 
 <style lang="postcss">
 	strong {
-		font-weight: 500;
-		color: var(--player-details-label-color);
 	}
 
 	div > span {

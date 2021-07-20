@@ -609,6 +609,7 @@ export interface PitchFx {
 
 export interface PfxMetrics {
 	mlb_id: number;
+	bat_stand?: string;
 	avg: number;
 	obp: number;
 	slg: number;
@@ -623,6 +624,7 @@ export interface PfxMetrics {
 	soft_hit_rate: number;
 	barrel_rate: number;
 	avg_launch_speed: number;
+	max_launch_speed?: number;
 	avg_launch_angle: number;
 	avg_hit_distance: number;
 	bb_rate: number;
@@ -703,7 +705,19 @@ export interface PfxPitchingMetricsCollection {
 	pitch_type_metrics?: Record<PitchType, PfxPitchingMetrics>;
 }
 
-export interface PfxPitchTypePercentiles {
+export interface BatterPercentile {
+	bb_rate: [number, number];
+	k_rate: [number, number];
+	whiff_rate: [number, number];
+	o_swing_rate: [number, number];
+	contact_rate: [number, number];
+	soft_hit_rate: [number, number];
+	barrel_rate: [number, number];
+	avg_exit_velocity: [number, number];
+	max_exit_velocity: [number, number];
+}
+
+export interface PitchTypePercentiles {
 	pitch_type: PitchType;
 	avg_speed: [number, number];
 	ops: [number, number];
@@ -718,12 +732,12 @@ export interface PfxPitchTypePercentiles {
 
 export interface PfxPitchingMetricsWithPercentiles {
 	metrics: PfxPitchingMetricsCollection;
-	percentiles: PfxPitchTypePercentiles[];
+	percentiles: PitchTypePercentiles[];
 }
 
 export interface PfxPitchingMetricsWithPercentilesByYear {
 	metrics: { [key: number]: PfxPitchingMetricsCollection };
-	percentiles: { [key: number]: PfxPitchTypePercentiles[] };
+	percentiles: { [key: number]: PitchTypePercentiles[] };
 }
 
 export interface CareerPfxPitchingMetricsWithPercentiles {
@@ -740,7 +754,7 @@ export interface CareerPfxPitchingMetricsWithPercentilesByYear {
 
 export type PfxDataForPlayerSeason = Record<
 	PitchType,
-	{ percentiles: PfxPitchTypePercentiles; metrics: PfxPitchingMetrics }
+	{ percentiles: PitchTypePercentiles; metrics: PfxPitchingMetrics }
 >;
 export type PfxDataForPlayerSeasonByYear = Record<number, PfxDataForPlayerSeason>;
 export type AllCareerAndYearlyPfxData = Record<BatterStance, PfxDataForPlayerSeasonByYear>;

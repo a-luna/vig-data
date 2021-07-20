@@ -9,8 +9,8 @@ import type {
 	PfxPitchingMetricsCollection,
 	PfxPitchingMetricsWithPercentiles,
 	PfxPitchingMetricsWithPercentilesByYear,
-	PfxPitchTypePercentiles,
-	PitchType
+	PitchType,
+	PitchTypePercentiles
 } from '$lib/api/types';
 import { PITCH_TYPE_MAP } from '$lib/constants';
 
@@ -57,7 +57,7 @@ function updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(
 	}
 
 	updatedPfxPitchingMetricsWithPercentilesByYear['percentiles'] = {} as {
-		[key: number]: PfxPitchTypePercentiles[];
+		[key: number]: PitchTypePercentiles[];
 	};
 	for (const [year, pitchTypePercentiles] of Object.entries(percentiles)) {
 		updatedPfxPitchingMetricsWithPercentilesByYear['percentiles'][
@@ -108,8 +108,8 @@ function updatePfxMetricsCollectionWithPitchTypeAbbrevs(
 }
 
 function updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(
-	pfxPercentiles: PfxPitchTypePercentiles[]
-): PfxPitchTypePercentiles[] {
+	pfxPercentiles: PitchTypePercentiles[]
+): PitchTypePercentiles[] {
 	pfxPercentiles.map((perc) => (perc.pitch_type = PITCH_TYPE_MAP[perc.pitch_type]));
 	return pfxPercentiles;
 }
@@ -130,7 +130,7 @@ export function combineAllPfxCareerAndYearlyData(
 			const metricsMatch: PfxPitchingMetrics[] = Object.values<PfxPitchingMetrics>(
 				careerPfx[stance]['metrics']['pitch_type_metrics']
 			).filter((metrics) => metrics.pitch_type === pitchType);
-			const percentilesMatch: PfxPitchTypePercentiles[] = careerPfx[stance]['percentiles'].filter(
+			const percentilesMatch: PitchTypePercentiles[] = careerPfx[stance]['percentiles'].filter(
 				(perc) => perc.pitch_type === pitchType
 			);
 			if (metricsMatch.length === 1 && percentilesMatch.length === 1) {
@@ -147,7 +147,7 @@ export function combineAllPfxCareerAndYearlyData(
 				const metricsMatch: PfxPitchingMetrics[] = Object.values<PfxPitchingMetrics>(
 					careerPfxByYear[stance]['metrics'][year]['pitch_type_metrics']
 				).filter((metrics) => metrics.pitch_type === pitchType);
-				const percentilesMatch: PfxPitchTypePercentiles[] = careerPfxByYear[stance]['percentiles'][year].filter(
+				const percentilesMatch: PitchTypePercentiles[] = careerPfxByYear[stance]['percentiles'][year].filter(
 					(perc) => perc.pitch_type === pitchType
 				);
 				if (metricsMatch.length === 1 && percentilesMatch.length === 1) {
