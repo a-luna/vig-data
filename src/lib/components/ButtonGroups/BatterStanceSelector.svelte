@@ -3,25 +3,24 @@
 	import { createEventDispatcher } from 'svelte';
 
 	export let color: ThemeColor = 'secondary';
-	let stanceSelected: 'both' | 'rhb' | 'lhb' = 'both';
+	let stanceSelected: 'all' | 'rhb' | 'lhb' = 'all';
 	const dispatch = createEventDispatcher();
 
-	$: bothSelected = stanceSelected === 'both';
+	$: bothSelected = stanceSelected === 'all';
 	$: rhbSelected = stanceSelected === 'rhb';
 	$: lhbSelected = stanceSelected === 'lhb';
 
-	function changeStance(stance: 'both' | 'rhb' | 'lhb') {
+	function changeStance(stance: 'all' | 'rhb' | 'lhb') {
 		stanceSelected = stance;
 		dispatch('changed', stance);
 	}
-
 </script>
 
 <div class="mb-5 btn-group">
 	<button
 		type="button"
 		class={bothSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('both')}>Both</button
+		on:click={() => changeStance('all')}>Both</button
 	>
 	<button
 		type="button"

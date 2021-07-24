@@ -9,17 +9,16 @@
 	export let seasons: number[];
 	export let careerPfxData: CareerPfxPitchingMetricsWithPercentiles;
 	export let careerPfxDataByYear: CareerPfxPitchingMetricsWithPercentilesByYear;
-	let batterStance: 'both' | 'rhb' | 'lhb' = 'both';
+	let batterStance: 'all' | 'rhb' | 'lhb' = 'all';
 
-	$: pfxData = careerPfxData[batterStance]['metrics']['pitch_type_metrics'];
+	$: pfxData = careerPfxData[batterStance]['metrics']['metrics_by_pitch_type'];
 	$: pfxDataByYear = careerPfxDataByYear[batterStance]['metrics'];
-
 </script>
 
 <BatterStanceSelector on:changed={(event) => (batterStance = event.detail)} />
 <VeloLocationTable pitchTypeMetrics={pfxData} playerSeason={'career'} />
 {#each seasons as year}
 	{#if year > 0}
-		<VeloLocationTable pitchTypeMetrics={pfxDataByYear[year]['pitch_type_metrics']} playerSeason={year} />
+		<VeloLocationTable pitchTypeMetrics={pfxDataByYear[year]['metrics_by_pitch_type']} playerSeason={year} />
 	{/if}
 {/each}

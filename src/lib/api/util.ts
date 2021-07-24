@@ -5,14 +5,9 @@ import type {
 	CareerPfxPitchingMetricsWithPercentilesByYear,
 	PfxDataForPlayerSeason,
 	PfxDataForPlayerSeasonByYear,
-	PfxPitchingMetrics,
-	PfxPitchingMetricsCollection,
-	PfxPitchingMetricsWithPercentiles,
-	PfxPitchingMetricsWithPercentilesByYear,
-	PitchType,
+	PitchFxMetrics,
 	PitchTypePercentiles
 } from '$lib/api/types';
-import { PITCH_TYPE_MAP } from '$lib/constants';
 
 export async function validateApiResponse<T>(response: Response): Promise<ApiResponse<T>> {
 	if (!response.ok || response.status >= 400)
@@ -28,107 +23,21 @@ export async function validateApiResponse<T>(response: Response): Promise<ApiRes
 	};
 }
 
-export function getPitchTypeAbbrevsForCareerPfxMetricsByYear(
-	careerPfxByYear: CareerPfxPitchingMetricsWithPercentilesByYear
-): CareerPfxPitchingMetricsWithPercentilesByYear {
-	const { both, lhb, rhb } = careerPfxByYear;
-	const updatedCareerPfxByYear = {} as CareerPfxPitchingMetricsWithPercentilesByYear;
-	updatedCareerPfxByYear['both'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(both);
-	updatedCareerPfxByYear['lhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(lhb);
-	updatedCareerPfxByYear['rhb'] = updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(rhb);
-	return updatedCareerPfxByYear;
-}
-
-function updatePfxPitchingMetricsWithPercentilesByYearWithPitchTypeAbbrevs(
-	pfxMetricsWithPercentilesByYear: PfxPitchingMetricsWithPercentilesByYear
-): PfxPitchingMetricsWithPercentilesByYear {
-	const { metrics, percentiles } = pfxMetricsWithPercentilesByYear;
-	const updatedPfxPitchingMetricsWithPercentilesByYear = {} as PfxPitchingMetricsWithPercentilesByYear;
-
-	updatedPfxPitchingMetricsWithPercentilesByYear['metrics'] = {} as {
-		[key: number]: PfxPitchingMetricsCollection;
-	};
-	for (const [year, seasonMetrics] of Object.entries(metrics)) {
-		const { pitch_type_metrics, ...pfxMetricsCollection } = seasonMetrics;
-		updatedPfxPitchingMetricsWithPercentilesByYear['metrics'][year] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(
-			pfxMetricsCollection,
-			pitch_type_metrics
-		);
-	}
-
-	updatedPfxPitchingMetricsWithPercentilesByYear['percentiles'] = {} as {
-		[key: number]: PitchTypePercentiles[];
-	};
-	for (const [year, pitchTypePercentiles] of Object.entries(percentiles)) {
-		updatedPfxPitchingMetricsWithPercentilesByYear['percentiles'][
-			year
-		] = updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(pitchTypePercentiles);
-	}
-	return updatedPfxPitchingMetricsWithPercentilesByYear;
-}
-
-export function getPitchTypeAbbrevsForCareerPfxMetrics(
-	careerPfx: CareerPfxPitchingMetricsWithPercentiles
-): CareerPfxPitchingMetricsWithPercentiles {
-	const { both, lhb, rhb } = careerPfx;
-	const updatedCareerPfx = {} as CareerPfxPitchingMetricsWithPercentiles;
-	updatedCareerPfx['both'] = updatePfxPitchingMetricsWithPercentilesWithPitchTypeAbbrevs(both);
-	updatedCareerPfx['lhb'] = updatePfxPitchingMetricsWithPercentilesWithPitchTypeAbbrevs(lhb);
-	updatedCareerPfx['rhb'] = updatePfxPitchingMetricsWithPercentilesWithPitchTypeAbbrevs(rhb);
-	return updatedCareerPfx;
-}
-
-function updatePfxPitchingMetricsWithPercentilesWithPitchTypeAbbrevs(
-	pfxMetricsWithPercentiles: PfxPitchingMetricsWithPercentiles
-): PfxPitchingMetricsWithPercentiles {
-	const updatedPfxPitchingMetricsWithPercentiles = {} as PfxPitchingMetricsWithPercentiles;
-	const { metrics, percentiles } = pfxMetricsWithPercentiles;
-	const { pitch_type_metrics, ...pfxMetricsCollection } = metrics;
-	updatedPfxPitchingMetricsWithPercentiles['metrics'] = updatePfxMetricsCollectionWithPitchTypeAbbrevs(
-		pfxMetricsCollection,
-		pitch_type_metrics
-	);
-	updatedPfxPitchingMetricsWithPercentiles['percentiles'] = updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(
-		percentiles
-	);
-	return updatedPfxPitchingMetricsWithPercentiles;
-}
-
-function updatePfxMetricsCollectionWithPitchTypeAbbrevs(
-	pfxMetricsCollection: PfxPitchingMetricsCollection,
-	pitch_type_metrics: Record<PitchType, PfxPitchingMetrics>
-): PfxPitchingMetricsCollection {
-	const updatedPitchTypeMetrics = {} as Record<PitchType, PfxPitchingMetrics>;
-	for (const [key, value] of Object.entries(pitch_type_metrics)) {
-		value.pitch_type = PITCH_TYPE_MAP[key];
-		updatedPitchTypeMetrics[PITCH_TYPE_MAP[key]] = value;
-	}
-	pfxMetricsCollection['pitch_type_metrics'] = updatedPitchTypeMetrics;
-	return pfxMetricsCollection;
-}
-
-function updatePfxPitchTypePercentilesWithPitchTypeAbbrevs(
-	pfxPercentiles: PitchTypePercentiles[]
-): PitchTypePercentiles[] {
-	pfxPercentiles.map((perc) => (perc.pitch_type = PITCH_TYPE_MAP[perc.pitch_type]));
-	return pfxPercentiles;
-}
-
 export function combineAllPfxCareerAndYearlyData(
 	careerPfx: CareerPfxPitchingMetricsWithPercentiles,
 	careerPfxByYear: CareerPfxPitchingMetricsWithPercentilesByYear
 ): AllCareerAndYearlyPfxData {
 	const pfxPercentiles = {} as AllCareerAndYearlyPfxData;
-	const allPitchTypes = Object.values(careerPfx['both']['metrics']['pitch_type_metrics'])
+	const allPitchTypes = Object.values(careerPfx['all']['metrics']['metrics_by_pitch_type'])
 		.sort((a, b) => b.percent - a.percent)
 		.map((m) => m.pitch_type);
 
-	['both', 'rhb', 'lhb'].map((stance) => {
+	['all', 'rhb', 'lhb'].map((stance) => {
 		pfxPercentiles[stance] = {} as PfxDataForPlayerSeasonByYear;
 		pfxPercentiles[stance][0] = {} as PfxDataForPlayerSeason;
 		allPitchTypes.map((pitchType) => {
-			const metricsMatch: PfxPitchingMetrics[] = Object.values<PfxPitchingMetrics>(
-				careerPfx[stance]['metrics']['pitch_type_metrics']
+			const metricsMatch: PitchFxMetrics[] = Object.values<PitchFxMetrics>(
+				careerPfx[stance]['metrics']['metrics_by_pitch_type']
 			).filter((metrics) => metrics.pitch_type === pitchType);
 			const percentilesMatch: PitchTypePercentiles[] = careerPfx[stance]['percentiles'].filter(
 				(perc) => perc.pitch_type === pitchType
@@ -140,12 +49,12 @@ export function combineAllPfxCareerAndYearlyData(
 			}
 		});
 
-		const seasons = Array.from(Object.keys(careerPfxByYear['both']['metrics']));
+		const seasons = Array.from(Object.keys(careerPfxByYear['all']['metrics']));
 		seasons.map((year) => {
 			pfxPercentiles[stance][year] = {} as PfxDataForPlayerSeason;
 			allPitchTypes.map((pitchType) => {
-				const metricsMatch: PfxPitchingMetrics[] = Object.values<PfxPitchingMetrics>(
-					careerPfxByYear[stance]['metrics'][year]['pitch_type_metrics']
+				const metricsMatch: PitchFxMetrics[] = Object.values<PitchFxMetrics>(
+					careerPfxByYear[stance]['metrics'][year]['metrics_by_pitch_type']
 				).filter((metrics) => metrics.pitch_type === pitchType);
 				const percentilesMatch: PitchTypePercentiles[] = careerPfxByYear[stance]['percentiles'][year].filter(
 					(perc) => perc.pitch_type === pitchType

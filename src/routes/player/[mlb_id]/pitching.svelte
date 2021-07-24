@@ -5,15 +5,11 @@
 		AllCareerAndYearlyPfxData,
 		CareerPfxPitchingMetricsWithPercentiles,
 		CareerPfxPitchingMetricsWithPercentilesByYear,
-		PfxPitchingMetrics,
+		PitchFxMetrics,
 		PitchType,
 		PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
-	import {
-		combineAllPfxCareerAndYearlyData,
-		getPitchTypeAbbrevsForCareerPfxMetrics,
-		getPitchTypeAbbrevsForCareerPfxMetricsByYear
-	} from '$lib/api/util';
+	import { combineAllPfxCareerAndYearlyData } from '$lib/api/util';
 	import PitchTypePercentiles from '$lib/components/PitchTypeStats/Percentiles/PitchTypePercentiles.svelte';
 	import PitchTypeContentSelector from '$lib/components/PitchTypeStats/PitchTypeContentSelector.svelte';
 	import PlayerSeasonSelector from '$lib/components/PitchTypeStats/PlayerSeasonSelector.svelte';
@@ -30,7 +26,6 @@
 			};
 		}
 		let careerPfxData = getCareerPfxDataResult.value;
-		careerPfxData = getPitchTypeAbbrevsForCareerPfxMetrics(careerPfxData);
 
 		const getYearlyPfxDataResult = await getCareerPfxDataByYearForPitcher(mlb_id);
 		if (!getYearlyPfxDataResult.success) {
@@ -41,13 +36,12 @@
 		}
 
 		let careerPfxDataByYear = getYearlyPfxDataResult.value;
-		careerPfxDataByYear = getPitchTypeAbbrevsForCareerPfxMetricsByYear(careerPfxDataByYear);
 
-		const seasons = Array.from(Object.keys(careerPfxDataByYear['both']['metrics'])).map((year) => parseInt(year));
+		const seasons = Array.from(Object.keys(careerPfxDataByYear['all']['metrics'])).map((year) => parseInt(year));
 		// Combined career stats are stored under the '0' key in the seasons array.
 		seasons.push(0);
 
-		const allPitchTypes = Object.values<PfxPitchingMetrics>(careerPfxData['both']['metrics']['pitch_type_metrics'])
+		const allPitchTypes = Object.values<PitchFxMetrics>(careerPfxData['all']['metrics']['metrics_by_pitch_type'])
 			.sort((a, b) => b.percent - a.percent)
 			.map((m) => m.pitch_type);
 		const allCombinedPfxData = combineAllPfxCareerAndYearlyData(careerPfxData, careerPfxDataByYear);

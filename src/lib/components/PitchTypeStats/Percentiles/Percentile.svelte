@@ -22,7 +22,7 @@
 		if (valueMap !== undefined) {
 			const value = valueMap[0];
 			if (value !== undefined) {
-				if (stat === 'Speed') {
+				if (stat === 'Speed' || stat == 'Ex.Velo.') {
 					return `${value.toFixed(1)}`;
 				} else if (stat === 'OPS') {
 					let ops = value.toFixed(3);

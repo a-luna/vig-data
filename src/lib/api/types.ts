@@ -609,102 +609,101 @@ export interface PitchFx {
 	is_out_of_boundary?: boolean;
 }
 
-export interface PfxMetrics {
-	mlb_id: number;
-	bat_stand?: string;
+export interface PitchFxMetrics {
 	avg: number;
-	obp: number;
-	slg: number;
-	ops: number;
-	iso: number;
-	fly_ball_rate: number;
-	ground_ball_rate: number;
-	line_drive_rate: number;
-	popup_rate: number;
-	hard_hit_rate: number;
-	medium_hit_rate: number;
-	soft_hit_rate: number;
-	barrel_rate: number;
-	avg_launch_speed: number;
-	max_launch_speed?: number;
-	avg_launch_angle: number;
-	avg_hit_distance: number;
-	bb_rate: number;
-	k_rate: number;
-	hr_per_fb: number;
-	zone_rate: number;
-	called_strike_rate: number;
-	swinging_strike_rate: number;
-	whiff_rate: number;
-	csw_rate: number;
-	o_swing_rate: number;
-	z_swing_rate: number;
-	swing_rate: number;
-	o_contact_rate: number;
-	z_contact_rate: number;
-	contact_rate: number;
-	total_pitches: number;
-	total_pa: number;
-	total_at_bats: number;
-	total_outs: number;
-	total_hits: number;
-	total_bb: number;
-	total_k: number;
-	total_swings: number;
-	total_swings_made_contact: number;
-	total_called_strikes: number;
-	total_swinging_strikes: number;
-	total_inside_strike_zone: number;
-	total_outside_strike_zone: number;
-	total_swings_inside_zone: number;
-	total_swings_outside_zone: number;
-	total_contact_inside_zone: number;
-	total_contact_outside_zone: number;
-	total_balls_in_play: number;
-	total_ground_balls: number;
-	total_line_drives: number;
-	total_fly_balls: number;
-	total_popups: number;
-	total_hard_hits: number;
-	total_medium_hits: number;
-	total_soft_hits: number;
-	total_barrels: number;
-	total_singles: number;
-	total_doubles: number;
-	total_triples: number;
-	total_homeruns: number;
-	total_ibb: number;
-	total_hbp: number;
-	total_errors: number;
-	total_sac_hit: number;
-	total_sac_fly: number;
-}
-
-export interface PfxPitchingMetrics extends PfxMetrics {
-	p_throws: string;
-	pitch_type: PitchType;
-	avg_speed: number;
-	avg_pfx_x: number;
-	avg_pfx_z: number;
-	avg_px: number;
-	avg_pz: number;
-	avg_plate_time: number;
-	avg_extension: number;
 	avg_break_angle: number;
 	avg_break_length: number;
 	avg_break_y: number;
-	avg_spin_rate: number;
+	avg_extension: number;
+	avg_hit_distance: number;
+	avg_launch_angle: number;
+	avg_launch_speed: number;
+	avg_pfx_x: number;
+	avg_pfx_z: number;
+	avg_plate_time: number;
+	avg_px: number;
+	avg_pz: number;
+	avg_speed: number;
 	avg_spin_direction: number;
+	avg_spin_rate: number;
+	barrel_rate: number;
+	bb_rate: number;
+	called_strike_rate: number;
+	contact_rate: number;
+	csw_rate: number;
+	fly_ball_rate: number;
+	ground_ball_rate: number;
+	hard_hit_rate: number;
+	hr_per_fb: number;
+	iso: number;
+	k_rate: number;
+	line_drive_rate: number;
+	max_launch_speed: number;
+	medium_hit_rate: number;
+	mlb_id?: string;
+	o_contact_rate: number;
+	o_swing_rate: number;
+	obp: number;
+	ops: number;
 	percent: number;
+	pitch_name: string;
+	pitch_type: PitchType;
+	pitch_type_int: number;
+	popup_rate: number;
+	slg: number;
+	soft_hit_rate: number;
+	swing_rate: number;
+	swinging_strike_rate: number;
+	total_at_bats: number;
+	total_balls_in_play: number;
+	total_barrels: number;
+	total_bb: number;
+	total_called_strikes: number;
+	total_contact_inside_zone: number;
+	total_contact_outside_zone: number;
+	total_doubles: number;
+	total_errors: number;
+	total_fly_balls: number;
+	total_ground_balls: number;
+	total_hard_hits: number;
+	total_hbp: number;
+	total_hits: number;
+	total_homeruns: number;
+	total_ibb: number;
+	total_inside_strike_zone: number;
+	total_k: number;
+	total_line_drives: number;
+	total_medium_hits: number;
+	total_outs: number;
+	total_outside_strike_zone: number;
+	total_pa: number;
+	total_pitches: number;
+	total_popups: number;
+	total_sac_fly: number;
+	total_sac_hit: number;
+	total_singles: number;
+	total_soft_hits: number;
+	total_swinging_strikes: number;
+	total_swings: number;
+	total_swings_inside_zone: number;
+	total_swings_made_contact: number;
+	total_swings_outside_zone: number;
+	total_triples: number;
+	whiff_rate: number;
+	z_contact_rate: number;
+	z_swing_rate: number;
+	zone_rate: number;
+	bat_stand?: string;
+	p_throws?: string;
 }
 
-export interface PfxPitchingMetricsCollection {
-	pitch_types_filtered: PitchType[];
-	pitch_types_all: PitchType[];
-	total_pitches_filtered: number;
-	total_pitches_all: number;
-	total_pitches_excluded: number;
-	pitch_type_metrics?: Record<PitchType, PfxPitchingMetrics>;
+export interface PitchFxMetricsSet {
+	pitch_type_int: number;
+	pitch_type: PitchType[];
+	total_pitches: number;
+	total_pfx_removed: number;
+	metrics_combined: PitchFxMetrics;
+	metrics_by_pitch_type?: Record<PitchType, PitchFxMetrics>;
 }
 
 export interface BatterPercentile {
@@ -733,31 +732,28 @@ export interface PitchTypePercentiles {
 }
 
 export interface PfxPitchingMetricsWithPercentiles {
-	metrics: PfxPitchingMetricsCollection;
+	metrics: PitchFxMetricsSet;
 	percentiles: PitchTypePercentiles[];
 }
 
 export interface PfxPitchingMetricsWithPercentilesByYear {
-	metrics: { [key: number]: PfxPitchingMetricsCollection };
+	metrics: { [key: number]: PitchFxMetricsSet };
 	percentiles: { [key: number]: PitchTypePercentiles[] };
 }
 
 export interface CareerPfxPitchingMetricsWithPercentiles {
-	both: PfxPitchingMetricsWithPercentiles;
+	all: PfxPitchingMetricsWithPercentiles;
 	rhb: PfxPitchingMetricsWithPercentiles;
 	lhb: PfxPitchingMetricsWithPercentiles;
 }
 
 export interface CareerPfxPitchingMetricsWithPercentilesByYear {
-	both: PfxPitchingMetricsWithPercentilesByYear;
+	all: PfxPitchingMetricsWithPercentilesByYear;
 	rhb: PfxPitchingMetricsWithPercentilesByYear;
 	lhb: PfxPitchingMetricsWithPercentilesByYear;
 }
 
-export type PfxDataForPlayerSeason = Record<
-	PitchType,
-	{ percentiles: PitchTypePercentiles; metrics: PfxPitchingMetrics }
->;
+export type PfxDataForPlayerSeason = Record<PitchType, { percentiles: PitchTypePercentiles; metrics: PitchFxMetrics }>;
 export type PfxDataForPlayerSeasonByYear = Record<number, PfxDataForPlayerSeason>;
 export type AllCareerAndYearlyPfxData = Record<BatterStance, PfxDataForPlayerSeasonByYear>;
 

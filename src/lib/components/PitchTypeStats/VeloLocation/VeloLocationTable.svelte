@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { PfxPitchingMetrics, PitchType } from '$lib/api/types';
+	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 	import MdLens from 'svelte-icons/md/MdLens.svelte';
 
-	export let pitchTypeMetrics: Record<PitchType, PfxPitchingMetrics>;
+	export let pitchTypeMetrics: Record<PitchType, PitchFxMetrics>;
 	export let playerSeason: 'career' | number;
-	let metrics: PfxPitchingMetrics[];
+	let metrics: PitchFxMetrics[];
 
 	$: {
 		metrics = Object.values(pitchTypeMetrics);
@@ -13,7 +13,6 @@
 	}
 
 	$: tableCaption = playerSeason === 'career' ? 'Career' : playerSeason;
-
 </script>
 
 <div class="mb-8 responsive">
@@ -34,10 +33,7 @@
 				<div class="resp-table-row">
 					<div class="font-bold table-body-cell">
 						<div class="flex">
-							<div
-								class="my-auto mr-2 icon"
-								style="color: var(--pitch-type-{pitchTypeMetrics.pitch_type})"
-							>
+							<div class="my-auto mr-2 icon" style="color: var(--pitch-type-{pitchTypeMetrics.pitch_type})">
 								<MdLens />
 							</div>
 							{PITCH_TYPE_ABBREV_TO_NAME_MAP[pitchTypeMetrics.pitch_type]}
@@ -83,5 +79,4 @@
 			max-width: 700px;
 		}
 	}
-
 </style>

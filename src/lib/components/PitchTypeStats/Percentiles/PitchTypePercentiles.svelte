@@ -7,7 +7,7 @@
 	export let allPitchTypes: PitchType[];
 	export let allCombinedPfxData: AllCareerAndYearlyPfxData = null;
 
-	function getPitchTypes(stance: 'both' | 'rhb' | 'lhb'): PitchType[] {
+	function getPitchTypes(stance: 'all' | 'rhb' | 'lhb'): PitchType[] {
 		return Object.keys(allCombinedPfxData[stance][$playerSeason]) as PitchType[];
 	}
 </script>
@@ -17,7 +17,7 @@
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4>Both</h4>
 			{#each allPitchTypes as pitchType}
-				<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'both'} />
+				<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'all'} />
 			{/each}
 		</div>
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
