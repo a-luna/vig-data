@@ -3,34 +3,34 @@
 	import type { PlayerCardLink } from '$lib/types';
 
 	const players = [
-		{ mlb_id: 276542, name: 'Joaquin Benoit' },
-		{ mlb_id: 282332, name: 'CC Sabathia' },
+		{ mlb_id: 112526, name: 'Bartolo Colon' },
 		{ mlb_id: 285079, name: 'R.A. Dickey' },
-		{ mlb_id: 408314, name: 'Jose Reyes' },
-		{ mlb_id: 425794, name: 'Adam Wainwright' },
-		{ mlb_id: 425844, name: 'Zack Greinke' },
-		{ mlb_id: 429719, name: 'Edwin Jackson' },
+		{ mlb_id: 429722, name: 'Ervin Santana' },
+		{ mlb_id: 407845, name: 'Fernando Rodney' },
+		{ mlb_id: 433587, name: 'Felix Hernandez' },
+		{ mlb_id: 434622, name: 'Ubaldo Jimenez' },
 		{ mlb_id: 430912, name: 'Matt Cain' },
+		{ mlb_id: 425794, name: 'Adam Wainwright' },
+		{ mlb_id: 434378, name: 'Justin Verlander' },
 		{ mlb_id: 430935, name: 'Cole Hamels' },
-		{ mlb_id: 448179, name: 'Rich Hill' },
+		{ mlb_id: 282332, name: 'CC Sabathia' },
+		{ mlb_id: 425844, name: 'Zack Greinke' },
+		{ mlb_id: 408061, name: 'Francisco Rodriguez' },
+		{ mlb_id: 434718, name: 'Huston Street' },
 		{ mlb_id: 448281, name: 'Sean Doolittle' },
+		{ mlb_id: 450203, name: 'Charlie Morton' },
+		{ mlb_id: 446372, name: 'Corey Kluber' },
+		{ mlb_id: 450212, name: 'Pat Neshek' },
+		{ mlb_id: 448179, name: 'Rich Hill' },
 		{ mlb_id: 453192, name: 'Andrew Miller' },
-		{ mlb_id: 453286, name: 'Max Scherzer' },
-		{ mlb_id: 471911, name: 'Carlos Carrasco' },
-		{ mlb_id: 476454, name: 'Dellin Betances' },
-		{ mlb_id: 477132, name: 'Clayton Kershaw' },
-		{ mlb_id: 491703, name: 'Neftali Feliz' },
-		{ mlb_id: 502624, name: 'Chase Anderson' },
-		{ mlb_id: 502706, name: 'Derek Holland' },
+		{ mlb_id: 445276, name: 'Kenley Jansen' },
 		{ mlb_id: 502748, name: 'Brad Peacock' },
-		{ mlb_id: 504379, name: 'Juan Nicasio' },
 		{ mlb_id: 506433, name: 'Yu Darvish' }
 	];
 
 	function createPlayerCardLink(mlb_id: number): PlayerCardLink {
 		return { text: 'PitchFX Career Stats', url: `/player/${mlb_id}/pitching` };
 	}
-
 </script>
 
 <div class="container mx-auto mt-4">
