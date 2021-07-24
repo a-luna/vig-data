@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTimeSpan } from '$lib/util';
+	import { getTimeDeltaAsString } from '$lib/util';
 
 	export let name_first: string;
 	export let name_last: string;
@@ -18,8 +18,8 @@
 
 	$: debutDate = new Date(debut);
 	$: birthDate = new Date(birth_year, birth_month - 1, birth_day);
-	$: ageAtDebut = getTimeSpan(birthDate, debutDate);
-	$: playerAge = getTimeSpan(birthDate, new Date());
+	$: ageAtDebut = getTimeDeltaAsString(birthDate, debutDate);
+	$: playerAge = getTimeDeltaAsString(birthDate);
 	$: height_feet = Math.floor(height / 12);
 	$: height_inches = height % 12;
 	$: birthLocation =
@@ -49,8 +49,7 @@
 		<span>{weight} llb</span>
 	</div>
 	<div class="flex text-base sm:text-sm leading-snug">
-		<strong class="mr-2">Age</strong>
-		<span class="mr-2">{playerAge['years']} years, {playerAge['days']} days</span>
+		<strong class="mr-2">Age</strong><span class="mr-2">{playerAge}</span>
 	</div>
 	<div class="flex text-base sm:text-sm leading-snug">
 		<strong class="mr-2">Born</strong>
@@ -59,7 +58,7 @@
 	<div class="flex text-base sm:text-sm leading-snug">
 		<strong class="mr-2">Debut</strong>
 		<span class="mr-2">{debutDate.toLocaleDateString()}</span>
-		<span>(Age: {ageAtDebut['years']} years, {ageAtDebut['days']} days)</span>
+		<span>(Age: {ageAtDebut})</span>
 	</div>
 </div>
 

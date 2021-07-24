@@ -7,7 +7,8 @@ import {
 	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
-import type { BatOrder, BatStatSplit, DefPositionNumber, TeamStatType, TimeSpan } from '$lib/types';
+import type { BatOrder, BatStatSplit, DefPositionNumber, TeamStatType } from '$lib/types';
+import { formatDuration, intervalToDuration } from 'date-fns';
 
 export function scrollToTop(): void {
 	window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -49,6 +50,11 @@ export function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb })
 			window.removeEventListener('click', handleOutsideClick);
 		}
 	};
+}
+
+export function getTimeDeltaAsString(start: Date, end: Date = new Date()): string {
+	const duration = intervalToDuration({ start: start, end: end });
+	return formatDuration(duration, { format: ['years', 'months', 'days'], delimiter: ', ' });
 }
 
 export function getDateFromString(date_str: string): Result<Date> {
@@ -103,10 +109,13 @@ export function getDateFromGameId(game_id: string): Result<Date> {
 }
 
 export function getStringFromDate(date: Date): string {
-	const year = date.getFullYear();
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const day = date.getDate().toString().padStart(2, '0');
-	return `${year}${month}${day}`;
+	if (date !== null) {
+		const year = date.getFullYear();
+		const month = (date.getMonth() + 1).toString().padStart(2, '0');
+		const day = date.getDate().toString().padStart(2, '0');
+		return `${year}${month}${day}`;
+	}
+	return '';
 }
 
 export function formatAtBatResult(atBatResult: string): string[] {
@@ -214,7 +223,7 @@ function getZoneBottom(pfx: PitchFx[]): number {
 	return uniqueVals.length == 1 ? uniqueVals[0] : uniqueVals.reduce((a, b) => a + b) / uniqueVals.length;
 }
 
-function fakePfxData() {
+function fakePfxData(): PitchFx {
 	return {
 		bb_game_id: '',
 		bbref_game_id: '',
@@ -275,6 +284,8 @@ function fakePfxData() {
 		coord_y: 0,
 		game_start_time_utc: '',
 		time_pitch_thrown_utc: '',
+		game_start_time_est: '',
+		time_pitch_thrown_est: '',
 		seconds_since_game_start: 0,
 		has_zone_location: 0,
 		batter_did_swing: 0,
@@ -314,7 +325,6 @@ function fakePfxData() {
 		pitch_type_int: 0,
 		pbp_play_result: '',
 		pbp_runs_outs_result: '',
-		table_row_number: 0,
 		is_sp: 0,
 		is_rp: 0,
 		is_patched: 0,
@@ -404,58 +414,6 @@ export function getToolTipPositionForPfxData(x: number, y: number): 'top' | 'rig
 	} else if (angle >= 225 && 315 > angle) {
 		return 'bottom';
 	}
-}
-
-export function getTimeSpan(start: Date, end: Date): TimeSpan {
-	const seconds = getDurationSeconds(start, end);
-	return convertTotalSecondsToTimeSpan(seconds);
-}
-
-function getDurationSeconds(start: Date, end: Date): number {
-	const timeStart = start ? treatAsUTC(start).getTime() : 0;
-	const timeEnd = end ? treatAsUTC(end).getTime() : 0;
-	return (timeEnd - timeStart) / 1000;
-}
-
-function convertTotalSecondsToTimeSpan(seconds: number): TimeSpan {
-	const timespan = {} as TimeSpan;
-	let remainingTime = seconds;
-	const conversion = [
-		{ key: 'years', value: 60 * 60 * 24 * 365 },
-		{ key: 'days', value: 60 * 60 * 24 },
-		{ key: 'hours', value: 60 * 60 },
-		{ key: 'minutes', value: 60 },
-		{ key: 'seconds', value: 1 },
-		{ key: 'milliseconds', value: 1 / 1000 }
-	];
-	for (const def of conversion) {
-		timespan[def.key] = Math.floor(remainingTime / def.value);
-		remainingTime %= def.value;
-		const additionalKey = `total${capitalize(def.key)}`;
-		timespan[additionalKey] = seconds / def.value;
-	}
-	timespan.toString = () => {
-		let string = '';
-		for (const def of conversion) {
-			const value = timespan[def.key];
-			if (value != 0) {
-				let name = def.key;
-				if (name.endsWith('s')) {
-					name = name.substring(0, name.length - 1);
-				}
-				string += string.length > 0 ? ',' : '';
-				string += ` ${value} ${name}${value == 1 ? '' : 's'}`;
-			}
-		}
-		return string.trim();
-	};
-	return timespan;
-}
-
-function treatAsUTC(date: Date): Date {
-	const result = new Date(date);
-	result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-	return result;
 }
 
 export function capitalize(string: string): string {
