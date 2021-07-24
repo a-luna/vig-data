@@ -14,10 +14,9 @@
 		$gameContentShown = showContent;
 		dispatch('changed', showContent);
 	}
-
 </script>
 
-<div class="btn-group mb-5">
+<div class="btn-group btn-group-secondary mb-5">
 	<button
 		type="button"
 		class={boxShown ? `btn btn-${color}` : `btn btn-outline-${color}`}

@@ -13,10 +13,9 @@
 		contentSelected = content;
 		dispatch('changed', content);
 	}
-
 </script>
 
-<div class="mb-5 btn-group">
+<div class="mb-5 btn-group btn-group-secondary">
 	<button
 		type="button"
 		class={percentilesSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}

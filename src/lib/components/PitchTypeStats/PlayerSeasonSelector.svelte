@@ -4,10 +4,9 @@
 
 	export let color: ThemeColor = 'secondary';
 	export let seasons: number[];
-
 </script>
 
-<div class="mb-2 sm:mb-5 btn-group">
+<div class="mb-2 sm:mb-5 btn-group btn-group-secondary">
 	<button
 		type="button"
 		class={$playerSeason === 0 ? `btn btn-${color}` : `btn btn-outline-${color}`}

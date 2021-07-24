@@ -13,7 +13,7 @@
 </script>
 
 <div class="flex flex-row flex-nowrap justify-center">
-	<div class="btn-group">
+	<div class="btn-group btn-group-secondary">
 		<button
 			id="first-at-bat"
 			type="button"
@@ -39,7 +39,7 @@
 			</div>
 		</button>
 	</div>
-	<div class="btn-group">
+	<div class="btn-group btn-group-secondary">
 		<button
 			id="next-at-bat"
 			type="button"

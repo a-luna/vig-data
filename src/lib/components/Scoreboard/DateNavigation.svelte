@@ -29,7 +29,7 @@
 </script>
 
 <div id="date-nav" class="mb-5 pos">
-	<div class="btn-group">
+	<div class="btn-group btn-group-secondary">
 		<button
 			id="prev-date"
 			type="button"
