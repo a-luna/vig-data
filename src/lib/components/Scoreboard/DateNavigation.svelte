@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { scoreboardDate } from '$lib/stores/singleValueStores';
+	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
@@ -35,7 +35,7 @@
 			type="button"
 			class="btn btn-{color} p-1"
 			disabled={previous < minDate}
-			on:click={() => ($scoreboardDate = previous)}
+			on:click={() => scoreboardDate.prevDay()}
 		>
 			<MdChevronLeft />
 		</button>
@@ -47,7 +47,7 @@
 			type="button"
 			class="btn btn-{color} p-1"
 			disabled={next > maxDate}
-			on:click={() => ($scoreboardDate = next)}
+			on:click={() => scoreboardDate.nextDay()}
 		>
 			<MdChevronRight />
 		</button>

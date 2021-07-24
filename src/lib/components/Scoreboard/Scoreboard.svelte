@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { getScoreboard } from '$lib/api/game';
-	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
+	import type { ApiResponse,GameData,MlbSeason,Result,Scoreboard } from '$lib/api/types';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { scoreboardDate } from '$lib/stores/singleValueStores';
-	import { getSeasonDates, getStringFromDate } from '$lib/util';
+	import { scoreboardDate } from '$lib/stores/scoreboardDate';
+	import { getSeasonDates,getStringFromDate } from '$lib/util';
 
 	export let value: Date;
 	export let formatted: string;

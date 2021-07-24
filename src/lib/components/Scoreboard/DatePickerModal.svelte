@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
-	import { scoreboardDate } from '$lib/stores/singleValueStores';
+	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
 	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
@@ -22,7 +22,7 @@
 
 	function changeDate() {
 		if (dateChanged) {
-			$scoreboardDate = selectedDate;
+			scoreboardDate.changeDate(selectedDate);
 			modalContainer.toggleModal();
 		}
 	}

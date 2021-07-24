@@ -1,7 +1,6 @@
 import type { MlbSeason, PlayerSearchResult } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 import type { Writable } from 'svelte/store';
-import { writable } from 'svelte/store';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -20,21 +19,6 @@ export class HslColor {
 }
 
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
-
-function persist(key, value) {
-	localStorage.setItem(key, JSON.stringify(value));
-}
-
-export function createWritableSession<JsonValue>(key: string, initialValue: JsonValue): Writable<JsonValue> {
-	if (typeof window !== 'undefined') {
-		const sessionValue = JSON.parse(localStorage.getItem(key));
-		if (!sessionValue) persist(key, initialValue);
-
-		const store = writable(sessionValue || initialValue);
-		store.subscribe((value) => persist(key, value));
-		return store;
-	}
-}
 
 export type TeamID =
 	| 'ARI'
@@ -75,7 +59,7 @@ export type PlayerContent = 'percentiles' | 'velo-loc';
 export type League = 'both' | 'al' | 'nl';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';
-export type BatterStance = 'both' | 'rhb' | 'lhb';
+export type BatterStance = 'all' | 'rhb' | 'lhb';
 export type DefPositionNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 export type BatOrder = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -112,6 +96,13 @@ export interface AllMlbSeasons {
 
 export interface SearchResults {
 	results: PlayerSearchResult[];
+}
+
+export interface ScoreboardDateStore {
+	subscribe: Writable<Date>['subscribe'];
+	nextDay: () => void;
+	prevDay: () => void;
+	changeDate: (date: Date) => void;
 }
 
 export interface TeamStatFilterStore {
