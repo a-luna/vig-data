@@ -29,11 +29,11 @@
 		const previousSettings = {
 			season: $teamStatFilter.season,
 			league: $teamStatFilter.league,
-			teamStatType: $teamStatFilter.statType,
+			statType: $teamStatFilter.statType,
 			batStatSplit: $teamStatFilter.batStatSplit,
 			pitchStatSplit: $teamStatFilter.pitchStatSplit,
-			defPositions: $teamStatFilter.defPosition,
-			batOrderNumbers: $teamStatFilter.batOrder
+			defPosition: $teamStatFilter.defPosition,
+			batOrder: $teamStatFilter.batOrder
 		};
 		sessionStorage.setItem(key, JSON.stringify(previousSettings));
 		showFilters = true;
@@ -65,11 +65,11 @@
 		const previousSettings = JSON.parse(sessionStorage.getItem(key));
 		teamStatFilter.changeSeason(previousSettings.season);
 		teamStatFilter.changeLeague(previousSettings.league);
-		teamStatFilter.changeStatType(previousSettings.teamStatType);
+		teamStatFilter.changeStatType(previousSettings.statType);
 		teamStatFilter.changeBatStatSplit(previousSettings.batStatSplit);
 		teamStatFilter.changePitchStatSplit(previousSettings.pitchStatSplit);
-		teamStatFilter.changeDefPosition(previousSettings.defPositions);
-		teamStatFilter.changeBatOrder(previousSettings.batOrderNumbers);
+		teamStatFilter.changeDefPosition(previousSettings.defPosition);
+		teamStatFilter.changeBatOrder(previousSettings.batOrder);
 	}
 </script>
 
