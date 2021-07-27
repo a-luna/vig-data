@@ -1,18 +1,22 @@
 <script lang="ts">
+	import type { PlayerDetails } from '$lib/api/types';
 	import type { PlayerCardLink } from '$lib/types';
 
-	export let name: string;
-	export let description: string = null;
+	export let details: PlayerDetails;
 	export let links: PlayerCardLink[];
+	$: playerName = `${details.name_first} ${details.name_last}`;
+	$: currentTeam = `${details.current_team?.team_id} ${details.current_team?.year} (${details.current_team?.pos})`;
+	$: previousTeams = details.previous_teams?.join(', ');
 </script>
 
 <div
 	class="m-2 transition-transform duration-200 transform rounded card hover:shadow-md hover:border-opacity-0 hover:-translate-y-1"
 >
 	<div class="m-3">
-		<h2 class="mb-2 text-lg">{name}</h2>
-		{#if description}
-			<p class="font-mono text-sm font-light">{description}</p>
+		<h2 class="mb-2 text-lg">{playerName}</h2>
+		<p class="font-mono text-sm font-normal">{currentTeam}</p>
+		{#if details.previous_teams?.length != 0}
+			<p class="font-mono text-sm font-light">{previousTeams}</p>
 		{/if}
 		<ul class="font-mono text-sm font-light list-none">
 			{#each links as { text, url }}

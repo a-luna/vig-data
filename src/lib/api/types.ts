@@ -18,10 +18,10 @@ export interface ApiResponse<T> extends Result<T> {
 	response?: Response;
 }
 
-export interface PlayerSearchResult {
-	match: string;
-	score: number;
-	result: number;
+export interface CurrentTeam {
+	team_id: string;
+	year: number;
+	pos: string;
 }
 
 export interface PlayerDetails {
@@ -36,11 +36,20 @@ export interface PlayerDetails {
 	birth_year: number;
 	birth_month: number;
 	birth_day: number;
-	birth_country: string;
-	birth_state: string;
-	birth_city: string;
+	birth_country?: string;
+	birth_state?: string;
+	birth_city?: string;
 	bbref_id: string;
 	mlb_id: number;
+	current_team: CurrentTeam;
+	previous_teams: string[];
+}
+
+export interface PlayerSearchResult {
+	match: string;
+	score: number;
+	result: number;
+	details?: PlayerDetails;
 }
 
 export interface MlbSeason {
