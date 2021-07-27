@@ -720,13 +720,14 @@ export interface PitchFxMetricsSet {
 export interface BatterPercentile {
 	bb_rate: [number, number];
 	k_rate: [number, number];
-	whiff_rate: [number, number];
-	o_swing_rate: [number, number];
 	contact_rate: [number, number];
-	soft_hit_rate: [number, number];
+	o_swing_rate: [number, number];
+	whiff_rate: [number, number];
+	bad_whiff_rate: [number, number];
+	line_drive_rate: [number, number];
 	barrel_rate: [number, number];
-	avg_exit_velocity: [number, number];
-	max_exit_velocity: [number, number];
+	avg_launch_speed: [number, number];
+	max_launch_speed: [number, number];
 }
 
 export interface PitchTypePercentiles {
