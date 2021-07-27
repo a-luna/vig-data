@@ -13,10 +13,11 @@
 	let percentMap: Record<number, string> = {};
 	let speedMap: Record<number, number[]> = {};
 	let opsMap: Record<number, number[]> = {};
-	let whiffMap: Record<number, number[]> = {};
 	let zoneMap: Record<number, number[]> = {};
-	let contactMap: Record<number, number[]> = {};
 	let oSwingMap: Record<number, number[]> = {};
+	let whiffMap: Record<number, number[]> = {};
+	let badWhiffMap: Record<number, number[]> = {};
+	let contactMap: Record<number, number[]> = {};
 	let gbRateMap: Record<number, number[]> = {};
 	let barrelRateMap: Record<number, number[]> = {};
 	let exitVeloMap: Record<number, number[]> = {};
@@ -30,19 +31,22 @@
 			const { percentiles, metrics } = combinedPfxCareerData[batterStance][year][pitchType];
 			speedMap[year] = [];
 			opsMap[year] = [];
-			whiffMap[year] = [];
 			zoneMap[year] = [];
-			contactMap[year] = [];
 			oSwingMap[year] = [];
+			whiffMap[year] = [];
+			badWhiffMap[year] = [];
+			contactMap[year] = [];
 			percentMap[year] = metrics !== null ? `${(metrics.percent * 100).toFixed(0)}%` : '0%';
 			speedMap[year] = percentiles !== null ? [percentiles['avg_speed'][0], percentiles['avg_speed'][1]] : [0, 0];
 			opsMap[year] = percentiles !== null ? [percentiles['ops'][0], percentiles['ops'][1]] : [0, 0];
-			whiffMap[year] = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
 			zoneMap[year] = percentiles !== null ? [percentiles['zone_rate'][0], percentiles['zone_rate'][1]] : [0, 0];
-			contactMap[year] =
-				percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
 			oSwingMap[year] =
 				percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
+			whiffMap[year] = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
+			badWhiffMap[year] =
+				percentiles !== null ? [percentiles['bad_whiff_rate'][0], percentiles['bad_whiff_rate'][1]] : [0, 0];
+			contactMap[year] =
+				percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
 			gbRateMap[year] =
 				percentiles !== null ? [percentiles['ground_ball_rate'][0], percentiles['ground_ball_rate'][1]] : [0, 0];
 			barrelRateMap[year] =
@@ -81,10 +85,11 @@
 			<div class="percentile-table-body">
 				<Percentile stat={'Speed'} bind:pfxStatsBySeason={speedMap} />
 				<Percentile stat={'OPS'} bind:pfxStatsBySeason={opsMap} />
-				<Percentile stat={'Whiff %'} bind:pfxStatsBySeason={whiffMap} />
 				<Percentile stat={'Zone %'} bind:pfxStatsBySeason={zoneMap} />
-				<Percentile stat={'Cont %'} bind:pfxStatsBySeason={contactMap} />
 				<Percentile stat={'O-SW %'} bind:pfxStatsBySeason={oSwingMap} />
+				<Percentile stat={'Whiff %'} bind:pfxStatsBySeason={whiffMap} />
+				<Percentile stat={'Bad-Wf %'} bind:pfxStatsBySeason={badWhiffMap} />
+				<Percentile stat={'Cont %'} bind:pfxStatsBySeason={contactMap} />
 				<Percentile stat={'GB %'} bind:pfxStatsBySeason={gbRateMap} />
 				<Percentile stat={'Barrel %'} bind:pfxStatsBySeason={barrelRateMap} />
 				<Percentile stat={'Ex.Velo.'} bind:pfxStatsBySeason={exitVeloMap} />

@@ -635,6 +635,7 @@ export interface PitchFxMetrics {
 	avg_speed: number;
 	avg_spin_direction: number;
 	avg_spin_rate: number;
+	bad_whiff_rate: number;
 	barrel_rate: number;
 	bb_rate: number;
 	called_strike_rate: number;
@@ -664,6 +665,7 @@ export interface PitchFxMetrics {
 	swing_rate: number;
 	swinging_strike_rate: number;
 	total_at_bats: number;
+	total_bad_whiffs: number;
 	total_balls_in_play: number;
 	total_barrels: number;
 	total_bb: number;
@@ -731,10 +733,11 @@ export interface PitchTypePercentiles {
 	pitch_type: PitchType;
 	avg_speed: [number, number];
 	ops: [number, number];
-	whiff_rate: [number, number];
 	zone_rate: [number, number];
-	contact_rate: [number, number];
 	o_swing_rate: [number, number];
+	whiff_rate: [number, number];
+	bad_whiff_rate: [number, number];
+	contact_rate: [number, number];
 	ground_ball_rate: [number, number];
 	barrel_rate: [number, number];
 	avg_exit_velocity: [number, number];
