@@ -13,7 +13,7 @@
 	let atBatResultsModal: AtBatResultsModal;
 	let pitcherInningTotalsModal: PitcherInningTotalsModal;
 	const { linescore, linescore_complete, extra_innings } = boxscore;
-	const { park_name, field_type, day_night, game_start_time, game_duration, attendance, umpires } = boxscore.game_meta;
+	const { game_meta } = boxscore;
 </script>
 
 <AtBatResultsModal bind:this={atBatResultsModal} {boxscore} on:viewPitchFxForAtBatClicked />
@@ -41,7 +41,7 @@
 			teamData={boxscore.home_team}
 			on:viewPitcherInningTotalsClicked={(e) => pitcherInningTotalsModal.viewInningTotalsForPitcher(e.detail)}
 		/>
-		<GameMetaInfo {park_name} {field_type} {day_night} {game_start_time} {game_duration} {attendance} {umpires} />
+		<GameMetaInfo {...game_meta} />
 	</div>
 </div>
 

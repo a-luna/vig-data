@@ -8,11 +8,10 @@
 	export let game_duration: string;
 	export let attendance: number;
 	export let umpires: Umpire[];
-	// export let first_pitch_temperature: number;
-	// export let first_pitch_precipitation: string;
-	// export let first_pitch_wind: string;
-	// export let first_pitch_clouds: string;
-
+	export let first_pitch_temperature: number;
+	export let first_pitch_precipitation: string;
+	export let first_pitch_wind: string;
+	export let first_pitch_clouds: string;
 </script>
 
 <div class="flex flex-row flex-wrap justify-start items-start text-sm whitespace-nowrap my-3">
@@ -21,14 +20,17 @@
 		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>
 		<span><strong>Attendance: </strong>{attendance.toLocaleString(undefined)}</span>
 		<span><strong>Duration: </strong>{game_duration}</span>
-		<!-- <span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span> -->
+		<span><strong>Teamperature: </strong>{first_pitch_temperature}°, {first_pitch_clouds}</span>
+		<span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span>
 	</div>
 	<div class="flex flex-col flex-nowrap flex-grow m-3">
 		<div class="flex flex-row flex-nowrap justify-start">
 			<span class="mr-1"><strong>Umpires: </strong></span>
 			<div class="flex flex-col flex-nowrap justify-start ml-2">
 				{#each umpires as { field_location, umpire_name }}
-					<span><strong>{field_location} </strong>{umpire_name}</span>
+					{#if umpire_name !== '(none)'}
+						<span><strong>{field_location} </strong>{umpire_name}</span>
+					{/if}
 				{/each}
 			</div>
 		</div>
