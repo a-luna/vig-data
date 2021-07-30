@@ -20,8 +20,8 @@
 		<span><strong>Vanue: </strong>{park_name} ({day_night}, {field_type})</span>
 		<span><strong>Attendance: </strong>{attendance.toLocaleString(undefined)}</span>
 		<span><strong>Duration: </strong>{game_duration}</span>
-		<span><strong>Teamperature: </strong>{first_pitch_temperature}°, {first_pitch_clouds}</span>
-		<span><strong>Weather: </strong>{first_pitch_precipitation}, {first_pitch_wind}</span>
+		<span><strong>Temperature: </strong>{first_pitch_temperature}°, {first_pitch_wind}</span>
+		<span><strong>Weather: </strong>{first_pitch_clouds}, {first_pitch_precipitation}</span>
 	</div>
 	<div class="flex flex-col flex-nowrap flex-grow m-3">
 		<div class="flex flex-row flex-nowrap justify-start">

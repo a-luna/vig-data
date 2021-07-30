@@ -92,93 +92,123 @@
 
 	--ari-warm: hsl(350, 74%, 38%);
 	--ari-cold: hsl(0, 0%, 0%);
+	--ari-pri: var(--ari-warm);
 
 	--atl-warm: hsl(345, 85%, 44%);
 	--atl-cold: hsl(220, 61%, 19%);
+	--atl-pri: var(--atl-cold);
 
 	--bal-warm: hsl(19, 99%, 44%);
 	--bal-cold: hsl(0, 0%, 0%);
+	--bal-pri: var(--bal-warm);
 
 	--bos-warm: hsl(356, 59%, 46%);
 	--bos-cold: hsl(221, 55%, 22%);
+	--bos-pri: var(--bos-cold);
 
 	--chw-warm: hsl(203, 16%, 80%);
 	--chw-cold: hsl(0, 0%, 0%);
+	--chw-pri: var(--chw-cold);
 
 	--chc-warm: hsl(0, 60%, 50%);
 	--chc-cold: hsl(222, 81%, 29%);
+	--chc-pri: var(--chc-cold);
 
 	--cin-warm: hsl(351, 99%, 39%);
 	--cin-cold: hsl(0, 0%, 0%);
+	--cin-pri: var(--cin-warm);
 
 	--cle-warm: hsl(351, 80%, 49%);
 	--cle-cold: hsl(221, 55%, 23%);
+	--cle-pri: var(--cle-cold);
 
 	--col-warm: hsl(268, 100%, 22%);
 	--col-cold: hsl(0, 0%, 0%);
+	--col-pri: var(--col-warm);
 
 	--det-warm: hsl(20, 89%, 54%);
 	--det-cold: hsl(219, 56%, 21%);
+	--det-pri: var(--det-warm);
 
 	--hou-warm: hsl(23, 84%, 52%);
 	--hou-cold: hsl(212, 100%, 19%);
+	--hou-pri: var(--hou-warm);
 
 	--kcr-warm: hsl(37, 45%, 55%);
 	--kcr-cold: hsl(213, 71%, 31%);
+	--kcr-pri: var(--kcr-warm);
 
 	--laa-warm: hsl(352, 56%, 34%);
 	--laa-cold: hsl(210, 100%, 19%);
+	--laa-pri: var(--laa-warm);
 
 	--lad-warm: hsl(359, 85%, 59%);
 	--lad-cold: hsl(205, 100%, 31%);
+	--lad-pri: var(--lad-cold);
 
 	--mia-warm: hsl(24, 100%, 50%);
 	--mia-cold: hsl(0, 0%, 0%);
+	--mia-pri: var(--mia-warm);
 
 	--mil-warm: hsl(44, 60%, 45%);
 	--mil-cold: hsl(219, 78%, 18%);
+	--mil-pri: var(--mil-cold);
 
 	--min-warm: hsl(344, 85%, 45%);
 	--min-cold: hsl(212, 100%, 18%);
+	--min-pri: var(--min-cold);
 
 	--nyy-warm: hsl(200, 15%, 80%);
 	--nyy-cold: hsl(221, 58%, 18%);
+	--nyy-pri: var(--nyy-cold);
 
 	--nym-warm: hsl(18, 100%, 53%);
 	--nym-cold: hsl(216, 100%, 22%);
+	--nym-pri: var(--nym-warm);
 
 	--oak-warm: hsl(42, 87%, 53%);
 	--oak-cold: hsl(173, 100%, 11%);
+	--oak-pri: var(--oak-cold);
 
 	--phi-warm: hsl(355, 82%, 50%);
 	--phi-cold: hsl(223, 58%, 38%);
+	--phi-pri: var(--phi-warm);
 
 	--pit-warm: hsl(41, 98%, 57%);
 	--pit-cold: hsl(0, 0%, 0%);
+	--pit-pri: var(--pit-warm);
 
 	--sdp-warm: hsl(196, 6%, 66%);
 	--sdp-cold: hsl(212, 100%, 19%);
+	--sdp-pri: var(--sdp-cold);
 
 	--sea-warm: hsl(180, 100%, 18%);
 	--sea-cold: hsl(214, 76%, 19%);
+	--sea-pri: var(--sea-warm);
 
 	--sfg-warm: hsl(16, 98%, 55%);
 	--sfg-cold: hsl(0, 0%, 0%);
+	--sfg-pri: var(--sfg-warm);
 
 	--stl-warm: hsl(350, 73%, 44%);
 	--stl-cold: hsl(242, 50%, 25%);
+	--stl-pri: var(--stl-warm);
 
 	--tbr-warm: hsl(209, 64%, 73%);
 	--tbr-cold: hsl(215, 82%, 20%);
+	--tbr-pri: var(--tbr-cold);
 
 	--tex-warm: hsl(355, 84%, 41%);
 	--tex-cold: hsl(215, 100%, 24%);
+	--tex-pri: var(--tex-cold);
 
 	--tor-warm: hsl(4, 82%, 51%);
 	--tor-cold: hsl(213, 76%, 32%);
+	--tor-pri: var(--tor-cold);
 
 	--wsn-warm: hsl(359, 100%, 34%);
 	--wsn-cold: hsl(234, 46%, 24%);
+	--wsn-pri: var(--wsn-warm);
 
 	/* Pitch Type Colors */
 
@@ -653,10 +683,8 @@ label {
 }
 
 .resp-table-caption {
-	@apply p-0 m-0 text-lg font-normal leading-normal text-left;
 	display: table-caption;
 	color: var(--table-caption-color);
-	white-space: nowrap;
 }
 
 .resp-table-header {
@@ -778,8 +806,7 @@ label {
 	@apply text-xs;
 }
 
-#team-stat-tables .resp-table-caption,
-#play-by-play .resp-table-caption {
+#team-stat-tables .resp-table-caption {
 	@apply text-lg;
 	white-space: nowrap;
 	margin-top: 20px;
@@ -1402,8 +1429,7 @@ button:disabled:hover,
 		@apply text-sm;
 	}
 
-	#team-stat-tables .resp-table-caption,
-	#play-by-play .resp-table-caption {
+	#team-stat-tables .resp-table-caption {
 		@apply text-xl;
 	}
 }

@@ -25,13 +25,16 @@
 		dispatch('showAtBat', atBatId);
 		scrollToTop();
 	}
-
 </script>
 
 <div id="play-by-play" class="mt-6">
-	<div class="resp-table-caption">Play-By-Play</div>
+	<div
+		class="resp-table-caption text-xl md:text-2xl whitespace-nowrap p-0 mx-0 mb-0 mt-5 font-normal leading-normal text-left"
+	>
+		Play-By-Play
+	</div>
 	{#each Object.entries(inningAtBatMap) as [inningId, atBatIds], inningIndex}
-		<div class="responsive" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
+		<div class="responsive mb-4" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
 			<div class="resp-table">
 				<div class="resp-table-body">
 					<div class="resp-table-row">
@@ -126,5 +129,4 @@
 	.resp-table-row:last-child .hide-on-mobile {
 		border-bottom-right-radius: 4px;
 	}
-
 </style>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { AtBatDetails, AtBatPitchDescription } from '$lib/api/types';
+	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import { PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
 	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util';
-	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import MdBlock from 'svelte-icons/md/MdBlock.svelte';
 	import MdErrorOutline from 'svelte-icons/md/MdErrorOutline.svelte';
 
@@ -16,11 +16,7 @@
 
 	function formatRunsOutsResult(runs_outs_result: string): string {
 		const runs_count = runs_outs_result.replace(/[^R]/g, '').length;
-		return runs_count === 0
-			? ''
-			: runs_count === 1
-			? `${runs_count} Run Scored`
-			: `${runs_count} Runs Scored`;
+		return runs_count === 0 ? '' : runs_count === 1 ? `${runs_count} Run Scored` : `${runs_count} Runs Scored`;
 	}
 
 	function getPitchSpeed(pitch_description: string): string {
@@ -40,7 +36,6 @@
 			}
 		}
 	}
-
 </script>
 
 {#if pitchSequence !== undefined}
@@ -55,10 +50,7 @@
 							</td>
 						{:else}
 							<td class="pitch-number">{number}</td>
-							<td
-								class="pitch-description"
-								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
-							>
+							<td class="pitch-description" data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}>
 								<div class="flex flex-row justify-start flex-nowrap">
 									<span class="ml-1">
 										{description}
@@ -75,16 +67,10 @@
 									{/if}
 								</div>
 							</td>
-							<td
-								class="pitch-speed"
-								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
-							>
+							<td class="pitch-speed" data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}>
 								{getPitchSpeed(type)}
 							</td>
-							<td
-								class="pitch-type"
-								data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}
-							>
+							<td class="pitch-type" data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}>
 								{getPitchType(type)}
 							</td>
 						{/if}
@@ -109,7 +95,7 @@
 			<span class="text-xs italic">Pitch location is beyond the boundaries of this graph</span>
 		</div>
 	{/if}
-	<div class="text-sm text-center play_description">
+	<div class="text-sm text-center play_description py-0.5">
 		<FlexStrings
 			stringArray={formatAtBatResult(selectedAtBat.play_description)}
 			runsScored={formatRunsOutsResult(selectedAtBat.runs_outs_result)}
@@ -185,5 +171,4 @@
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 	}
-
 </style>

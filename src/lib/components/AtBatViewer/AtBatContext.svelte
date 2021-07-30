@@ -14,11 +14,10 @@
 			}
 		}
 	}
-
 </script>
 
 {#if selectedAtBat !== undefined}
-	<div class="at-bat-details-top">
+	<div class="at-bat-details-top py-0.5">
 		<div class="at-bat-matchup">
 			<span class="flex flex-row flex-nowrap">
 				<span class="val-type">Inning:</span>
@@ -33,11 +32,7 @@
 			</span>
 			<span class="flex flex-row flex-nowrap">
 				<span class="val-type">Pitching:</span>
-				<a
-					class="ml-1 player-name"
-					sveltekit:prefetch
-					href="/player/{selectedAtBat.pitcher_id_mlb}/pitching"
-				>
+				<a class="ml-1 player-name" sveltekit:prefetch href="/player/{selectedAtBat.pitcher_id_mlb}/pitching">
 					{selectedAtBat.pitcher_name}
 				</a>
 				<span class="ml-1 pitcher-throws">({selectedAtBat.pitcher_throws})</span>
@@ -111,5 +106,4 @@
 	.val-type {
 		font-weight: 700;
 	}
-
 </style>
