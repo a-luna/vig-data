@@ -766,9 +766,10 @@ export interface CareerPfxPitchingMetricsWithPercentilesByYear {
 	lhb: PfxPitchingMetricsWithPercentilesByYear;
 }
 
-export type PfxDataForPlayerSeason = Record<PitchType, { percentiles: PitchTypePercentiles; metrics: PitchFxMetrics }>;
-export type PfxDataForPlayerSeasonByYear = Record<number, PfxDataForPlayerSeason>;
-export type AllCareerAndYearlyPfxData = Record<BatterStance, PfxDataForPlayerSeasonByYear>;
+export type PfxMetricsForPitchType = { percentiles: PitchTypePercentiles; metrics: PitchFxMetrics };
+export type PfxMetricsByPitchType = Record<PitchType, PfxMetricsForPitchType>;
+export type PfxMetricsBySeason = Record<number, PfxMetricsByPitchType>;
+export type CareerPfxMetricsForPitcher = Record<BatterStance, PfxMetricsBySeason>;
 
 export interface StrikeZoneCorner {
 	corner: string;

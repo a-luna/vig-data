@@ -39,13 +39,13 @@
 							{PITCH_TYPE_ABBREV_TO_NAME_MAP[pitchTypeMetrics.pitch_type]}
 						</div>
 					</div>
-					<div class="table-body-cell">{pitchTypeMetrics.total_pitches}</div>
-					<div class="table-body-cell">{(pitchTypeMetrics.percent * 100).toFixed(0)}</div>
-					<div class="table-body-cell">{pitchTypeMetrics.avg_speed.toFixed(1)}</div>
-					<div class="table-body-cell">{pitchTypeMetrics.avg_pfx_x.toFixed(2)}</div>
-					<div class="table-body-cell">{pitchTypeMetrics.avg_pfx_z.toFixed(2)}</div>
-					<div class="table-body-cell">{pitchTypeMetrics.avg_px.toFixed(2)}</div>
-					<div class="table-body-cell">{pitchTypeMetrics.avg_pz.toFixed(2)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.total_pitches}</div>
+					<div class="table-body-cell text-right">{(pitchTypeMetrics.percent * 100).toFixed(0)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_speed.toFixed(1)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pfx_x.toFixed(2)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pfx_z.toFixed(2)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_px.toFixed(2)}</div>
+					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pz.toFixed(2)}</div>
 				</div>
 			{/each}
 		</div>

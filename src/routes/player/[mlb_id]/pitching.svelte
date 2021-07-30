@@ -1,15 +1,7 @@
 <script context="module" lang="ts">
-	import { getCareerPfxDataByYearForPitcher, getCareerPfxDataForPitcher } from '$lib/api/pitchfx';
+	import { getCareerPfxDataForPitcher } from '$lib/api/pitchfx';
 	import { getPlayerDetails } from '$lib/api/player';
-	import type {
-		AllCareerAndYearlyPfxData,
-		CareerPfxPitchingMetricsWithPercentiles,
-		CareerPfxPitchingMetricsWithPercentilesByYear,
-		PitchFxMetrics,
-		PitchType,
-		PlayerDetails as PlayerDetailsSchema
-	} from '$lib/api/types';
-	import { combineAllPfxCareerAndYearlyData } from '$lib/api/util';
+	import type { CareerPfxMetricsForPitcher, PitchType, PlayerDetails as PlayerDetailsSchema } from '$lib/api/types';
 	import PitchTypePercentiles from '$lib/components/PitchTypeStats/Percentiles/PitchTypePercentiles.svelte';
 	import PitchTypeContentSelector from '$lib/components/PitchTypeStats/PitchTypeContentSelector.svelte';
 	import PlayerSeasonSelector from '$lib/components/PitchTypeStats/PlayerSeasonSelector.svelte';
@@ -27,24 +19,11 @@
 		}
 		let careerPfxData = getCareerPfxDataResult.value;
 
-		const getYearlyPfxDataResult = await getCareerPfxDataByYearForPitcher(mlb_id);
-		if (!getYearlyPfxDataResult.success) {
-			return {
-				status: getYearlyPfxDataResult.status,
-				error: new Error(getYearlyPfxDataResult.message)
-			};
-		}
-
-		let careerPfxDataByYear = getYearlyPfxDataResult.value;
-
-		const seasons = Array.from(Object.keys(careerPfxDataByYear['all']['metrics'])).map((year) => parseInt(year));
+		const seasons = Array.from(Object.keys(careerPfxData['all'])).map((year) => parseInt(year));
 		// Combined career stats are stored under the '0' key in the seasons array.
 		seasons.push(0);
 
-		const allPitchTypes = Object.values<PitchFxMetrics>(careerPfxData['all']['metrics']['metrics_by_pitch_type'])
-			.sort((a, b) => b.percent - a.percent)
-			.map((m) => m.pitch_type);
-		const allCombinedPfxData = combineAllPfxCareerAndYearlyData(careerPfxData, careerPfxDataByYear);
+		const allPitchTypes = Object.keys(careerPfxData['all'][0]).map((pt) => pt);
 
 		const getPlayerDetailsResult = await getPlayerDetails(mlb_id);
 		if (!getPlayerDetailsResult.success) {
@@ -59,12 +38,10 @@
 		return {
 			props: {
 				// mlb_id,
-				playerDetails,
+				careerPfxData,
 				seasons,
 				allPitchTypes,
-				careerPfxData,
-				careerPfxDataByYear,
-				allCombinedPfxData
+				playerDetails
 			}
 		};
 	}
@@ -72,12 +49,10 @@
 
 <script lang="ts">
 	// export let mlb_id: number;
-	export let playerDetails: PlayerDetailsSchema;
+	export let careerPfxData: CareerPfxMetricsForPitcher;
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];
-	export let careerPfxData: CareerPfxPitchingMetricsWithPercentiles;
-	export let careerPfxDataByYear: CareerPfxPitchingMetricsWithPercentilesByYear;
-	export let allCombinedPfxData: AllCareerAndYearlyPfxData;
+	export let playerDetails: PlayerDetailsSchema;
 	let contentShown: 'percentiles' | 'velo-loc' = 'percentiles';
 	let twMobile: string = 'flex flex-col items-center justify-center mb-2 flex-nowrap text-base w-full';
 	let twSmall: string = 'sm:items-end sm:mt-2 sm:mb-5 sm:text-sm sm:w-auto';
@@ -94,8 +69,8 @@
 </div>
 <div id="pfx-pitcher-stats">
 	{#if contentShown === 'percentiles'}
-		<PitchTypePercentiles {seasons} {allPitchTypes} {allCombinedPfxData} />
+		<PitchTypePercentiles {seasons} {allPitchTypes} {careerPfxData} />
 	{:else if contentShown === 'velo-loc'}
-		<VeloLocation {careerPfxData} {careerPfxDataByYear} {seasons} />
+		<VeloLocation {seasons} {allPitchTypes} {careerPfxData} />
 	{/if}
 </div>

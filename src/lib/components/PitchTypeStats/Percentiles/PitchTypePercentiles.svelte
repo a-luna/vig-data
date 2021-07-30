@@ -1,30 +1,30 @@
 <script lang="ts">
-	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
+	import type { CareerPfxMetricsForPitcher, PitchType } from '$lib/api/types';
 	import Percentiles from '$lib/components/PitchTypeStats/Percentiles/Percentiles.svelte';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 
 	export let seasons: number[];
 	export let allPitchTypes: PitchType[];
-	export let allCombinedPfxData: AllCareerAndYearlyPfxData = null;
+	export let careerPfxData: CareerPfxMetricsForPitcher = null;
 
 	function getPitchTypes(stance: 'all' | 'rhb' | 'lhb'): PitchType[] {
-		return Object.keys(allCombinedPfxData[stance][$playerSeason]) as PitchType[];
+		return Object.keys(careerPfxData[stance][$playerSeason]) as PitchType[];
 	}
 </script>
 
 <div class="responsive">
-	<div class="flex flex-row justify-center flex-nowrap overflow-x-auto">
+	<div class="flex flex-row justify-center overflow-x-auto flex-nowrap">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4>Both</h4>
 			{#each allPitchTypes as pitchType}
-				<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'all'} />
+				<Percentiles {seasons} {pitchType} {careerPfxData} batterStance={'all'} />
 			{/each}
 		</div>
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4>RHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('rhb').includes(pitchType)}
-					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'rhb'} />
+					<Percentiles {seasons} {pitchType} {careerPfxData} batterStance={'rhb'} />
 				{:else}
 					<div class="flex-grow">&nbsp;</div>
 				{/if}
@@ -34,7 +34,7 @@
 			<h4>LHB</h4>
 			{#each allPitchTypes as pitchType}
 				{#if getPitchTypes('lhb').includes(pitchType)}
-					<Percentiles {seasons} {pitchType} combinedPfxCareerData={allCombinedPfxData} batterStance={'lhb'} />
+					<Percentiles {seasons} {pitchType} {careerPfxData} batterStance={'lhb'} />
 				{:else}
 					<div class="flex-grow">&nbsp;</div>
 				{/if}
@@ -48,7 +48,7 @@
 		color: var(--pitch-type-percentiles-text-color);
 		background-color: var(--pitch-type-percentiles-bg-color);
 		border: none;
-		flex: 1 1 33%;
+		flex: 1 1 31%;
 		max-width: 260px;
 	}
 

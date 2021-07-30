@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { AllCareerAndYearlyPfxData, PitchType } from '$lib/api/types';
+	import type { CareerPfxMetricsForPitcher, PitchType } from '$lib/api/types';
 	import Percentile from '$lib/components/PitchTypeStats/Percentiles/Percentile.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
-	import { onMount } from 'svelte';
 
 	export let seasons: number[];
 	export let batterStance: BatterStance;
 	export let pitchType: PitchType;
-	export let combinedPfxCareerData: AllCareerAndYearlyPfxData;
+	export let careerPfxData: CareerPfxMetricsForPitcher;
 	let percentMap: Record<number, string> = {};
 	let speedMap: Record<number, number[]> = {};
 	let opsMap: Record<number, number[]> = {};
@@ -24,48 +23,52 @@
 	let initialized: boolean = false;
 	let chartHeight: number;
 
-	onMount(() => getValuesForAllPlayerSeasons());
+	$: if (careerPfxData !== undefined) getValuesForAllPlayerSeasons();
+	$: if (initialized) chartHeight = getChartHeight();
 
 	function getValuesForAllPlayerSeasons() {
 		seasons.map((year) => {
-			const { percentiles, metrics } = combinedPfxCareerData[batterStance][year][pitchType];
-			speedMap[year] = [];
-			opsMap[year] = [];
-			zoneMap[year] = [];
-			oSwingMap[year] = [];
-			whiffMap[year] = [];
-			badWhiffMap[year] = [];
-			contactMap[year] = [];
-			percentMap[year] = metrics !== null ? `${(metrics.percent * 100).toFixed(0)}%` : '0%';
-			speedMap[year] = percentiles !== null ? [percentiles['avg_speed'][0], percentiles['avg_speed'][1]] : [0, 0];
-			opsMap[year] = percentiles !== null ? [percentiles['ops'][0], percentiles['ops'][1]] : [0, 0];
-			zoneMap[year] = percentiles !== null ? [percentiles['zone_rate'][0], percentiles['zone_rate'][1]] : [0, 0];
-			oSwingMap[year] =
-				percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
-			whiffMap[year] = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
-			badWhiffMap[year] =
-				percentiles !== null ? [percentiles['bad_whiff_rate'][0], percentiles['bad_whiff_rate'][1]] : [0, 0];
-			contactMap[year] =
-				percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
-			gbRateMap[year] =
-				percentiles !== null ? [percentiles['ground_ball_rate'][0], percentiles['ground_ball_rate'][1]] : [0, 0];
-			barrelRateMap[year] =
-				percentiles !== null ? [percentiles['barrel_rate'][0], percentiles['barrel_rate'][1]] : [0, 0];
-			exitVeloMap[year] =
-				percentiles !== null ? [percentiles['avg_exit_velocity'][0], percentiles['avg_exit_velocity'][1]] : [0, 0];
-			initialized = true;
+			if (careerPfxData[batterStance][year][pitchType] !== undefined) {
+				speedMap[year] = [];
+				opsMap[year] = [];
+				zoneMap[year] = [];
+				oSwingMap[year] = [];
+				whiffMap[year] = [];
+				badWhiffMap[year] = [];
+				contactMap[year] = [];
+				gbRateMap[year] = [];
+				barrelRateMap[year] = [];
+				exitVeloMap[year] = [];
+				const { percentiles, metrics } = careerPfxData[batterStance][year][pitchType];
+				percentMap[year] = metrics !== null ? `${(metrics.percent * 100).toFixed(0)}%` : '0%';
+				speedMap[year] = percentiles !== null ? [percentiles['avg_speed'][0], percentiles['avg_speed'][1]] : [0, 0];
+				opsMap[year] = percentiles !== null ? [percentiles['ops'][0], percentiles['ops'][1]] : [0, 0];
+				zoneMap[year] = percentiles !== null ? [percentiles['zone_rate'][0], percentiles['zone_rate'][1]] : [0, 0];
+				oSwingMap[year] =
+					percentiles !== null ? [percentiles['o_swing_rate'][0], percentiles['o_swing_rate'][1]] : [0, 0];
+				whiffMap[year] = percentiles !== null ? [percentiles['whiff_rate'][0], percentiles['whiff_rate'][1]] : [0, 0];
+				badWhiffMap[year] =
+					percentiles !== null ? [percentiles['bad_whiff_rate'][0], percentiles['bad_whiff_rate'][1]] : [0, 0];
+				contactMap[year] =
+					percentiles !== null ? [percentiles['contact_rate'][0], percentiles['contact_rate'][1]] : [0, 0];
+				gbRateMap[year] =
+					percentiles !== null ? [percentiles['ground_ball_rate'][0], percentiles['ground_ball_rate'][1]] : [0, 0];
+				barrelRateMap[year] =
+					percentiles !== null ? [percentiles['barrel_rate'][0], percentiles['barrel_rate'][1]] : [0, 0];
+				exitVeloMap[year] =
+					percentiles !== null ? [percentiles['avg_exit_velocity'][0], percentiles['avg_exit_velocity'][1]] : [0, 0];
+				initialized = true;
+			}
 		});
 	}
 
 	function getChartHeight(): number {
-		const chart: HTMLElement = document.querySelector('.batter-stance-both');
+		const chart: HTMLElement = document.querySelector('.batter-stance-all');
 		return chart !== null ? chart.offsetHeight : 0;
 	}
-
-	$: if (initialized) chartHeight = getChartHeight();
 </script>
 
-{#if percentMap[$playerSeason] !== '0%'}
+{#if percentMap[$playerSeason] !== undefined}
 	<div class="responsive pt-3 leading-snug batter-stance-{batterStance}">
 		<div class="w-full percentile-table">
 			<div class="percentile-table-body">
