@@ -112,7 +112,7 @@
 				<strong class="mr-1">ERROR!</strong><span>{error}</span>
 			</div>
 		{/if}
-		<div class="flex justify-center mt-2 md:justify-end">
+		<div id="buttons-wrapper" class="flex justify-center m-0 md:mt-2 md:justify-end">
 			<button
 				class="flex-grow w-5/12 m-2 md:flex-grow-0 md:w-auto md:m-1 btn btn-secondary"
 				on:click={() => handleSettingsChanged()}>Update</button
@@ -137,10 +137,19 @@
 		max-width: 45%;
 	}
 
+	#buttons-wrapper button.btn {
+		margin: 0.5rem;
+		height: 33.5px;
+	}
+
 	@media screen and (min-width: 768px) {
 		.team-filter,
 		button {
 			max-width: 25%;
+		}
+
+		#buttons-wrapper button.btn {
+			height: 35.75px;
 		}
 	}
 </style>

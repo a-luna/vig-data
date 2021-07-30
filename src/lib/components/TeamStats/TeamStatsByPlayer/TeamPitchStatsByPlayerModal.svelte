@@ -88,8 +88,8 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="heading" class="flex flex-row items-center justify-between w-full flex-nowrap">
-			<span class="text-base font-bold overflow-x-hidden overflow-ellipsis">{heading}</span>
+		<div slot="heading" class="flex flex-row flex-nowrap justify-between items-center w-full">
+			<span class="text-xl sm:text-lg overflow-x-hidden overflow-ellipsis">{heading}</span>
 		</div>
 
 		<div slot="content" id="player-stats-detail" class="responsive mb-2">

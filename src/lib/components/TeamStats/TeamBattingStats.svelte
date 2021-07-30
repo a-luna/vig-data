@@ -141,7 +141,7 @@
 				<MdSettings />
 			</div>
 			<div
-				class="flex flex-row flex-wrap items-end justify-start cursor-pointer current-settings"
+				class="flex flex-row flex-wrap items-end justify-start italic cursor-pointer current-settings"
 				on:click={() => dispatch('showFilterControls')}
 			>
 				<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{year},</span>
@@ -180,14 +180,12 @@
 	}
 
 	.filter-label {
-		font-style: italic;
-		font-weight: 400;
+		font-weight: 700;
 		color: var(--sec-color);
 	}
 
 	.filter-value {
-		font-style: italic;
-		font-weight: 500;
+		font-weight: 400;
 		color: var(--sec-color);
 	}
 </style>

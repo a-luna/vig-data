@@ -1,13 +1,13 @@
 import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
 import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
 import {
-	GAME_DATE_REGEX,
-	GAME_ID_REGEX,
-	NUMBER_OF_PIXELS_REGEX,
-	PITCH_SEQ_NUMS_REGEX,
-	SEASON_DATE_REGEX
+  GAME_DATE_REGEX,
+  GAME_ID_REGEX,
+  NUMBER_OF_PIXELS_REGEX,
+  PITCH_SEQ_NUMS_REGEX,
+  SEASON_DATE_REGEX
 } from '$lib/regex';
-import type { BatOrder, BatStatSplit, DefPositionNumber, TeamStatType } from '$lib/types';
+import type { BatOrder, BatStatSplit, DefPositionNumber, TeamID, TeamStatType } from '$lib/types';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 export function scrollToTop(): void {
@@ -439,4 +439,20 @@ export function teamStatFilterSettingsAreInvalid(
 		}
 	}
 	return { invalid: false, error: '' };
+}
+
+export function getTeamColdColor(teamId: TeamID): string {
+	return `var(--${teamId.toLowerCase()}-cold)`;
+}
+
+export function getTeamWarmColor(teamId: TeamID): string {
+	return `var(--${teamId.toLowerCase()}-warm)`;
+}
+
+export function getTeamPrimaryColor(teamId: TeamID): string {
+	return `var(--${teamId.toLowerCase()}-pri)`;
+}
+
+export function getRandomInt(max: number): number {
+  return Math.floor(Math.random() * max);
 }
