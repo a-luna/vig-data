@@ -18,10 +18,31 @@ export interface ApiResponse<T> extends Result<T> {
 	response?: Response;
 }
 
-export interface CurrentTeam {
+export interface PlayerDefPosMetrics {
+	def_pos: string;
+	percent: number;
+}
+
+export interface PlayerBatOrderMetrics {
+	bat_order: number;
+	percent: number;
+}
+
+export interface PlayerTeam {
 	team_id: string;
 	year: number;
-	pos: string;
+	role: string;
+	stint_number: number;
+	starting_lineup: boolean;
+	percent_started: number;
+	bench_player: boolean;
+	percent_bench: number;
+	starting_pitcher: boolean;
+	percent_sp: number;
+	relief_pitcher: boolean;
+	percent_rp: number;
+	def_pos_list: PlayerDefPosMetrics[];
+	bat_order_list: PlayerBatOrderMetrics[];
 }
 
 export interface PlayerDetails {
@@ -41,15 +62,7 @@ export interface PlayerDetails {
 	birth_city?: string;
 	bbref_id: string;
 	mlb_id: number;
-	current_team: CurrentTeam;
-	previous_teams: string[];
-}
-
-export interface PlayerSearchResult {
-	match: string;
-	score: number;
-	result: number;
-	details?: PlayerDetails;
+	all_teams: PlayerTeam[];
 }
 
 export interface MlbSeason {

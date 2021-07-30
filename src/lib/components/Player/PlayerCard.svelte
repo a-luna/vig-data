@@ -1,24 +1,42 @@
 <script lang="ts">
 	import type { PlayerDetails } from '$lib/api/types';
+	import { DEF_POS_ABBREV_TO_NUM_MAP } from '$lib/constants';
 	import type { PlayerCardLink } from '$lib/types';
 
 	export let details: PlayerDetails;
 	export let links: PlayerCardLink[];
+	$: currentTeam = details.all_teams.slice(-1)[0];
+	$: role = currentTeam.role;
+	$: defPos = currentTeam.def_pos_list
+		.map((def) => def.def_pos)
+		.filter((def) => def != 'BN')
+		.sort((a, b) => DEF_POS_ABBREV_TO_NUM_MAP[a] - DEF_POS_ABBREV_TO_NUM_MAP[b])
+		.join('/');
+	$: pitchingRole =
+		currentTeam.percent_sp === 100
+			? 'SP'
+			: currentTeam.percent_rp === 100
+			? 'RP'
+			: currentTeam.percent_sp > 0 && currentTeam.percent_rp > 0
+			? 'SP/RP'
+			: '';
+	$: pos = role === 'pitching' ? pitchingRole : defPos;
 	$: playerName = `${details.name_first} ${details.name_last}`;
-	$: currentTeam = `${details.current_team?.team_id} ${details.current_team?.year} (${details.current_team?.pos})`;
-	$: previousTeams = details.previous_teams?.join(', ');
+	$: teamInfo = `${currentTeam.team_id} (${currentTeam.year})`;
 </script>
 
 <div
 	class="m-2 transition-transform duration-200 transform rounded card hover:shadow-md hover:border-opacity-0 hover:-translate-y-1"
 >
-	<div class="m-3">
-		<h2 class="mb-2 text-lg">{playerName}</h2>
-		<p class="font-mono text-sm font-normal">{currentTeam}</p>
-		{#if details.previous_teams?.length != 0}
-			<p class="font-mono text-sm font-light">{previousTeams}</p>
-		{/if}
-		<ul class="font-mono text-sm font-light list-none">
+	<div class="flex flex-col justify-between m-2 leading-none flex-nowrap h-5/6">
+		<div class="flex flex-row items-center justify-between flex-grow-0 mb-1 flex-nowrap">
+			<span class="text-lg">{playerName}</span>
+			<span class="text-base">{pos}</span>
+		</div>
+		<div class="flex flex-row mb-1">
+			<strong class="mr-1 text-sm">Most Recent Team:</strong><span class="text-sm">{teamInfo}</span>
+		</div>
+		<ul class="flex-grow font-mono text-sm font-light list-none items-bottom">
 			{#each links as { text, url }}
 				<li><a sveltekit:prefetch href={url}>{text}</a></li>
 			{/each}
@@ -37,12 +55,12 @@
 	}
 
 	li,
-	p {
+	span {
 		color: var(--player-card-text-color);
 	}
 
 	li:hover,
-	p:hover {
+	span:hover {
 		color: var(--player-card-text-color-hov);
 	}
 </style>

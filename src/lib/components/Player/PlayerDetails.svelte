@@ -12,9 +12,9 @@
 	export let birth_year: number;
 	export let birth_month: number;
 	export let birth_day: number;
-	export let birth_country: string;
-	export let birth_state: string;
-	export let birth_city: string;
+	export let birth_country: string = '';
+	export let birth_state: string = '';
+	export let birth_city: string = '';
 
 	$: debutDate = new Date(debut);
 	$: birthDate = new Date(birth_year, birth_month - 1, birth_day);
