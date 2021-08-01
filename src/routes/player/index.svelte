@@ -2,7 +2,7 @@
 	import { getPlayerDetails } from '$lib/api/player';
 	import type { PlayerDetails } from '$lib/api/types';
 	import PlayerCard from '$lib/components/Player/PlayerCard.svelte';
-	import { playerMap } from '$lib/components/PlayerSearch/player_search';
+	import { allPlayers } from '$lib/components/PlayerSearch/player_search';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import type { PlayerCardLink } from '$lib/types';
 
@@ -10,13 +10,13 @@
 	let players: PlayerDetails[] = [];
 
 	async function getAllPlayerDetails() {
-		const allPlayerIds = Object.values(playerMap);
+		const allPlayerIds = Object.values(allPlayers);
 		const playerIdsShuffled = Array.from({ length: allPlayerIds.length }, () =>
 			Math.floor(Math.random() * allPlayerIds.length)
 		).map((i) => allPlayerIds[i]);
 		loading = true;
-		for (const mlb_id of playerIdsShuffled.slice(0, 9)) {
-			const result = await getPlayerDetails(mlb_id);
+		for (const player of playerIdsShuffled.slice(0, 9)) {
+			const result = await getPlayerDetails(player.mlb_id);
 			if (result.success) {
 				players.push(result.value);
 			}
