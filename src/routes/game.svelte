@@ -5,7 +5,7 @@
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
-	import Spinner from '$lib/components/Util/Spinner.svelte';
+	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { GameContent } from '$lib/types';
@@ -22,6 +22,7 @@
 	let getBoxscoreResult: ApiResponse<BoxscoreSchema>;
 	let getGameDateResult: Result<Date>;
 	let getAllPBPResult: ApiResponse<AtBatDetails[]>;
+  let loading = false;
 
 	$: pbpShown = $gameContentShown === 'pbp';
 	$: boxShown = $gameContentShown === 'box';
@@ -39,6 +40,7 @@
 	async function getAllGameData(
 		newGameId: string
 	): Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>> {
+    loading = true;
 		getBoxscoreResult = await getBoxscore(newGameId);
 		if (!getBoxscoreResult.success) {
 			return getBoxscoreResult;
@@ -48,6 +50,7 @@
 
 		getGameDateResult = getDateFromGameId(game_id);
 		if (!getGameDateResult.success) {
+      loading = false;
 			return getGameDateResult;
 		}
 		const game_date = getGameDateResult.value;
@@ -56,9 +59,11 @@
 
 		getAllPBPResult = await getAllPlayByPlayData(game_id);
 		if (!getAllPBPResult.success) {
+      loading = false;
 			return getAllPBPResult;
 		}
 		all_pbp = getAllPBPResult.value;
+    loading = false;
 		return getAllPBPResult;
 	}
 
@@ -101,8 +106,8 @@
 <GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
 {#if getAllGameDataRequest}
 	{#await getAllGameDataRequest}
-		<Spinner />
-	{:then result}
+    <LoadingScreen bind:loading />
+  {:then result}
 		{#if result.success}
 			<Boxscore
 				bind:boxscore
