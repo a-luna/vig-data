@@ -21,7 +21,7 @@ const config = {
 				noExternal: []
 			},
 			optimizeDeps: {
-				include: ['layercake']
+				include: ['layercake', 'fuzzy']
 			}
 		}
 	}

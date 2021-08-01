@@ -11,7 +11,6 @@
 	let toolTipDiv: HTMLElement;
 	let dimensions: [number, number];
 	let toolTipPosition: string;
-	const timeZone = 'America/New_York';
 
 	$: position = getToolTipPositionForPfxData(d.px, d.pz);
 	$: ballInPlay = d.basic_type === 'X';

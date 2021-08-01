@@ -63,7 +63,7 @@
 		</div>
 	</div>
 
-	<div class:hidden={!open} class:md:block={open} id="mobile-menu" style="overflow: hidden; height: {$heightSpring}px">
+	<div class:hidden={!open} class:md:block={open} id="mobile-menu" style="height: {$heightSpring}px">
 		<div class="px-2 py-4 space-y-1" bind:this={menuElement}>
 			{#each items as { label, url }}
 				<NavItem {label} {url} on:click={() => (open = !open)} />

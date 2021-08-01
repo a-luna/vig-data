@@ -637,6 +637,11 @@ h6 {
 	@apply mt-0 mb-2 text-base font-normal leading-normal;
 }
 
+mark {
+	background-color: var(--sec-color);
+	color: var(--color-on-sec);
+}
+
 .flex {
 	display: -webkit-flex;
 	display: -ms-flexbox;

@@ -11,7 +11,6 @@
 	}
 </script>
 
-<span class="mr-2 text-sm">Rows/Page</span>
 <div class="flex flex-row">
 	<button
 		type="button"
@@ -41,6 +40,7 @@
 		on:click={() => changeSetting(15)}>15</button
 	>
 </div>
+<span class="ml-2 text-base">rows/page</span>
 
 <style lang="postcss">
 	span {
@@ -48,9 +48,9 @@
 		line-height: 1;
 	}
 	button {
-		width: 30px;
-		height: 26px;
-		font-size: 12px;
+		width: 24px;
+		height: 23px;
+		font-size: 11px;
 		padding: 0;
 	}
 </style>

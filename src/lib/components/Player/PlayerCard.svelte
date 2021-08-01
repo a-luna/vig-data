@@ -2,16 +2,19 @@
 	import type { PlayerDetails } from '$lib/api/types';
 	import { DEF_POS_ABBREV_TO_NUM_MAP } from '$lib/constants';
 	import type { PlayerCardLink } from '$lib/types';
+	let role: 'pitching' | 'batting';
+	let defPos: string = '';
 
 	export let details: PlayerDetails;
 	export let links: PlayerCardLink[];
-	$: currentTeam = details.all_teams.slice(-1)[0];
-	$: role = currentTeam.role;
-	$: defPos = currentTeam.def_pos_list
-		.map((def) => def.def_pos)
-		.filter((def) => def != 'BN')
-		.sort((a, b) => DEF_POS_ABBREV_TO_NUM_MAP[a] - DEF_POS_ABBREV_TO_NUM_MAP[b])
-		.join('/');
+	$: currentTeam = details.all_teams.slice(-1)?.[0];
+	$: if (currentTeam) role = currentTeam.role;
+	$: if (currentTeam)
+		defPos = currentTeam.def_pos_list
+			.map((def) => def.def_pos)
+			.filter((def) => def != 'BN')
+			.sort((a, b) => DEF_POS_ABBREV_TO_NUM_MAP[a] - DEF_POS_ABBREV_TO_NUM_MAP[b])
+			.join('/');
 	$: pitchingRole =
 		currentTeam.percent_sp === 100
 			? 'SP'
@@ -29,7 +32,7 @@
 	class="m-2 transition-transform duration-200 transform rounded card hover:shadow-md hover:border-opacity-0 hover:-translate-y-1"
 >
 	<div class="flex flex-col justify-between m-2 leading-none flex-nowrap h-5/6">
-		<div class="flex flex-row items-center justify-between flex-grow-0 mb-1 flex-nowrap">
+		<div class="player-card-heading flex flex-row items-center justify-between flex-grow-0 mb-1 flex-nowrap">
 			<span class="text-lg">{playerName}</span>
 			<span class="text-base">{pos}</span>
 		</div>
@@ -50,7 +53,7 @@
 		border: 1px solid var(--player-card-border-color);
 	}
 
-	h2 {
+	.player-card-heading {
 		color: var(--player-card-heading-text-color);
 	}
 

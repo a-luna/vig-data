@@ -34,23 +34,27 @@
 
 <section id="modal-pagination" class="flex flex-col justify-start mt-3" style={backgroundColorRule}>
 	<div class="flex flex-row justify-between dt-pagination flex-nowrap">
-		<div class="flex flex-col justify-center items-center">
+		<div class="flex flex-col justify-center items-start sm:items-center">
 			<div class="flex flex-row items-center justify-start flex-nowrap leading-none">
 				<div
-					class="dt-pagination-rowcount block mx-1 mb-0.5 sm:w-5 sm:h-4 w-4 h-3 cursor-pointer stroke-current stroke-2"
+					class="dt-pagination-rowcount block mx-1 my-auto sm:w-5 sm:h-4 w-4 h-3 cursor-pointer stroke-current stroke-2"
 					title="Click to change # of rows displayed per page"
 					on:click={() => (showRowsPerPage = true)}
 				>
 					<MdSettings />
 				</div>
 				<aside
-					class="dt-pagination-rowcount cursor-pointer text-sm sm:text-base"
+					class="dt-pagination-rowcount cursor-pointer text-base"
 					title="Click to change # of rows displayed per page"
 					on:click={() => (showRowsPerPage = true)}
 				>
-					Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of
-					<b>{totalRows}</b>
-					{rowType}
+					<div class="hidden sm:inline-block">
+						Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of <b>{totalRows}</b>
+						{rowType}
+					</div>
+					<div class="inline-block sm:hidden">
+						<b>{startRow + 1}-{rowCountLast}/{totalRows}</b>
+					</div>
 				</aside>
 			</div>
 			{#if showRowsPerPage}
