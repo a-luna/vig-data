@@ -36,7 +36,7 @@
 	}
 
 	:global(.modal-wrapper) {
-		@apply fixed w-full h-full top-0 left-0 flex items-center justify-center;
+		@apply fixed w-full h-full top-0 left-0 flex items-center justify-center z-10;
 		transition: opacity 0.4s ease;
 	}
 

@@ -37,17 +37,6 @@
 	$: batOrder = $teamStatFilter.batOrder;
 	$: year = $teamStatFilter.season;
 	$: heading = getTableHeading(team);
-	$: if (hidden && mounted) {
-		document.querySelector<HTMLElement>('#team-bat-stats-table')?.classList.add('hidden');
-		document.querySelector<HTMLElement>('#season-content')?.classList.add('hidden');
-		document.querySelector<HTMLElement>('#stat-filters')?.classList.add('hidden');
-		document.querySelector<HTMLElement>('#stat-filters')?.classList.remove('flex');
-	} else if (mounted) {
-		document.querySelector<HTMLElement>('#team-bat-stats-table')?.classList.remove('hidden');
-		document.querySelector<HTMLElement>('#season-content')?.classList.remove('hidden');
-		document.querySelector<HTMLElement>('#stat-filters')?.classList.remove('hidden');
-		document.querySelector<HTMLElement>('#stat-filters')?.classList.add('flex');
-	}
 
 	onMount(() => (mounted = true));
 

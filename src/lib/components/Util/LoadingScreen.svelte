@@ -5,6 +5,8 @@
 	export let loading: boolean = false;
 	let mounted: boolean = false;
 
+	$: zIndex = loading ? 10 : 0;
+
 	onMount(() => (mounted = true));
 
 	$: if (mounted && loading) {
@@ -14,7 +16,7 @@
 	}
 </script>
 
-<div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading}>
+<div class="loading-wrapper" class:opacity-0={!loading} class:pointer-events-none={!loading} style="z-index: {zIndex}">
 	<div class="loading-overlay" on:click={() => (loading = !loading)} />
 	<Spinner />
 </div>
