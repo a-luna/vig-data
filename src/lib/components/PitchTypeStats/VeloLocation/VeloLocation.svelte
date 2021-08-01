@@ -1,19 +1,21 @@
 <script lang="ts">
-	import type { CareerPfxMetricsForPitcher, PitchFxMetrics, PitchType } from '$lib/api/types';
+	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
 	import BatterStanceSelector from '$lib/components/ButtonGroups/BatterStanceSelector.svelte';
 	import VeloLocationTable from '$lib/components/PitchTypeStats/VeloLocation/VeloLocationTable.svelte';
+	import { allPlayerSeasons, batStanceSplit, careerPfxData } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
 
-	export let seasons: number[];
-	export let allPitchTypes: PitchType[];
-	export let careerPfxData: CareerPfxMetricsForPitcher;
-	let batterStance: BatterStance = 'all';
+	$: allPitchTypes = Object.values($careerPfxData['all'][0])
+		.map((pfx) => pfx['metrics'])
+		.sort((a, b) => b.percent - a.percent)
+		.map((metrics) => metrics.pitch_type[0])
+		.filter((pt) => pt !== 'UN');
 
-	function getPfxData(stance: BatterStance): Record<PitchType, PitchFxMetrics> {
+	function getCareerPfxData(stance: BatterStance): Record<PitchType, PitchFxMetrics> {
 		const pfxDataForBatStance = {} as Record<PitchType, PitchFxMetrics>;
 		allPitchTypes.map((pt) => {
-			if (careerPfxData[stance][0][pt] !== undefined) {
-				pfxDataForBatStance[pt] = careerPfxData[stance][0][pt]['metrics'];
+			if ($careerPfxData[stance][0][pt] !== undefined) {
+				pfxDataForBatStance[pt] = $careerPfxData[stance][0][pt]['metrics'];
 			}
 		});
 		return pfxDataForBatStance;
@@ -21,24 +23,24 @@
 
 	function getPfxDataByYear(stance: BatterStance) {
 		const pfxDataForBatStanceByYear = {};
-		seasons.map((year) => {
+		$allPlayerSeasons.map((year) => {
 			pfxDataForBatStanceByYear[year] = {};
 			allPitchTypes.map((pt) => {
-				if (careerPfxData[stance][year][pt] !== undefined) {
-					pfxDataForBatStanceByYear[year][pt] = careerPfxData[stance][year][pt]['metrics'];
+				if ($careerPfxData[stance][year][pt] !== undefined) {
+					pfxDataForBatStanceByYear[year][pt] = $careerPfxData[stance][year][pt]['metrics'];
 				}
 			});
 		});
 		return pfxDataForBatStanceByYear;
 	}
 
-	$: pfxData = getPfxData(batterStance);
-	$: pfxDataByYear = getPfxDataByYear(batterStance);
+	$: pfxData = getCareerPfxData($batStanceSplit);
+	$: pfxDataByYear = getPfxDataByYear($batStanceSplit);
 </script>
 
-<BatterStanceSelector on:changed={(event) => (batterStance = event.detail)} />
+<BatterStanceSelector />
 <VeloLocationTable pitchTypeMetrics={pfxData} playerSeason={'career'} />
-{#each seasons as year}
+{#each $allPlayerSeasons as year}
 	{#if year > 0}
 		<VeloLocationTable pitchTypeMetrics={pfxDataByYear[year]} playerSeason={year} />
 	{/if}

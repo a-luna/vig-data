@@ -1,49 +1,39 @@
 <script lang="ts">
-	import { playerSeason, siteTheme } from '$lib/stores/singleValueStores';
+	import { siteTheme } from '$lib/stores/singleValueStores';
 	import { spring } from 'svelte/motion';
 
 	export let stat: string;
-	export let pfxStatsBySeason: Record<number, number[]>;
+	export let value: number;
+	export let percentile: number;
 
-	$: statValue = formatStatValue(pfxStatsBySeason[$playerSeason]);
-	$: statPercentile = getStatPercentile(pfxStatsBySeason[$playerSeason]);
-	$: gaugeHue = statPercentile * 1.1;
+	$: formattedValue = formatStatValue();
+	$: formattedPercentile = percentile ? percentile : 0.0;
+	$: gaugeHue = formattedPercentile * 1.1;
 	$: gaugeLight = $siteTheme === 'dark' ? 50 : 30;
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
-	$: updateGauge(statPercentile);
+	$: updateGauge(formattedPercentile);
 
-	const gaugeSpring = spring(statPercentile, { stiffness: 0.3, damping: 0.9 });
+	const gaugeSpring = spring(formattedPercentile, { stiffness: 0.3, damping: 0.9 });
 
 	function updateGauge(newPercentile: number) {
 		gaugeSpring.update((_val) => (_val = newPercentile));
 	}
 
-	function formatStatValue(valueMap: number[]): string {
-		if (valueMap !== undefined) {
-			const value = valueMap[0];
-			if (value !== undefined) {
-				if (stat === 'Speed' || stat == 'Ex.Velo.') {
-					return `${value.toFixed(1)}`;
-				} else if (stat === 'OPS') {
-					let ops = value.toFixed(3);
-					return value > 1.0 ? ops : ops.toString().slice(1);
-				} else {
-					return `${(value * 100).toFixed(1)}%`;
-				}
-			}
+	function formatStatValue(): string {
+		if (stat === 'Speed' || stat == 'Exit-Vel') {
+			return value ? `${value.toFixed(1)}` : '0';
+		} else if (stat === 'OPS') {
+			let ops = value ? value.toFixed(3) : '.000';
+			return value ? (value > 1.0 ? ops : ops.toString().slice(1)) : '.000';
 		} else {
-			return '';
+			return value ? `${(value * 100).toFixed(1)}%` : '0%';
 		}
-	}
-
-	function getStatPercentile(valueMap: number[]): number {
-		return valueMap !== undefined ? valueMap[1] : 0.0;
 	}
 </script>
 
 <div class="percentile-table-row">
 	<div class="w-auto pr-2 percentile-body-cell">{stat}</div>
-	<div class="w-auto pr-2 transition-colors percentile-body-cell" style="color: {gaugeColor}">{statValue}</div>
+	<div class="w-auto pr-2 transition-colors percentile-body-cell" style="color: {gaugeColor}">{formattedValue}</div>
 	<div class="percentile-body-cell">
 		<div class="flex flex-row flex-grow flex-nowrap">
 			<div
@@ -51,7 +41,7 @@
 				style="background-color: {gaugeColor}; width: {$gaugeSpring.toFixed(0)}%"
 			/>
 			<div class="flex-grow-0 ml-1 text-left transition-colors" style="color: {gaugeColor}">
-				{statPercentile.toFixed(0)}
+				{formattedPercentile.toFixed(0)}
 			</div>
 		</div>
 	</div>

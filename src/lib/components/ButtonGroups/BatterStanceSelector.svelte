@@ -1,35 +1,28 @@
 <script lang="ts">
+	import { batStanceSplit } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
-	import { createEventDispatcher } from 'svelte';
 
 	export let color: ThemeColor = 'secondary';
-	let stanceSelected: 'all' | 'rhb' | 'lhb' = 'all';
-	const dispatch = createEventDispatcher();
 
-	$: bothSelected = stanceSelected === 'all';
-	$: rhbSelected = stanceSelected === 'rhb';
-	$: lhbSelected = stanceSelected === 'lhb';
-
-	function changeStance(stance: 'all' | 'rhb' | 'lhb') {
-		stanceSelected = stance;
-		dispatch('changed', stance);
-	}
+	$: bothSelected = $batStanceSplit === 'all';
+	$: rhbSelected = $batStanceSplit === 'rhb';
+	$: lhbSelected = $batStanceSplit === 'lhb';
 </script>
 
 <div class="mb-5 btn-group btn-group-secondary">
 	<button
 		type="button"
 		class={bothSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('all')}>Both</button
+		on:click={() => ($batStanceSplit = 'all')}>Both</button
 	>
 	<button
 		type="button"
 		class={rhbSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('rhb')}>RHB</button
+		on:click={() => ($batStanceSplit = 'rhb')}>RHB</button
 	>
 	<button
 		type="button"
 		class={lhbSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => changeStance('lhb')}>LHB</button
+		on:click={() => ($batStanceSplit = 'lhb')}>LHB</button
 	>
 </div>

@@ -31,7 +31,7 @@ export interface PlayerBatOrderMetrics {
 export interface PlayerTeam {
 	team_id: string;
 	year: number;
-	role: string;
+	role: 'pitching' | 'batting';
 	stint_number: number;
 	starting_lineup: boolean;
 	percent_started: number;
@@ -670,7 +670,7 @@ export interface PitchFxMetrics {
 	ops: number;
 	percent: number;
 	pitch_name: string;
-	pitch_type: PitchType;
+	pitch_type: PitchType[];
 	pitch_type_int: number;
 	popup_rate: number;
 	slg: number;
@@ -745,6 +745,7 @@ export interface BatterPercentile {
 
 export interface PitchTypePercentiles {
 	pitch_type: PitchType;
+  percent: number;
 	avg_speed: [number, number];
 	ops: [number, number];
 	zone_rate: [number, number];

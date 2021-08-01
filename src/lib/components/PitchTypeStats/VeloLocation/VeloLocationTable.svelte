@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
-	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
+	import { getPitchTypeNameFromInt } from '$lib/util';
 	import MdLens from 'svelte-icons/md/MdLens.svelte';
 
 	export let pitchTypeMetrics: Record<PitchType, PitchFxMetrics>;
@@ -36,7 +36,7 @@
 							<div class="my-auto mr-2 icon" style="color: var(--pitch-type-{pitchTypeMetrics.pitch_type})">
 								<MdLens />
 							</div>
-							{PITCH_TYPE_ABBREV_TO_NAME_MAP[pitchTypeMetrics.pitch_type]}
+							{getPitchTypeNameFromInt(pitchTypeMetrics.pitch_type_int)}
 						</div>
 					</div>
 					<div class="table-body-cell text-right">{pitchTypeMetrics.total_pitches}</div>

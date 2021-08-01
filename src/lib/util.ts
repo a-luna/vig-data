@@ -1,11 +1,11 @@
 import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
-import { PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
+import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP, PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
 import {
-  GAME_DATE_REGEX,
-  GAME_ID_REGEX,
-  NUMBER_OF_PIXELS_REGEX,
-  PITCH_SEQ_NUMS_REGEX,
-  SEASON_DATE_REGEX
+	GAME_DATE_REGEX,
+	GAME_ID_REGEX,
+	NUMBER_OF_PIXELS_REGEX,
+	PITCH_SEQ_NUMS_REGEX,
+	SEASON_DATE_REGEX
 } from '$lib/regex';
 import type { BatOrder, BatStatSplit, DefPositionNumber, TeamID, TeamStatType } from '$lib/types';
 import { formatDuration, intervalToDuration } from 'date-fns';
@@ -454,5 +454,9 @@ export function getTeamPrimaryColor(teamId: TeamID): string {
 }
 
 export function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max);
+	return Math.floor(Math.random() * max);
+}
+
+export function getPitchTypeNameFromInt(pitchTypeInt: number): string {
+	return PITCH_TYPE_ABBREV_TO_NAME_MAP[PITCH_TYPE_MAP[pitchTypeInt]];
 }
