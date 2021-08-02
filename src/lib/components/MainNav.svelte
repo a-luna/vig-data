@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Nav from '$lib/components/Nav/Nav.svelte';
-	import PlayerSearch from '$lib/components/PlayerSearch/PlayerSearch.svelte';
 
 	const items = [
 		{ label: 'Home', url: '/', current: false },
@@ -10,6 +9,4 @@
 	];
 </script>
 
-<Nav {items}>
-	<PlayerSearch />
-</Nav>
+<Nav {items} />

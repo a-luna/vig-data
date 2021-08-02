@@ -1,6 +1,7 @@
 <script lang="ts">
 	import NavItem from '$lib/components/Nav/NavItem.svelte';
 	import ThemeSlider from '$lib/components/Nav/ThemeSlider.svelte';
+	import PlayerSearch from '$lib/components/PlayerSearch/PlayerSearch.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import type { NavMenuItem } from '$lib/types';
 	import GiMoebiusTriangle from 'svelte-icons/gi/GiMoebiusTriangle.svelte';
@@ -58,7 +59,7 @@
 			</div>
 			<div class="absolute inset-y-0 right-0 items-center hidden pr-2 md:flex">
 				<ThemeSlider />
-				<slot />
+				<PlayerSearch />
 			</div>
 		</div>
 	</div>
@@ -69,7 +70,7 @@
 				<NavItem {label} {url} on:click={() => (open = !open)} />
 			{/each}
 			<div class="static inset-auto flex flex-col items-center w-full">
-				<slot />
+				<PlayerSearch on:select={() => (open = false)} />
 			</div>
 		</div>
 	</div>

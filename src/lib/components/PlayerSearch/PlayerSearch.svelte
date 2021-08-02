@@ -11,20 +11,6 @@
 	let query;
 	let loading = false;
 
-	// async function showListOfPlayers(mlbIds) {
-	// 	loading = true;
-	// 	let playerDetails = [];
-	// 	for (const mlbId of mlbIds) {
-	// 		const result = await getPlayerDetails(mlbId);
-	// 		if (result.success) {
-	// 			playerDetails.push(result.value);
-	// 		}
-	// 	}
-	// 	$searchResults = playerDetails;
-	// 	loading = false;
-	// 	goto(`/search?q=${query}`);
-	// }
-
 	async function goToPlayerPage(item) {
 		loading = true;
 		const result = await getPlayerDetails(item.mlb_id);
@@ -57,6 +43,7 @@
 			{hideLabel}
 			bind:value={query}
 			on:select={(e) => goToPlayerPage(e.detail.original)}
+			on:select
 		/>
 	</div>
 </div>
