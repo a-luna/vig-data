@@ -2,9 +2,9 @@ lockfileVersion: 5.3
 
 specifiers:
   '@date-io/date-fns': ^2.11.0
-  '@sveltejs/adapter-netlify': ^1.0.0-next.25
+  '@sveltejs/adapter-netlify': ^1.0.0-next.26
   '@sveltejs/adapter-node': 1.0.0-next.19
-  '@sveltejs/kit': ^1.0.0-next.139
+  '@sveltejs/kit': ^1.0.0-next.140
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.15
   '@tsconfig/svelte': ^2.0.1
   '@typescript-eslint/eslint-plugin': ^4.28.5
@@ -46,7 +46,7 @@ specifiers:
   vite: ^2.4.4
 
 dependencies:
-  '@sveltejs/kit': 1.0.0-next.139_svelte@3.41.0
+  '@sveltejs/kit': 1.0.0-next.140_svelte@3.41.0
   cross-fetch: 3.1.4
   layercake: 4.1.1_svelte@3.41.0
   svelte-preprocess: 4.7.4_9e4d185491b2e43ee0446171774c5ec1
@@ -54,7 +54,7 @@ dependencies:
 
 devDependencies:
   '@date-io/date-fns': 2.11.0_date-fns@2.23.0
-  '@sveltejs/adapter-netlify': 1.0.0-next.25
+  '@sveltejs/adapter-netlify': 1.0.0-next.26
   '@sveltejs/adapter-node': 1.0.0-next.19
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.15_svelte@3.41.0+vite@2.4.4
   '@tsconfig/svelte': 2.0.1
@@ -201,8 +201,8 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.0
 
-  /@sveltejs/adapter-netlify/1.0.0-next.25:
-    resolution: {integrity: sha512-EMKPbQOPbgBH95XRSxk9huz11hszERxMJdGBsVNfvo6zweNAMQ2RBfHbla0kr/6lmEYoFWm8gW+3JvCnAm8itA==}
+  /@sveltejs/adapter-netlify/1.0.0-next.26:
+    resolution: {integrity: sha512-WjAheN2s82ej8qYjm/ASp/M95+i17N6dR6Wrs7AuZ831MdJQEAHFyzOzG/d9Skfqqe44kr0SWuQiYhPrWFzNmg==}
     dependencies:
       '@iarna/toml': 2.2.5
       esbuild: 0.12.17
@@ -212,8 +212,8 @@ packages:
     resolution: {integrity: sha512-8QXOm0x9xiRGNZl9H0VplhIRVk14tO67bHDihxpUuOG3gFYxsNvdISC0wrvdGHOOINDUj4K2pdSn8LEjPrml/A==}
     dev: true
 
-  /@sveltejs/kit/1.0.0-next.139_svelte@3.41.0:
-    resolution: {integrity: sha512-V/OG9FIuq8Fzh08x0VZx1ZX5MjCM8lD/vpk/cM/RyGJSky+KKYgch7mWSY6XP28vUsl1HUg+HMuho/rKqmwe9A==}
+  /@sveltejs/kit/1.0.0-next.140_svelte@3.41.0:
+    resolution: {integrity: sha512-mNPtwItLU61JVpYXGAuDBEUlmenMs06lv6xxvhrdIgQlVlizNEebC9E27vdzPtcktxUZJGl4u/Fw3K1CG8Lk2A==}
     engines: {node: ^12.20 || >=14.13}
     hasBin: true
     peerDependencies:
