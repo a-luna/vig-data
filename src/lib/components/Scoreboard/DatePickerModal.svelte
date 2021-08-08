@@ -3,7 +3,7 @@
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
-	import { enUS } from 'date-fns/locale';
+	import enUS from '../../../../node_modules/date-fns/locale/en-US/index;
 	import { onMount, tick } from 'svelte';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
