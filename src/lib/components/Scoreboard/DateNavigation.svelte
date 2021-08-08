@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import type { ThemeColor } from '$lib/types';
+	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
 
 	export let minDate: Date;
 	export let maxDate: Date;
-	export let value: Date;
-	export let formatted: string;
 	export let color: ThemeColor = 'secondary';
+	let formatted: string = '';
 	const dispatch = createEventDispatcher();
 
-	$: previous = prevDay(value);
-	$: next = nextDay(value);
+	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'P');
+	$: previous = prevDay($scoreboardDate);
+	$: next = nextDay($scoreboardDate);
 
 	function nextDay(date: Date): Date {
 		var result = new Date(date);

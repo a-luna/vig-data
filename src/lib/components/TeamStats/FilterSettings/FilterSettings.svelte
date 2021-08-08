@@ -84,7 +84,11 @@
 				/>
 			</div>
 			<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-				<LeagueDropDown width={'auto'} />
+				<LeagueDropDown
+					selectedLeague={$teamStatFilter.league}
+					width={'auto'}
+					on:changed={(e) => teamStatFilter.changeLeague(e.detail)}
+				/>
 			</div>
 			<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
 				<TeamStatTypeDropDown width={'auto'} />

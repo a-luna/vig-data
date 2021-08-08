@@ -10,12 +10,12 @@
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { onMount } from 'svelte';
-	import Pagination from './Pagination.svelte';
 
 	let hidden: boolean;
 	let mounted: boolean;

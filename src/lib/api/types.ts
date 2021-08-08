@@ -1,4 +1,4 @@
-import type { BatterStance } from '$lib/types';
+import type { BatterStance, TeamID } from '$lib/types';
 
 export interface GameDate {
 	year: number;
@@ -745,7 +745,7 @@ export interface BatterPercentile {
 
 export interface PitchTypePercentiles {
 	pitch_type: PitchType;
-  percent: number;
+	percent: number;
 	avg_speed: [number, number];
 	ops: [number, number];
 	zone_rate: [number, number];
@@ -796,4 +796,48 @@ export interface StrikeZoneDimensions {
 	left: string;
 	width: string;
 	height: string;
+}
+
+export interface PlayerPitchStats {
+	bbref_game_id: string;
+	player_id_mlb: number;
+	player_id_bbref: string;
+	player_team_id_bbref: TeamID;
+	opponent_team_id_bbref: TeamID;
+	is_sp: number;
+	is_rp: number;
+	is_wp: number;
+	is_lp: number;
+	is_sv: number;
+	innings_pitched: number;
+	total_outs: number;
+	hits: number;
+	runs: number;
+	earned_runs: number;
+	bases_on_balls: number;
+	strikeouts: number;
+	homeruns: number;
+	batters_faced: number;
+	pitch_count: number;
+	strikes: number;
+	strikes_contact: number;
+	strikes_swinging: number;
+	strikes_looking: number;
+	ground_balls: number;
+	fly_balls: number;
+	line_drives: number;
+	unknown_type: number;
+	game_score: number;
+	inherited_runners: number;
+	inherited_scored: number;
+	wpa_pitch: number;
+	avg_lvg_index: number;
+	re24_pitch: number;
+	player_name?: string;
+	wins?: number;
+	losses?: number;
+	saves?: number;
+	full_stat_line?: string;
+	summary_stat_line?: string;
+	csw?: number;
 }

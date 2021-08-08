@@ -21,7 +21,7 @@
 
 <section class="datatable" style={backgroundColorRule}>
 	<article class="dt-table mb-2" style="overflow-x: auto">
-		<div class="resp-table text-sm leading-5">
+		<div class="resp-table w-full text-sm leading-5">
 			<div class="resp-table-header col-header text-center">
 				<div class="table-header-cell">Player</div>
 				{#if split === 'defpos'}

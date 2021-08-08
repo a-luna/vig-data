@@ -108,14 +108,26 @@ export function getDateFromGameId(game_id: string): Result<Date> {
 		  };
 }
 
+export function getHomeTeamIdFromGameId(game_id: string): Result<TeamID> {
+	const match = GAME_ID_REGEX.exec(game_id);
+	if (!match)
+		return {
+			success: false,
+			message: 'BBRef Game ID was not in the expected format!'
+		};
+	return {
+		success: true,
+		value: match.groups.home_team_id as TeamID
+	};
+}
+
 export function getStringFromDate(date: Date): string {
-	if (date !== null) {
+	if (date) {
 		const year = date.getFullYear();
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
 		const day = date.getDate().toString().padStart(2, '0');
 		return `${year}${month}${day}`;
 	}
-	return '';
 }
 
 export function formatAtBatResult(atBatResult: string): string[] {

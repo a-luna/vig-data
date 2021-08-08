@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { getScoreboard } from '$lib/api/game';
-	import type { ApiResponse,GameData,MlbSeason,Result,Scoreboard } from '$lib/api/types';
+	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { getSeasonDates,getStringFromDate } from '$lib/util';
+	import { getSeasonDates, getStringFromDate } from '$lib/util';
 
 	export let value: Date;
-	export let formatted: string;
 	let success: boolean;
 	let error_message: string;
 	let games_for_date: GameData[];
@@ -41,7 +40,7 @@
 	$: if ($scoreboardDate) getScoreboardRequest = getScoreboardForDate($scoreboardDate);
 </script>
 
-<DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate bind:value />
+<DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate />
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if getScoreboardRequest}
@@ -49,13 +48,7 @@
 			<Spinner />
 		{:then _result}
 			{#if success}
-				<DateNavigation
-					{minDate}
-					{maxDate}
-					bind:value
-					bind:formatted
-					on:showDatePicker={() => datePickerModal.toggleModal()}
-				/>
+				<DateNavigation {minDate} {maxDate} on:showDatePicker={() => datePickerModal.toggleModal()} />
 				<h3 class="my-2 text-xl text-center sm:text-2xl">Games Played on {value.toDateString()}</h3>
 				<div class="flex flex-row flex-wrap justify-center flex-grow-0 mx-auto my-0 text-sm scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}

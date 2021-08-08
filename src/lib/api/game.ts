@@ -9,7 +9,7 @@ export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore
 	return await validateApiResponse<Boxscore>(response);
 }
 
-export async function getScoreboard(date: string): Promise<ApiResponse<Scoreboard>> {
+export async function getScoreboardForDate(date: string): Promise<ApiResponse<Scoreboard>> {
 	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
 	if (!GAME_DATE_REGEX.test(date))
 		return {

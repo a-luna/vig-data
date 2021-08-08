@@ -3,18 +3,27 @@
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
-	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
+	import { enUS } from 'date-fns/locale';
+	import { onMount, tick } from 'svelte';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
 	export let minDate: Date;
 	export let maxDate: Date;
-	export let value: Date;
 	let modalContainer: ModalContainer;
-	let selectedDate: Date = value;
+	let selectedDate: Date;
 	const dateAdapter = new DateFnsAdapter();
+	let dpValue: Date;
+	let dateChanged: boolean = false;
+	let mounted: boolean = false;
 
-	$: dpValue = dateAdapter.date(value);
-	$: dateChanged = getStringFromDate(selectedDate) !== getStringFromDate(value);
+	$: if (mounted) dpValue = dateAdapter.date($scoreboardDate);
+	$: if (mounted) dateChanged = getStringFromDate(selectedDate) !== getStringFromDate($scoreboardDate);
+
+	onMount(async () => {
+		await tick();
+		mounted = true;
+		selectedDate = $scoreboardDate;
+	});
 
 	export function toggleModal() {
 		modalContainer.toggleModal();

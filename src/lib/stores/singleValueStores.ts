@@ -1,3 +1,4 @@
+import { getMostRecentScrapedDate } from '$lib/api/season';
 import type { CareerPfxMetricsForPitcher, PitchType, PitchTypePercentiles, PlayerDetails } from '$lib/api/types';
 import type { BatterStance, GameContent, SiteTheme, TeamStatType } from '$lib/types';
 import { derived, Writable, writable } from 'svelte/store';
@@ -11,6 +12,17 @@ export const season: Writable<number> = writable(2021);
 export const siteTheme: Writable<SiteTheme> = createLocalStorageValue('vig-theme', 'notset');
 export const searchResults: Writable<PlayerDetails[]> = writable([]);
 export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);
+
+export const mostRecentScrapedDate: Writable<Date> = writable<Date>(null, (set) => {
+  getMostRecentScrapedDate()
+    .then(set)
+    .catch((err) => {
+      console.error('Failed to fetch most recent scraped date!', err);
+    });
+  return () => {
+    //
+  };
+});
 
 export const allPlayerSeasons = derived(careerPfxData, ($careerPfxData) => {
 	if ($careerPfxData) {

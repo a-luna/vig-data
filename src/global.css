@@ -682,7 +682,6 @@ label {
 
 .resp-table {
 	color: var(--table-body-color);
-	width: 100%;
 	display: table;
 	margin: 0;
 }
@@ -690,6 +689,10 @@ label {
 .resp-table-caption {
 	display: table-caption;
 	color: var(--table-caption-color);
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	white-space: nowrap;
+	margin-top: 20px;
 }
 
 .resp-table-header {

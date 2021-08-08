@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import type { InningTotalsMap, Boxscore, TeamData, PitchStats } from '$lib/api/types';
+	import type { Boxscore, InningTotalsMap, PitchStats, TeamData } from '$lib/api/types';
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let boxscore: Boxscore;
 	let awayTeamData: TeamData;
@@ -20,28 +20,16 @@
 
 	function createPlayerPitchStatsMap() {
 		playerPitchStatsMap = {};
-		awayTeamData.pitching.map(
-			(pitchStats) => (playerPitchStatsMap[pitchStats.mlb_id] = pitchStats)
-		);
-		homeTeamData.pitching.map(
-			(pitchStats) => (playerPitchStatsMap[pitchStats.mlb_id] = pitchStats)
-		);
+		awayTeamData.pitching.map((pitchStats) => (playerPitchStatsMap[pitchStats.mlb_id] = pitchStats));
+		homeTeamData.pitching.map((pitchStats) => (playerPitchStatsMap[pitchStats.mlb_id] = pitchStats));
 	}
 
 	function createPlayerTeamMap() {
 		playerTeamMap = {};
-		boxscore.away_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.home_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id)
-		);
-		boxscore.away_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.home_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id)
-		);
+		boxscore.away_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id));
+		boxscore.home_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id));
+		boxscore.away_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id));
+		boxscore.home_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id));
 	}
 
 	let pitcherTeamId: string;
@@ -61,7 +49,6 @@
 		dispatch('viewPitchFxforPitcherClicked', mlb_id);
 		modalContainer.toggleModal();
 	}
-
 </script>
 
 <ModalContainer bind:this={modalContainer}>
@@ -71,7 +58,7 @@
 	</div>
 
 	<div slot="content" class="responsive">
-		<div class="resp-table text-sm">
+		<div class="resp-table w-full text-sm">
 			<div class="resp-table-header col-header">
 				<div class="table-header-cell">Inn</div>
 				<div class="num table-header-cell">Out</div>
@@ -110,5 +97,4 @@
 	.table-body-cell {
 		vertical-align: middle;
 	}
-
 </style>

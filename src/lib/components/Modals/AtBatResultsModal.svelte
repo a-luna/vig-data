@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { AtBatSummary, BatStats, Boxscore } from '$lib/api/types';
-	import InningLabel from '$lib/components/Util/InningLabel.svelte';
-	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
+	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
+	import InningLabel from '$lib/components/Util/InningLabel.svelte';
 	import { scrollToTop } from '$lib/util';
+	import { createEventDispatcher } from 'svelte';
 
 	export let boxscore: Boxscore;
 	let playerTeamMap: Record<number, string>;
@@ -19,18 +19,10 @@
 
 	function createPlayerTeamMap() {
 		playerTeamMap = {};
-		boxscore.away_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.home_team.batting.map(
-			(batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id)
-		);
-		boxscore.away_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id)
-		);
-		boxscore.home_team.pitching.map(
-			(pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id)
-		);
+		boxscore.away_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.away_team.team_id));
+		boxscore.home_team.batting.map((batStats) => (playerTeamMap[batStats.mlb_id] = boxscore.home_team.team_id));
+		boxscore.away_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.away_team.team_id));
+		boxscore.home_team.pitching.map((pitchStats) => (playerTeamMap[pitchStats.mlb_id] = boxscore.home_team.team_id));
 	}
 
 	function createPlayerBatStatsMap() {
@@ -62,7 +54,6 @@
 		dispatch('viewPitchFxForAtBatClicked', at_bat_id);
 		modalContainer.toggleModal();
 	}
-
 </script>
 
 <ModalContainer bind:this={modalContainer}>
@@ -72,7 +63,7 @@
 	</div>
 
 	<div slot="content" class="responsive">
-		<div class="resp-table text-sm">
+		<div class="resp-table w-full text-sm">
 			<div class="resp-table-header col-header">
 				<div class="table-header-cell">Inn</div>
 				<div class="num table-header-cell">Outs</div>
@@ -119,5 +110,4 @@
 		color: var(--pri-color);
 		text-decoration: underline;
 	}
-
 </style>

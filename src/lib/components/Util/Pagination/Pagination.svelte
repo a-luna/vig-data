@@ -1,10 +1,11 @@
 <script lang="ts">
+	import RowsPerPage from '$lib/components/Util/Pagination/RowsPerPage.svelte';
+	import { createEventDispatcher } from 'svelte';
 	import MdSettings from 'svelte-icons/md/MdSettings.svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
-	import RowsPerPage from './RowsPerPage.svelte';
 
-	export let backgroundColorRule: string;
+	export let backgroundColorRule: string = '';
 	export let totalRows: number;
 	export let pageSize: number = 5;
 	export let currentPage: number = 1;
@@ -13,6 +14,7 @@
 	export let rowTypeSingle: string = 'entry';
 	export let rowTypePlural: string = 'entries';
 	let showRowsPerPage: boolean = false;
+	const dispatch = createEventDispatcher();
 	const options = { duration: 500, easing: cubicInOut };
 
 	$: totalPages = Math.ceil(totalRows / pageSize);
@@ -73,6 +75,7 @@
 				class:disabled={currentPage === 1}
 				disabled={currentPage === 1}
 				title="First Page"
+				on:click={() => dispatch('pageChanged')}
 				on:click={() => (currentPage = 1)}>❬❬</button
 			>
 			<button
@@ -80,6 +83,7 @@
 				class:disabled={currentPage === 1}
 				disabled={currentPage === 1}
 				title="Previous Page"
+				on:click={() => dispatch('pageChanged')}
 				on:click={() => (currentPage -= 1)}>❬</button
 			>
 			{#if totalPages <= 4}
@@ -87,6 +91,7 @@
 					<button
 						class="btn-secondary hidden sm:block"
 						class:active={currentPage === num}
+						on:click={() => dispatch('pageChanged')}
 						on:click={() => (currentPage = num)}>{num}</button
 					>
 				{/each}
@@ -96,6 +101,7 @@
 				class:disabled={currentPage === totalPages}
 				disabled={currentPage === totalPages}
 				title="Next Page"
+				on:click={() => dispatch('pageChanged')}
 				on:click={() => (currentPage += 1)}>❭</button
 			>
 			<button
@@ -103,6 +109,7 @@
 				class:disabled={currentPage === totalPages}
 				disabled={currentPage === totalPages}
 				title="Last Page"
+				on:click={() => dispatch('pageChanged')}
 				on:click={() => (currentPage = totalPages)}>❭❭</button
 			>
 		</section>
