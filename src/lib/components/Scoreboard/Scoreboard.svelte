@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getScoreboard } from '$lib/api/game';
+	import { getScoreboardForDate } from '$lib/api/game';
 	import type { ApiResponse, GameData, MlbSeason, Result, Scoreboard } from '$lib/api/types';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
@@ -19,8 +19,8 @@
 	let getScoreboardRequest: Promise<ApiResponse<Scoreboard> | Result<Date> | Result<Date[]>>;
 	let datePickerModal: DatePickerModal;
 
-	async function getScoreboardForDate(date: Date) {
-		const getScoreboardResult = await getScoreboard(getStringFromDate(date));
+	async function getScoreboard(date: Date) {
+		const getScoreboardResult = await getScoreboardForDate(getStringFromDate(date));
 		success = getScoreboardResult.success;
 		if (!success) {
 			error_message = getScoreboardResult.message;
@@ -37,7 +37,7 @@
 		[minDate, maxDate] = getSeasonDatesResult.value;
 	}
 
-	$: if ($scoreboardDate) getScoreboardRequest = getScoreboardForDate($scoreboardDate);
+	$: if ($scoreboardDate) getScoreboardRequest = getScoreboard($scoreboardDate);
 </script>
 
 <DatePickerModal bind:this={datePickerModal} bind:minDate bind:maxDate />
