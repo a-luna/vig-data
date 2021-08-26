@@ -1,5 +1,5 @@
 import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
-import type { ApiResponse, MlbSeason, PlayerPitchStats, SeasonData } from '$lib/api/types';
+import type { ApiResponse, MlbSeason, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 import { GAME_DATE_REGEX } from '$lib/regex';
 import { getDateFromString, getStringFromDate } from '$lib/util';
@@ -43,4 +43,16 @@ export async function getPlayerPitchStatsForDate(date: string): Promise<ApiRespo
 		};
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/pitch_stats_for_date?game_date=${date}`);
 	return await validateApiResponse<PlayerPitchStats[]>(response);
+}
+
+export async function getPlayerBatStatsForDate(date: string): Promise<ApiResponse<PlayerBatStats[]>> {
+	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
+	if (!GAME_DATE_REGEX.test(date))
+		return {
+			status: 400,
+			success: false,
+			message: 'Game date must be in the correct format: YYYYMMDD'
+		};
+	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/bat_stats_for_date?game_date=${date}`);
+	return await validateApiResponse<PlayerBatStats[]>(response);
 }

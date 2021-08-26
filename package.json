@@ -2,7 +2,7 @@
 	"name": "vig-data",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "svelte-kit dev",
+		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
 		"start": "svelte-kit preview",
 		"preview": "svelte-kit preview",
@@ -11,15 +11,15 @@
 	},
 	"devDependencies": {
 		"@date-io/date-fns": "^2.11.0",
-		"@sveltejs/adapter-netlify": "^1.0.0-next.27",
+		"@sveltejs/adapter-netlify": "^1.0.0-next.29",
 		"@sveltejs/adapter-node": "1.0.0-next.19",
-		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.15",
+		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.19",
 		"@tsconfig/svelte": "^2.0.1",
-		"@typescript-eslint/eslint-plugin": "^4.29.0",
-		"@typescript-eslint/parser": "^4.29.0",
-		"autoprefixer": "^10.3.1",
-		"cssnano": "^5.0.7",
-		"d3-array": "^3.0.1",
+		"@typescript-eslint/eslint-plugin": "^4.29.3",
+		"@typescript-eslint/parser": "^4.29.3",
+		"autoprefixer": "^10.3.3",
+		"cssnano": "^5.0.8",
+		"d3-array": "^3.0.2",
 		"d3-format": "^3.0.1",
 		"d3-interpolate": "^3.0.1",
 		"d3-scale": "^4.0.0",
@@ -35,11 +35,11 @@
 		"postcss-load-config": "^3.1.0",
 		"prettier": "~2.2.1",
 		"prettier-plugin-svelte": "^2.3.1",
-		"sass": "^1.37.5",
-		"svelte": "^3.42.1",
+		"sass": "^1.38.1",
+		"svelte": "^3.42.3",
 		"svelte-calendar": "^2.0.4",
-		"svelte-carousel": "^1.0.11",
-		"svelte-check": "^2.2.4",
+		"svelte-carousel": "^1.0.14",
+		"svelte-check": "^2.2.5",
 		"svelte-icons": "^2.1.0",
 		"svelte-inclusive-datepicker": "^1.0.2",
 		"svelte-loading-spinners": "^0.1.7",
@@ -48,19 +48,19 @@
 		"svelte-tabs": "^1.1.0",
 		"svelte-typeahead": "^3.0.0",
 		"tailwindcss": "^2.2.7",
-		"tslib": "^2.3.0",
+		"tslib": "^2.3.1",
 		"typescript": "^4.3.5",
-		"vite": "^2.4.4"
+		"vite": "^2.5.1"
 	},
 	"type": "module",
 	"engines": {
 		"node": ">= 12.17.0"
 	},
 	"dependencies": {
-		"@sveltejs/kit": "^1.0.0-next.142",
+		"@sveltejs/kit": "^1.0.0-next.158",
 		"cross-fetch": "^3.1.4",
 		"layercake": "^4.1.1",
-		"svelte-preprocess": "^4.7.4",
+		"svelte-preprocess": "^4.8.0",
 		"svelte-simple-datatables": "^0.1.25"
 	}
 }

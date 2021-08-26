@@ -11,6 +11,7 @@
 	export let currentPage: number = 1;
 	export let startRow: number;
 	export let endRow: number;
+	export let neverShowPageNumbers: boolean = true;
 	export let rowTypeSingle: string = 'entry';
 	export let rowTypePlural: string = 'entries';
 	let showRowsPerPage: boolean = false;
@@ -36,19 +37,19 @@
 
 <section id="modal-pagination" class="flex flex-col justify-start mt-3" style={backgroundColorRule}>
 	<div class="flex flex-row justify-between dt-pagination flex-nowrap">
-		<div class="flex flex-col justify-center items-start sm:items-center">
-			<div class="flex flex-row items-center justify-start flex-nowrap leading-none">
+		<div class="flex flex-col items-start justify-start sm:items-center">
+			<div class="flex flex-row items-center justify-start flex-nowrap">
 				<div
-					class="dt-pagination-rowcount block mx-1 my-auto sm:w-5 sm:h-4 w-4 h-3 cursor-pointer stroke-current stroke-2"
+					class="block w-4 h-3 mx-1 mb-0.5 cursor-pointer stroke-current stroke-2 dt-pagination-rowcount md:w-5 md:h-4"
 					title="Click to change # of rows displayed per page"
-					on:click={() => (showRowsPerPage = true)}
+					on:click={() => (showRowsPerPage = !showRowsPerPage)}
 				>
 					<MdSettings />
 				</div>
 				<aside
-					class="dt-pagination-rowcount cursor-pointer text-base"
+					class="text-sm cursor-pointer dt-pagination-rowcount md:text-base"
 					title="Click to change # of rows displayed per page"
-					on:click={() => (showRowsPerPage = true)}
+					on:click={() => (showRowsPerPage = !showRowsPerPage)}
 				>
 					<div class="hidden sm:inline-block">
 						Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of <b>{totalRows}</b>
@@ -86,10 +87,10 @@
 				on:click={() => dispatch('pageChanged')}
 				on:click={() => (currentPage -= 1)}>❬</button
 			>
-			{#if totalPages <= 4}
+			{#if !neverShowPageNumbers && totalPages <= 4}
 				{#each pageNumbers as num}
 					<button
-						class="btn-secondary hidden sm:block"
+						class="hidden btn-secondary sm:block text"
 						class:active={currentPage === num}
 						on:click={() => dispatch('pageChanged')}
 						on:click={() => (currentPage = num)}>{num}</button
@@ -122,17 +123,19 @@
 		line-height: inherit;
 	}
 
-	#modal-pagination button {
-		width: 25px;
-		height: 30px;
-		font-size: 13px;
+	#modal-pagination button.text {
+		width: 23px;
+		height: 23px;
+		font-size: 12px;
 		padding: 0;
 	}
 
-	#modal-pagination button.text {
-		width: 30px;
-		height: 30px;
-		font-size: 13px;
-		padding: 0;
+	@media screen and (min-width: 640px) {
+		#modal-pagination button.text {
+			width: 30px;
+			height: 30px;
+			font-size: 13px;
+			padding: 0;
+		}
 	}
 </style>

@@ -1,7 +1,7 @@
 import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
 import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
-import { AT_BAT_ID_REGEX, GAME_DATE_REGEX } from '$lib/regex';
+import { AT_BAT_ID_REGEX, GAME_DATE_REGEX, GAME_ID_REGEX } from '$lib/regex';
 
 export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore>> {
 	if (!game_id) return { status: 400, success: false, message: 'No value was provided for Game ID' };
@@ -37,4 +37,16 @@ export async function getAtBatDetails(at_bat_id: string): Promise<ApiResponse<At
 		};
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/game/pbp?at_bat_id=${at_bat_id}`);
 	return await validateApiResponse<AtBatDetails>(response);
+}
+
+export async function getAllPitchAppIdsForGame(game_id: string): Promise<ApiResponse<string[]>> {
+	if (!game_id) return { status: 400, success: false, message: 'No value was provided for Game ID' };
+	if (!GAME_ID_REGEX.test(game_id))
+		return {
+			status: 400,
+			success: false,
+			message: 'Game ID is not recognized or is formatted incorrectly'
+		};
+	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/game/pitch_app_ids?game_id=${game_id}`);
+	return await validateApiResponse<string[]>(response);
 }

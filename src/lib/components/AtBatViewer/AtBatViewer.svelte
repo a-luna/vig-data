@@ -202,13 +202,13 @@
 				/>
 			</div>
 		</div>
-		<div class="flex-grow-0 pitch-location" bind:this={chartContainer}>
+		<div id="at-bat-viewer" class="flex-grow-0 pitch-location" bind:this={chartContainer}>
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
 					<div class="pending" />
 				{:then result}
 					{#if result.success}
-						<PitchLocationChart bind:pfx={selectedAtBatPfx} />
+						<PitchLocationChart bind:pfx={selectedAtBatPfx} cssId={'at-bat-viewer'} />
 					{:else}
 						<div class="error">Error: {result.message}</div>
 					{/if}
@@ -249,7 +249,7 @@
 		min-width: var(--ploc-chart-size);
 	}
 
-	.pitch-location {
+	:global(.pitch-location) {
 		background-color: var(--ploc-chart-bg-color);
 		border-radius: 4px;
 		border: 1px solid var(--ploc-outer-border-color);

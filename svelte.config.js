@@ -5,9 +5,6 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	preprocess: [
 		preprocess({
-			defaults: {
-				style: 'postcss'
-			},
 			postcss: true
 		})
 	],

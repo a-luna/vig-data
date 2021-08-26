@@ -9,6 +9,7 @@
 	--rich-black1: hsl(226, 27%, 5%);
 	--rich-black2: hsl(226, 27%, 10%);
 	--rich-black3: hsl(226, 27%, 13%);
+	--rich-black4: hsl(226, 27%, 15%);
 
 	--black4: hsl(0, 0%, 0%);
 	--black3: hsl(0, 0%, 5%);
@@ -226,6 +227,7 @@
 	/* At Bat Pitch Location Chart */
 
 	--ploc-chart-size: 280px;
+	--papp-chart-size: 560px;
 	--ploc-data-point-radius: 6px;
 	--ploc-x-min: -3;
 	--ploc-x-max: 3;
@@ -338,13 +340,21 @@ body.light-mode {
 	--player-results-modal-button-color-hov: var(--blue3);
 
 	--player-card-bg-color: var(--white1);
-	--player-card-border-color: var(--gray1);
+	--player-card-border-color: var(--pri-color);
 	--player-card-heading-text-color: var(--black3);
 	--player-card-text-color: var(--black1);
 	--player-card-text-color-hov: var(--black3);
 
 	--player-details-label-color: var(--black3);
 	--player-details-text-color: var(--black1);
+
+	--game-result-bg-color: var(--white1);
+	--game-result-border-color: var(--pri-color);
+
+	--section-content-header-bg-color: var(--blue1);
+	--section-content-header-text-color: var(--sec-color-hov);
+	--section-content-bg-color: var(--white1);
+	--section-content-border-color: var(--blue1);
 
 	--pseq-top-bg-color: var(--gray1);
 	--pseq-bottom-bg-color: var(--gray1);
@@ -460,14 +470,22 @@ body.dark-mode {
 	--player-results-modal-button-color: var(--indigo2);
 	--player-results-modal-button-color-hov: var(--indigo3);
 
-	--player-card-bg-color: var(--indigo2);
-	--player-card-border-color: var(--dark-gray1);
+	--player-card-bg-color: var(--rich-black4);
+	--player-card-border-color: var(--pri-color);
 	--player-card-heading-text-color: var(--white3);
 	--player-card-text-color: var(--white1);
 	--player-card-text-color-hov: var(--white3);
 
 	--player-details-label-color: var(--white3);
 	--player-details-text-color: var(--light-gray1);
+
+	--game-result-bg-color: var(--rich-black2);
+	--game-result-border-color: var(--pri-color);
+
+	--section-content-header-bg-color: var(--indigo1);
+	--section-content-header-text-color: var(--sec-color);
+	--section-content-bg-color: var(--rich-black2);
+	--section-content-border-color: var(--indigo1);
 
 	--pseq-top-bg-color: var(--indigo1);
 	--pseq-bottom-bg-color: var(--indigo1);
@@ -848,7 +866,7 @@ label {
 }
 
 .responsive {
-	overflow-x: auto;
+	overflow-x: scroll;
 	white-space: nowrap;
 }
 
@@ -1010,6 +1028,7 @@ button:disabled:hover,
 }
 
 .btn-outline-primary {
+	background-color: var(--section-content-bg-color);
 	color: var(--pri-color);
 	border: 1px solid var(--pri-color);
 }
@@ -1031,6 +1050,7 @@ button:disabled:hover,
 }
 
 .btn-outline-secondary {
+	background-color: var(--section-content-bg-color);
 	color: var(--sec-color);
 	border: 1px solid var(--sec-color);
 }
@@ -1351,10 +1371,15 @@ button:disabled:hover,
 
 #team-bat-stats .datatable .dt-pagination-buttons button.active,
 #team-pitch-stats .datatable .dt-pagination-buttons button.active,
-.dt-pagination-buttons button.active,
-.rows-per-page button.active {
+.dt-pagination-buttons button.active {
 	text-decoration: underline;
 	text-underline-offset: 3px;
+}
+
+.rows-per-page button.active {
+	color: var(--color-on-sec-active);
+	background-color: var(--sec-color-active);
+	border: 1px solid var(--sec-color-active);
 }
 
 #team-bat-stats .datatable .dt-pagination-buttons button.ellipse:hover,
@@ -1445,6 +1470,7 @@ button:disabled:hover,
 @media screen and (min-width: 640px) {
 	:root {
 		--ploc-chart-size: 300px;
+		--papp-chart-size: 600px;
 		--ploc-data-point-radius: 8px;
 	}
 }
@@ -1478,6 +1504,7 @@ button:disabled:hover,
 @media screen and (min-width: 1024px) {
 	:root {
 		--ploc-chart-size: 350px;
+		--papp-chart-size: 700px;
 		--ploc-data-point-radius: 10px;
 	}
 

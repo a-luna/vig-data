@@ -5,14 +5,16 @@
 	import { onMount } from 'svelte';
 
 	export let pfx: PitchFx[] = [];
-	const resizeObserver = new ResizeObserver(() => drawStrikeZoneRect(document));
+	export let cssId: string = '';
+	export let showPitchNumber: boolean = true;
+	export let showToolTip: boolean = true;
+	const resizeObserver = new ResizeObserver(() => drawStrikeZoneRect(document, cssId));
 
 	onMount(() => {
-		const chartContainer = document.querySelector('.chart-container');
+		const chartContainer = document.querySelector(`#${cssId} .layercake-container`);
 		resizeObserver.observe(chartContainer);
-		drawStrikeZoneRect(document);
+		drawStrikeZoneRect(document, cssId);
 	});
-
 </script>
 
-<ScatterPlot data={pfx} />
+<ScatterPlot data={pfx} {showPitchNumber} {showToolTip} />

@@ -47,7 +47,8 @@
 		color: var(--sec-color);
 		line-height: 1;
 	}
-	button {
+	button,
+	:global(#home) button {
 		width: 24px;
 		height: 23px;
 		font-size: 11px;

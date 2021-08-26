@@ -1,11 +1,16 @@
 import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
-import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP, PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
 import {
-	GAME_DATE_REGEX,
-	GAME_ID_REGEX,
-	NUMBER_OF_PIXELS_REGEX,
-	PITCH_SEQ_NUMS_REGEX,
-	SEASON_DATE_REGEX
+  DEC_TO_HEX,
+  PITCH_TYPE_ABBREV_TO_NAME_MAP,
+  PITCH_TYPE_MAP,
+  PITCH_TYPE_NAME_TO_ABBREV_MAP
+} from '$lib/constants';
+import {
+  GAME_DATE_REGEX,
+  GAME_ID_REGEX,
+  NUMBER_OF_PIXELS_REGEX,
+  PITCH_SEQ_NUMS_REGEX,
+  SEASON_DATE_REGEX
 } from '$lib/regex';
 import type { BatOrder, BatStatSplit, DefPositionNumber, TeamID, TeamStatType } from '$lib/types';
 import { formatDuration, intervalToDuration } from 'date-fns';
@@ -53,8 +58,10 @@ export function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb })
 }
 
 export function getTimeDeltaAsString(start: Date, end: Date = new Date()): string {
-	const duration = intervalToDuration({ start: start, end: end });
-	return formatDuration(duration, { format: ['years', 'months', 'days'], delimiter: ', ' });
+	return formatDuration(intervalToDuration({ start: start, end: end }), {
+		format: ['years', 'months', 'days'],
+		delimiter: ', '
+	});
 }
 
 export function getDateFromString(date_str: string): Result<Date> {
@@ -346,7 +353,7 @@ function fakePfxData(): PitchFx {
 	};
 }
 
-export function drawStrikeZoneRect(document: Document): void {
+export function drawStrikeZoneRect(document: Document, cssId: string): void {
 	const strikeZone = document.querySelector<HTMLElement>('.strike-zone') || document.createElement('div');
 	const dimensions = getStrikeZoneDimensions(document);
 	if (dimensions) {
@@ -355,7 +362,7 @@ export function drawStrikeZoneRect(document: Document): void {
 		strikeZone.style.left = dimensions.left;
 		strikeZone.style.width = dimensions.width;
 		strikeZone.style.height = dimensions.height;
-		document.querySelector('.scatter-group')?.appendChild(strikeZone);
+		document.querySelector(`#${cssId} .scatter-group`)?.appendChild(strikeZone);
 	}
 }
 
@@ -384,6 +391,12 @@ function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
 		left: parseFloat(pfx.dataset.leftPosition),
 		top: parseFloat(pfx.dataset.topPosition)
 	};
+}
+
+export function formatPosNegValue(value: number, precision: number): string {
+	const isNeg = value < 0;
+	const formatted = Math.abs(value).toFixed(precision).toString();
+	return isNeg ? `-${formatted}` : formatted;
 }
 
 export function formatRateStat(value: string, precision: number): string {
@@ -432,6 +445,13 @@ export function capitalize(string: string): string {
 	return string.charAt(0).toUpperCase() + string.substring(1);
 }
 
+export function capitalizeSentence(string: string): string {
+	return string
+		.split(' ')
+		.map((s) => capitalize(s))
+		.join(' ');
+}
+
 export function teamStatFilterSettingsAreInvalid(
 	teamStatType: TeamStatType,
 	batStatSplit: BatStatSplit,
@@ -471,4 +491,21 @@ export function getRandomInt(max: number): number {
 
 export function getPitchTypeNameFromInt(pitchTypeInt: number): string {
 	return PITCH_TYPE_ABBREV_TO_NAME_MAP[PITCH_TYPE_MAP[pitchTypeInt]];
+}
+
+export function getRandomHexString(length: number): string {
+	return Array.from({ length: length }, () => Math.floor(Math.random() * 16))
+		.map((n) => DEC_TO_HEX[n])
+		.join('');
+}
+
+export function shortenPlayerName(name: string): string {
+  if (name === '') return '';
+  const pieces = name.split(' ');
+  if (pieces.length > 1) {
+    const firstInitial = pieces[0].slice(0, 1);
+    const lastName = pieces.slice(1).join(' ');
+    return `${firstInitial} ${lastName}`;
+  }
+  return name;
 }

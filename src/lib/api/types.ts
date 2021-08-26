@@ -841,3 +841,46 @@ export interface PlayerPitchStats {
 	summary_stat_line?: string;
 	csw?: number;
 }
+
+export interface PlayerBatStats {
+	bbref_game_id: string;
+	player_id_mlb: number;
+	player_id_bbref: string;
+	player_team_id_bbref: string;
+	opponent_team_id_bbref: string;
+	is_starter: number;
+	bat_order: number;
+	def_position: string;
+	plate_appearances: number;
+	at_bats: number;
+	hits: number;
+	runs_scored: number;
+	rbis: number;
+	bases_on_balls: number;
+	strikeouts: number;
+	doubles: number;
+	triples: number;
+	homeruns: number;
+	stolen_bases: number;
+	caught_stealing: number;
+	hit_by_pitch: number;
+	intentional_bb: number;
+	gdp: number;
+	sac_fly: number;
+	sac_hit: number;
+	avg_to_date: number;
+	obp_to_date: number;
+	slg_to_date: number;
+	ops_to_date: number;
+	total_pitches: number;
+	total_strikes: number;
+	wpa_bat: number;
+	avg_lvg_index: number;
+	wpa_bat_pos: number;
+	wpa_bat_neg: number;
+  re24_bat: number;
+  extra_base_hits?: number;
+	total_bases?: number;
+	player_name?: string;
+	stat_line?: string;
+}

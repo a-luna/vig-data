@@ -1,24 +1,14 @@
 <script lang="ts">
 	import type { PlayerId } from '$lib/api/types';
+	import { shortenPlayerName } from '$lib/util';
 
 	export let wp: PlayerId;
 	export let lp: PlayerId;
 	export let sv: PlayerId = null;
 
-	function formatName(name: string): string {
-		if (name === '') return '';
-		const pieces = name.split(' ');
-		if (pieces.length > 1) {
-			const firstInitial = pieces[0].slice(0, 1);
-			const lastName = pieces.slice(1).join(' ');
-			return `${firstInitial} ${lastName}`;
-		}
-		return name;
-	}
-
-	const wp_name = formatName(wp.name);
-	const lp_name = formatName(lp.name);
-	const sv_name = sv ? formatName(sv.name) : '';
+	const wp_name = shortenPlayerName(wp.name);
+	const lp_name = shortenPlayerName(lp.name);
+	const sv_name = sv ? shortenPlayerName(sv.name) : '';
 </script>
 
 <div class="pitcher-results">

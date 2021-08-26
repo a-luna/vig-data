@@ -21,7 +21,7 @@
 <div class="mx-2 responsive">
 	<div id={tableId} class="league-standings resp-table">
 		{#each allDivisions as div}
-			<div class="resp-table-header">
+			<div class="resp-table-header text-center">
 				<div class="team-id table-header-cell">{getDivisionAbbrev(div)}</div>
 				<div class="num table-header-cell">W</div>
 				<div class="num table-header-cell">L</div>
@@ -46,10 +46,6 @@
 </div>
 
 <style lang="postcss">
-	/* .league-standings {
-		margin: 0;
-	} */
-
 	:global(#standings-al) .resp-table-row:last-child .table-body-cell:first-child,
 	:global(#standings-nl) .resp-table-row:last-child .table-body-cell:first-child {
 		border-bottom-left-radius: 0;

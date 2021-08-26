@@ -4,6 +4,7 @@
 	import type { ApiResponse, AtBatDetails, Boxscore as BoxscoreSchema, Result } from '$lib/api/types';
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
+	import PitchAppViewer from '$lib/components/Boxscore/PitchAppViewer.svelte';
 	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
@@ -22,11 +23,11 @@
 	let getBoxscoreResult: ApiResponse<BoxscoreSchema>;
 	let getGameDateResult: Result<Date>;
 	let getAllPBPResult: ApiResponse<AtBatDetails[]>;
-  let loading = false;
+	let loading = false;
 
 	$: pbpShown = $gameContentShown === 'pbp';
 	$: boxShown = $gameContentShown === 'box';
-	// $: chartsShown = $gameContentShown === 'charts';
+	$: chartsShown = $gameContentShown === 'charts';
 
 	$: if (game_id !== undefined && game_id !== $page.query.get('id')) {
 		updateGameData($page.query.get('id'));
@@ -40,7 +41,7 @@
 	async function getAllGameData(
 		newGameId: string
 	): Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>> {
-    loading = true;
+		loading = true;
 		getBoxscoreResult = await getBoxscore(newGameId);
 		if (!getBoxscoreResult.success) {
 			return getBoxscoreResult;
@@ -50,7 +51,7 @@
 
 		getGameDateResult = getDateFromGameId(game_id);
 		if (!getGameDateResult.success) {
-      loading = false;
+			loading = false;
 			return getGameDateResult;
 		}
 		const game_date = getGameDateResult.value;
@@ -59,11 +60,11 @@
 
 		getAllPBPResult = await getAllPlayByPlayData(game_id);
 		if (!getAllPBPResult.success) {
-      loading = false;
+			loading = false;
 			return getAllPBPResult;
 		}
 		all_pbp = getAllPBPResult.value;
-    loading = false;
+		loading = false;
 		return getAllPBPResult;
 	}
 
@@ -103,26 +104,29 @@
 	<title>{game_summary ? game_summary : getDefaultGameSummary()} | Vigorish</title>
 </svelte:head>
 
-<GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
-{#if getAllGameDataRequest}
-	{#await getAllGameDataRequest}
-    <LoadingScreen bind:loading />
-  {:then result}
-		{#if result.success}
-			<Boxscore
-				bind:boxscore
-				bind:shown={boxShown}
-				on:viewPitchFxForAtBatClicked={(event) => viewAtBat(event.detail)}
-			/>
-			<AtBatViewer
-				bind:this={atBatViewer}
-				bind:shown={pbpShown}
-				on:readyForData={() => atBatViewer.init(all_pbp, boxscore)}
-			/>
-		{:else}
-			<div class="error">Error: {result.message}</div>
-		{/if}
-	{:catch error}
-		<div class="error">Error: {error.message}</div>
-	{/await}
-{/if}
+<div id="game">
+	<GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
+	{#if getAllGameDataRequest}
+		{#await getAllGameDataRequest}
+			<LoadingScreen bind:loading />
+		{:then result}
+			{#if result.success}
+				<Boxscore
+					bind:boxscore
+					bind:shown={boxShown}
+					on:viewPitchFxForAtBatClicked={(event) => viewAtBat(event.detail)}
+				/>
+				<AtBatViewer
+					bind:this={atBatViewer}
+					bind:shown={pbpShown}
+					on:readyForData={() => atBatViewer.init(all_pbp, boxscore)}
+				/>
+				<PitchAppViewer bind:shown={chartsShown} bind:boxscore />
+			{:else}
+				<div class="error">Error: {result.message}</div>
+			{/if}
+		{:catch error}
+			<div class="error">Error: {error.message}</div>
+		{/await}
+	{/if}
+</div>

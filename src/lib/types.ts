@@ -1,6 +1,6 @@
 import type { MlbSeason } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
-import type { Writable } from 'svelte/store';
+import type { Writable } from 'svelte/types/runtime/store';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}

@@ -86,8 +86,29 @@ export const PITCH_TYPE_ABBREV_TO_NAME_MAP = {
 	UN: 'unknown'
 };
 
+export const PITCH_TYPE_ABBREV_TO_CATEGORY_MAP = {
+	'N/A': 'none',
+	CH: 'offspeed',
+	CU: 'breaking',
+	EP: 'offspeed',
+	FA: 'fastball',
+	FC: 'breaking',
+	FF: 'fastball',
+	FS: 'breaking',
+	FT: 'fastball',
+	FO: 'breaking',
+	IN: 'none',
+	KC: 'breaking',
+	KN: 'offspeed',
+	PO: 'none',
+	SC: 'breaking',
+	SI: 'breaking',
+	SL: 'breaking',
+	UN: 'none'
+};
+
 export const TEAM_ID_TO_NAME_MAP = {
-	ARI: 'Arizona Diamondbacks',
+	ARI: 'Arizona D-backs',
 	ATL: 'Atlanta Braves',
 	BAL: 'Baltimore Orioles',
 	BOS: 'Boston Red Sox',
@@ -118,4 +139,56 @@ export const TEAM_ID_TO_NAME_MAP = {
 	TEX: 'Texas Rangers',
 	TOR: 'Toronto Blue Jays',
 	WSN: 'Washington Nationals'
+};
+
+export const TEAM_ID_TO_MOBILE_NAME_MAP = {
+	ARI: 'Arizona D-backs',
+	ATL: 'Atlanta Braves',
+	BAL: 'Baltimore Orioles',
+	BOS: 'Boston Red Sox',
+	CHW: 'Chicago White Sox',
+	CHC: 'Chicago Cubs',
+	CIN: 'Cincinnati Reds',
+	CLE: 'Cleveland Indians',
+	COL: 'Colorado Rockies',
+	DET: 'Detroit Tigers',
+	HOU: 'Houston Astros',
+	KCR: 'KC Royals',
+	LAA: 'LA Angels',
+	LAD: 'LA Dodgers',
+	MIA: 'Miami Marlins',
+	MIL: 'Milw. Brewers',
+	MIN: 'Minnesota Twins',
+	NYY: 'NY Yankees',
+	NYM: 'NY Mets',
+	OAK: 'Oakland Athletics',
+	PHI: 'Phil. Phillies',
+	PIT: 'Pitt. Pirates',
+	SDP: 'San Diego Padres',
+	SEA: 'Seattle Mariners',
+	SFG: 'SF Giants',
+	STL: 'StL Cardinals',
+	TBR: 'Tampa Bay Rays',
+	TEX: 'Texas Rangers',
+	TOR: 'Tor. Blue Jays',
+	WSN: 'Wash. Nationals'
+};
+
+export const DEC_TO_HEX = {
+	0: '0',
+	1: '1',
+	2: '2',
+	3: '3',
+	4: '4',
+	5: '5',
+	6: '6',
+	7: '7',
+	8: '8',
+	9: '9',
+	10: 'a',
+	11: 'b',
+	12: 'c',
+	13: 'd',
+	14: 'e',
+	15: 'f'
 };

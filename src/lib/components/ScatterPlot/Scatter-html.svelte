@@ -3,6 +3,8 @@
 	import Hoverable from '$lib/components/Util/Hoverable.svelte';
 	import { getContext } from 'svelte';
 
+	export let showPitchNumber = true;
+	export let showToolTip = true;
 	const { data, xGet, yGet, xScale, yScale } = getContext('LayerCake');
 
 	function getLeftPosition(pfx) {
@@ -24,14 +26,14 @@
 					class:in-play={d.basic_type === 'X'}
 					class:strike-zone-corner={d.basic_type === 'Z'}
 					class:other={d.basic_type !== 'S' && d.basic_type !== 'B' && d.basic_type !== 'X' && d.basic_type !== 'Z'}
-					data-pitch-number={d.ab_count}
+					data-pitch-number={showPitchNumber ? d.ab_count : ''}
 					data-pitch-type={d.mlbam_pitch_name}
 					data-basic-type={d.basic_type}
 					data-left-position={getLeftPosition(d)}
 					data-top-position={getTopPosition(d)}
 					style="left: {getLeftPosition(d)}%; top: {getTopPosition(d)}%;"
 				/>
-				{#if hovering}
+				{#if hovering && showToolTip}
 					<PitchFxToolTip {d} pLocLeft={getLeftPosition(d)} pLocTop={getTopPosition(d)} />
 				{/if}
 			</Hoverable>

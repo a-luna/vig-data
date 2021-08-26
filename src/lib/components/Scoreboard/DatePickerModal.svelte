@@ -3,8 +3,8 @@
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getStringFromDate } from '$lib/util';
 	import DateFnsAdapter from '@date-io/date-fns';
+	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
-	import { onMount, tick } from 'svelte';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
 	export let minDate: Date;
@@ -15,6 +15,7 @@
 	let dpValue: Date;
 	let dateChanged: boolean = false;
 	let mounted: boolean = false;
+	const dispatch = createEventDispatcher();
 
 	$: if (mounted) dpValue = dateAdapter.date($scoreboardDate);
 	$: if (mounted) dateChanged = getStringFromDate(selectedDate) !== getStringFromDate($scoreboardDate);
@@ -33,6 +34,7 @@
 		if (dateChanged) {
 			scoreboardDate.changeDate(selectedDate);
 			modalContainer.toggleModal();
+			dispatch('dateChanged', selectedDate);
 		}
 	}
 	// import { enUS } from 'date-fns/locale';

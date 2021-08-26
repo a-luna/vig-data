@@ -6,7 +6,7 @@
 <div class="responsive">
 	<div class="flex flex-row justify-center overflow-x-auto flex-nowrap">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
-			<h4>vsBoth</h4>
+			<h4>Both</h4>
 			{#each $pitchTypesByBatterStance.all as pitchType}
 				<Percentiles {...$pitchTypePercentilesByBatterStance['all'][pitchType]} />
 			{/each}

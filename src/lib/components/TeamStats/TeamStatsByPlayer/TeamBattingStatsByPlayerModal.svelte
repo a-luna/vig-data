@@ -15,10 +15,8 @@
 	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
-	import { onMount } from 'svelte';
 
 	let hidden: boolean;
-	let mounted: boolean;
 	let modalContainer: ModalContainer;
 	let teamBatStats: TeamBatStats[] = [];
 	let team: TeamID;
@@ -37,8 +35,6 @@
 	$: batOrder = $teamStatFilter.batOrder;
 	$: year = $teamStatFilter.season;
 	$: heading = getTableHeading(team);
-
-	onMount(() => (mounted = true));
 
 	const batStatsMap = {
 		all: getBatStatsByPlayerForTeam,
@@ -106,11 +102,11 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="heading" class="flex flex-row flex-nowrap justify-between items-center w-full">
-			<span class="text-xl sm:text-lg overflow-x-hidden overflow-ellipsis">{heading}</span>
+		<div slot="heading" class="flex flex-row items-center justify-between w-full flex-nowrap">
+			<span class="overflow-x-hidden text-xl sm:text-lg overflow-ellipsis">{heading}</span>
 		</div>
 
-		<div slot="content" id="player-stats-detail" class="responsive mb-2">
+		<div slot="content" id="player-stats-detail" class="mb-2 responsive">
 			{#if getBatStatsRequest}
 				{#await getBatStatsRequest}
 					<Spinner />>
