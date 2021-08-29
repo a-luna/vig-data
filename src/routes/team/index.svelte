@@ -50,7 +50,7 @@
 	<title>{pageTitle} | Vigorish</title>
 </svelte:head>
 
-<TeamBattingStatsByPlayerModal bind:this={teamBattingStatsByPlayerModal} />
+<TeamBattingStatsByPlayerModal bind:this={teamBattingStatsByPlayerModal} sortBy={'total_games'} />
 <TeamPitchStatsByPlayerModal bind:this={teamPitchStatsByPlayerModal} />
 
 <div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">

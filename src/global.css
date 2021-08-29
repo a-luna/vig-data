@@ -1309,8 +1309,7 @@ button:disabled:hover,
 
 #team-bat-stats .datatable .dt-pagination-buttons button,
 #team-pitch-stats .datatable .dt-pagination-buttons button,
-.dt-pagination-buttons button,
-.rows-per-page button {
+.dt-pagination-buttons button {
 	@apply px-2 py-1 m-0 font-normal transition duration-300 ease-in-out shadow-md focus:outline-none;
 	line-height: inherit;
 }
@@ -1363,8 +1362,7 @@ button:disabled:hover,
 
 #team-bat-stats .datatable .dt-pagination-buttons button.text,
 #team-pitch-stats .datatable .dt-pagination-buttons button.text,
-.dt-pagination-buttons button.text,
-.rows-per-page button {
+.dt-pagination-buttons button.text {
 	width: auto;
 	cursor: pointer;
 }

@@ -131,7 +131,7 @@
 
 <div id="team-bat-stats" class="flex flex-col flex-auto mb-4 team-stats flex-nowrap">
 	<div class="flex flex-col items-start justify-end mb-2 flex-nowrap">
-		<h3 class="mb-2 text-2xl sm:text-3xl">Team Batting Stats</h3>
+		<h3 class="mb-2 text-2xl sm:text-3xl tracking-wide">Team Batting Stats</h3>
 		<div class="flex flex-row items-center justify-start w-full text-sm leading-none flex-nowrap sm:text-base">
 			<div
 				class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings sm:w-5 sm:h-5"

@@ -12,19 +12,23 @@
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
+	import { getDummyTeamBatStatsData } from '$lib/util';
 
-	let hidden: boolean;
-	let modalContainer: ModalContainer;
+	export let tableId: string = `team-bat-stats-by-player`;
+	export let sortBy: string;
+	let sortDir: 'asc' | 'desc' = 'desc';
 	let teamBatStats: TeamBatStats[] = [];
 	let team: TeamID;
+	let hidden: boolean;
+	let modalContainer: ModalContainer;
 	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
 	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;
 	let loading: boolean = false;
 
-	$: totalRows = teamBatStats.length;
+	$: sortedBatStats = teamBatStats.sort(getSortFunction(sortBy, sortDir));
+	$: totalRows = sortedBatStats.length;
 	$: pageSize = 5;
 	$: currentPage = 1;
 	$: startRow = 0;
@@ -34,7 +38,21 @@
 	$: defPosition = $teamStatFilter.defPosition;
 	$: batOrder = $teamStatFilter.batOrder;
 	$: year = $teamStatFilter.season;
-	$: heading = getTableHeading(team);
+
+	function getSortFunction(propName: string, dir: 'asc' | 'desc') {
+		const sortFunctionMap = {
+			number: {
+				desc: (a: TeamBatStats, b: TeamBatStats) => b[propName] - a[propName],
+				asc: (a: TeamBatStats, b: TeamBatStats) => a[propName] - b[propName]
+			},
+			string: {
+				desc: (a: TeamBatStats, b: TeamBatStats) => b[propName].localeCompare(a[propName]),
+				asc: (a: TeamBatStats, b: TeamBatStats) => a[propName].localeCompare(b[propName])
+			}
+		};
+		const stats = getDummyTeamBatStatsData();
+		return sortFunctionMap[typeof stats[propName]][dir];
+	}
 
 	const batStatsMap = {
 		all: getBatStatsByPlayerForTeam,
@@ -62,29 +80,10 @@
 		return getBatStatsResult;
 	}
 
-	function getTableHeading(teamId) {
-		let heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Batting Stats by Player `;
-		if (split === 'all') {
-			heading += '(Split: All Players)';
-		} else if (split === 'starters') {
-			heading += '(Split: Starting Lineup)';
-		} else if (split === 'subs') {
-			heading += '(Split: Bench Players)';
-		} else if (split === 'defpos') {
-			heading += `(Def. Position: ${getDefPosAbbreviations()})`;
-		} else {
-			heading += `(Bat Order: ${getBatOrderNumbers()})`;
-		}
-		return heading;
-	}
-
-	function getDefPosAbbreviations() {
-		const defPosAbbrevs = defPosition.sort((a, b) => a - b).map((def) => DEF_POS_NUM_TO_ABBREV_MAP[def]);
-		return defPosAbbrevs.join(', ');
-	}
-
-	function getBatOrderNumbers() {
-		return batOrder.sort((a, b) => a - b).join(', ');
+	async function sortTableByStat(stat: string) {
+		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
+		sortBy = stat;
+		currentPage = 1;
 	}
 
 	export function showModal(teamId: TeamID) {
@@ -102,17 +101,23 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="heading" class="flex flex-row items-center justify-between w-full flex-nowrap">
-			<span class="overflow-x-hidden text-xl sm:text-lg overflow-ellipsis">{heading}</span>
-		</div>
-
 		<div slot="content" id="player-stats-detail" class="mb-2 responsive">
 			{#if getBatStatsRequest}
 				{#await getBatStatsRequest}
 					<Spinner />>
 				{:then _result}
 					{#if getBatStatsResult.success}
-						<TeamBattingStatsByPlayerTable bind:teamBatStats bind:startRow bind:endRow {backgroundColorRule} />
+						<TeamBattingStatsByPlayerTable
+							bind:teamBatStats={sortedBatStats}
+							bind:team
+							bind:sortBy
+							bind:sortDir
+							bind:startRow
+							bind:endRow
+							on:sortTable={(e) => sortTableByStat(e.detail)}
+							{tableId}
+							{backgroundColorRule}
+						/>
 						<Pagination
 							bind:totalRows
 							bind:pageSize
@@ -134,8 +139,8 @@
 	</ModalContainer>
 {/if}
 
-<style lang="postcss">
+<!-- <style lang="postcss">
 	#player-stats-detail {
 		max-height: 90%;
 	}
-</style>
+</style> -->

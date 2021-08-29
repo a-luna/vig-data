@@ -1,4 +1,4 @@
-import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
+import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions, TeamBatStats } from '$lib/api/types';
 import {
   DEC_TO_HEX,
   PITCH_TYPE_ABBREV_TO_NAME_MAP,
@@ -500,12 +500,61 @@ export function getRandomHexString(length: number): string {
 }
 
 export function shortenPlayerName(name: string): string {
-  if (name === '') return '';
-  const pieces = name.split(' ');
-  if (pieces.length > 1) {
-    const firstInitial = pieces[0].slice(0, 1);
-    const lastName = pieces.slice(1).join(' ');
-    return `${firstInitial} ${lastName}`;
+	if (name === '') return '';
+	const pieces = name.split(' ');
+	if (pieces.length > 1) {
+		const firstInitial = pieces[0].slice(0, 1);
+		const lastName = pieces.slice(1).join(' ');
+		return `${firstInitial} ${lastName}`;
+	}
+	return name;
+}
+
+
+export function getDummyTeamBatStatsData(): TeamBatStats {
+  return {
+    year: 0,
+    team_id_bbref: "",
+    is_starter: true,
+    bat_order: 0,
+    def_position: 0,
+    mlb_id: 0,
+    bbref_id: "",
+    player_name: "",
+    stint_number: 0,
+    total_games: 0,
+    avg: 0,
+    obp: 0,
+    slg: 0,
+    ops: 0,
+    iso: 0,
+    bb_rate: 0,
+    k_rate: 0,
+    contact_rate: 0,
+    plate_appearances: 0,
+    at_bats: 0,
+    hits: 0,
+    runs_scored: 0,
+    rbis: 0,
+    bases_on_balls: 0,
+    strikeouts: 0,
+    doubles: 0,
+    triples: 0,
+    homeruns: 0,
+    stolen_bases: 0,
+    caught_stealing: 0,
+    hit_by_pitch: 0,
+    intentional_bb: 0,
+    gdp: 0,
+    sac_fly: 0,
+    sac_hit: 0,
+    total_pitches: 0,
+    total_strikes: 0,
+    wpa_bat: 0,
+    wpa_bat_pos: 0,
+    wpa_bat_neg: 0,
+    re24_bat: 0,
+    league: 'AL',
+    division: 'W'
   }
-  return name;
 }
