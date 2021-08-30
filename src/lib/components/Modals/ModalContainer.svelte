@@ -16,7 +16,7 @@
 
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
 	<div class="modal-overlay" on:click={() => toggleModal()} />
-	<div class="modal-container" style={backgroundColorRule}>
+	<div id="modal" class="modal-container" style={backgroundColorRule}>
 		<div class="modal-content">
 			<div class="modal-heading tracking-wide mb-0.5">
 				<slot name="heading" />
@@ -63,8 +63,7 @@
 		background-color: inherit;
 	}
 
-	button {
-		@apply text-base leading-normal py-1.5 px-3 m-0;
-		width: 75px;
+	#modal button {
+		@apply text-base leading-tight py-1.5 px-4 m-0;
 	}
 </style>

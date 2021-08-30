@@ -40,7 +40,7 @@
 		<div class="flex flex-col items-start justify-start sm:items-center">
 			<div class="flex flex-row items-center justify-start flex-nowrap">
 				<div
-					class="block w-4 h-3 mx-1 mb-0.5 cursor-pointer stroke-current stroke-2 dt-pagination-rowcount md:w-5 md:h-4"
+					class="block w-4 h-3 mx-1 md:mb-0.5 lg:mb-0 cursor-pointer stroke-current stroke-2 dt-pagination-rowcount md:w-5 md:h-4"
 					title="Click to change # of rows displayed per page"
 					on:click={() => (showRowsPerPage = !showRowsPerPage)}
 				>

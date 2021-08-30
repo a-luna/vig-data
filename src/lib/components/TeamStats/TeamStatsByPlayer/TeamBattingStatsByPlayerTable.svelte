@@ -46,7 +46,7 @@
 		return batOrder.sort((a, b) => a - b).join(', ');
 	}
 
-	function getSortDescription(sortStat: string, dir: 'asc' | 'desc'): string {
+	function getTableSubheading(sortStat: string, dir: 'asc' | 'desc'): string {
 		const STAT_DISPLAY_NAME_MAP = {
 			player_name: 'name',
 			def_position: 'defensive position',
@@ -114,7 +114,7 @@
 <section class="datatable" style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap">
 		<div class="table-caption m-0 text-xl sm:text-lg overflow-ellipsis tracking-wide">{heading}</div>
-		<div class="mb-1 text-sm italic sort-description">{getSortDescription(sortBy, sortDir)}</div>
+		<div class="mb-1 text-sm italic sort-description">{getTableSubheading(sortBy, sortDir)}</div>
 	</div>
 	<article class="dt-table mb-2" style="overflow-x: auto">
 		<div id={tableId} class="resp-table w-full text-sm leading-5">
