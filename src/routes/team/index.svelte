@@ -51,7 +51,7 @@
 </svelte:head>
 
 <TeamBattingStatsByPlayerModal bind:this={teamBattingStatsByPlayerModal} sortBy={'total_games'} />
-<TeamPitchStatsByPlayerModal bind:this={teamPitchStatsByPlayerModal} />
+<TeamPitchStatsByPlayerModal bind:this={teamPitchStatsByPlayerModal} sortBy={'innings_pitched'} />
 
 <div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">
 	<FilterSettings bind:this={filterSettings} on:changed={() => updateTeamStatsTable()} />

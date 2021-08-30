@@ -8,23 +8,25 @@
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
-	import { onMount } from 'svelte';
-	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
+	import { getDummyTeamPitchStatsData } from '$lib/util';
 
-	let hidden: boolean;
-	let mounted: boolean;
-	let modalContainer: ModalContainer;
+	export let tableId: string = `team-pitch-stats-by-player`;
+	export let sortBy: string;
+	let sortDir: 'asc' | 'desc' = 'desc';
 	let teamPitchStats: TeamPitchStats[] = [];
 	let team: TeamID;
+	let hidden: boolean;
+	let modalContainer: ModalContainer;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
 	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
 	let loading: boolean = false;
 
-	$: totalRows = teamPitchStats.length;
+	$: sortedPitchStats = teamPitchStats.sort(getSortFunction(sortBy, sortDir));
+	$: totalRows = sortedPitchStats.length;
 	$: pageSize = 5;
 	$: currentPage = 1;
 	$: startRow = 0;
@@ -32,9 +34,21 @@
 
 	$: split = $teamStatFilter.pitchStatSplit;
 	$: year = $teamStatFilter.season;
-	$: heading = getTableHeading(team);
 
-	onMount(() => (mounted = true));
+	function getSortFunction(propName: string, dir: 'asc' | 'desc') {
+		const sortFunctionMap = {
+			number: {
+				desc: (a: TeamPitchStats, b: TeamPitchStats) => b[propName] - a[propName],
+				asc: (a: TeamPitchStats, b: TeamPitchStats) => a[propName] - b[propName]
+			},
+			string: {
+				desc: (a: TeamPitchStats, b: TeamPitchStats) => b[propName].localeCompare(a[propName]),
+				asc: (a: TeamPitchStats, b: TeamPitchStats) => a[propName].localeCompare(b[propName])
+			}
+		};
+		const stats = getDummyTeamPitchStatsData();
+		return sortFunctionMap[typeof stats[propName]][dir];
+	}
 
 	const pitchStatsMap = {
 		all: getPitchStatsByPlayerForTeam,
@@ -54,12 +68,10 @@
 		return getPitchStatsResult;
 	}
 
-	function getTableHeading(teamId) {
-		let heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Pitching Stats by Player `;
-		if (split !== 'all') {
-			heading += `(${split.toUpperCase()} Only)`;
-		}
-		return heading;
+	async function sortTableByStat(stat: string) {
+		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
+		sortBy = stat;
+		currentPage = 1;
 	}
 
 	export function showModal(teamId: TeamID) {
@@ -77,17 +89,23 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="heading" class="flex flex-row flex-nowrap justify-between items-center w-full">
-			<span class="text-xl sm:text-lg overflow-x-hidden overflow-ellipsis">{heading}</span>
-		</div>
-
 		<div slot="content" id="player-stats-detail" class="responsive mb-2">
 			{#if getPitchStatsRequest}
 				{#await getPitchStatsRequest}
 					<Spinner />
 				{:then _result}
 					{#if getPitchStatsResult.success}
-						<TeamPitchStatsByPlayerTable bind:teamPitchStats bind:startRow bind:endRow {backgroundColorRule} />
+						<TeamPitchStatsByPlayerTable
+							bind:teamPitchStats={sortedPitchStats}
+							bind:team
+							bind:sortBy
+							bind:sortDir
+							bind:startRow
+							bind:endRow
+							on:sortTable={(e) => sortTableByStat(e.detail)}
+							{tableId}
+							{backgroundColorRule}
+						/>
 						<Pagination
 							bind:totalRows
 							bind:pageSize
@@ -109,8 +127,8 @@
 	</ModalContainer>
 {/if}
 
-<style lang="postcss">
+<!-- <style lang="postcss">
 	#player-stats-detail {
 		max-height: 90%;
 	}
-</style>
+</style> -->

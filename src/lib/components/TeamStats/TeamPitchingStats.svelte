@@ -1,15 +1,15 @@
 <script lang="ts">
 	import {
-		getPitchStatsForAllTeams,
-		getPitchStatsForRpForAllTeams,
-		getPitchStatsForSpForAllTeams
+	getPitchStatsForAllTeams,
+	getPitchStatsForRpForAllTeams,
+	getPitchStatsForSpForAllTeams
 	} from '$lib/api/team';
-	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
+	import type { ApiResponse,TeamPitchStats } from '$lib/api/types';
 	import TeamPitchingStatsTable from '$lib/components/TeamStats/TeamPitchingStatsTable.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { PitchStatSplit } from '$lib/types';
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher,onMount } from 'svelte';
 	import MdSettings from 'svelte-icons/md/MdSettings.svelte';
 
 	let teamPitchStats: TeamPitchStats[];
@@ -63,7 +63,7 @@
 
 <div id="team-pitch-stats" class="flex flex-col flex-auto team-stats flex-nowrap">
 	<div class="flex flex-col items-start justify-end mb-2 flex-nowrap">
-		<h3 class="mb-2 text-2xl sm:text-3xl">Team Pitching Stats</h3>
+		<h3 class="mb-2 text-2xl sm:text-3xl tracking-wide">Team Pitching Stats</h3>
 		<div class="flex flex-row items-center justify-start w-full text-sm leading-none flex-nowrap sm:text-base">
 			<div
 				class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings sm:w-5 sm:h-5"
