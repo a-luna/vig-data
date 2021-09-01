@@ -24,7 +24,7 @@
 	</TabList>
 
 	<TabPanel>
-		<ScoreboardForDate {games_for_date} {pitchStats} isMobile={true} />
+		<ScoreboardForDate {games_for_date} {pitchStats} />
 	</TabPanel>
 
 	<TabPanel>

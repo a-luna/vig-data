@@ -136,6 +136,15 @@
 	}
 
 	@media screen and (min-width: 768px) {
+		.game-result-top {
+			border-left: 2px dotted var(--game-result-border-color);
+			border-top: 2px dotted var(--game-result-border-color);
+			border-right: 2px dotted var(--game-result-border-color);
+		}
+
+		.game-result-bottom {
+			border: 2px dotted var(--game-result-border-color);
+		}
 		.game-result {
 			width: 210px;
 		}

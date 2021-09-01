@@ -18,8 +18,8 @@
 	$: if (leagueStandings) tableId = `standings-${league}`;
 </script>
 
-<div class="mx-2 responsive">
-	<div id={tableId} class="league-standings resp-table">
+<div class="responsive">
+	<div id={tableId} class="league-standings resp-table m-0">
 		{#each allDivisions as div}
 			<div class="resp-table-header text-center">
 				<div class="team-id table-header-cell">{getDivisionAbbrev(div)}</div>

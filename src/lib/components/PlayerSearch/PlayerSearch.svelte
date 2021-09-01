@@ -27,7 +27,7 @@
 
 <LoadingScreen bind:loading />
 
-<div id="player-search" class="w-full mt-1 sm:mt-0 sm:ml-4">
+<div id="player-search" class="w-full mt-1 md:mt-0 md:ml-4">
 	<div class="relative w-full">
 		<span class="absolute py-0 pl-1 search-icon">
 			<div class="p-0 focus:outline-none focus:shadow-outline">

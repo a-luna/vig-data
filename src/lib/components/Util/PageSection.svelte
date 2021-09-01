@@ -9,9 +9,9 @@
 
 <div
 	id={id ? id : getDefaultTableId()}
-	class="flex flex-col flex-initial items-center justify-start mb-5 overflow-x-hidden shadow-lg section"
+	class="flex flex-col flex-initial items-center justify-start overflow-x-hidden shadow-lg section"
 >
-	<div class="flex flex-col items-center justify-between p-2 w-full flex-nowrap section-content">
+	<div class="flex flex-col items-center justify-between p-4 w-full flex-nowrap section-content">
 		<slot />
 	</div>
 </div>
@@ -19,7 +19,7 @@
 <style lang="postcss">
 	.section {
 		background-color: var(--section-content-bg-color);
-		border: 1px dotted var(--section-content-border-color);
+		border: 2px dotted var(--section-content-border-color);
 		border-radius: 4px;
 	}
 

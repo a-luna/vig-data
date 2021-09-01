@@ -35,7 +35,7 @@
 	}
 </script>
 
-<section id="modal-pagination" class="flex flex-col justify-start mt-3" style={backgroundColorRule}>
+<section id="modal-pagination" class="flex flex-col justify-start" style={backgroundColorRule}>
 	<div class="flex flex-row justify-between dt-pagination flex-nowrap">
 		<div class="flex flex-col items-start justify-start sm:items-center">
 			<div class="flex flex-row items-center justify-start flex-nowrap">
