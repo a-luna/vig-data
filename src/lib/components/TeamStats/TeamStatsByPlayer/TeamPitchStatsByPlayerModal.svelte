@@ -9,7 +9,6 @@
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { getDummyTeamPitchStatsData } from '$lib/util';
@@ -22,7 +21,6 @@
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
-	let getPitchStatsRequest: Promise<ApiResponse<TeamPitchStats[]>>;
 	let loading: boolean = false;
 
 	$: sortedPitchStats = teamPitchStats.sort(getSortFunction(sortBy, sortDir));
@@ -50,17 +48,16 @@
 		return sortFunctionMap[typeof stats[propName]][dir];
 	}
 
-	const pitchStatsMap = {
-		all: getPitchStatsByPlayerForTeam,
-		sp: getPitchStatsForSpByPlayerForTeam,
-		rp: getPitchStatsForRpByPlayerForTeam
-	};
-
 	async function getSelectedPitchStats(): Promise<ApiResponse<TeamPitchStats[]>> {
-		teamPitchStats = [];
+		const pitchStatsMap = {
+			all: getPitchStatsByPlayerForTeam,
+			sp: getPitchStatsForSpByPlayerForTeam,
+			rp: getPitchStatsForRpByPlayerForTeam
+		};
 		loading = true;
 		getPitchStatsResult = await pitchStatsMap[split](year, team);
 		if (!getPitchStatsResult.success) {
+			loading = false;
 			return getPitchStatsResult;
 		}
 		loading = false;
@@ -80,7 +77,8 @@
 		currentPage = 1;
 		startRow = 0;
 		endRow = 5;
-		getPitchStatsRequest = getSelectedPitchStats();
+		teamPitchStats = [];
+		getSelectedPitchStats();
 		modalContainer.toggleModal();
 	}
 </script>
@@ -90,39 +88,27 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="content" id="player-stats-detail" class="responsive mb-2">
-			{#if getPitchStatsRequest}
-				{#await getPitchStatsRequest}
-					<Spinner />
-				{:then _result}
-					{#if getPitchStatsResult.success}
-						<TeamPitchStatsByPlayerTable
-							bind:teamPitchStats={sortedPitchStats}
-							bind:team
-							bind:sortBy
-							bind:sortDir
-							bind:startRow
-							bind:endRow
-							on:sortTable={(e) => sortTableByStat(e.detail)}
-							{tableId}
-							{backgroundColorRule}
-						/>
-						<Pagination
-							bind:totalRows
-							bind:pageSize
-							bind:currentPage
-							bind:startRow
-							bind:endRow
-							{backgroundColorRule}
-							rowTypeSingle={'player'}
-							rowTypePlural={'players'}
-						/>
-					{:else}
-						<div class="error">Error: {getPitchStatsResult.message}</div>
-					{/if}
-				{:catch error}
-					<div class="error">Error: {error.message}</div>
-				{/await}
-			{/if}
+			<TeamPitchStatsByPlayerTable
+				bind:teamPitchStats={sortedPitchStats}
+				bind:team
+				bind:sortBy
+				bind:sortDir
+				bind:startRow
+				bind:endRow
+				on:sortTable={(e) => sortTableByStat(e.detail)}
+				{tableId}
+				{backgroundColorRule}
+			/>
+			<Pagination
+				bind:totalRows
+				bind:pageSize
+				bind:currentPage
+				bind:startRow
+				bind:endRow
+				{backgroundColorRule}
+				rowTypeSingle={'player'}
+				rowTypePlural={'players'}
+			/>
 		</div>
 	</ModalContainer>
 {/if}

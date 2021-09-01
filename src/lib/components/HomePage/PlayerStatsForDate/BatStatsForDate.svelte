@@ -57,7 +57,7 @@
 	}
 </script>
 
-<div class="flex flex-col mx-4 mb-4 player-stats-wrapper flex-nowrap responsive w-full sm:w-auto" style={inlineStyles}>
+<div class="flex flex-col mx-4 mb-4 player-stats-wrapper flex-nowrap responsive w-full">
 	<BatStatsForDateTable
 		{tableId}
 		batStats={sortedBatStats}

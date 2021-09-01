@@ -55,7 +55,7 @@
 			bb_rate: 'BB%',
 			k_minus_bb: 'K%-BB%',
 			hr_per_fb: 'HR/FB',
-			pitch_count: 'Pitch Count',
+			pitch_count: 'pitch count',
 			strikes: 'strikes',
 			strikes_contact: 'strikes (contact)',
 			strikes_swinging: 'strikes (swinging)',
@@ -123,7 +123,7 @@
 		<div class="table-caption m-0 text-xl sm:text-lg overflow-ellipsis tracking-wide">{heading}</div>
 		<div class="mb-1 text-sm italic sort-description">{getTableSubheading(sortBy, sortDir)}</div>
 	</div>
-	<article class="dt-table mb-2" style="overflow-x: auto">
+	<article class="dt-table" style="overflow-x: auto">
 		<div id={tableId} class="resp-table w-full text-sm leading-5">
 			<div class="resp-table-header col-header text-center">
 				<SortableColumnHeader sortProp={'player_name'} tooltip={'Name'} bind:sortBy bind:sortDir on:sortTable
@@ -275,7 +275,7 @@
 				>
 				<SortableColumnHeader
 					sortProp={'wpa_pitch'}
-					tooltip={'Win Probability Added by Hitter'}
+					tooltip={'Win Probability Added by Pitcher'}
 					bind:sortBy
 					bind:sortDir
 					on:sortTable>WPA</SortableColumnHeader

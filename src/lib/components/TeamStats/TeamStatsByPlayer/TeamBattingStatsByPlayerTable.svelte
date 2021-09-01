@@ -116,7 +116,7 @@
 		<div class="table-caption m-0 text-xl sm:text-lg overflow-ellipsis tracking-wide">{heading}</div>
 		<div class="mb-1 text-sm italic sort-description">{getTableSubheading(sortBy, sortDir)}</div>
 	</div>
-	<article class="dt-table mb-2" style="overflow-x: auto">
+	<article class="dt-table" style="overflow-x: auto">
 		<div id={tableId} class="resp-table w-full text-sm leading-5">
 			<div class="resp-table-header col-header text-center">
 				<SortableColumnHeader sortProp={'player_name'} bind:sortBy bind:sortDir on:sortTable

@@ -11,7 +11,6 @@
 	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
 	import { getDummyTeamBatStatsData } from '$lib/util';
@@ -24,7 +23,6 @@
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
-	let getBatStatsRequest: Promise<ApiResponse<TeamBatStats[]>>;
 	let loading: boolean = false;
 
 	$: sortedBatStats = teamBatStats.sort(getSortFunction(sortBy, sortDir));
@@ -54,29 +52,28 @@
 		return sortFunctionMap[typeof stats[propName]][dir];
 	}
 
-	const batStatsMap = {
-		all: getBatStatsByPlayerForTeam,
-		starters: getBatStatsForStartingLineupByPlayerForTeam,
-		subs: getBatStatsForBenchByPlayerForTeam,
-		defpos: getBatStatsForDefPositionByPlayerForTeam,
-		batorder: getBatStatsForLineupSpotByPlayerForTeam
-	};
-
 	async function getSelectedBatStats(): Promise<ApiResponse<TeamBatStats[]>> {
-		teamBatStats = [];
+		const batStatsMap = {
+			all: getBatStatsByPlayerForTeam,
+			starters: getBatStatsForStartingLineupByPlayerForTeam,
+			subs: getBatStatsForBenchByPlayerForTeam,
+			defpos: getBatStatsForDefPositionByPlayerForTeam,
+			batorder: getBatStatsForLineupSpotByPlayerForTeam
+		};
 		loading = true;
 		if (split === 'all' || split === 'starters' || split === 'subs') {
 			getBatStatsResult = await batStatsMap[split](year, team);
 		} else if (split === 'defpos') {
 			getBatStatsResult = await batStatsMap[split](year, team, defPosition);
-		} else {
+		} else if (split === 'batorder') {
 			getBatStatsResult = await batStatsMap[split](year, team, batOrder);
 		}
-		loading = false;
 		if (!getBatStatsResult.success) {
+			loading = false;
 			return getBatStatsResult;
 		}
 		teamBatStats = getBatStatsResult.value;
+		loading = false;
 		return getBatStatsResult;
 	}
 
@@ -92,7 +89,8 @@
 		currentPage = 1;
 		startRow = 0;
 		endRow = 5;
-		getBatStatsRequest = getSelectedBatStats();
+		teamBatStats = [];
+		getSelectedBatStats();
 		modalContainer.toggleModal();
 	}
 </script>
@@ -102,39 +100,27 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="content" id="player-stats-detail" class="mb-2 responsive">
-			{#if getBatStatsRequest}
-				{#await getBatStatsRequest}
-					<Spinner />>
-				{:then _result}
-					{#if getBatStatsResult.success}
-						<TeamBattingStatsByPlayerTable
-							bind:teamBatStats={sortedBatStats}
-							bind:team
-							bind:sortBy
-							bind:sortDir
-							bind:startRow
-							bind:endRow
-							on:sortTable={(e) => sortTableByStat(e.detail)}
-							{tableId}
-							{backgroundColorRule}
-						/>
-						<Pagination
-							bind:totalRows
-							bind:pageSize
-							bind:currentPage
-							bind:startRow
-							bind:endRow
-							{backgroundColorRule}
-							rowTypeSingle={'player'}
-							rowTypePlural={'players'}
-						/>
-					{:else}
-						<div class="error">Error: {getBatStatsResult.message}</div>
-					{/if}
-				{:catch error}
-					<div class="error">Error: {error.message}</div>
-				{/await}
-			{/if}
+			<TeamBattingStatsByPlayerTable
+				bind:teamBatStats={sortedBatStats}
+				bind:team
+				bind:sortBy
+				bind:sortDir
+				bind:startRow
+				bind:endRow
+				on:sortTable={(e) => sortTableByStat(e.detail)}
+				{tableId}
+				{backgroundColorRule}
+			/>
+			<Pagination
+				bind:totalRows
+				bind:pageSize
+				bind:currentPage
+				bind:startRow
+				bind:endRow
+				{backgroundColorRule}
+				rowTypeSingle={'player'}
+				rowTypePlural={'players'}
+			/>
 		</div>
 	</ModalContainer>
 {/if}

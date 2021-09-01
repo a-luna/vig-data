@@ -63,148 +63,168 @@
 	}
 </script>
 
-<div class="flex flex-col items-baseline flex-nowrap">
-	<div class="table-caption m-0 text-lg tracking-wide sm:text-xl">{getTableCaption()}</div>
-	<div class="mb-1 text-sm italic sort-description">{getSortDescription(sortBy, sortDir)}</div>
-</div>
-<div id={tableId} class="resp-table responsive" style="table-layout: auto">
-	<div class="text-sm leading-5 text-center resp-table-header col-header">
-		<div class="table-header-cell" data-stat-name="player_name">Player</div>
-		<div class="table-header-cell" data-stat-name="opponent_team_id_bbref">Opp</div>
-		<SortableColumnHeader sortProp={'hits'} tooltip={'Hits'} bind:sortBy bind:sortDir on:sortTable
-			>H</SortableColumnHeader
-		>
-		<SortableColumnHeader sortProp={'bases_on_balls'} tooltip={'Walks'} bind:sortBy bind:sortDir on:sortTable>
-			BB
-		</SortableColumnHeader>
-		<SortableColumnHeader sortProp={'strikeouts'} tooltip={'Strikeouts'} bind:sortBy bind:sortDir on:sortTable>
-			K
-		</SortableColumnHeader>
-		<SortableColumnHeader
-			sortProp={'strikes_swinging'}
-			tooltip={'Strikes (Swinging)'}
-			bind:sortBy
-			bind:sortDir
-			on:sortTable
-		>
-			StS
-		</SortableColumnHeader>
-		<SortableColumnHeader sortProp={'csw'} tooltip={'Called Strikes + Swinging'} bind:sortBy bind:sortDir on:sortTable>
-			CSW
-		</SortableColumnHeader>
-		{#if pitchStats.some((p) => p.is_sp === 1)}
-			<SortableColumnHeader sortProp={'game_score'} tooltip={'Game Score'} bind:sortBy bind:sortDir on:sortTable>
-				GS
-			</SortableColumnHeader>
-		{/if}
-		{#if pitchStats.some((p) => p.is_rp === 1)}
-			<SortableColumnHeader
-				sortProp={'inherited_runners'}
-				tooltip={'Inherited Runners'}
-				bind:sortBy
-				bind:sortDir
-				on:sortTable
-			>
-				IR
-			</SortableColumnHeader>
-			<SortableColumnHeader
-				sortProp={'inherited_scored'}
-				tooltip={'Inherited Scored'}
-				bind:sortBy
-				bind:sortDir
-				on:sortTable
-			>
-				IS
-			</SortableColumnHeader>
-			<SortableColumnHeader
-				sortProp={'avg_lvg_index'}
-				tooltip={'Average Leverage Index'}
-				bind:sortBy
-				bind:sortDir
-				on:sortTable
-			>
-				aLI
-			</SortableColumnHeader>
-		{/if}
-		<SortableColumnHeader
-			sortProp={'wpa_pitch'}
-			tooltip={'Win Probability Added by Pitcher'}
-			bind:sortBy
-			bind:sortDir
-			on:sortTable
-		>
-			WPA
-		</SortableColumnHeader>
-		<SortableColumnHeader
-			sortProp={'re24_pitch'}
-			tooltip={'Run Expectancy Based on 24 Base Outs'}
-			bind:sortBy
-			bind:sortDir
-			on:sortTable
-		>
-			RE24
-		</SortableColumnHeader>
-		<div class="table-header-cell" data-stat-name="summary_stat_line">Stat Line</div>
+<section class="datatable">
+	<div class="flex flex-col items-baseline flex-nowrap table-captions">
+		<div class="table-caption m-0 text-lg tracking-wide sm:text-xl">{getTableCaption()}</div>
+		<div class="mb-1 text-sm italic sort-description">{getSortDescription(sortBy, sortDir)}</div>
 	</div>
-	<div class="text-sm leading-5 resp-table-body">
-		{#each pitchStats.slice(startRow, endRow) as p}
-			<div class="text-right resp-table-row">
-				<div class="text-left table-body-cell" data-stat-name="player_name">
-					<a sveltekit:prefetch href="/player/{p.player_id_mlb}/pitching">{p.player_name} ({p.player_team_id_bbref})</a>
-				</div>
-				<div class="text-center table-body-cell" data-stat-name="opponent_team_id_bbref">
-					<a sveltekit:prefetch href="/game?id={p.bbref_game_id}&show=box">{getOppTeamId(p)}</a>
-				</div>
-				<div class="table-body-cell" class:highlight-stat={sortBy === 'hits'} data-stat-name="hits">{p.hits}</div>
-				<div class="table-body-cell" class:highlight-stat={sortBy === 'bases_on_balls'} data-stat-name="bases_on_balls">
-					{p.bases_on_balls}
-				</div>
-				<div class="table-body-cell" class:highlight-stat={sortBy === 'strikeouts'} data-stat-name="strikeouts">
-					{p.strikeouts}
-				</div>
-				<div
-					class="table-body-cell"
-					class:highlight-stat={sortBy === 'strikes_swinging'}
-					data-stat-name="strikes_swinging"
+	<article class="dt-table" style="overflow-x: auto">
+		<div id={tableId} class="resp-table w-full text-sm leading-5">
+			<div class="resp-table-header col-header text-center">
+				<div class="table-header-cell" data-stat-name="player_name">Player</div>
+				<div class="table-header-cell" data-stat-name="opponent_team_id_bbref">Opp</div>
+				<SortableColumnHeader sortProp={'hits'} tooltip={'Hits'} bind:sortBy bind:sortDir on:sortTable
+					>H</SortableColumnHeader
 				>
-					{p.strikes_swinging}
-				</div>
-				<div class="table-body-cell" class:highlight-stat={sortBy === 'csw'} data-stat-name="csw">{p.csw}</div>
+				<SortableColumnHeader sortProp={'bases_on_balls'} tooltip={'Walks'} bind:sortBy bind:sortDir on:sortTable>
+					BB
+				</SortableColumnHeader>
+				<SortableColumnHeader sortProp={'strikeouts'} tooltip={'Strikeouts'} bind:sortBy bind:sortDir on:sortTable>
+					K
+				</SortableColumnHeader>
+				<SortableColumnHeader
+					sortProp={'strikes_swinging'}
+					tooltip={'Strikes (Swinging)'}
+					bind:sortBy
+					bind:sortDir
+					on:sortTable
+				>
+					StS
+				</SortableColumnHeader>
+				<SortableColumnHeader
+					sortProp={'csw'}
+					tooltip={'Called Strikes + Swinging'}
+					bind:sortBy
+					bind:sortDir
+					on:sortTable
+				>
+					CSW
+				</SortableColumnHeader>
 				{#if pitchStats.some((p) => p.is_sp === 1)}
-					<div class="table-body-cell" class:highlight-stat={sortBy === 'game_score'} data-stat-name="game_score">
-						{p.game_score}
-					</div>
+					<SortableColumnHeader sortProp={'game_score'} tooltip={'Game Score'} bind:sortBy bind:sortDir on:sortTable>
+						GS
+					</SortableColumnHeader>
 				{/if}
 				{#if pitchStats.some((p) => p.is_rp === 1)}
-					<div
-						class="table-body-cell"
-						class:highlight-stat={sortBy === 'inherited_runners'}
-						data-stat-name="inherited_runners"
+					<SortableColumnHeader
+						sortProp={'inherited_runners'}
+						tooltip={'Inherited Runners'}
+						bind:sortBy
+						bind:sortDir
+						on:sortTable
 					>
-						{p.inherited_runners}
-					</div>
-					<div
-						class="table-body-cell"
-						class:highlight-stat={sortBy === 'inherited_scored'}
-						data-stat-name="inherited_scored"
+						IR
+					</SortableColumnHeader>
+					<SortableColumnHeader
+						sortProp={'inherited_scored'}
+						tooltip={'Inherited Scored'}
+						bind:sortBy
+						bind:sortDir
+						on:sortTable
 					>
-						{p.inherited_scored}
-					</div>
-					<div class="table-body-cell" class:highlight-stat={sortBy === 'avg_lvg_index'} data-stat-name="avg_lvg_index">
-						{p.avg_lvg_index}
-					</div>
+						IS
+					</SortableColumnHeader>
+					<SortableColumnHeader
+						sortProp={'avg_lvg_index'}
+						tooltip={'Average Leverage Index'}
+						bind:sortBy
+						bind:sortDir
+						on:sortTable
+					>
+						aLI
+					</SortableColumnHeader>
 				{/if}
-				<div class="table-body-cell" class:highlight-stat={sortBy === 'wpa_pitch'} data-stat-name="wpa_pitch">
-					{formatPosNegValue(p.wpa_pitch, 2)}
-				</div>
-				<div class="table-body-cell" class:highlight-stat={sortBy === 're24_pitch'} data-stat-name="re24_pitch">
-					{p.re24_pitch}
-				</div>
-				<div class="tracking-wider table-body-cell" data-stat-name="innings_pitched">{p.summary_stat_line}</div>
+				<SortableColumnHeader
+					sortProp={'wpa_pitch'}
+					tooltip={'Win Probability Added by Pitcher'}
+					bind:sortBy
+					bind:sortDir
+					on:sortTable
+				>
+					WPA
+				</SortableColumnHeader>
+				<SortableColumnHeader
+					sortProp={'re24_pitch'}
+					tooltip={'Run Expectancy Based on 24 Base Outs'}
+					bind:sortBy
+					bind:sortDir
+					on:sortTable
+				>
+					RE24
+				</SortableColumnHeader>
+				<div class="table-header-cell" data-stat-name="summary_stat_line">Stat Line</div>
 			</div>
-		{/each}
-	</div>
-</div>
+			<div class="resp-table-body">
+				{#each pitchStats.slice(startRow, endRow) as p}
+					<div class="resp-table-row text-right">
+						<div class="text-left table-body-cell" data-stat-name="player_name">
+							<a sveltekit:prefetch href="/player/{p.player_id_mlb}/pitching"
+								>{p.player_name} ({p.player_team_id_bbref})</a
+							>
+						</div>
+						<div class="text-center table-body-cell" data-stat-name="opponent_team_id_bbref">
+							<a sveltekit:prefetch href="/game?id={p.bbref_game_id}&show=box">{getOppTeamId(p)}</a>
+						</div>
+						<div class="table-body-cell" class:highlight-stat={sortBy === 'hits'} data-stat-name="hits">{p.hits}</div>
+						<div
+							class="table-body-cell"
+							class:highlight-stat={sortBy === 'bases_on_balls'}
+							data-stat-name="bases_on_balls"
+						>
+							{p.bases_on_balls}
+						</div>
+						<div class="table-body-cell" class:highlight-stat={sortBy === 'strikeouts'} data-stat-name="strikeouts">
+							{p.strikeouts}
+						</div>
+						<div
+							class="table-body-cell"
+							class:highlight-stat={sortBy === 'strikes_swinging'}
+							data-stat-name="strikes_swinging"
+						>
+							{p.strikes_swinging}
+						</div>
+						<div class="table-body-cell" class:highlight-stat={sortBy === 'csw'} data-stat-name="csw">{p.csw}</div>
+						{#if pitchStats.some((p) => p.is_sp === 1)}
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'game_score'} data-stat-name="game_score">
+								{p.game_score}
+							</div>
+						{/if}
+						{#if pitchStats.some((p) => p.is_rp === 1)}
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'inherited_runners'}
+								data-stat-name="inherited_runners"
+							>
+								{p.inherited_runners}
+							</div>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'inherited_scored'}
+								data-stat-name="inherited_scored"
+							>
+								{p.inherited_scored}
+							</div>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'avg_lvg_index'}
+								data-stat-name="avg_lvg_index"
+							>
+								{p.avg_lvg_index}
+							</div>
+						{/if}
+						<div class="table-body-cell" class:highlight-stat={sortBy === 'wpa_pitch'} data-stat-name="wpa_pitch">
+							{formatPosNegValue(p.wpa_pitch, 2)}
+						</div>
+						<div class="table-body-cell" class:highlight-stat={sortBy === 're24_pitch'} data-stat-name="re24_pitch">
+							{p.re24_pitch}
+						</div>
+						<div class="tracking-wider table-body-cell" data-stat-name="innings_pitched">{p.summary_stat_line}</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	</article>
+</section>
 
 <style lang="postcss">
 	.highlight-stat {
@@ -228,153 +248,5 @@
 	.sort-description {
 		display: table-caption;
 		white-space: nowrap;
-	}
-
-	[data-stat-name='opponent_team_id_bbref'] {
-		width: 47px;
-	}
-
-	[data-stat-name='hits'] {
-		width: 37px;
-	}
-
-	[data-stat-name='bases_on_balls'] {
-		width: 43px;
-	}
-
-	[data-stat-name='strikeouts'] {
-		width: 36px;
-	}
-
-	[data-stat-name='strikes_swinging'] {
-		width: 47px;
-	}
-
-	[data-stat-name='csw'] {
-		width: 54px;
-	}
-
-	[data-stat-name='game_score'] {
-		width: 44px;
-	}
-
-	[data-stat-name='inherited_runners'] {
-		width: 39px;
-	}
-
-	[data-stat-name='inherited_scored'] {
-		width: 39px;
-	}
-
-	[data-stat-name='avg_lvg_index'] {
-		width: 45px;
-	}
-
-	[data-stat-name='wpa_pitch'] {
-		width: 54px;
-	}
-
-	[data-stat-name='re24_pitch'] {
-		width: 56px;
-	}
-
-	@media screen and (min-width: 768px) {
-		[data-stat-name='opponent_team_id_bbref'] {
-			width: 50px;
-		}
-
-		[data-stat-name='hits'] {
-			width: 39px;
-		}
-
-		[data-stat-name='bases_on_balls'] {
-			width: 46px;
-		}
-
-		[data-stat-name='strikeouts'] {
-			width: 37px;
-		}
-
-		[data-stat-name='strikes_swinging'] {
-			width: 49px;
-		}
-
-		[data-stat-name='csw'] {
-			width: 57px;
-		}
-
-		[data-stat-name='game_score'] {
-			width: 46px;
-		}
-
-		[data-stat-name='inherited_runners'] {
-			width: 41px;
-		}
-
-		[data-stat-name='inherited_scored'] {
-			width: 41px;
-		}
-
-		[data-stat-name='avg_lvg_index'] {
-			width: 47px;
-		}
-
-		[data-stat-name='wpa_pitch'] {
-			width: 57px;
-		}
-
-		[data-stat-name='re24_pitch'] {
-			width: 60px;
-		}
-	}
-
-	@media screen and (min-width: 1024px) {
-		[data-stat-name='opponent_team_id_bbref'] {
-			width: 52px;
-		}
-
-		[data-stat-name='hits'] {
-			width: 40px;
-		}
-
-		[data-stat-name='bases_on_balls'] {
-			width: 48px;
-		}
-
-		[data-stat-name='strikeouts'] {
-			width: 39px;
-		}
-
-		[data-stat-name='strikes_swinging'] {
-			width: 39px;
-		}
-
-		[data-stat-name='csw'] {
-			width: 60px;
-		}
-
-		[data-stat-name='game_score'] {
-			width: 48px;
-		}
-
-		[data-stat-name='inherited_runners'] {
-			width: 43px;
-		}
-
-		[data-stat-name='inherited_scored'] {
-			width: 43px;
-		}
-
-		[data-stat-name='avg_lvg_index'] {
-			width: 49px;
-		}
-
-		[data-stat-name='wpa_pitch'] {
-			width: 60px;
-		}
-
-		[data-stat-name='re24_pitch'] {
-			width: 63px;
-		}
 	}
 </style>
