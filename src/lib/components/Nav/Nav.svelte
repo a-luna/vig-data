@@ -3,6 +3,7 @@
 	import ThemeSlider from '$lib/components/Nav/ThemeSlider.svelte';
 	import PlayerSearch from '$lib/components/PlayerSearch/PlayerSearch.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { NavMenuItem } from '$lib/types';
 	import GiMoebiusTriangle from 'svelte-icons/gi/GiMoebiusTriangle.svelte';
 	import MdClose from 'svelte-icons/md/MdClose.svelte';
@@ -16,6 +17,7 @@
 
 	$: heightStore = syncHeight(menuElement);
 	$: heightSpring.set(open ? $heightStore || 0 : 0);
+	$: if ($pageBreakPoints.isMedium || $pageBreakPoints.isLarge) open = false;
 </script>
 
 <nav>
@@ -65,7 +67,7 @@
 	</div>
 
 	<div class:hidden={!open} class:md:block={open} id="mobile-menu" style="height: {$heightSpring}px">
-		<div class="px-2 py-4 space-y-1" bind:this={menuElement}>
+		<div class="pl-2 pr-4 py-4 flex flex-col flex-nowrap gap-2" bind:this={menuElement}>
 			{#each items as { label, url }}
 				<NavItem {label} {url} on:click={() => (open = !open)} />
 			{/each}
