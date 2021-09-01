@@ -701,7 +701,7 @@ label {
 .resp-table {
 	color: var(--table-body-color);
 	display: table;
-	margin: 0;
+	margin-bottom: 1rem;
 }
 
 .resp-table-caption {
@@ -830,6 +830,8 @@ label {
 #game-summary .linescore,
 #play-by-play .resp-table {
 	@apply text-xs;
+	margin: 0;
+	width: 100%;
 }
 
 #team-stat-tables .resp-table-caption {
@@ -994,6 +996,10 @@ input {
 	@apply px-2 py-1 mr-1 font-normal rounded shadow-md focus:outline-none;
 }
 
+.btn.active {
+	@apply cursor-default;
+}
+
 .btn.disabled {
 	@apply text-gray-500 bg-current border-gray-500;
 }
@@ -1027,6 +1033,11 @@ button:disabled:hover,
 	color: var(--color-on-pri-hov);
 }
 
+.btn-primary.active {
+	background-color: var(--pri-color-active);
+	color: var(--color-on-pri-active);
+}
+
 .btn-outline-primary {
 	background-color: var(--section-content-bg-color);
 	color: var(--pri-color);
@@ -1049,6 +1060,11 @@ button:disabled:hover,
 	color: var(--color-on-sec-hov);
 }
 
+.btn-secondary.active {
+	background-color: var(--sec-color-active);
+	color: var(--color-on-sec-active);
+}
+
 .btn-outline-secondary {
 	background-color: var(--section-content-bg-color);
 	color: var(--sec-color);
@@ -1059,6 +1075,11 @@ button:disabled:hover,
 	background-color: var(--sec-color-hov);
 	color: var(--color-on-sec-hov);
 	border: 1px solid transparent;
+}
+
+.btn-outline-secondary.active {
+	background-color: var(--sec-color-active);
+	color: var(--color-on-sec-active);
 }
 
 .btn-group {
@@ -1083,10 +1104,19 @@ button:disabled:hover,
 	border-right: none;
 }
 
-.btn-group > button:hover {
+.btn-group > button:hover,
+.btn-group > button.active,
+.btn-group > button.active:hover {
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
 	border-left: 1px solid transparent;
+	border-right: none;
+}
+
+.btn-group-secondary > button.active {
+	border-top: 1px solid var(--sec-color-active);
+	border-bottom: 1px solid var(--sec-color-active);
+	border-left: 1px solid var(--sec-color-active);
 	border-right: none;
 }
 
@@ -1111,7 +1141,6 @@ button:disabled:hover,
 }
 
 .datatable {
-	background: var(--table-col-header-bg-color);
 	border-radius: 4px;
 	border: none;
 }

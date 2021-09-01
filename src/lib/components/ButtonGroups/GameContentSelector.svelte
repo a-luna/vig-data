@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameContentShown } from '$lib/stores/singleValueStores';
+	import { gameContentShown, siteTheme } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
@@ -19,17 +19,20 @@
 <div class="btn-group btn-group-secondary mb-5">
 	<button
 		type="button"
-		class={boxShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class:active={boxShown}
 		on:click={() => changeContent('box')}>Boxscore</button
 	>
 	<button
 		type="button"
-		class={pbpShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class:active={pbpShown}
 		on:click={() => changeContent('pbp')}>Play-By-Play</button
 	>
 	<button
 		type="button"
-		class={chartsShown ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class:active={chartsShown}
 		on:click={() => changeContent('charts')}>Charts/Graphs</button
 	>
 </div>
