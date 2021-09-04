@@ -24,7 +24,7 @@
 <style lang="postcss">
 	#standings-for-date {
 		background-color: var(--section-content-bg-color);
-		border: 2px dotted var(--section-content-border-color);
+		border: 1px dotted var(--section-content-border-color);
 	}
 
 	#standings-for-date h3 {
@@ -33,5 +33,12 @@
 
 	.sub-heading {
 		color: var(--sec-color);
+	}
+
+	@media screen and (min-width: 768px) {
+		#standings-for-date {
+			background-color: var(--section-content-bg-color);
+			border: 2px dotted var(--section-content-border-color);
+		}
 	}
 </style>

@@ -359,8 +359,18 @@ export interface TeamPitchStats {
 	inherited_scored: number;
 	wpa_pitch: number;
 	re24_pitch: number;
-	league: 'AL' | 'NL';
-	division: 'C' | 'E' | 'W';
+	league?: 'AL' | 'NL';
+	division?: 'C' | 'E' | 'W';
+	changed_teams_midseason?: boolean;
+	all_stats_for_season?: boolean;
+	all_stats_for_stint?: boolean;
+	total_seasons?: number;
+}
+
+export interface CareerBatStats {
+	career: TeamBatStats;
+	by_team: TeamBatStats[];
+	by_team_by_year: TeamBatStats[];
 }
 
 export type LinescoreDigit = string | number;
@@ -878,8 +888,8 @@ export interface PlayerBatStats {
 	avg_lvg_index: number;
 	wpa_bat_pos: number;
 	wpa_bat_neg: number;
-  re24_bat: number;
-  extra_base_hits?: number;
+	re24_bat: number;
+	extra_base_hits?: number;
 	total_bases?: number;
 	player_name?: string;
 	stat_line?: string;

@@ -58,9 +58,9 @@ export async function getBatStatsForLineupSpotForAllTeams(
 ): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!year) return { status: 400, success: false, message: 'No value was provided for year' };
 	if (!batOrder) return { status: 400, success: false, message: 'No value was provided for lineup spot' };
-	const batorderParams = batOrder.map((b) => `bat_order=${b}`);
+	const batorderParams = batOrder.map((b) => `bat_order=${b}`).join('&');
 	const response = await fetch(
-		`${API_URL_ROOT}/${API_VERSION}/team/batting/bat_order/all_teams?${batorderParams.join('&')}&year=${year}`
+		`${API_URL_ROOT}/${API_VERSION}/team/batting/bat_order/all_teams?${batorderParams}&year=${year}`
 	);
 	return await validateApiResponse<TeamBatStats[]>(response);
 }
@@ -72,11 +72,9 @@ export async function getBatStatsForLineupSpotByPlayerForTeam(
 ): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!year) return { status: 400, success: false, message: 'No value was provided for year' };
 	if (!team) return { status: 400, success: false, message: 'No value was provided for team' };
-	const batorderParams = batOrder.map((b) => `bat_order=${b}`);
+	const batorderParams = batOrder.map((b) => `bat_order=${b}`).join('&');
 	const response = await fetch(
-		`${API_URL_ROOT}/${API_VERSION}/team/batting/bat_order/by_player?team_id=${team}&year=${year}&${batorderParams.join(
-			'&'
-		)}`
+		`${API_URL_ROOT}/${API_VERSION}/team/batting/bat_order/by_player?team_id=${team}&year=${year}&${batorderParams}`
 	);
 	return await validateApiResponse<TeamBatStats[]>(response);
 }
@@ -87,9 +85,9 @@ export async function getBatStatsForDefPositionForAllTeams(
 ): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!year) return { status: 400, success: false, message: 'No value was provided for year' };
 	if (!defPos) return { status: 400, success: false, message: 'No value was provided for def. position' };
-	const defPosParams = defPos.map((d) => `def_position=${d}`);
+	const defPosParams = defPos.map((d) => `def_position=${d}`).join('&');
 	const response = await fetch(
-		`${API_URL_ROOT}/${API_VERSION}/team/batting/position/all_teams?${defPosParams.join('&')}&year=${year}`
+		`${API_URL_ROOT}/${API_VERSION}/team/batting/position/all_teams?${defPosParams}&year=${year}`
 	);
 	return await validateApiResponse<TeamBatStats[]>(response);
 }
@@ -101,11 +99,9 @@ export async function getBatStatsForDefPositionByPlayerForTeam(
 ): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!year) return { status: 400, success: false, message: 'No value was provided for year' };
 	if (!team) return { status: 400, success: false, message: 'No value was provided for team' };
-	const defPosParams = defPos.map((d) => `def_position=${d}`);
+	const defPosParams = defPos.map((d) => `def_position=${d}`).join('&');
 	const response = await fetch(
-		`${API_URL_ROOT}/${API_VERSION}/team/batting/position/by_player?team_id=${team}&year=${year}&${defPosParams.join(
-			'&'
-		)}`
+		`${API_URL_ROOT}/${API_VERSION}/team/batting/position/by_player?team_id=${team}&year=${year}&${defPosParams}`
 	);
 	return await validateApiResponse<TeamBatStats[]>(response);
 }

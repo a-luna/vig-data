@@ -699,8 +699,10 @@ label {
 /* Responsive Tables */
 
 .resp-table {
-	color: var(--table-body-color);
 	display: table;
+	overflow-x: auto;
+	white-space: nowrap;
+	color: var(--table-body-color);
 	margin-bottom: 1rem;
 }
 
@@ -868,7 +870,7 @@ label {
 }
 
 .responsive {
-	overflow-x: scroll;
+	overflow-x: auto;
 	white-space: nowrap;
 }
 

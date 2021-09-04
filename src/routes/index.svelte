@@ -62,7 +62,7 @@
 		return result;
 	}
 
-	async function getPlayerPitchStats(date: Date): Promise<ApiResponse<PlayerPitchStats[]>> {
+	async function getPitchStatsForDate(date: Date): Promise<ApiResponse<PlayerPitchStats[]>> {
 		const result = await getPlayerPitchStatsForDate(getStringFromDate(date));
 		if (!result.success) {
 			error_message = result.message;
@@ -72,7 +72,7 @@
 		return result;
 	}
 
-	async function getPlayerBatStats(date: Date): Promise<ApiResponse<PlayerBatStats[]>> {
+	async function getBatStatsForDate(date: Date): Promise<ApiResponse<PlayerBatStats[]>> {
 		const result = await getPlayerBatStatsForDate(getStringFromDate(date));
 		if (!result.success) {
 			error_message = result.message;
@@ -99,8 +99,8 @@
 		allApiRequests = Promise.all([
 			getScoreboard($scoreboardDate),
 			getStandings($scoreboardDate),
-			getPlayerPitchStats($scoreboardDate),
-			getPlayerBatStats($scoreboardDate)
+			getPitchStatsForDate($scoreboardDate),
+			getBatStatsForDate($scoreboardDate)
 		]);
 	}
 	$: if (season) getSeasonStartAndEndDates();

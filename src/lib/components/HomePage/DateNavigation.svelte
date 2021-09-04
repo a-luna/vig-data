@@ -16,7 +16,7 @@
 	let nextFormatted: string = '';
 	let datePickerModal: DatePickerModal;
 
-	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'MMMM do, yyyy');
+	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'EEE MMMM do, yyyy');
 	$: previous = prevDay($scoreboardDate);
 	$: prevDisabled = previous < minDate;
 	$: prevFormatted = format(previous, 'MMM do');

@@ -4,20 +4,21 @@
 	"scripts": {
 		"dev": "svelte-kit dev --host",
 		"build": "svelte-kit build",
-		"start": "svelte-kit preview",
-		"preview": "svelte-kit preview",
+		"start": "svelte-kit preview --host",
+		"preview": "svelte-kit preview --host",
 		"lint": "prettier --check . && eslint --ignore-path .gitignore .",
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
+		"@date-io/core": "^2.11.0",
 		"@date-io/date-fns": "^2.11.0",
-		"@sveltejs/adapter-netlify": "^1.0.0-next.29",
+		"@sveltejs/adapter-netlify": "^1.0.0-next.30",
 		"@sveltejs/adapter-node": "1.0.0-next.19",
-		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.19",
+		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.21",
 		"@tsconfig/svelte": "^2.0.1",
 		"@typescript-eslint/eslint-plugin": "^4.30.0",
 		"@typescript-eslint/parser": "^4.30.0",
-		"autoprefixer": "^10.3.3",
+		"autoprefixer": "^10.3.4",
 		"cssnano": "^5.0.8",
 		"d3-array": "^3.0.2",
 		"d3-format": "^3.0.1",
@@ -35,9 +36,8 @@
 		"postcss-load-config": "^3.1.0",
 		"prettier": "~2.2.1",
 		"prettier-plugin-svelte": "^2.4.0",
-		"sass": "^1.38.2",
+		"sass": "^1.39.0",
 		"svelte": "^3.42.4",
-		"svelte-calendar": "^2.0.4",
 		"svelte-carousel": "^1.0.14",
 		"svelte-check": "^2.2.5",
 		"svelte-icons": "^2.1.0",
@@ -50,14 +50,14 @@
 		"tailwindcss": "^2.2.9",
 		"tslib": "^2.3.1",
 		"typescript": "^4.4.2",
-		"vite": "^2.5.2"
+		"vite": "^2.5.3"
 	},
 	"type": "module",
 	"engines": {
 		"node": ">= 12.17.0"
 	},
 	"dependencies": {
-		"@sveltejs/kit": "^1.0.0-next.160",
+		"@sveltejs/kit": "^1.0.0-next.162",
 		"cross-fetch": "^3.1.4",
 		"layercake": "^4.1.1",
 		"svelte-preprocess": "^4.8.0",
