@@ -20,7 +20,7 @@ import {
 	PITCH_SEQ_NUMS_REGEX,
 	SEASON_DATE_REGEX
 } from '$lib/regex';
-import type { BatOrder, BatStatSplit, DefPositionNumber, TeamID, TeamStatType } from '$lib/types';
+import type { BatOrder, BatStatSplit, DefPositionNumber, PieSlice, TeamID, TeamStatType } from '$lib/types';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 export function scrollToTop(): void {
@@ -518,7 +518,21 @@ export function shortenPlayerName(name: string): string {
 	return name;
 }
 
-export function getDummyTeamBatStatsData(): TeamBatStats {
+export function prepareSvgPieChart(slices: PieSlice[]): PieSlice[] {
+	let cumulativePercent = 0;
+	slices.forEach((slice) => {
+		slice.startCoordinates = getCoordinatesForPercent(cumulativePercent);
+		slice.endCoordinates = getCoordinatesForPercent(cumulativePercent + slice.percent);
+		cumulativePercent += slice.percent;
+	});
+	return slices;
+}
+
+function getCoordinatesForPercent(percent: number): [number, number] {
+	const x = Math.cos(2 * Math.PI * percent);
+	const y = Math.sin(2 * Math.PI * percent);
+	return [x, y];
+}
 	return {
 		year: 0,
 		team_id_bbref: '',
