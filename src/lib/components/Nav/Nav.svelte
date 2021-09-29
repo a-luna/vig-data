@@ -44,8 +44,8 @@
 			</div>
 			<div class="flex items-center justify-center flex-1 md:items-stretch md:justify-start">
 				<div class="flex items-center flex-shrink-0 nav-icon">
-					<div class="block w-8 h-8 stroke-current stroke-2">
-						<GiMoebiusTriangle />
+					<div class="block w-8 h-8 stroke-current stroke-2 ">
+						<a sveltekit:prefetch href="/"><GiMoebiusTriangle /></a>
 					</div>
 				</div>
 				<div class="hidden md:block md:ml-6">
@@ -83,7 +83,8 @@
 		background-color: var(--header-bg-color);
 	}
 
-	.nav-icon {
+	.nav-icon a,
+	.nav-icon a:hover {
 		color: var(--nav-icon-color);
 	}
 

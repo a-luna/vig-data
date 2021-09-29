@@ -1,7 +1,6 @@
 <script lang="ts">
 	export let stringArray: string[] = [];
 	export let runsScored: string = '';
-
 </script>
 
 {#if stringArray.length == 1}
@@ -21,3 +20,9 @@
 		</ul>
 	</div>
 {/if}
+
+<style lang="postcss">
+	ul {
+		line-height: 1.2;
+	}
+</style>

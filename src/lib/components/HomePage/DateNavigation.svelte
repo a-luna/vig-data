@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
@@ -16,7 +17,8 @@
 	let nextFormatted: string = '';
 	let datePickerModal: DatePickerModal;
 
-	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'EEE MMMM do, yyyy');
+	$: formatStr = $pageBreakPoints.isDefault || $pageBreakPoints.isSmall ? 'MMM do, yyyy' : 'EEE MMMM do, yyyy';
+	$: if ($scoreboardDate) formatted = format($scoreboardDate, formatStr);
 	$: previous = prevDay($scoreboardDate);
 	$: prevDisabled = previous < minDate;
 	$: prevFormatted = format(previous, 'MMM do');
@@ -54,7 +56,7 @@
 			<span class="py-0.5 pr-2 text-sm sm:text-base">{prevFormatted}</span>
 		</div>
 	</button>
-	<div class="flex flex-row flex-grow-0 my-auto text-sm leading-none text-center flex-nowrap sm:text-lg md:text-xl">
+	<div class="flex flex-row flex-grow-0 my-auto text-sm leading-none text-center flex-nowrap sm:text-lg lg:text-xl">
 		<span class="ml-4 mr-2">Scores, Standings & Stats for</span>
 		<span class="mr-2 cursor-pointer current-date" on:click={() => datePickerModal.toggleModal()}>{formatted}</span>
 		<div
