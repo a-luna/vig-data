@@ -13,43 +13,30 @@
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
-	import { getDummyTeamBatStatsData } from '$lib/util';
+	import { getRandomHexString } from '$lib/util';
 
 	export let tableId: string = `team-bat-stats-by-player`;
 	export let sortBy: string;
 	let sortDir: 'asc' | 'desc' = 'desc';
-	let teamBatStats: TeamBatStats[] = [];
+	let batStats: TeamBatStats[] = [];
 	let team: TeamID;
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
 	let loading: boolean = false;
-
-	$: sortedBatStats = teamBatStats.sort(getSortFunction(sortBy, sortDir));
-	$: totalRows = sortedBatStats.length;
-	$: pageSize = 5;
-	$: currentPage = 1;
-	$: startRow = 0;
-	$: endRow = 5;
+	let pageSize: number;
+	let currentPage: number;
+	let startRow: number;
+	let endRow: number;
 
 	$: split = $teamStatFilter.batStatSplit;
 	$: defPosition = $teamStatFilter.defPosition;
 	$: batOrder = $teamStatFilter.batOrder;
 	$: year = $teamStatFilter.season;
+	$: totalRows = batStats.length;
 
-	function getSortFunction(propName: string, dir: 'asc' | 'desc') {
-		const sortFunctionMap = {
-			number: {
-				desc: (a: TeamBatStats, b: TeamBatStats) => b[propName] - a[propName],
-				asc: (a: TeamBatStats, b: TeamBatStats) => a[propName] - b[propName]
-			},
-			string: {
-				desc: (a: TeamBatStats, b: TeamBatStats) => b[propName].localeCompare(a[propName]),
-				asc: (a: TeamBatStats, b: TeamBatStats) => a[propName].localeCompare(b[propName])
-			}
-		};
-		const stats = getDummyTeamBatStatsData();
-		return sortFunctionMap[typeof stats[propName]][dir];
+	function getDefaultTableId() {
+		return `team-bat-stats-by-player-${getRandomHexString(4)}`;
 	}
 
 	async function getSelectedBatStats(): Promise<ApiResponse<TeamBatStats[]>> {
@@ -72,15 +59,18 @@
 			loading = false;
 			return getBatStatsResult;
 		}
-		teamBatStats = getBatStatsResult.value;
+
+		const allTeamBatStats = getBatStatsResult.value;
+		if (split === 'defpos') {
+			batStats = allTeamBatStats.filter((s) => s.all_player_stats_for_def_pos);
+		} else if (split === 'batorder') {
+			batStats = allTeamBatStats.filter((s) => s.all_player_stats_for_bat_order);
+		} else {
+			batStats = allTeamBatStats;
+		}
+
 		loading = false;
 		return getBatStatsResult;
-	}
-
-	async function sortTableByStat(stat: string) {
-		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
-		sortBy = stat;
-		currentPage = 1;
 	}
 
 	export function showModal(teamId: TeamID) {
@@ -89,7 +79,7 @@
 		currentPage = 1;
 		startRow = 0;
 		endRow = 5;
-		teamBatStats = [];
+		batStats = [];
 		getSelectedBatStats();
 		modalContainer.toggleModal();
 	}
@@ -99,16 +89,16 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="content" id="player-stats-detail" class="mb-2 responsive">
+		<div slot="content" class="mb-2 responsive">
 			<TeamBattingStatsByPlayerTable
-				bind:teamBatStats={sortedBatStats}
+				tableId={tableId ? tableId : getDefaultTableId()}
+				bind:batStats
 				bind:team
 				bind:sortBy
 				bind:sortDir
+				bind:currentPage
 				bind:startRow
 				bind:endRow
-				on:sortTable={(e) => sortTableByStat(e.detail)}
-				{tableId}
 				{backgroundColorRule}
 			/>
 			<Pagination
@@ -124,9 +114,3 @@
 		</div>
 	</ModalContainer>
 {/if}
-
-<!-- <style lang="postcss">
-	#player-stats-detail {
-		max-height: 90%;
-	}
-</style> -->

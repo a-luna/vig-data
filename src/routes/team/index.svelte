@@ -50,8 +50,16 @@
 	<title>{pageTitle} | Vigorish</title>
 </svelte:head>
 
-<TeamBattingStatsByPlayerModal bind:this={teamBattingStatsByPlayerModal} sortBy={'total_games'} />
-<TeamPitchStatsByPlayerModal bind:this={teamPitchStatsByPlayerModal} sortBy={'innings_pitched'} />
+<TeamBattingStatsByPlayerModal
+	bind:this={teamBattingStatsByPlayerModal}
+	tableId={'team-bat-stats-by-player'}
+	sortBy={'total_games'}
+/>
+<TeamPitchStatsByPlayerModal
+	bind:this={teamPitchStatsByPlayerModal}
+	tableId={'team-pitch-stats-by-player'}
+	sortBy={'innings_pitched'}
+/>
 
 <div id="season-stats" class="flex flex-col mx-auto my-0 flex-nowrap">
 	<FilterSettings bind:this={filterSettings} on:changed={() => updateTeamStatsTable()} />

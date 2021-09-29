@@ -11,41 +11,28 @@
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { teamStatFilter } from '$lib/stores/teamStatFilter';
 	import type { TeamID } from '$lib/types';
-	import { getDummyTeamPitchStatsData } from '$lib/util';
+	import { getRandomHexString } from '$lib/util';
 
 	export let tableId: string = `team-pitch-stats-by-player`;
 	export let sortBy: string;
 	let sortDir: 'asc' | 'desc' = 'desc';
-	let teamPitchStats: TeamPitchStats[] = [];
+	let pitchStats: TeamPitchStats[] = [];
 	let team: TeamID;
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
 	let loading: boolean = false;
-
-	$: sortedPitchStats = teamPitchStats.sort(getSortFunction(sortBy, sortDir));
-	$: totalRows = sortedPitchStats.length;
-	$: pageSize = 5;
-	$: currentPage = 1;
-	$: startRow = 0;
-	$: endRow = 5;
+	let pageSize: number;
+	let currentPage: number;
+	let startRow: number;
+	let endRow: number;
 
 	$: split = $teamStatFilter.pitchStatSplit;
 	$: year = $teamStatFilter.season;
+	$: totalRows = pitchStats.length;
 
-	function getSortFunction(propName: string, dir: 'asc' | 'desc') {
-		const sortFunctionMap = {
-			number: {
-				desc: (a: TeamPitchStats, b: TeamPitchStats) => b[propName] - a[propName],
-				asc: (a: TeamPitchStats, b: TeamPitchStats) => a[propName] - b[propName]
-			},
-			string: {
-				desc: (a: TeamPitchStats, b: TeamPitchStats) => b[propName].localeCompare(a[propName]),
-				asc: (a: TeamPitchStats, b: TeamPitchStats) => a[propName].localeCompare(b[propName])
-			}
-		};
-		const stats = getDummyTeamPitchStatsData();
-		return sortFunctionMap[typeof stats[propName]][dir];
+	function getDefaultTableId() {
+		return `team-pitch-stats-by-player-${getRandomHexString(4)}`;
 	}
 
 	async function getSelectedPitchStats(): Promise<ApiResponse<TeamPitchStats[]>> {
@@ -60,15 +47,9 @@
 			loading = false;
 			return getPitchStatsResult;
 		}
+		pitchStats = getPitchStatsResult.value;
 		loading = false;
-		teamPitchStats = getPitchStatsResult.value;
 		return getPitchStatsResult;
-	}
-
-	async function sortTableByStat(stat: string) {
-		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
-		sortBy = stat;
-		currentPage = 1;
 	}
 
 	export function showModal(teamId: TeamID) {
@@ -77,7 +58,7 @@
 		currentPage = 1;
 		startRow = 0;
 		endRow = 5;
-		teamPitchStats = [];
+		pitchStats = [];
 		getSelectedPitchStats();
 		modalContainer.toggleModal();
 	}
@@ -87,16 +68,16 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="content" id="player-stats-detail" class="responsive mb-2">
+		<div slot="content" class="responsive mb-2">
 			<TeamPitchStatsByPlayerTable
-				bind:teamPitchStats={sortedPitchStats}
+				tableId={tableId ? tableId : getDefaultTableId()}
+				bind:pitchStats
 				bind:team
 				bind:sortBy
 				bind:sortDir
+				bind:currentPage
 				bind:startRow
 				bind:endRow
-				on:sortTable={(e) => sortTableByStat(e.detail)}
-				{tableId}
 				{backgroundColorRule}
 			/>
 			<Pagination
@@ -112,9 +93,3 @@
 		</div>
 	</ModalContainer>
 {/if}
-
-<!-- <style lang="postcss">
-	#player-stats-detail {
-		max-height: 90%;
-	}
-</style> -->

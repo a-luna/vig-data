@@ -1,4 +1,4 @@
-export const DEF_POS_NUM_TO_ABBREV_MAP = {
+export const DEF_POS_NUM_TO_ABBREV_MAP: { [key: number]: string } = {
 	1: 'P',
 	2: 'C',
 	3: '1B',
@@ -11,7 +11,7 @@ export const DEF_POS_NUM_TO_ABBREV_MAP = {
 	10: 'DH'
 };
 
-export const DEF_POS_ABBREV_TO_NUM_MAP = {
+export const DEF_POS_ABBREV_TO_NUM_MAP: { [key: string]: number } = {
 	P: 1,
 	C: 2,
 	'1B': 3,
@@ -24,7 +24,33 @@ export const DEF_POS_ABBREV_TO_NUM_MAP = {
 	DH: 10
 };
 
-export const PITCH_TYPE_MAP = {
+export const DEF_POS_NUM_COLOR_MAP_LIGHT: { [key: number]: string } = {
+	1: '#1a6eff',
+	2: '#b30086',
+	3: '#0c6600',
+	4: '#b30600',
+	5: '#004d4b',
+	6: '#b34a00',
+	7: '#00807d',
+	8: '#0054e6',
+	9: '#4421de',
+	10: '#e600ac'
+};
+
+export const DEF_POS_NUM_COLOR_MAP_DARK: { [key: number]: string } = {
+	1: '#1a6eff',
+	2: '#e600ac',
+	3: '#6bb300',
+	4: '#e60800',
+	5: '#00b3b0',
+	6: '#e66000',
+	7: '#00807d',
+	8: '#0054e6',
+	9: '#4421de',
+	10: '#ff1ac6'
+};
+
+export const PITCH_TYPE_MAP: { [key: number]: string } = {
 	1: 'CH',
 	2: 'CU',
 	4: 'EP',
@@ -44,7 +70,7 @@ export const PITCH_TYPE_MAP = {
 	65536: 'UN'
 };
 
-export const PITCH_TYPE_NAME_TO_ABBREV_MAP = {
+export const PITCH_TYPE_NAME_TO_ABBREV_MAP: { [key: string]: string } = {
 	none: 'N/A',
 	changeup: 'CH',
 	curveball: 'CU',
@@ -65,7 +91,7 @@ export const PITCH_TYPE_NAME_TO_ABBREV_MAP = {
 	unknown: 'UN'
 };
 
-export const PITCH_TYPE_ABBREV_TO_NAME_MAP = {
+export const PITCH_TYPE_ABBREV_TO_NAME_MAP: { [key: string]: string } = {
 	'N/A': 'none',
 	CH: 'changeup',
 	CU: 'curveball',
@@ -86,7 +112,7 @@ export const PITCH_TYPE_ABBREV_TO_NAME_MAP = {
 	UN: 'unknown'
 };
 
-export const PITCH_TYPE_ABBREV_TO_CATEGORY_MAP = {
+export const PITCH_TYPE_ABBREV_TO_CATEGORY_MAP: { [key: string]: string } = {
 	'N/A': 'none',
 	CH: 'offspeed',
 	CU: 'breaking',
@@ -107,7 +133,7 @@ export const PITCH_TYPE_ABBREV_TO_CATEGORY_MAP = {
 	UN: 'none'
 };
 
-export const TEAM_ID_TO_NAME_MAP = {
+export const TEAM_ID_TO_NAME_MAP: { [key: string]: string } = {
 	ARI: 'Arizona D-backs',
 	ATL: 'Atlanta Braves',
 	BAL: 'Baltimore Orioles',
@@ -141,40 +167,40 @@ export const TEAM_ID_TO_NAME_MAP = {
 	WSN: 'Washington Nationals'
 };
 
-export const TEAM_ID_TO_MOBILE_NAME_MAP = {
-	ARI: 'Arizona D-backs',
-	ATL: 'Atlanta Braves',
-	BAL: 'Baltimore Orioles',
-	BOS: 'Boston Red Sox',
-	CHW: 'Chicago White Sox',
-	CHC: 'Chicago Cubs',
-	CIN: 'Cincinnati Reds',
-	CLE: 'Cleveland Indians',
-	COL: 'Colorado Rockies',
-	DET: 'Detroit Tigers',
-	HOU: 'Houston Astros',
-	KCR: 'KC Royals',
-	LAA: 'LA Angels',
-	LAD: 'LA Dodgers',
-	MIA: 'Miami Marlins',
-	MIL: 'Milw. Brewers',
-	MIN: 'Minnesota Twins',
-	NYY: 'NY Yankees',
-	NYM: 'NY Mets',
-	OAK: 'Oakland Athletics',
-	PHI: 'Phil. Phillies',
-	PIT: 'Pitt. Pirates',
-	SDP: 'San Diego Padres',
-	SEA: 'Seattle Mariners',
-	SFG: 'SF Giants',
-	STL: 'StL Cardinals',
-	TBR: 'Tampa Bay Rays',
-	TEX: 'Texas Rangers',
-	TOR: 'Tor. Blue Jays',
-	WSN: 'Wash. Nationals'
+export const TEAM_ID_TO_MOBILE_NAME_MAP: { [key: string]: string } = {
+	ARI: 'Diamondbacks',
+	ATL: 'Braves',
+	BAL: 'Orioles',
+	BOS: 'Red Sox',
+	CHW: 'White Sox',
+	CHC: 'Cubs',
+	CIN: 'Reds',
+	CLE: 'Indians',
+	COL: 'Rockies',
+	DET: 'Tigers',
+	HOU: 'Astros',
+	KCR: 'Royals',
+	LAA: 'Angels',
+	LAD: 'Dodgers',
+	MIA: 'Marlins',
+	MIL: 'Brewers',
+	MIN: 'Twins',
+	NYY: 'Yankees',
+	NYM: 'Mets',
+	OAK: 'Athletics',
+	PHI: 'Phillies',
+	PIT: 'Pirates',
+	SDP: 'Padres',
+	SEA: 'Mariners',
+	SFG: 'Giants',
+	STL: 'Cardinals',
+	TBR: 'Rays',
+	TEX: 'Rangers',
+	TOR: 'Blue Jays',
+	WSN: 'Nationals'
 };
 
-export const DEC_TO_HEX = {
+export const DEC_TO_HEX: { [key: number]: string } = {
 	0: '0',
 	1: '1',
 	2: '2',
