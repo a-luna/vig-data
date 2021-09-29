@@ -23,13 +23,3 @@
 	/>
 	<BatStatsForDate {batStats} sortBy={'total_bases'} tableId={`all-bat-stats${tableIdSuffix}`} />
 </PageSection>
-
-<style lang="postcss">
-	:global(#player-stats-for-date .table-captions) {
-		@apply flex flex-col flex-nowrap justify-start;
-	}
-	:global(#player-stats-for-date .table-caption),
-	:global(#player-stats-for-date .sort-description) {
-		@apply leading-none mb-1;
-	}
-</style>
