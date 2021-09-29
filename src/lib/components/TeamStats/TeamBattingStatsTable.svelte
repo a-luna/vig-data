@@ -35,7 +35,7 @@
 <Datatable id={'team-bat-stats-table'} {settings} {data}>
 	<thead>
 		<tr>
-			<th class="sortable asc desc" data-key="team_id_bbref">Team<span /></th>
+			<th class="sortable asc desc" data-key="player_team_id_bbref">Team<span /></th>
 			<th class="sortable asc desc" data-key="avg">AVG<span /></th>
 			<th class="sortable asc desc" data-key="obp">OBP<span /></th>
 			<th class="sortable asc desc" data-key="slg">SLG<span /></th>
@@ -59,11 +59,11 @@
 	</thead><tbody>
 		{#each $rows as row}
 			<tr
-				on:click={() => dispatch('showPlayerStatsModal', row['team_id_bbref'])}
+				on:click={() => dispatch('showPlayerStatsModal', row['player_team_id_bbref'])}
 				class="cursor-pointer"
-				title="Click to expand results for {TEAM_ID_TO_NAME_MAP[row['team_id_bbref']]}"
+				title="Click to expand results for {TEAM_ID_TO_NAME_MAP[row['player_team_id_bbref']]}"
 			>
-				<td>{row['team_id_bbref']}</td>
+				<td>{row['player_team_id_bbref']}</td>
 				<td>{formatRateStat(row['avg'], 3)}</td>
 				<td>{formatRateStat(row['obp'], 3)}</td>
 				<td>{formatRateStat(row['slg'], 3)}</td>
