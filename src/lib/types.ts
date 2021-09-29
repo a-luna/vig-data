@@ -97,6 +97,7 @@ export type TeamID =
 	| 'WSN';
 export type ThemeColor = 'primary' | 'secondary';
 export type SiteTheme = 'light' | 'dark' | 'notset';
+export type PageBreakPoint = 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type GameContent = 'box' | 'pbp' | 'charts';
 export type TeamStatType = 'bat' | 'pitch';
 export type PlayerContent = 'percentiles' | 'velo-loc';
@@ -174,4 +175,15 @@ export interface TimeSpan {
 	totalMinutes: number;
 	totalSeconds: number;
 	totalMilliseconds: number;
+}
+
+export interface PageBreakPointStore {
+	current: string;
+	width: number;
+	isDefault: boolean;
+	isSmall: boolean;
+	isMedium: boolean;
+	isLarge: boolean;
+	isExtraLarge: boolean;
+	is2xExtraLarge: boolean;
 }
