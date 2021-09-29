@@ -29,12 +29,12 @@
 
 <div id="play-by-play" class="mt-6">
 	<div
-		class="resp-table-caption text-xl md:text-2xl whitespace-nowrap p-0 mx-0 mb-0 mt-5 font-normal leading-normal text-left"
+		class="p-0 mx-0 mt-5 mb-0 text-xl font-normal leading-normal text-left resp-table-caption md:text-2xl whitespace-nowrap"
 	>
 		Play-By-Play
 	</div>
 	{#each Object.entries(inningAtBatMap) as [inningId, atBatIds], inningIndex}
-		<div class="responsive mb-4" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
+		<div class="mb-4 responsive" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
 			<div class="resp-table">
 				<div class="resp-table-body">
 					<div class="resp-table-row">
@@ -42,7 +42,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="resp-table">
+			<div class="resp-table half-inning">
 				<div class="resp-table-header col-header">
 					<div class="table-header-cell">Inn</div>
 					<div class="table-header-cell" title="Score Before At Bat">Score</div>
@@ -109,15 +109,45 @@
 <style lang="postcss">
 	.inning-begin,
 	.inning-end {
-		font-weight: 700;
+		display: table-cell;
+		white-space: nowrap;
+		font-size: 0.9rem;
+		font-style: italic;
+		line-height: 1.3;
+		color: var(--body-text-color);
+		background-color: var(--page-bg-color);
+		padding: 3px 5px;
+	}
+
+	.at-bat:hover {
+		@apply bg-yellow-100;
+	}
+
+	.inning-begin {
+		text-align: left;
 		border-top: none;
 		border-bottom: none;
 	}
 
 	.inning-end {
-		color: var(--table-col-header-color);
-		background-color: var(--table-col-header-bg-color);
+		text-align: right;
 		border: none;
+	}
+
+	.table-body-cell {
+		cursor: pointer;
+	}
+
+	.half-inning {
+		font-size: 0.8rem;
+	}
+
+	.half-inning .resp-table-header {
+		line-height: 1.3;
+	}
+
+	.half-inning .resp-table-body {
+		line-height: 1;
 	}
 
 	.show-on-mobile,

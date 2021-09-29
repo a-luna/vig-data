@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { gameContentShown, siteTheme } from '$lib/stores/singleValueStores';
+	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
@@ -17,22 +17,13 @@
 </script>
 
 <div class="btn-group btn-group-secondary mb-5">
-	<button
-		type="button"
-		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		class:active={boxShown}
-		on:click={() => changeContent('box')}>Boxscore</button
+	<button type="button" class={`btn btn-${color}`} class:active={boxShown} on:click={() => changeContent('box')}
+		>Boxscore</button
 	>
-	<button
-		type="button"
-		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		class:active={pbpShown}
-		on:click={() => changeContent('pbp')}>Play-By-Play</button
+	<button type="button" class={`btn btn-${color}`} class:active={pbpShown} on:click={() => changeContent('pbp')}
+		>Play-By-Play</button
 	>
-	<button
-		type="button"
-		class={$siteTheme === 'light' ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		class:active={chartsShown}
-		on:click={() => changeContent('charts')}>Charts/Graphs</button
+	<button type="button" class={`btn btn-${color}`} class:active={chartsShown} on:click={() => changeContent('charts')}
+		>Charts/Graphs</button
 	>
 </div>
