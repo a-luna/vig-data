@@ -267,17 +267,41 @@ export interface TeamData {
 	pitching: PitchStats[];
 }
 
+export interface DefPositionMetrics {
+	def_pos: number;
+	is_starter: boolean;
+	total_games: number;
+	percent: number;
+}
+
+export interface BatOrderMetrics {
+	bat_order: number;
+	total_games: number;
+	percent: number;
+}
+
 export interface TeamBatStats {
 	year: number;
-	team_id_bbref: string;
+	age?: number;
+	team_id_bbref?: string;
+	player_team_id_bbref?: string;
+	opponent_team_id_bbref?: string;
 	is_starter: boolean;
-	bat_order: number;
-	def_position: number;
+	bat_order: string;
+	bat_order_list: number[];
+	bat_order_metrics: BatOrderMetrics[];
+	def_position: string;
+	def_position_list: number[];
+	def_position_metrics: DefPositionMetrics[];
 	mlb_id: number;
 	bbref_id: string;
 	player_name?: string;
 	stint_number: number;
 	total_games: number;
+	total_games_started: number;
+	total_games_subbed: number;
+	percent_started: number;
+	percent_subbed: number;
 	avg: number;
 	obp: number;
 	slg: number;
@@ -311,12 +335,27 @@ export interface TeamBatStats {
 	re24_bat: number;
 	league: 'AL' | 'NL';
 	division: 'C' | 'E' | 'W';
+	changed_teams_midseason?: boolean;
+	all_stats_for_season?: boolean;
+	all_stats_for_stint?: boolean;
+	career_stats_all_teams?: boolean;
+	career_stats_for_team?: boolean;
+	all_team_stats_for_def_pos?: boolean;
+	all_player_stats_for_def_pos?: boolean;
+	separate_player_stats_for_def_pos?: boolean;
+	all_team_stats_for_bat_order?: boolean;
+	all_player_stats_for_bat_order?: boolean;
+	separate_player_stats_for_bat_order?: boolean;
+	total_seasons?: number;
+	row_id?: string;
 }
 
 export interface TeamPitchStats {
 	year: number;
-	team_id_bbref: string;
-	opponent_team_id_bbref: string;
+	age?: number;
+	team_id_bbref?: string;
+	player_team_id_bbref?: string;
+	opponent_team_id_bbref?: string;
 	mlb_id: number;
 	bbref_id: string;
 	player_name?: string;
@@ -364,13 +403,22 @@ export interface TeamPitchStats {
 	changed_teams_midseason?: boolean;
 	all_stats_for_season?: boolean;
 	all_stats_for_stint?: boolean;
+	career_stats_all_teams?: boolean;
+	career_stats_for_team?: boolean;
 	total_seasons?: number;
+	row_id?: string;
 }
 
 export interface CareerBatStats {
 	career: TeamBatStats;
 	by_team: TeamBatStats[];
 	by_team_by_year: TeamBatStats[];
+}
+
+export interface CareerPitchStats {
+	career: TeamPitchStats;
+	by_team: TeamPitchStats[];
+	by_team_by_year: TeamPitchStats[];
 }
 
 export type LinescoreDigit = string | number;
@@ -894,3 +942,5 @@ export interface PlayerBatStats {
 	player_name?: string;
 	stat_line?: string;
 }
+
+export type SortableStats = PlayerBatStats | PlayerPitchStats | TeamBatStats | TeamPitchStats;
