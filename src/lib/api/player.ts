@@ -1,5 +1,5 @@
 import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
-import type { ApiResponse, CareerBatStats, PlayerDetails, TeamBatStats } from '$lib/api/types';
+import type { ApiResponse, CareerBatStats, CareerPitchStats, PlayerDetails, TeamBatStats } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 
 export async function getPlayerDetails(mlb_id: number): Promise<ApiResponse<PlayerDetails>> {
@@ -12,6 +12,12 @@ export async function getCareerBatStatsForPlayer(mlb_id: number): Promise<ApiRes
 	if (!mlb_id) return { status: 400, success: false, message: 'No value was provided for player MLB ID' };
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/player/batting/career_stats?mlb_id=${mlb_id}`);
 	return await validateApiResponse<CareerBatStats>(response);
+}
+
+export async function getCareerPitchStatsForPlayer(mlb_id: number): Promise<ApiResponse<CareerPitchStats>> {
+	if (!mlb_id) return { status: 400, success: false, message: 'No value was provided for player MLB ID' };
+	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/player/pitching/career_stats?mlb_id=${mlb_id}`);
+	return await validateApiResponse<CareerPitchStats>(response);
 }
 
 export async function getPlayerBatStatsByYear(mlb_id: number): Promise<ApiResponse<TeamBatStats[]>> {
