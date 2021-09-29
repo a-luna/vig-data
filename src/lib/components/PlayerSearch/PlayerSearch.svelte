@@ -38,7 +38,7 @@
 			data={allPlayers}
 			extract={(item) => item.name}
 			limit={maxItems}
-			placeholder={'player search'}
+			placeholder={'Player Search'}
 			inputAfterSelect={'clear'}
 			{hideLabel}
 			bind:value={query}
@@ -57,6 +57,7 @@
 		@apply py-1.5 text-base leading-none w-full rounded-md pl-9 border-0 focus:outline-none;
 		background-color: var(--search-bg-color);
 		color: var(--search-text-color);
+		line-height: 1.4;
 	}
 
 	#player-search :global([data-svelte-typeahead] input:focus) {

@@ -30,35 +30,42 @@
 	<title>{name_first} {name_last} Stats | Vigorish</title>
 </svelte:head>
 
-<div class="flex flex-col justify-start mb-5 align-middle flex-nowrap w-full sm:w-auto">
-	<h2 class="text-3xl sm:text-2xl md:text-4xl font-medium leading-tight tracking-wide">{name_first} {name_last}</h2>
-	<div class="flex text-base sm:text-sm leading-snug">
+<div class="flex flex-col justify-start w-full mb-5 align-middle flex-nowrap sm:w-auto">
+	<h2 class="text-3xl font-medium leading-tight tracking-wide sm:text-2xl md:text-4xl">{name_first} {name_last}</h2>
+	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Full Name</strong>
 		<span>{name_given} {name_last}</span>
 	</div>
-	<div class="flex text-base sm:text-sm leading-snug">
+	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Bats</strong>
 		<span class="mr-2">{bats}</span>
 		<strong class="mr-2">Throws</strong>
 		<span class="mr-2">{throws}</span>
 	</div>
-	<div class="flex text-base sm:text-sm leading-snug">
+	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Height</strong>
 		<span class="mr-2">{height_feet}' {height_inches}''</span>
 		<strong class="mr-2">Weight</strong>
 		<span>{weight} llb</span>
 	</div>
-	<div class="flex text-base sm:text-sm leading-snug">
+	<div class="flex text-base leading-snug sm:text-sm">
+		<strong class="mr-2">Birthplace</strong>
+		<span class="mr-1">{birthLocation}</span>
+	</div>
+	<div class="flex text-base leading-snug sm:text-sm">
+		<strong class="mr-2">Birthdate</strong>
+		<span class="mr-1">{birthDate.toLocaleDateString()}</span>
+	</div>
+	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Age</strong><span class="mr-2">{playerAge}</span>
 	</div>
-	<div class="flex text-base sm:text-sm leading-snug">
-		<strong class="mr-2">Born</strong>
-		<span class="mr-1">{birthDate.toLocaleDateString()} ({birthLocation})</span>
-	</div>
-	<div class="flex text-base sm:text-sm leading-snug">
+	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Debut</strong>
 		<span class="mr-2">{debutDate.toLocaleDateString()}</span>
-		<span>(Age: {ageAtDebut})</span>
+	</div>
+	<div class="flex text-base leading-snug sm:text-sm">
+		<strong class="mr-2">Age at Debut</strong>
+		<span class="mr-2">{ageAtDebut}</span>
 	</div>
 </div>
 

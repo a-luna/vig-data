@@ -56,7 +56,7 @@
 	--green2: hsl(113, 100%, 30%);
 	--green3: hsl(113, 100%, 40%);
 
-	--blue-green1: hsl(165, 96%, 39%);
+	--blue-green1: hsl(165, 96%, 29%);
 	--blue-green2: hsl(165, 96%, 49%); /* THEME */
 	--blue-green3: hsl(165, 96%, 79%);
 
@@ -291,6 +291,7 @@ body.light-mode {
 
 	--header-bg-color: var(--blue2);
 	--nav-icon-color: var(--sec-color-hov);
+	--nav-icon-color-hov: var(--page-bg-color);
 
 	--nav-button-bg-color: var(--blue2);
 	--nav-button-bg-color-hov: var(--blue3);
@@ -325,15 +326,20 @@ body.light-mode {
 	--table-caption-color: var(--black1);
 	--table-body-color: var(--body-text-color);
 	--table-body-bg-color-even: var(--light-gray3);
-	--table-body-bg-color-odd: var(--light-gray4);
+	--table-body-bg-color-odd: var(--gray1);
 	--table-body-link-color: var(--link-color);
 	--table-body-link-color-hov: var(--blue3);
 	--table-col-header-bg-color: var(--blue1);
 	--table-col-header-color: var(--white1);
 	--table-col-header-bottom-border: var(--black2);
 	--table-outer-border-color: var(--blue1);
-	--table-inner-border-vert-color: var(--gray1);
-	--table-inner-border-horiz-color: var(--light-gray4);
+	--table-inner-border-vert-color: var(--gray3);
+	--table-inner-border-horiz-color: var(--gray2);
+
+	--table-single-season-stats-bg-color: var(--light-gray4);
+	--table-separate-team-stats-bg-color: var(--light-gray2);
+	--table-totals-bg-color: var(--gray1);
+	--table-totals-border-vert-color: var(--dark-gray1);
 
 	--modal-title-bar-bg-color: var(--black1);
 	--player-results-modal-button-color: var(--link-color);
@@ -347,6 +353,8 @@ body.light-mode {
 
 	--player-details-label-color: var(--black3);
 	--player-details-text-color: var(--black1);
+
+	--player-separate-team-stats-text-color: var(--dark-gray3);
 
 	--game-result-bg-color: var(--white1);
 	--game-result-border-color: var(--pri-color);
@@ -369,7 +377,7 @@ body.light-mode {
 	--ploc-outer-border-color: var(--black4);
 	--strike-zone-border-color: var(--dark-gray1);
 
-	--pitch-type-percentiles-bg-color: var(--light-gray3);
+	--pitch-type-percentiles-bg-color: var(--white1);
 	--pitch-type-percentiles-text-color: var(--black4);
 	--pitch-type-percentiles-border-color: var(--table-col-header-bg-color);
 
@@ -422,6 +430,7 @@ body.dark-mode {
 
 	--header-bg-color: var(--rich-black2);
 	--nav-icon-color: var(--sec-color);
+	--nav-icon-color-hov: var(--pri-color);
 
 	--nav-button-bg-color: var(--rich-black2);
 	--nav-button-bg-color-hov: var(--rich-black3);
@@ -464,7 +473,12 @@ body.dark-mode {
 	--table-col-header-bottom-border: var(--black2);
 	--table-outer-border-color: var(--indigo1);
 	--table-inner-border-vert-color: var(--dark-gray2);
-	--table-inner-border-horiz-color: var(--gray4);
+	--table-inner-border-horiz-color: var(--dark-gray1);
+
+	--table-single-season-stats-bg-color: var(--gray2);
+	--table-separate-team-stats-bg-color: var(--gray1);
+	--table-totals-bg-color: var(--gray3);
+	--table-totals-border-vert-color: var(--dark-gray4);
 
 	--modal-title-bar-bg-color: var(--header-bg-color);
 	--player-results-modal-button-color: var(--indigo2);
@@ -478,6 +492,8 @@ body.dark-mode {
 
 	--player-details-label-color: var(--white3);
 	--player-details-text-color: var(--light-gray1);
+
+	--player-separate-team-stats-text-color: var(--dark-gray4);
 
 	--game-result-bg-color: var(--rich-black2);
 	--game-result-border-color: var(--pri-color);
@@ -660,6 +676,16 @@ mark {
 	color: var(--color-on-sec);
 }
 
+input[type='tel'],
+input[type='text'],
+input[type='date'],
+input[type='email'],
+input[type='number'],
+input[type='password'],
+textarea {
+	font-size: 16px;
+}
+
 .flex {
 	display: -webkit-flex;
 	display: -ms-flexbox;
@@ -696,14 +722,36 @@ label {
 	text-align: left;
 }
 
+.section {
+	background-color: var(--section-content-bg-color);
+	border: 2px dotted var(--section-content-border-color);
+	border-radius: 4px;
+}
+
+.section-content {
+	background-color: var(--section-content-bg-color);
+}
+
 /* Responsive Tables */
+
+.resp-table-container {
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 100%;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	padding-bottom: 0.5rem;
+}
+
+.resp-table-wrapper {
+	display: inline-block;
+	width: 100%;
+}
 
 .resp-table {
 	display: table;
-	overflow-x: auto;
-	white-space: nowrap;
+	width: 100%;
 	color: var(--table-body-color);
-	margin-bottom: 1rem;
 }
 
 .resp-table-caption {
@@ -769,6 +817,7 @@ label {
 	display: table-cell;
 	border-top: none;
 	border-left: 1px solid var(--table-inner-border-vert-color);
+	/* border-bottom: 1px dotted var(--table-inner-border-horiz-color); */
 }
 
 .resp-table .num {
@@ -829,8 +878,7 @@ label {
 }
 
 #team-stat-tables .resp-table,
-#game-summary .linescore,
-#play-by-play .resp-table {
+#game-summary .linescore {
 	@apply text-xs;
 	margin: 0;
 	width: 100%;
@@ -840,33 +888,6 @@ label {
 	@apply text-lg;
 	white-space: nowrap;
 	margin-top: 20px;
-}
-
-#play-by-play .at-bat:hover {
-	@apply bg-yellow-100;
-}
-
-#play-by-play .inning-begin {
-	white-space: nowrap;
-	font-style: italic;
-	color: var(--body-text-color);
-	background-color: var(--page-bg-color);
-	text-align: left;
-	display: table-cell;
-	padding: 3px 5px;
-}
-
-#play-by-play .inning-end {
-	font-style: italic;
-	text-align: right;
-	display: table-cell;
-	color: var(--body-text-color);
-	background-color: var(--page-bg-color);
-	padding: 3px 5px;
-}
-
-#play-by-play .table-body-cell {
-	cursor: pointer;
 }
 
 .responsive {
@@ -1026,18 +1047,22 @@ button:disabled:hover,
 }
 
 .btn-primary {
-	background: var(--pri-color);
 	color: var(--color-on-pri);
+	background-color: var(--pri-color);
+	background-position: center;
+	transition: background 0.2s;
 }
 
 .btn-primary:hover {
-	background-color: var(--pri-color-hov);
+	background: var(--pri-color-hov) radial-gradient(circle, transparent 1%, var(--pri-color-hov) 1%) center/15000%;
 	color: var(--color-on-pri-hov);
 }
 
 .btn-primary.active {
-	background-color: var(--pri-color-active);
 	color: var(--color-on-pri-active);
+	background-color: var(--pri-color-active);
+	background-size: 100%;
+	transition: background 0.1s;
 }
 
 .btn-outline-primary {
@@ -1053,18 +1078,22 @@ button:disabled:hover,
 }
 
 .btn-secondary {
-	background: var(--sec-color);
 	color: var(--color-on-sec);
+	background-color: var(--sec-color);
+	background-position: center;
+	transition: background 0.2s;
 }
 
 .btn-secondary:hover {
-	background-color: var(--sec-color-hov);
+	background: var(--sec-color-hov) radial-gradient(circle, transparent 1%, var(--sec-color-hov) 1%) center/15000%;
 	color: var(--color-on-sec-hov);
 }
 
 .btn-secondary.active {
-	background-color: var(--sec-color-active);
 	color: var(--color-on-sec-active);
+	background-color: var(--sec-color-active);
+	background-size: 100%;
+	transition: background 0.1s;
 }
 
 .btn-outline-secondary {
@@ -1136,6 +1165,14 @@ button:disabled:hover,
 
 .btn-group-secondary > button:last-child {
 	border-right: 1px solid var(--sec-color);
+}
+
+.btn-group-primary > button.active:last-child {
+	border-right: 1px solid var(--pri-color-active);
+}
+
+.btn-group-secondary > button.active:last-child {
+	border-right: 1px solid var(--sec-color-active);
 }
 
 .btn-group > button:last-child:hover {
@@ -1392,8 +1429,7 @@ button:disabled:hover,
 }
 
 #team-bat-stats .datatable .dt-pagination-buttons button.text,
-#team-pitch-stats .datatable .dt-pagination-buttons button.text,
-.dt-pagination-buttons button.text {
+#team-pitch-stats .datatable .dt-pagination-buttons button.text {
 	width: auto;
 	cursor: pointer;
 }

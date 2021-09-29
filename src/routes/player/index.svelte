@@ -24,8 +24,11 @@
 		loading = false;
 	}
 
-	function createPlayerCardLink(mlb_id: number): PlayerCardLink {
-		return { text: 'PitchFX Career Stats', url: `/player/${mlb_id}/pitching` };
+	function createPlayerCardLinks(mlb_id: number): PlayerCardLink[] {
+		return [
+			{ text: 'Career Pitching Stats', url: `/player/${mlb_id}/pitching` },
+			{ text: 'Career Batting Stats', url: `/player/${mlb_id}/batting` }
+		];
 	}
 
 	getAllPlayerDetails();
@@ -37,7 +40,7 @@
 	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 		{#if !loading}
 			{#each players as details}
-				<PlayerCard {details} links={[createPlayerCardLink(details.mlb_id)]} />
+				<PlayerCard {details} links={createPlayerCardLinks(details.mlb_id)} />
 			{/each}
 		{/if}
 	</div>
