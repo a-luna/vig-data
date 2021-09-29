@@ -18,12 +18,14 @@
 <div class="mb-5 btn-group btn-group-secondary">
 	<button
 		type="button"
-		class={percentilesSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={`btn btn-${color}`}
+		class:active={percentilesSelected}
 		on:click={() => changeContentShown('percentiles')}>Percentiles</button
 	>
 	<button
 		type="button"
-		class={veloLocSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={`btn btn-${color}`}
+		class:active={veloLocSelected}
 		on:click={() => changeContentShown('velo-loc')}>Velo/Location</button
 	>
 </div>

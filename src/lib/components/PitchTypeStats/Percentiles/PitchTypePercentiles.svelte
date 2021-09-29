@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Percentiles from '$lib/components/PitchTypeStats/Percentiles/Percentiles.svelte';
-	import { pitchTypePercentilesByBatterStance, pitchTypesByBatterStance } from '$lib/stores/singleValueStores';
+	import { pitchTypePercentilesByBatterStance, pitchTypesByBatterStance } from '$lib/stores/pfxPitcherMetrics';
 </script>
 
 <div class="responsive">

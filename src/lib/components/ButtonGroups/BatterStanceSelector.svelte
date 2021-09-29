@@ -12,17 +12,14 @@
 <div class="mb-5 btn-group btn-group-secondary">
 	<button
 		type="button"
-		class={bothSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
+		class={`btn btn-${color}`}
+		class:active={bothSelected}
 		on:click={() => ($batStanceSplit = 'all')}>Both</button
 	>
-	<button
-		type="button"
-		class={rhbSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => ($batStanceSplit = 'rhb')}>RHB</button
+	<button type="button" class={`btn btn-${color}`} class:active={rhbSelected} on:click={() => ($batStanceSplit = 'rhb')}
+		>RHB</button
 	>
-	<button
-		type="button"
-		class={lhbSelected ? `btn btn-${color}` : `btn btn-outline-${color}`}
-		on:click={() => ($batStanceSplit = 'lhb')}>LHB</button
+	<button type="button" class={`btn btn-${color}`} class:active={lhbSelected} on:click={() => ($batStanceSplit = 'lhb')}
+		>LHB</button
 	>
 </div>

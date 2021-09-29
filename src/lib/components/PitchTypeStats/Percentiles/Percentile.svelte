@@ -9,7 +9,7 @@
 	$: formattedValue = formatStatValue();
 	$: formattedPercentile = percentile ? percentile : 0.0;
 	$: gaugeHue = formattedPercentile * 1.1;
-	$: gaugeLight = $siteTheme === 'dark' ? 50 : 30;
+	$: gaugeLight = $siteTheme === 'dark' ? 50 : 25;
 	$: gaugeColor = `hsl(${gaugeHue}, 100%, ${gaugeLight}%)`;
 	$: updateGauge(formattedPercentile);
 
