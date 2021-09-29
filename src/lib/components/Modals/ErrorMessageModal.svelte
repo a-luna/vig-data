@@ -11,6 +11,7 @@
 </script>
 
 <ModalContainer bind:this={modalContainer}>
+	<div slot="heading">Error!</div>
 	<div slot="content" class="responsive">
 		{error}
 	</div>

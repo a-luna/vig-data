@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let hidden: boolean = false;
 	export let bgColor: string = null;
+	export let isError: boolean = false;
 
 	$: backgroundColorRule = getBgColor();
 
@@ -17,7 +18,7 @@
 <div class="modal-wrapper" class:opacity-0={!hidden} class:pointer-events-none={!hidden}>
 	<div class="modal-overlay" on:click={() => toggleModal()} />
 	<div id="modal" class="modal-container" style={backgroundColorRule}>
-		<div class="modal-content">
+		<div class="modal-content class:error={isError}">
 			<div class="modal-heading tracking-wide mb-0.5">
 				<slot name="heading" />
 			</div>
@@ -30,6 +31,14 @@
 </div>
 
 <style lang="postcss">
+	.error {
+		@apply text-red-700;
+	}
+
+	.error .modal-heading {
+		@apply text-lg md:text-xl tracking-wide italic;
+	}
+
 	:global(body.modal-active) {
 		overflow-x: hidden;
 		overflow-y: visible !important;

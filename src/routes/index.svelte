@@ -1,13 +1,18 @@
 <script lang="ts">
 	import { getScoreboardForDate } from '$lib/api/game';
-	import { getPlayerBatStatsForDate, getPlayerPitchStatsForDate, getStandingsOnDate } from '$lib/api/season';
+	import {
+		getBarrelsForDate,
+		getPlayerBatStatsForDate,
+		getPlayerPitchStatsForDate,
+		getStandingsOnDate
+	} from '$lib/api/season';
 	import type {
 		ApiResponse,
 		GameData,
 		MlbSeason,
+		PitchFx,
 		PlayerBatStats,
 		PlayerPitchStats,
-		Result,
 		Scoreboard,
 		SeasonData
 	} from '$lib/api/types';
@@ -15,27 +20,27 @@
 	import DateNavigationMobile from '$lib/components/HomePage/DateNavigationMobile.svelte';
 	import HomePage from '$lib/components/HomePage/HomePage.svelte';
 	import HomePageMobile from '$lib/components/HomePage/HomePageMobile.svelte';
+	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getSeasonDates, getStringFromDate } from '$lib/util';
 
-	let error_message: string;
-	let games_for_date: GameData[];
+	let error: string = null;
 	let season: MlbSeason;
 	let minDate: Date;
 	let maxDate: Date;
+	let seasonStandings: SeasonData;
+	let games_for_date: GameData[];
 	let pitchStats: PlayerPitchStats[] = [];
 	let batStats: PlayerBatStats[] = [];
-	let seasonStandings: SeasonData;
+	let pfxBarrels: PitchFx[] = [];
 	let loading = true;
-	let allApiRequests: Promise<
-		[
-			ApiResponse<Scoreboard> | Result<Date[]>,
-			ApiResponse<SeasonData>,
-			ApiResponse<PlayerPitchStats[]>,
-			ApiResponse<PlayerBatStats[]>
-		]
-	>;
+	let getStandingsComplete = false;
+	let getScoreboardComplete = false;
+	let getPitchStatsComplete = false;
+	let getBatStatsComplete = false;
+	let getBarrelsComplete = false;
+	let errorMessageModal: ErrorMessageModal;
 
 	function removeLoadingScreen(_el: HTMLElement) {
 		loading = false;
@@ -44,48 +49,74 @@
 	async function getStandings(date: Date): Promise<ApiResponse<SeasonData>> {
 		const result = await getStandingsOnDate(date);
 		if (!result.success) {
-			error_message = result.message;
+			error = result.message;
+			getStandingsComplete = true;
+			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		seasonStandings = result.value;
+		getStandingsComplete = true;
 		return result;
 	}
 
 	async function getScoreboard(date: Date): Promise<ApiResponse<Scoreboard>> {
 		const result = await getScoreboardForDate(getStringFromDate(date));
 		if (!result.success) {
-			error_message = result.message;
+			error = result.message;
+			getScoreboardComplete = true;
+			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		const scoreboard = result.value;
 		({ season, games_for_date } = scoreboard);
+		getScoreboardComplete = true;
 		return result;
 	}
 
 	async function getPitchStatsForDate(date: Date): Promise<ApiResponse<PlayerPitchStats[]>> {
 		const result = await getPlayerPitchStatsForDate(getStringFromDate(date));
 		if (!result.success) {
-			error_message = result.message;
+			error = result.message;
+			getPitchStatsComplete = true;
+			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		pitchStats = result.value;
+		getPitchStatsComplete = true;
 		return result;
 	}
 
 	async function getBatStatsForDate(date: Date): Promise<ApiResponse<PlayerBatStats[]>> {
 		const result = await getPlayerBatStatsForDate(getStringFromDate(date));
 		if (!result.success) {
-			error_message = result.message;
+			error = result.message;
+			getBatStatsComplete = true;
+			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		batStats = result.value;
+		getBatStatsComplete = true;
+		return result;
+	}
+
+	async function getAllBarrelsForDate(date: Date): Promise<ApiResponse<PitchFx[]>> {
+		const result = await getBarrelsForDate(getStringFromDate(date));
+		if (!result.success) {
+			error = result.message;
+			getBarrelsComplete = true;
+			errorMessageModal.toggleModal(error);
+			return result;
+		}
+		pfxBarrels = result.value;
+		getBarrelsComplete = true;
 		return result;
 	}
 
 	function getSeasonStartAndEndDates() {
 		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
 		if (!getSeasonDatesResult.success) {
-			error_message = getSeasonDatesResult.message;
+			error = getSeasonDatesResult.message;
+			errorMessageModal.toggleModal(error);
 			return getSeasonDatesResult;
 		}
 		[minDate, maxDate] = getSeasonDatesResult.value;
@@ -93,44 +124,44 @@
 
 	function handleDateChanged() {
 		loading = true;
+		getStandingsComplete = false;
+		getScoreboardComplete = false;
+		getPitchStatsComplete = false;
+		getBatStatsComplete = false;
+		getBarrelsComplete = false;
 	}
 
 	$: if ($scoreboardDate) {
-		allApiRequests = Promise.all([
-			getScoreboard($scoreboardDate),
-			getStandings($scoreboardDate),
-			getPitchStatsForDate($scoreboardDate),
-			getBatStatsForDate($scoreboardDate)
-		]);
+		loading = true;
+		getScoreboard($scoreboardDate);
+		getStandings($scoreboardDate);
+		getPitchStatsForDate($scoreboardDate);
+		getBatStatsForDate($scoreboardDate);
+		getAllBarrelsForDate($scoreboardDate);
 	}
 	$: if (season) getSeasonStartAndEndDates();
+	$: allRequestsComplete =
+		getStandingsComplete && getScoreboardComplete && getPitchStatsComplete && getBatStatsComplete && getBarrelsComplete;
 </script>
 
 <svelte:head>
 	<title>MLB Stats, Scores and Charts | Vigorish</title>
 </svelte:head>
 
-{#if allApiRequests}
-	{#await allApiRequests}
-		<LoadingScreen {loading} />
-	{:then result}
-		{#if result.every((r) => r.success)}
-			<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
-				<div class="hidden sm:block">
-					<DateNavigation {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
-					<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} />
-				</div>
-				<div class="block sm:hidden">
-					<DateNavigationMobile {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
-					<HomePageMobile {games_for_date} {seasonStandings} {pitchStats} {batStats} />
-				</div>
-			</div>
-		{:else}
-			<div class="error">Error: {error_message}</div>
-		{/if}
-	{:catch error}
-		<div class="error">Error: {error}</div>
-	{/await}
+<LoadingScreen {loading} />
+<ErrorMessageModal bind:this={errorMessageModal} />
+
+{#if allRequestsComplete}
+	<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
+		<div class="hidden sm:block">
+			<DateNavigation {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
+			<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} />
+		</div>
+		<div class="block sm:hidden">
+			<DateNavigationMobile {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
+			<HomePageMobile {games_for_date} {seasonStandings} {pitchStats} {batStats} />
+		</div>
+	</div>
 {/if}
 
 <style lang="postcss">

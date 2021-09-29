@@ -19,11 +19,12 @@
 	$: home_runs_scored = home_team_totals[0];
 	$: away_team_won = away_runs_scored > home_runs_scored;
 	$: home_team_won = home_runs_scored > away_runs_scored;
-	$: awayTeamName = getTeamName(away_team_id, $pageBreakPoints.isDefault);
-	$: homeTeamName = getTeamName(home_team_id, $pageBreakPoints.isDefault);
-	$: wpName = getPlayerName(wp.name, $pageBreakPoints.isDefault);
-	$: lpName = getPlayerName(lp.name, $pageBreakPoints.isDefault);
-	$: svName = sv ? getPlayerName(sv.name, $pageBreakPoints.isDefault) : '';
+	$: shortenNames = $pageBreakPoints.width < 1024;
+	$: awayTeamName = getTeamName(away_team_id, shortenNames);
+	$: homeTeamName = getTeamName(home_team_id, shortenNames);
+	$: wpName = getPlayerName(wp.name, shortenNames);
+	$: lpName = getPlayerName(lp.name, shortenNames);
+	$: svName = sv ? getPlayerName(sv.name, shortenNames) : '';
 
 	onMount(async () => {
 		await tick();
@@ -50,6 +51,7 @@
 		if (pitchStats) {
 			return `(${pitchStats.wins}-${pitchStats.losses})`;
 		}
+		return '(0-0)';
 	}
 
 	function getTotalSavesForPlayer(mlb_id: number): string {
@@ -57,6 +59,7 @@
 		if (pitchStats) {
 			return `(${pitchStats.saves})`;
 		}
+		return '(0)';
 	}
 </script>
 
@@ -126,16 +129,6 @@
 	}
 
 	@media screen and (min-width: 640px) {
-		.game-result {
-			width: 180px;
-		}
-
-		.game-result-bottom {
-			height: 67px;
-		}
-	}
-
-	@media screen and (min-width: 768px) {
 		.game-result-top {
 			border-left: 2px dotted var(--game-result-border-color);
 			border-top: 2px dotted var(--game-result-border-color);
@@ -146,7 +139,7 @@
 			border: 2px dotted var(--game-result-border-color);
 		}
 		.game-result {
-			width: 210px;
+			width: 160px;
 		}
 
 		.game-result-bottom {
