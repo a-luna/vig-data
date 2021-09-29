@@ -1,6 +1,6 @@
 import type { CareerPfxMetricsForPitcher, PitchFxMetrics, PitchType, PitchTypePercentiles } from '$lib/api/types';
 import type { BatterStance } from '$lib/types';
-import { derived, writable, Writable } from 'svelte/types/runtime/store';
+import { derived, writable, Writable } from 'svelte/store';
 import { playerSeason } from './singleValueStores';
 
 export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);

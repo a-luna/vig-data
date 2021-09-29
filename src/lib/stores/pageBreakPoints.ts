@@ -1,7 +1,7 @@
 import { syncWidth } from '$lib/stores/elementWidth';
 import type { PageBreakPoint, PageBreakPointStore } from '$lib/types';
+import type { Readable, Writable } from 'svelte/store';
 import { derived } from 'svelte/store';
-import type { Readable, Writable } from 'svelte/types/runtime/store';
 
 export const getPageWidth = (): Writable<number> => {
 	if (typeof window !== 'undefined') {

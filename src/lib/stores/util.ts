@@ -1,6 +1,6 @@
 import type { JsonValue } from '$lib/types';
+import type { Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/types/runtime/store';
 
 export function createLocalStorageValue<T extends JsonValue>(key: string, initialValue: T): Writable<T> {
 	if (typeof window !== 'undefined') {

@@ -1,8 +1,8 @@
 import { getMostRecentScrapedDate } from '$lib/api/season';
 import type { PlayerDetails } from '$lib/api/types';
 import type { BatterStance, GameContent, SiteTheme, TeamStatType } from '$lib/types';
+import type { Writable } from 'svelte/store';
 import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/types/runtime/store';
 import { createLocalStorageValue } from './util';
 
 export const gameContentShown: Writable<GameContent> = writable('box');
