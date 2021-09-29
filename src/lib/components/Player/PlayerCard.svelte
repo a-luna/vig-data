@@ -4,6 +4,7 @@
 	import type { PlayerCardLink } from '$lib/types';
 	let role: 'pitching' | 'batting';
 	let defPos: string = '';
+	let pitchingRole: string = '';
 
 	export let details: PlayerDetails;
 	export let links: PlayerCardLink[];
@@ -15,15 +16,16 @@
 			.filter((def) => def != 'BN')
 			.sort((a, b) => DEF_POS_ABBREV_TO_NUM_MAP[a] - DEF_POS_ABBREV_TO_NUM_MAP[b])
 			.join('/');
-	$: pitchingRole =
-		currentTeam.percent_sp === 100
-			? 'SP'
-			: currentTeam.percent_rp === 100
-			? 'RP'
-			: currentTeam.percent_sp > 0 && currentTeam.percent_rp > 0
-			? 'SP/RP'
-			: '';
-	$: pos = role === 'pitching' ? pitchingRole : defPos;
+	$: if (currentTeam)
+		pitchingRole =
+			currentTeam.percent_sp === 100
+				? 'SP'
+				: currentTeam.percent_rp === 100
+				? 'RP'
+				: currentTeam.percent_sp > 0 && currentTeam.percent_rp > 0
+				? 'SP/RP'
+				: '';
+	$: pos = role === 'pitching' ? pitchingRole : defPos ? defPos : 'BN';
 	$: playerName = `${details.name_first} ${details.name_last}`;
 	$: teamInfo = `${currentTeam.team_id} (${currentTeam.year})`;
 </script>
