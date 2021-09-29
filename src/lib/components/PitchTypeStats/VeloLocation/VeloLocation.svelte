@@ -2,7 +2,8 @@
 	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
 	import BatterStanceSelector from '$lib/components/ButtonGroups/BatterStanceSelector.svelte';
 	import VeloLocationTable from '$lib/components/PitchTypeStats/VeloLocation/VeloLocationTable.svelte';
-	import { allPlayerSeasons, batStanceSplit, careerPfxData } from '$lib/stores/singleValueStores';
+	import { allPlayerSeasons, careerPfxData } from '$lib/stores/pfxPitcherMetrics';
+	import { batStanceSplit } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
 
 	$: allPitchTypes = Object.values($careerPfxData['all'][0])
