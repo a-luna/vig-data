@@ -1,6 +1,7 @@
 import { syncWidth } from '$lib/stores/elementWidth';
+import type { PageBreakPoint, PageBreakPointStore } from '$lib/types';
 import { derived } from 'svelte/store';
-import type { Writable } from 'svelte/types/runtime/store';
+import type { Readable, Writable } from 'svelte/types/runtime/store';
 
 export const getPageWidth = (): Writable<number> => {
 	if (typeof window !== 'undefined') {
@@ -10,16 +11,48 @@ export const getPageWidth = (): Writable<number> => {
 	return null;
 };
 
-export const pageBreakPoints = derived(getPageWidth(), ($pageWidth) => {
+export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWidth(), ($pageWidth) => {
+	const isDefault = (width: number): boolean => width < 640;
+	const isSmall = (width: number): boolean => width >= 640 && width < 768;
+	const isMedium = (width: number): boolean => width >= 768 && width < 1024;
+	const isLarge = (width: number): boolean => width >= 1024 && width < 1280;
+	const isExtraLarge = (width: number): boolean => width >= 1280 && width < 1536;
+	const is2xExtraLarge = (width: number): boolean => width >= 1536;
+
+	const getCurrentPageBreakPoint = (width: number): PageBreakPoint =>
+		isDefault(width)
+			? 'default'
+			: isSmall(width)
+			? 'sm'
+			: isMedium(width)
+			? 'md'
+			: isLarge(width)
+			? 'lg'
+			: isExtraLarge(width)
+			? 'xl'
+			: '2xl';
+
 	if ($pageWidth > 0) {
 		return {
+			current: getCurrentPageBreakPoint($pageWidth),
 			width: $pageWidth,
-			isDefault: $pageWidth < 640,
-			isSmall: $pageWidth >= 640 && $pageWidth < 768,
-			isMedium: $pageWidth >= 768 && $pageWidth < 1024,
-			isLarge: $pageWidth >= 1024
+			isDefault: isDefault($pageWidth),
+			isSmall: isSmall($pageWidth),
+			isMedium: isMedium($pageWidth),
+			isLarge: isLarge($pageWidth),
+			isExtraLarge: isExtraLarge($pageWidth),
+			is2xExtraLarge: is2xExtraLarge($pageWidth)
 		};
 	} else {
-		return {};
+		return {
+			current: 'default',
+			width: 0,
+			isDefault: true,
+			isSmall: false,
+			isMedium: false,
+			isLarge: false,
+			isExtraLarge: false,
+			is2xExtraLarge: false
+		};
 	}
 });
