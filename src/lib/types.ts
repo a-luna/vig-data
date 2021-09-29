@@ -1,6 +1,7 @@
 import type { MlbSeason } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 import type { Writable } from 'svelte/types/runtime/store';
+import { getRandomHexString } from './util';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -15,6 +16,49 @@ export class HslColor {
 		return match
 			? new HslColor(parseInt(match.groups.hue), parseInt(match.groups.saturation), parseInt(match.groups.lightness))
 			: new HslColor(0, 0, 0);
+	};
+}
+
+export interface PieSliceData {
+	value: number;
+	pieTotal: number;
+	label: string;
+	color: string;
+	unit: string;
+	description?: string;
+	legend?: string;
+}
+
+export class PieSlice {
+	readonly id: string;
+	readonly percent: number;
+	description: string;
+	legend: string;
+	tooltip: string;
+	startCoordinates: [number, number];
+	endCoordinates: [number, number];
+	hovering: boolean;
+	constructor(
+		public value: number = 0,
+		public pieTotal: number = 0,
+		public label: string = '',
+		public color: string = '#FFFFFF',
+		public unit: string = 'items'
+	) {
+		this.id = `${getRandomHexString(4)}-${getRandomHexString(4)}`;
+		this.percent = this.value / this.pieTotal;
+		this.description = `${(this.percent * 100).toFixed(0)}% ${this.label}`;
+		this.legend = this.description;
+		this.tooltip = `${(this.percent * 100).toFixed(0)}% ${this.label} (${this.value} ${this.unit})`;
+		this.startCoordinates = [0, 0];
+		this.endCoordinates = [0, 0];
+		this.hovering = false;
+	}
+	public static fromObject = (obj: PieSliceData): PieSlice => {
+		const newSlice = new PieSlice(obj.value, obj.pieTotal, obj.label, obj.color, obj.unit);
+		newSlice.description = obj?.description ?? newSlice.description;
+		newSlice.legend = obj?.legend ?? newSlice.legend;
+		return newSlice;
 	};
 }
 
