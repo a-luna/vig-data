@@ -13,6 +13,7 @@
 		"@date-io/date-fns": "^2.11.0",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.32",
 		"@sveltejs/adapter-node": "1.0.0-next.19",
+		"@sveltejs/adapter-static": "^1.0.0-next.20",
 		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.26",
 		"@tsconfig/svelte": "^2.0.1",
 		"@typescript-eslint/eslint-plugin": "^4.32.0",

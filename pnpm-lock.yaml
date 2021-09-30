@@ -4,6 +4,7 @@ specifiers:
   '@date-io/date-fns': ^2.11.0
   '@sveltejs/adapter-netlify': ^1.0.0-next.32
   '@sveltejs/adapter-node': 1.0.0-next.19
+  '@sveltejs/adapter-static': ^1.0.0-next.20
   '@sveltejs/kit': ^1.0.0-next.178
   '@sveltejs/vite-plugin-svelte': ^1.0.0-next.26
   '@tsconfig/svelte': ^2.0.1
@@ -57,6 +58,7 @@ devDependencies:
   '@date-io/date-fns': 2.11.0_date-fns@2.24.0
   '@sveltejs/adapter-netlify': 1.0.0-next.32
   '@sveltejs/adapter-node': 1.0.0-next.19
+  '@sveltejs/adapter-static': 1.0.0-next.20
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.26_svelte@3.43.0+vite@2.6.1
   '@tsconfig/svelte': 2.0.1
   '@typescript-eslint/eslint-plugin': 4.32.0_1eacf2495a01e8a68ffa99482308e8ec
@@ -214,6 +216,10 @@ packages:
 
   /@sveltejs/adapter-node/1.0.0-next.19:
     resolution: {integrity: sha512-8QXOm0x9xiRGNZl9H0VplhIRVk14tO67bHDihxpUuOG3gFYxsNvdISC0wrvdGHOOINDUj4K2pdSn8LEjPrml/A==}
+    dev: true
+
+  /@sveltejs/adapter-static/1.0.0-next.20:
+    resolution: {integrity: sha512-vutVoloX35E6QnnrNofToOWn/er/Li2yoR15NbTPZ26Gp3M6A2ckQJNMJrDbBA5XZsktNIXchIVGaADnKIJrow==}
     dev: true
 
   /@sveltejs/kit/1.0.0-next.178_sass@1.42.1+svelte@3.43.0:
