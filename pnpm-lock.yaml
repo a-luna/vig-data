@@ -10,7 +10,6 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^4.32.0
   '@typescript-eslint/parser': ^4.32.0
   autoprefixer: ^10.3.6
-  cross-fetch: ^3.1.4
   cssnano: ^5.0.8
   d3-array: ^3.0.4
   d3-format: ^3.0.1
@@ -50,7 +49,6 @@ specifiers:
 
 dependencies:
   '@sveltejs/kit': 1.0.0-next.178_sass@1.42.1+svelte@3.43.0
-  cross-fetch: 3.1.4
   layercake: 4.1.1_svelte@3.43.0
   svelte-preprocess: 4.9.5_6d12036e1adfbbd7b49509da697ce501
   svelte-simple-datatables: 0.1.25
@@ -682,12 +680,6 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
     dev: true
-
-  /cross-fetch/3.1.4:
-    resolution: {integrity: sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==}
-    dependencies:
-      node-fetch: 2.6.1
-    dev: false
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -1819,11 +1811,6 @@ packages:
     dependencies:
       lodash: 4.17.21
     dev: true
-
-  /node-fetch/2.6.1:
-    resolution: {integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==}
-    engines: {node: 4.x || >=6.0.0}
-    dev: false
 
   /node-releases/1.1.76:
     resolution: {integrity: sha512-9/IECtNr8dXNmPWmFXepT0/7o5eolGesHUa3mtr0KlgnCvnZxwh2qensKL42JJY2vQKC3nIBXetFAqR+PW1CmA==}
