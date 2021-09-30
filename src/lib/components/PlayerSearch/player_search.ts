@@ -7620,6 +7620,10 @@ export const allPlayers = [
     mlb_id: 663753
   },
   {
+    name: 'Reiver Sanmartin',
+    mlb_id: 665665
+  },
+  {
     name: 'Renato Nunez',
     mlb_id: 600524
   },
@@ -7710,6 +7714,10 @@ export const allPlayers = [
   {
     name: 'Riley Adams',
     mlb_id: 656180
+  },
+  {
+    name: "Riley O'Brien",
+    mlb_id: 676617
   },
   {
     name: 'Riley Smith',
