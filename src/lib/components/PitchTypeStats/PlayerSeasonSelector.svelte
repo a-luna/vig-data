@@ -1,26 +1,32 @@
 <script lang="ts">
+	import Select from '$lib/components/Select/Select.svelte';
 	import { allPlayerSeasons } from '$lib/stores/pfxPitcherMetrics';
 	import { playerSeason } from '$lib/stores/singleValueStores';
-	import type { ThemeColor } from '$lib/types';
+	import type { SelectMenuOption } from '$lib/types';
+	import { onMount, tick } from 'svelte';
 
-	export let color: ThemeColor = 'secondary';
+	export let width = 'auto';
+	let options: SelectMenuOption[];
+	let selectedOption: SelectMenuOption;
+	const menuId = 'select-player-season';
+
+	$: menuLabel = selectedOption?.text ?? 'Select Season';
+
+	onMount(async () => {
+		await tick();
+		options = createMenuOptions();
+		options.map((op) => (op.active = op.value === $playerSeason));
+	});
+
+	const createMenuOptions = (): SelectMenuOption[] =>
+		$allPlayerSeasons.map((year, i) => ({
+			text: year.toString(),
+			value: year,
+			optionNumber: i + 1,
+			active: false
+		}));
+
+	const handleChanged = (year: number): void => ($playerSeason = year);
 </script>
 
-<div class="mb-2 sm:mb-5 btn-group btn-group-secondary">
-	<button
-		type="button"
-		class={`btn btn-${color}`}
-		class:active={$playerSeason === 0}
-		on:click={() => ($playerSeason = 0)}>Career</button
-	>
-	{#each $allPlayerSeasons as year}
-		{#if year > 0}
-			<button
-				type="button"
-				class={`btn btn-${color}`}
-				class:active={$playerSeason === year}
-				on:click={() => ($playerSeason = year)}>{year}</button
-			>
-		{/if}
-	{/each}
-</div>
+<Select {menuLabel} {options} {menuId} {width} on:changed={(e) => handleChanged(e.detail)} />
