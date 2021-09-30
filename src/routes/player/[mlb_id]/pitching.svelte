@@ -13,10 +13,12 @@
 	import PitchTypeContentSelector from '$lib/components/PitchTypeStats/PitchTypeContentSelector.svelte';
 	import PlayerSeasonSelector from '$lib/components/PitchTypeStats/PlayerSeasonSelector.svelte';
 	import VeloLocation from '$lib/components/PitchTypeStats/VeloLocation/VeloLocation.svelte';
-	import PitchMixPieChart from '$lib/components/Player/Pitching/PieCharts/PitchMixPieChart.svelte';
+	import CareerPitchStatsTable from '$lib/components/Player/Pitching/CareerPitchStatsTable.svelte';
+	import PitchMixForSeasonChart from '$lib/components/Player/Pitching/PitchMixForSeasonChart.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
+	import type { PlayerContent } from '$lib/types';
 	import { onMount } from 'svelte';
 
 	export let playerDetails: PlayerDetailsSchema;
@@ -24,10 +26,7 @@
 	let error: string = null;
 	let careerPitchStats: CareerPitchStats;
 	let playerName: string;
-	let allSeasonsPlayed: number[];
-	let firstYearPlayed: number;
-	let mostRecentYearPlayed: number;
-	let contentShown: 'percentiles' | 'velo-loc' = 'percentiles';
+	let contentShown: PlayerContent = 'career-stats';
 	let twMobile: string = 'flex flex-col items-center justify-center ml-auto mb-2 flex-nowrap text-base w-full';
 	let twSmall: string = 'sm:items-end sm:mt-2 sm:mb-5 sm:text-sm sm:w-auto';
 	let twMedium: string = 'md:text-base';
@@ -39,13 +38,6 @@
 	>;
 
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
-	$: if (careerPitchStats)
-		allSeasonsPlayed = careerPitchStats.by_team_by_year
-			.filter((s) => s.all_stats_for_season)
-			.sort((a, b) => b.year - a.year)
-			.map((s) => s.year);
-	$: if (allSeasonsPlayed) firstYearPlayed = allSeasonsPlayed[allSeasonsPlayed.length - 1];
-	$: if (allSeasonsPlayed) mostRecentYearPlayed = allSeasonsPlayed[0];
 
 	onMount(() => {
 		loading = true;
@@ -113,32 +105,13 @@
 					<PlayerSeasonSelector />
 				</div>
 			</div>
-			<!-- <CareerPitchStatsTable {careerPitchStats} sortBy={'year'} sortDir={'asc'} /> -->
-			<div class="flex flex-row flex-wrap justify-around gap-5 mb-5">
-				<div class="flex flex-row justify-between gap-10 p-3 flex-nowrap section">
-					<PitchMixPieChart
-						year={0}
-						stance={'all'}
-						chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed} (vsBoth)`}
-					/>
-					<PitchMixPieChart year={0} stance={'rhb'} chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed} (vsRHB)`} />
-					<PitchMixPieChart year={0} stance={'lhb'} chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed} (vsLHB)`} />
-				</div>
-
-				<div class="flex flex-row justify-between gap-10 p-3 flex-nowrap section">
-					<PitchMixPieChart
-						year={mostRecentYearPlayed}
-						stance={'all'}
-						chartTitle={`${mostRecentYearPlayed} (vsBoth)`}
-					/>
-					<PitchMixPieChart year={mostRecentYearPlayed} stance={'rhb'} chartTitle={`${mostRecentYearPlayed} (vsRHB)`} />
-					<PitchMixPieChart year={mostRecentYearPlayed} stance={'lhb'} chartTitle={`${mostRecentYearPlayed} (vsLHB)`} />
-				</div>
-			</div>
 			<div id="pfx-pitcher-stats">
-				{#if contentShown === 'percentiles'}
+				{#if contentShown === 'career-stats'}
+					<CareerPitchStatsTable {careerPitchStats} sortBy={'year'} sortDir={'asc'} />
+				{:else if contentShown === 'pitch-type-percentiles'}
 					<PitchTypePercentiles />
-				{:else if contentShown === 'velo-loc'}
+				{:else if contentShown === 'pitch-mix'}
+					<PitchMixForSeasonChart />
 					<VeloLocation />
 				{/if}
 			</div>

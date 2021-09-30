@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
-	import BatterStanceSelector from '$lib/components/ButtonGroups/BatterStanceSelector.svelte';
 	import VeloLocationTable from '$lib/components/PitchTypeStats/VeloLocation/VeloLocationTable.svelte';
 	import { allPlayerSeasons, careerPfxData } from '$lib/stores/pfxPitcherMetrics';
-	import { batStanceSplit } from '$lib/stores/singleValueStores';
+	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
 
 	$: allPitchTypes = Object.values($careerPfxData['all'][0])
@@ -34,15 +33,14 @@
 		});
 		return pfxDataForBatStanceByYear;
 	}
-
-	$: pfxData = getCareerPfxData($batStanceSplit);
-	$: pfxDataByYear = getPfxDataByYear($batStanceSplit);
 </script>
 
-<BatterStanceSelector />
-<VeloLocationTable pitchTypeMetrics={pfxData} playerSeason={'career'} />
-{#each $allPlayerSeasons as year}
-	{#if year > 0}
-		<VeloLocationTable pitchTypeMetrics={pfxDataByYear[year]} playerSeason={year} />
-	{/if}
-{/each}
+{#if $playerSeason === 0}
+	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('all')} playerSeason={'career'} />
+	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('rhb')} playerSeason={'career'} />
+	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('lhb')} playerSeason={'career'} />
+{:else}
+	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('all')[$playerSeason]} playerSeason={$playerSeason} />
+	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('rhb')[$playerSeason]} playerSeason={$playerSeason} />
+	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('lhb')[$playerSeason]} playerSeason={$playerSeason} />
+{/if}
