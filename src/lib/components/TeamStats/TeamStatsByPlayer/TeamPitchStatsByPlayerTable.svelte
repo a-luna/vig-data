@@ -3,12 +3,21 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
+	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import type { TeamID } from '$lib/types';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
 	import { formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
 	import { tick } from 'svelte';
 
+	export let settings: TeamStatFilter = {
+		season: $mostRecentSeason.year,
+		league: 'both',
+		statType: 'pitch',
+		batStatSplit: 'all',
+		pitchStatSplit: 'all',
+		defPosition: [],
+		batOrder: []
+	};
 	export let pitchStats: TeamPitchStats[];
 	export let team: TeamID;
 	export let backgroundColorRule: string;
@@ -21,8 +30,8 @@
 	let playerColumnWidth: number;
 	const cellPadding: number = 10;
 
-	$: split = $teamStatFilter.pitchStatSplit;
-	$: year = $teamStatFilter.season;
+	$: split = settings.pitchStatSplit;
+	$: year = settings.season;
 	$: heading = getTableHeading(team);
 	$: sortedPitchStats = pitchStats.sort(getSortFunction(getDummyTeamPitchStats(), sortBy, sortDir));
 	$: currentPagePitchStats = sortedPitchStats.slice(startRow, endRow);

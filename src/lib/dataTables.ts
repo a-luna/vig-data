@@ -42,12 +42,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [40, 46]
 	},
 	bat_order: {
-		default: [0, 0],
-		sm: [0, 0],
-		md: [0, 0],
-		lg: [0, 0],
-		xl: [0, 0],
-		'2xl': [0, 0]
+		default: [40, 53],
+		sm: [42, 53],
+		md: [44, 56],
+		lg: [46, 59],
+		xl: [46, 59],
+		'2xl': [46, 59]
 	},
 	batters_faced: {
 		default: [37, 41],
@@ -66,12 +66,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [46, 62]
 	},
 	bb_rate: {
-		default: [43, 57],
-		sm: [43, 57],
-		md: [45, 60],
-		lg: [47, 63],
-		xl: [47, 63],
-		'2xl': [47, 63]
+		default: [43, 52],
+		sm: [43, 52],
+		md: [45, 55],
+		lg: [47, 58],
+		xl: [47, 58],
+		'2xl': [47, 58]
 	},
 	caught_stealing: {
 		default: [37, 41],
@@ -90,12 +90,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [38, 54]
 	},
 	def_position: {
-		default: [0, 0],
-		sm: [0, 0],
-		md: [0, 0],
-		lg: [0, 0],
-		xl: [0, 0],
-		'2xl': [0, 0]
+		default: [34, 48],
+		sm: [34, 48],
+		md: [36, 51],
+		lg: [38, 54],
+		xl: [38, 54],
+		'2xl': [38, 54]
 	},
 	doubles: {
 		default: [37, 41],
@@ -218,12 +218,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [39, 41]
 	},
 	innings_pitched: {
-		default: [40, 40],
-		sm: [40, 40],
-		md: [41, 43],
-		lg: [43, 46],
-		xl: [43, 46],
-		'2xl': [43, 46]
+		default: [49, 50],
+		sm: [49, 50],
+		md: [50, 52],
+		lg: [52, 54],
+		xl: [52, 54],
+		'2xl': [52, 54]
 	},
 	k_minus_bb: {
 		default: [59, 73],
@@ -306,12 +306,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [44, 54]
 	},
 	pitch_count: {
-		default: [37, 41],
-		sm: [37, 41],
-		md: [39, 44],
-		lg: [40, 46],
-		xl: [40, 46],
-		'2xl': [40, 46]
+		default: [44, 44],
+		sm: [44, 44],
+		md: [46, 46],
+		lg: [50, 50],
+		xl: [50, 50],
+		'2xl': [50, 50]
 	},
 	player_name: {
 		default: [0, 0],
@@ -402,12 +402,12 @@ const RESP_COLUMN_WIDTH_MAP = {
 		'2xl': [40, 46]
 	},
 	strikeouts: {
-		default: [32, 41],
-		sm: [32, 41],
-		md: [33, 44],
-		lg: [35, 48],
-		xl: [35, 48],
-		'2xl': [35, 48]
+		default: [39, 41],
+		sm: [39, 41],
+		md: [40, 44],
+		lg: [42, 48],
+		xl: [42, 48],
+		'2xl': [42, 48]
 	},
 	strikes: {
 		default: [37, 41],

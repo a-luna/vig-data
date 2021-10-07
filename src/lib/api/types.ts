@@ -350,6 +350,8 @@ export interface TeamBatStats {
 	row_id?: string;
 }
 
+export type TeamBatStatsMap = { [key: string]: TeamBatStats };
+
 export interface TeamPitchStats {
 	year: number;
 	age?: number;
@@ -370,6 +372,7 @@ export interface TeamPitchStats {
 	total_outs: number;
 	batters_faced: number;
 	runs: number;
+	runs_allowed?: number;
 	earned_runs: number;
 	hits: number;
 	homeruns: number;
@@ -408,6 +411,8 @@ export interface TeamPitchStats {
 	total_seasons?: number;
 	row_id?: string;
 }
+
+export type TeamPitchStatsMap = { [key: string]: TeamPitchStats };
 
 export interface CareerBatStats {
 	career: TeamBatStats;
@@ -871,6 +876,7 @@ export interface PlayerPitchStats {
 	total_outs: number;
 	hits: number;
 	runs: number;
+	runs_allowed?: number;
 	earned_runs: number;
 	bases_on_balls: number;
 	strikeouts: number;

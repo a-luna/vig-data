@@ -1,159 +1,105 @@
 <script lang="ts">
 	import BatStatSplitDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/BatStatSplitDropDown.svelte';
 	import PitchStatSplitDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/PitchStatSplitDropDown.svelte';
-	import TeamStatTypeDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/TeamStatTypeDropDown.svelte';
 	import SelectedBatOrderNumbers from '$lib/components/TeamStats/FilterSettings/SelectedBatOrderNumbers.svelte';
 	import SelectedDefPositions from '$lib/components/TeamStats/FilterSettings/SelectedDefPositions.svelte';
 	import LeagueDropDown from '$lib/components/Util/LeagueDropDown.svelte';
 	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
+	import type { TeamStatFilter } from '$lib/types';
 	import { teamStatFilterSettingsAreInvalid } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
-	let showFilters: boolean = false;
-	const key = 'vig_filter_settings';
+	export let showFilters: boolean = false;
+	export let batting: boolean = true;
+	export let pitching: boolean = false;
+	export let settings: TeamStatFilter;
+	let invalid: boolean = false;
+	let error: string;
 	const dispatch = createEventDispatcher();
 	const showFilterSlideOptions = { duration: 500, easing: cubicInOut };
 	const showErrorSlideOptions = { duration: 1000, easing: cubicInOut };
-	let invalid: boolean = false;
-	let error: string;
+	let prevSettings: TeamStatFilter;
 
-	$: teamBatStatsShown = $teamStatFilter.statType === 'bat';
-	$: teamPitchStatsShown = $teamStatFilter.statType === 'pitch';
-	$: defposSelected = $teamStatFilter.batStatSplit === 'defpos';
-	$: batorderSelected = $teamStatFilter.batStatSplit === 'batorder';
+	$: defposSelected = settings.batStatSplit === 'defpos';
+	$: batorderSelected = settings.batStatSplit === 'batorder';
+	$: ({ invalid, error } = checkFilterSettings(settings));
 
-	export function handleShowFilters() {
-		const previousSettings = {
-			season: $teamStatFilter.season,
-			league: $teamStatFilter.league,
-			statType: $teamStatFilter.statType,
-			batStatSplit: $teamStatFilter.batStatSplit,
-			pitchStatSplit: $teamStatFilter.pitchStatSplit,
-			defPosition: $teamStatFilter.defPosition,
-			batOrder: $teamStatFilter.batOrder
-		};
-		sessionStorage.setItem(key, JSON.stringify(previousSettings));
-		showFilters = true;
+	function checkFilterSettings(checkSettings: TeamStatFilter) {
+		if (checkSettings) {
+			return teamStatFilterSettingsAreInvalid(
+				checkSettings.statType,
+				checkSettings.batStatSplit,
+				checkSettings.defPosition,
+				checkSettings.batOrder
+			);
+		}
+		return { invalid: false, error: '' };
+	}
+
+	function saveCurrentSettings(_el: HTMLElement) {
+		prevSettings = Object.assign({}, settings);
 	}
 
 	function handleSettingsChanged() {
-		invalid = false;
-		error = '';
-		({ invalid, error } = teamStatFilterSettingsAreInvalid(
-			$teamStatFilter.statType,
-			$teamStatFilter.batStatSplit,
-			$teamStatFilter.defPosition,
-			$teamStatFilter.batOrder
-		));
-		if (!invalid) {
-			dispatch('changed');
-			showFilters = false;
-		}
-	}
-
-	function handleUserCanceled() {
-		restorePreviousSettings();
-		invalid = false;
-		error = '';
+		dispatch('changed');
 		showFilters = false;
 	}
 
-	function restorePreviousSettings() {
-		const previousSettings = JSON.parse(sessionStorage.getItem(key));
-		teamStatFilter.changeSeason(previousSettings.season);
-		teamStatFilter.changeLeague(previousSettings.league);
-		teamStatFilter.changeStatType(previousSettings.statType);
-		teamStatFilter.changeBatStatSplit(previousSettings.batStatSplit);
-		teamStatFilter.changePitchStatSplit(previousSettings.pitchStatSplit);
-		teamStatFilter.changeDefPosition(previousSettings.defPosition);
-		teamStatFilter.changeBatOrder(previousSettings.batOrder);
+	function handleUserCanceled() {
+		settings = Object.assign({}, prevSettings);
+		showFilters = false;
 	}
 </script>
 
 {#if showFilters}
-	<div transition:slide={showFilterSlideOptions} id="stat-filters" class="flex flex-col p-2 mx-auto mb-5">
-		<div class="flex flex-wrap justify-center">
-			<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-				<SeasonDropDown
-					currentSeason={$teamStatFilter.season}
-					width={'auto'}
-					on:changed={(e) => teamStatFilter.changeSeason(e.detail)}
-				/>
-			</div>
-			<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-				<LeagueDropDown
-					selectedLeague={$teamStatFilter.league}
-					width={'auto'}
-					on:changed={(e) => teamStatFilter.changeLeague(e.detail)}
-				/>
-			</div>
-			<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-				<TeamStatTypeDropDown width={'auto'} />
-			</div>
-			{#if teamPitchStatsShown}
-				<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-					<PitchStatSplitDropDown width={'auto'} />
-				</div>
-			{:else if teamBatStatsShown}
-				<div class="flex-grow w-5/12 m-2 team-filter md:m-1 md:w-auto">
-					<BatStatSplitDropDown width={'100%'} />
-				</div>
+	<div
+		transition:slide={showFilterSlideOptions}
+		use:saveCurrentSettings
+		id="stat-filters"
+		class="flex flex-col justify-start mt-1 mb-2 mr-auto flex-nowrap"
+		class:invalid
+	>
+		<div class="grid grid-cols-2 gap-2 pt-2 px-2">
+			<SeasonDropDown bind:selectedValue={settings.season} width={'100%'} />
+			<LeagueDropDown bind:selectedLeague={settings.league} width={'100%'} />
+			{#if pitching}
+				<PitchStatSplitDropDown bind:selectedValue={settings.pitchStatSplit} width={'100%'} />
+			{:else if batting}
+				<BatStatSplitDropDown bind:selectedValue={settings.batStatSplit} width={'100%'} />
+			{/if}
+			{#if batting && defposSelected}
+				<SelectedDefPositions bind:selections={settings.defPosition} />
+			{/if}
+			{#if batting && batorderSelected}
+				<SelectedBatOrderNumbers bind:selections={settings.batOrder} />
 			{/if}
 		</div>
-		{#if $teamStatFilter.statType === 'bat' && defposSelected}
-			<SelectedDefPositions />
-		{:else if $teamStatFilter.statType === 'bat' && batorderSelected}
-			<SelectedBatOrderNumbers />
-		{/if}
 		{#if invalid}
-			<div
-				transition:slide={showErrorSlideOptions}
-				class="flex justify-center text-sm italic text-red-700 sm:text-base"
-			>
-				<strong class="mr-1">ERROR!</strong><span>{error}</span>
+			<div transition:slide={showErrorSlideOptions} class="col-span-2 mx-auto text-sm italic text-red-700 sm:text-base">
+				<span>{error}</span>
 			</div>
 		{/if}
-		<div id="buttons-wrapper" class="flex justify-center m-0 md:mt-2 md:justify-end">
-			<button
-				class="flex-grow w-5/12 m-2 md:flex-grow-0 md:w-auto md:m-1 btn btn-secondary"
-				on:click={() => handleSettingsChanged()}>Update</button
+		<div class="grid grid-cols-2 gap-2 p-2">
+			<button disabled={invalid} class="w-full btn btn-secondary" on:click={() => handleSettingsChanged()}
+				>Update</button
 			>
-			<button
-				class="flex-grow w-5/12 m-2 md:flex-grow-0 md:w-auto md:m-1 btn btn-secondary"
-				on:click={() => handleUserCanceled()}>Cancel</button
-			>
+			<button class="w-full btn btn-secondary" on:click={() => handleUserCanceled()}>Cancel</button>
 		</div>
 	</div>
 {/if}
 
 <style lang="postcss">
 	#stat-filters {
+		width: 100%;
+		max-width: 440px;
 		background-color: var(--team-stat-filter-bg-color);
 		border: 2px solid var(--team-stat-filter-border-color);
 		border-radius: 4px;
 	}
 
-	.team-filter,
-	button {
-		max-width: 45%;
-	}
-
-	#buttons-wrapper button.btn {
-		margin: 0.5rem;
-		height: 33.5px;
-	}
-
-	@media screen and (min-width: 768px) {
-		.team-filter,
-		button {
-			max-width: 25%;
-		}
-
-		#buttons-wrapper button.btn {
-			height: 35.75px;
-		}
+	#stat-filters.invalid {
+		color: var(--red2);
 	}
 </style>

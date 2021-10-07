@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import type { SelectMenuOption } from '$lib/types';
+	import type { BatStatSplit, SelectMenuOption } from '$lib/types';
+	import { onMount, tick } from 'svelte';
 
 	export let width = 'auto';
+	export let selectedValue: BatStatSplit = 'all';
 	const options: SelectMenuOption[] = [
 		{ text: 'All At Bats', value: 'all', optionNumber: 1, active: false },
 		{ text: 'Starting Lineup', value: 'starters', optionNumber: 2, active: false },
@@ -12,16 +13,23 @@
 		{ text: 'By Batting Order', value: 'batorder', optionNumber: 5, active: false }
 	];
 	const menuId = 'teamBatStats';
+	const menuLabel = 'Team Batting Splits';
 	let selectedOption: SelectMenuOption;
+	let selectComponent: Select;
 
-	$: selectedOption = options.filter((l) => l.value === $teamStatFilter.batStatSplit)?.[0];
-	$: menuLabel = selectedOption?.text || 'Team Batting Splits';
+	onMount(async () => {
+		await tick();
+		selectComponent.handleOptionClicked(selectedOption.optionNumber);
+	});
+
+	$: selectedOption = options.filter((l) => l.value === selectedValue)?.[0];
 </script>
 
 <Select
+	bind:this={selectComponent}
 	{menuLabel}
 	{options}
 	{menuId}
 	{width}
-	on:changed={(event) => teamStatFilter.changeBatStatSplit(event.detail)}
+	on:changed={(e) => (selectedValue = e.detail)}
 />

@@ -1,95 +1,313 @@
 <script lang="ts">
-	import Datatable from '$lib/components/TypeTables/Datatable.svelte';
-	import { rows } from '$lib/components/TypeTables/stores/data';
-	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import { formatPercentStat, formatRateStat } from '$lib/util';
+	import type { TeamBatStats } from '$lib/api/types';
+	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
+	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import { formatPercentStat, formatPosNegValue, formatRateStat, getDummyTeamBatStats } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
-	import type { RowData } from '../TypeTables/types';
 
-	const settings = {
-		rowPerPage: 15,
-		scrollY: false,
-		css: false,
-		pagination: true,
-		columnFilter: false,
-		blocks: {
-			searchInput: false
-		}
-	};
-
-	export let teamBatStats: RowData[] = [];
-	export let updated: boolean = false;
-	let data: RowData[];
+	export let batStats: TeamBatStats[] = [];
+	export let year: number;
+	export let backgroundColorRule: string = '';
+	export let sortBy: string;
+	export let sortDir: 'asc' | 'desc';
+	export let currentPage: number;
+	export let startRow: number;
+	export let endRow: number;
+	export let tableId: string = '';
 	const dispatch = createEventDispatcher();
 
-	$: if (updated) {
-		data =
-			$teamStatFilter.league === 'both'
-				? Object.values<RowData>(teamBatStats).filter((t) => t['league'] === 'AL' || t['league'] === 'NL')
-				: Object.values<RowData>(teamBatStats).filter((t) => t['league'] === $teamStatFilter.league.toUpperCase());
-		updated = false;
+	$: sortedBatStats = batStats.sort(getSortFunction(getDummyTeamBatStats(), sortBy, sortDir));
+	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
+
+	function sortTableByStat(stat: string) {
+		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
+		sortBy = stat;
+		currentPage = 1;
 	}
 </script>
 
-<Datatable id={'team-bat-stats-table'} {settings} {data}>
-	<thead>
-		<tr>
-			<th class="sortable asc desc" data-key="player_team_id_bbref">Team<span /></th>
-			<th class="sortable asc desc" data-key="avg">AVG<span /></th>
-			<th class="sortable asc desc" data-key="obp">OBP<span /></th>
-			<th class="sortable asc desc" data-key="slg">SLG<span /></th>
-			<th class="sortable asc desc" data-key="ops">OPS<span /></th>
-			<th class="sortable asc desc" data-key="bb_rate">BB%<span /></th>
-			<th class="sortable asc desc" data-key="k_rate">K%<span /></th>
-			<th class="sortable asc desc" data-key="at_bats">AB<span /></th>
-			<th class="sortable asc desc" data-key="hits">H<span /></th>
-			<th class="sortable asc desc" data-key="runs_scored">R<span /></th>
-			<th class="sortable asc desc" data-key="rbis">RBI<span /></th>
-			<th class="sortable asc desc" data-key="bases_on_balls">BB<span /></th>
-			<th class="sortable asc desc" data-key="strikeouts">K<span /></th>
-			<th class="sortable asc desc" data-key="doubles">2B<span /></th>
-			<th class="sortable asc desc" data-key="triples">3B<span /></th>
-			<th class="sortable asc desc" data-key="homeruns">HR<span /></th>
-			<th class="sortable asc desc" data-key="stolen_bases">SB<span /></th>
-			<th class="sortable asc desc" data-key="caught_stealing">CS<span /></th>
-			<th class="sortable asc desc" data-key="wpa_bat">WPA<span /></th>
-			<th class="sortable asc desc" data-key="re24_bat">RE24<span /></th>
-		</tr>
-	</thead><tbody>
-		{#each $rows as row}
-			<tr
-				on:click={() => dispatch('showPlayerStatsModal', row['player_team_id_bbref'])}
-				class="cursor-pointer"
-				title="Click to expand results for {TEAM_ID_TO_NAME_MAP[row['player_team_id_bbref']]}"
-			>
-				<td>{row['player_team_id_bbref']}</td>
-				<td>{formatRateStat(row['avg'], 3)}</td>
-				<td>{formatRateStat(row['obp'], 3)}</td>
-				<td>{formatRateStat(row['slg'], 3)}</td>
-				<td>{formatRateStat(row['ops'], 3)}</td>
-				<td>{formatPercentStat(row['bb_rate'], 0)}</td>
-				<td>{formatPercentStat(row['k_rate'], 0)}</td>
-				<td>{row['at_bats']}</td>
-				<td>{row['hits']}</td>
-				<td>{row['runs_scored']}</td>
-				<td>{row['rbis']}</td>
-				<td>{row['bases_on_balls']}</td>
-				<td>{row['strikeouts']}</td>
-				<td>{row['doubles']}</td>
-				<td>{row['triples']}</td>
-				<td>{row['homeruns']}</td>
-				<td>{row['stolen_bases']}</td>
-				<td>{row['caught_stealing']}</td>
-				<td>{formatRateStat(row['wpa_bat'], 2)}</td>
-				<td>{formatRateStat(row['re24_bat'], 2)}</td>
-			</tr>
-		{/each}
-	</tbody>
-</Datatable>
+<section class="datatable" style={backgroundColorRule}>
+	<div class="flex flex-col items-baseline flex-nowrap mb-0.5 ml-1">
+		<div class="mb-1 text-sm font-medium italic tracking-wide sort-description">
+			{describeSortSetting(sortBy, sortDir)}
+		</div>
+	</div>
+	<article class="resp-table-container">
+		<div class="resp-table-wrapper">
+			<div id={tableId} class="text-sm leading-5 table-fixed resp-table">
+				<div class="text-center resp-table-header col-header">
+					<SortableColumnHeader
+						colStat={'player_team_id_bbref'}
+						tooltip={'Team'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'player_team_id_bbref', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>Team</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'avg'}
+						tooltip={'Batting Average'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'avg', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>AVG</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'obp'}
+						tooltip={'On Base Percentage'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'obp', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>OBP</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'slg'}
+						tooltip={'Slugging Percentage'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'slg', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>SLG</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'ops'}
+						tooltip={'On Base Plus Slugging Percentage'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'ops', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>OPS</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'bb_rate'}
+						tooltip={'Walk Rate'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'bb_rate', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>BB%</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'k_rate'}
+						tooltip={'Strikeout Rate'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'k_rate', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>K%</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'at_bats'}
+						tooltip={'At Bats'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'at_bats', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>AB</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'hits'}
+						tooltip={'Hits'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'hits', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>H</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'runs_scored'}
+						tooltip={'Runs Scored'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'runs_scored', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>R</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'rbis'}
+						tooltip={'RBIs'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'rbis', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>RBI</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'bases_on_balls'}
+						tooltip={'Walks'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'bases_on_balls', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>BB</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'strikeouts'}
+						tooltip={'Strikeouts'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'strikeouts', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>K</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'doubles'}
+						tooltip={'Doubles'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'doubles', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>2B</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'triples'}
+						tooltip={'Triples'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'triples', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>3B</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'homeruns'}
+						tooltip={'Homeruns'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'homeruns', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>HR</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'stolen_bases'}
+						tooltip={'Stolen Bases'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'stolen_bases', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>SB</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'caught_stealing'}
+						tooltip={'Caught Stealing'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'caught_stealing', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>CS</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'wpa_bat'}
+						tooltip={'Win Probability Added by Hitter'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 'wpa_bat', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>WPA</SortableColumnHeader
+					>
+					<SortableColumnHeader
+						colStat={'re24_bat'}
+						tooltip={'Run Expectancy Based on 24 Base Outs'}
+						width={getFixedColumnWidth($pageBreakPoints.current, 're24_bat', sortBy)}
+						bind:sortBy
+						{sortDir}
+						on:sortTable={(e) => sortTableByStat(e.detail)}>RE24</SortableColumnHeader
+					>
+				</div>
+				<div class="resp-table-body">
+					{#each currentPageBatStats as stats}
+						<div
+							class="text-right resp-table-row"
+							on:click={() => dispatch('showPlayerStatsModal', stats.player_team_id_bbref)}
+						>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'player_team_id_bbref'}
+								data-stat-name="player_team_id_bbref"
+							>
+								<a sveltekit:prefetch href="/team/{stats.player_team_id_bbref}/{year}">{stats.player_team_id_bbref}</a>
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'avg'} data-stat-name="avg">
+								{formatRateStat(stats.avg.toString(), 3)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'obp'} data-stat-name="obp">
+								{formatRateStat(stats.obp.toString(), 3)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'slg'} data-stat-name="slg">
+								{formatRateStat(stats.slg.toString(), 3)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'ops'} data-stat-name="ops">
+								{formatRateStat(stats.ops.toString(), 3)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'bb_rate'} data-stat-name="bb_rate">
+								{formatPercentStat(stats.bb_rate.toString(), 1)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'k_rate'} data-stat-name="k_rate">
+								{formatPercentStat(stats.k_rate.toString(), 1)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'at_bats'} data-stat-name="at_bats">
+								{stats.at_bats}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'hits'} data-stat-name="hits">
+								{stats.hits}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'runs_scored'} data-stat-name="runs_scored">
+								{stats.runs_scored}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'rbis'} data-stat-name="rbis">
+								{stats.rbis}
+							</div>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'bases_on_balls'}
+								data-stat-name="bases_on_balls"
+							>
+								{stats.bases_on_balls}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'strikeouts'} data-stat-name="strikeouts">
+								{stats.strikeouts}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'doubles'} data-stat-name="doubles">
+								{stats.doubles}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'triples'} data-stat-name="triples">
+								{stats.triples}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'homeruns'} data-stat-name="homeruns">
+								{stats.homeruns}
+							</div>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'stolen_bases'}
+								data-stat-name="stolen_bases"
+							>
+								{stats.stolen_bases}
+							</div>
+							<div
+								class="table-body-cell"
+								class:highlight-stat={sortBy === 'caught_stealing'}
+								data-stat-name="caught_stealing"
+							>
+								{stats.caught_stealing}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 'wpa_bat'} data-stat-name="wpa_bat">
+								{formatPosNegValue(stats.wpa_bat, 2)}
+							</div>
+							<div class="table-body-cell" class:highlight-stat={sortBy === 're24_bat'} data-stat-name="re24_bat">
+								{formatPosNegValue(stats.re24_bat, 1)}
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</div>
+	</article>
+</section>
 
 <style lang="postcss">
-	tbody tr:hover {
+	.highlight-stat {
 		background-color: var(--sec-color-hov);
+	}
+
+	.resp-table-row:hover {
+		background-color: var(--sec-color-hov);
+	}
+
+	.table-body-cell {
+		cursor: pointer;
+		padding: 2px 4px;
+	}
+
+	.sort-description {
+		color: var(--sec-color);
+	}
+
+	.sort-description {
+		display: table-caption;
+		white-space: nowrap;
 	}
 </style>

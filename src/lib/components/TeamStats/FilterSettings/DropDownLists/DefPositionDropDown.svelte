@@ -22,4 +22,11 @@
 	$: menuLabel = 'Select Positions';
 </script>
 
-<Select {menuLabel} {options} {menuId} {width} on:changed={(e) => dispatch('defPosSelected', e.detail)} />
+<Select
+	{menuLabel}
+	{options}
+	{menuId}
+	{width}
+	displaySelectedOptionText={false}
+	on:changed={(e) => dispatch('defPosSelected', e.detail)}
+/>

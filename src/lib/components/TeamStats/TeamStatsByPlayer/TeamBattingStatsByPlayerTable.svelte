@@ -3,12 +3,21 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
+	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import type { TeamID } from '$lib/types';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
 	import { formatPercentStat, formatRateStat, getDummyTeamBatStats } from '$lib/util';
 	import { tick } from 'svelte';
 
+	export let settings: TeamStatFilter = {
+		season: $mostRecentSeason.year,
+		league: 'both',
+		statType: 'bat',
+		batStatSplit: 'all',
+		pitchStatSplit: 'all',
+		defPosition: [],
+		batOrder: []
+	};
 	export let batStats: TeamBatStats[];
 	export let team: TeamID;
 	export let backgroundColorRule: string;
@@ -23,10 +32,10 @@
 	let batOrderColumnWidth: number;
 	const cellPadding: number = 8;
 
-	$: split = $teamStatFilter.batStatSplit;
-	$: defPosition = $teamStatFilter.defPosition;
-	$: batOrder = $teamStatFilter.batOrder;
-	$: year = $teamStatFilter.season;
+	$: split = settings.batStatSplit;
+	$: defPosition = settings.defPosition;
+	$: batOrder = settings.batOrder;
+	$: year = settings.season;
 	$: heading = getTableHeading(team);
 	$: sortedBatStats = batStats.sort(getSortFunction(getDummyTeamBatStats(), sortBy, sortDir));
 	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
@@ -36,10 +45,14 @@
 		await tick();
 		playerColumnWidth = getVariableColumnWidth(tableId, 'player_name', 'a', cellPadding);
 		if (split === 'defpos') {
-			defPosColumnWidth = getVariableColumnWidth(tableId, 'def_position', 'span', cellPadding);
+			const widthVar = getVariableColumnWidth(tableId, 'def_position', 'span', cellPadding);
+			const widthFixed = getFixedColumnWidth($pageBreakPoints.current, 'def_position', sortBy);
+			defPosColumnWidth = Math.max(widthVar, widthFixed);
 		}
 		if (split === 'batorder') {
-			batOrderColumnWidth = getVariableColumnWidth(tableId, 'bat_order', 'span', cellPadding);
+			const widthVar = getVariableColumnWidth(tableId, 'bat_order', 'span', cellPadding);
+			const widthFixed = getFixedColumnWidth($pageBreakPoints.current, 'bat_order', sortBy);
+			batOrderColumnWidth = Math.max(widthVar, widthFixed);
 		}
 	}
 
