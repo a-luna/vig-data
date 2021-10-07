@@ -1,14 +1,12 @@
-import type { MlbSeason } from '$lib/api/types';
-import type { AllMlbSeasons, AllMlbSeasonsStore } from '$lib/types';
-import { writable } from 'svelte/store';
+import { derived } from 'svelte/store';
+import { createLocalStorageValue } from './util';
 
-function createAllMlbSeasonsStore(): AllMlbSeasonsStore {
-	const { subscribe, update } = writable<AllMlbSeasons>({ seasons: [] });
+export const allSeasons = createLocalStorageValue('all-seasons', []);
 
-	return {
-		subscribe,
-		changeMlbSeasons: (seasons: MlbSeason[]) => update((allMlbSeasons) => ({ ...allMlbSeasons, seasons: seasons }))
-	};
-}
-
-export const allSeasons = createAllMlbSeasonsStore();
+export const mostRecentSeason = derived(allSeasons, ($allSeasons) => {
+	if ($allSeasons) {
+		const sorted = $allSeasons.sort((a, b) => b.year - a.year);
+		return sorted[0];
+	}
+	return null;
+});

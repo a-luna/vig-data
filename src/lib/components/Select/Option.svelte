@@ -7,12 +7,10 @@
 	export let active: boolean = false;
 	export let menuId: string;
 	const dispatch = createEventDispatcher();
-
 </script>
 
-<a
-	href="#"
-	class="block px-4 py-2 text-sm"
+<div
+	class="block px-4 py-2 text-sm cursor-pointer"
 	class:active
 	data-value={value ? value : optionNumber}
 	role="menuitem"
@@ -21,17 +19,14 @@
 	on:click={() => dispatch('click', optionNumber)}
 >
 	{text}
-</a>
+</div>
 
 <style lang="postcss">
-	a,
-	a:hover {
+	div {
 		color: var(--select-text-color);
-		text-decoration: none;
 	}
 
 	.active {
 		background-color: var(--selected-item-bg-color);
 	}
-
 </style>
