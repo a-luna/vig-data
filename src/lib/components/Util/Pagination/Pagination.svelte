@@ -36,24 +36,24 @@
 <section class="flex flex-col justify-start" style={backgroundColorRule}>
 	<div class="flex flex-row justify-between dt-pagination flex-nowrap">
 		<div class="flex flex-col items-start justify-start sm:items-center">
-			<div class="flex flex-row items-center justify-start flex-nowrap pagination-rowcount leading-none">
+			<div class="flex flex-row gap-1 items-center justify-start flex-nowrap pagination-rowcount leading-none">
 				<div
-					class="block mx-1 mb-0 cursor-pointer stroke-current stroke-2 w-5 h-4"
+					class="block mb-0.5 cursor-pointer stroke-current stroke-2 w-5 h-4"
 					title="Click to change # of rows displayed per page"
 					on:click={() => (showRowsPerPage = !showRowsPerPage)}
 				>
 					<MdSettings />
 				</div>
 				<aside
-					class="cursor-pointer text-base"
+					class="cursor-pointer"
 					title="Click to change # of rows displayed per page"
 					on:click={() => (showRowsPerPage = !showRowsPerPage)}
 				>
-					<div class="hidden md:inline-block">
+					<div class="hidden md:inline-block md:text-base lg:text-lg">
 						Showing <b>{startRow + 1}</b> to <b>{rowCountLast}</b> of <b>{totalRows}</b>
 						{rowType}
 					</div>
-					<div class="inline-block md:hidden">
+					<div class="inline-block md:hidden text-sm sm:text-base ">
 						<b>{startRow + 1}-{rowCountLast}/{totalRows}</b>
 					</div>
 				</aside>

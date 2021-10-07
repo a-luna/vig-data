@@ -652,6 +652,10 @@ export const allPlayers = [
     mlb_id: 605795
   },
   {
+    name: 'Angel Zerpa',
+    mlb_id: 672582
+  },
+  {
     name: 'Anibal Sanchez',
     mlb_id: 434671
   },
@@ -2980,6 +2984,10 @@ export const allPlayers = [
     mlb_id: 571670
   },
   {
+    name: 'Dylan Lee',
+    mlb_id: 669276
+  },
+  {
     name: 'Dylan Moore',
     mlb_id: 664238
   },
@@ -3230,6 +3238,10 @@ export const allPlayers = [
   {
     name: 'Erick Aybar',
     mlb_id: 430947
+  },
+  {
+    name: 'Erick Castillo',
+    mlb_id: 602080
   },
   {
     name: 'Erick Fedde',
@@ -4692,6 +4704,10 @@ export const allPlayers = [
     mlb_id: 465657
   },
   {
+    name: 'Joan Adon',
+    mlb_id: 672851
+  },
+  {
     name: 'Joaquin Benoit',
     mlb_id: 276542
   },
@@ -5798,6 +5814,10 @@ export const allPlayers = [
   {
     name: 'Kyle Crockett',
     mlb_id: 641490
+  },
+  {
+    name: 'Kyle Dohy',
+    mlb_id: 675971
   },
   {
     name: 'Kyle Dowdy',
@@ -7212,6 +7232,10 @@ export const allPlayers = [
     mlb_id: 553882
   },
   {
+    name: 'Oneil Cruz',
+    mlb_id: 665833
+  },
+  {
     name: 'Onelki Garcia',
     mlb_id: 607162
   },
@@ -7726,6 +7750,10 @@ export const allPlayers = [
   {
     name: 'Rio Ruiz',
     mlb_id: 547004
+  },
+  {
+    name: 'Roansy Contreras',
+    mlb_id: 672710
   },
   {
     name: 'Rob Brantly',
@@ -8496,6 +8524,10 @@ export const allPlayers = [
     mlb_id: 607359
   },
   {
+    name: 'Spencer Strider',
+    mlb_id: 675911
+  },
+  {
     name: 'Spencer Turnbull',
     mlb_id: 605513
   },
@@ -8972,6 +9004,10 @@ export const allPlayers = [
     mlb_id: 607208
   },
   {
+    name: 'Trent Giambrone',
+    mlb_id: 623508
+  },
+  {
     name: 'Trent Grisham',
     mlb_id: 663757
   },
@@ -9180,6 +9216,10 @@ export const allPlayers = [
     mlb_id: 641755
   },
   {
+    name: 'Tyler Ladendorf',
+    mlb_id: 502285
+  },
+  {
     name: 'Tyler Lyons',
     mlb_id: 544928
   },
@@ -9210,6 +9250,10 @@ export const allPlayers = [
   {
     name: 'Tyler Olson',
     mlb_id: 621397
+  },
+  {
+    name: 'Tyler Payne',
+    mlb_id: 665066
   },
   {
     name: 'Tyler Pill',

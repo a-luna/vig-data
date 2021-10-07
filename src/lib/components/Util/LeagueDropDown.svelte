@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Select from '$lib/components/Select/Select.svelte';
 	import type { League, SelectMenuOption } from '$lib/types';
-	import { createEventDispatcher, onMount, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 
 	export let width = '100%';
 	export let selectedLeague: League = 'both';
@@ -10,21 +10,24 @@
 		{ text: 'AL', value: 'al', optionNumber: 2, active: false },
 		{ text: 'NL', value: 'nl', optionNumber: 3, active: false }
 	];
-	const menuId = 'league';
-	const dispatch = createEventDispatcher();
-
-	$: selectedOption = options.filter((l) => l.value === selectedLeague)?.[0];
-	$: menuLabel = selectedOption?.text || 'Select League';
+	const menuId = 'league-menu';
+	const menuLabel = 'League';
+	let selectedOption: SelectMenuOption;
+	let selectComponent: Select;
 
 	onMount(async () => {
 		await tick();
-		options.map((l) => (l.active = l.value === selectedLeague));
+		selectComponent.handleOptionClicked(selectedOption.optionNumber);
 	});
 
-	function handleChanged(league: League) {
-		selectedLeague = league;
-		dispatch('changed', league);
-	}
+	$: selectedOption = options.filter((l) => l.value === selectedLeague)?.[0];
 </script>
 
-<Select {menuLabel} {options} {menuId} {width} on:changed={(e) => handleChanged(e.detail)} />
+<Select
+	bind:this={selectComponent}
+	{menuLabel}
+	{options}
+	{menuId}
+	{width}
+	on:changed={(e) => (selectedLeague = e.detail)}
+/>

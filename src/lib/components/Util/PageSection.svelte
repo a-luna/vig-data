@@ -9,9 +9,9 @@
 
 <div
 	id={id ? id : getDefaultTableId()}
-	class="flex flex-col items-center justify-start flex-initial p-4 overflow-x-hidden shadow-lg section"
+	class="flex flex-col items-start justify-start flex-initial p-4 overflow-x-hidden shadow-lg section"
 >
-	<div class="flex flex-col items-center justify-between w-full flex-nowrap section-content">
+	<div class="flex flex-col items-start justify-between w-full flex-nowrap section-content">
 		<slot />
 	</div>
 </div>

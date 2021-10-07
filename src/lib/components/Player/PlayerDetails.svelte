@@ -30,7 +30,7 @@
 	<title>{name_first} {name_last} Stats | Vigorish</title>
 </svelte:head>
 
-<div class="flex flex-col justify-start w-full mb-5 align-middle flex-nowrap sm:w-auto">
+<div class="flex flex-col flex-grow justify-start w-full mb-5 align-middle flex-nowrap sm:w-auto">
 	<h2 class="text-3xl font-medium leading-tight tracking-wide sm:text-2xl md:text-4xl">{name_first} {name_last}</h2>
 	<div class="flex text-base leading-snug sm:text-sm">
 		<strong class="mr-2">Full Name</strong>

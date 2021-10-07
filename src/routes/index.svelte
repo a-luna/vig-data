@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getScoreboardForDate } from '$lib/api/game';
 	import {
+		getAllValidSeasons,
 		getBarrelsForDate,
 		getPlayerBatStatsForDate,
 		getPlayerPitchStatsForDate,
@@ -22,6 +23,7 @@
 	import HomePageMobile from '$lib/components/HomePage/HomePageMobile.svelte';
 	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getSeasonDates, getStringFromDate } from '$lib/util';
 
@@ -35,6 +37,7 @@
 	let batStats: PlayerBatStats[] = [];
 	let pfxBarrels: PitchFx[] = [];
 	let loading = true;
+	let getAllSeasonsComplete = false;
 	let getStandingsComplete = false;
 	let getScoreboardComplete = false;
 	let getPitchStatsComplete = false;
@@ -44,6 +47,19 @@
 
 	function removeLoadingScreen(_el: HTMLElement) {
 		loading = false;
+	}
+
+	async function getAllSeasons(): Promise<ApiResponse<MlbSeason[]>> {
+		const result = await getAllValidSeasons();
+		if (!result.success) {
+			error = result.message;
+			getAllSeasonsComplete = true;
+			errorMessageModal.toggleModal(error);
+			return result;
+		}
+		$allSeasons = result.value;
+		getAllSeasonsComplete = true;
+		return result;
 	}
 
 	async function getStandings(date: Date): Promise<ApiResponse<SeasonData>> {
@@ -124,6 +140,7 @@
 
 	function handleDateChanged() {
 		loading = true;
+		getAllSeasonsComplete = false;
 		getStandingsComplete = false;
 		getScoreboardComplete = false;
 		getPitchStatsComplete = false;
@@ -133,6 +150,7 @@
 
 	$: if ($scoreboardDate) {
 		loading = true;
+		getAllSeasons();
 		getScoreboard($scoreboardDate);
 		getStandings($scoreboardDate);
 		getPitchStatsForDate($scoreboardDate);
@@ -141,7 +159,12 @@
 	}
 	$: if (season) getSeasonStartAndEndDates();
 	$: allRequestsComplete =
-		getStandingsComplete && getScoreboardComplete && getPitchStatsComplete && getBatStatsComplete && getBarrelsComplete;
+		getAllSeasonsComplete &&
+		getStandingsComplete &&
+		getScoreboardComplete &&
+		getPitchStatsComplete &&
+		getBatStatsComplete &&
+		getBarrelsComplete;
 </script>
 
 <svelte:head>
@@ -151,10 +174,10 @@
 <LoadingScreen {loading} />
 <ErrorMessageModal bind:this={errorMessageModal} />
 
-{#if allRequestsComplete}
+{#if !loading && allRequestsComplete}
 	<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
 		<div class="hidden sm:block">
-			<DateNavigation {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
+			<DateNavigation bind:season on:dateChanged={() => handleDateChanged()} />
 			<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} />
 		</div>
 		<div class="block sm:hidden">
