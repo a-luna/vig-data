@@ -11,10 +11,19 @@
 	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import type { TeamID } from '$lib/types';
+	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
 	import { getRandomHexString } from '$lib/util';
 
+	export let settings: TeamStatFilter = {
+		season: $mostRecentSeason.year,
+		league: 'both',
+		statType: 'bat',
+		batStatSplit: 'all',
+		pitchStatSplit: 'all',
+		defPosition: [],
+		batOrder: []
+	};
 	export let tableId: string = `team-bat-stats-by-player`;
 	export let sortBy: string;
 	let sortDir: 'asc' | 'desc' = 'desc';
@@ -29,10 +38,6 @@
 	let startRow: number;
 	let endRow: number;
 
-	$: split = $teamStatFilter.batStatSplit;
-	$: defPosition = $teamStatFilter.defPosition;
-	$: batOrder = $teamStatFilter.batOrder;
-	$: year = $teamStatFilter.season;
 	$: totalRows = batStats.length;
 
 	function getDefaultTableId() {
@@ -48,12 +53,12 @@
 			batorder: getBatStatsForLineupSpotByPlayerForTeam
 		};
 		loading = true;
-		if (split === 'all' || split === 'starters' || split === 'subs') {
-			getBatStatsResult = await batStatsMap[split](year, team);
-		} else if (split === 'defpos') {
-			getBatStatsResult = await batStatsMap[split](year, team, defPosition);
-		} else if (split === 'batorder') {
-			getBatStatsResult = await batStatsMap[split](year, team, batOrder);
+		if (settings.batStatSplit === 'all' || settings.batStatSplit === 'starters' || settings.batStatSplit === 'subs') {
+			getBatStatsResult = await batStatsMap[settings.batStatSplit](settings.season, team);
+		} else if (settings.batStatSplit === 'defpos') {
+			getBatStatsResult = await batStatsMap[settings.batStatSplit](settings.season, team, settings.defPosition);
+		} else if (settings.batStatSplit === 'batorder') {
+			getBatStatsResult = await batStatsMap[settings.batStatSplit](settings.season, team, settings.batOrder);
 		}
 		if (!getBatStatsResult.success) {
 			loading = false;
@@ -61,9 +66,9 @@
 		}
 
 		const allTeamBatStats = getBatStatsResult.value;
-		if (split === 'defpos') {
+		if (settings.batStatSplit === 'defpos') {
 			batStats = allTeamBatStats.filter((s) => s.all_player_stats_for_def_pos);
-		} else if (split === 'batorder') {
+		} else if (settings.batStatSplit === 'batorder') {
 			batStats = allTeamBatStats.filter((s) => s.all_player_stats_for_bat_order);
 		} else {
 			batStats = allTeamBatStats;
@@ -92,6 +97,7 @@
 		<div slot="content" class="mb-2 responsive">
 			<TeamBattingStatsByPlayerTable
 				tableId={tableId ? tableId : getDefaultTableId()}
+				bind:settings
 				bind:batStats
 				bind:team
 				bind:sortBy

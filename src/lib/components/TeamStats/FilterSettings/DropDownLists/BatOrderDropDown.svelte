@@ -17,8 +17,14 @@
 		{ text: '9', value: '9', optionNumber: 9, active: false }
 	];
 	const menuId = 'bat-order';
-
-	$: menuLabel = 'Select Bat #s';
+	const menuLabel = 'Select Bat #s';
 </script>
 
-<Select {menuLabel} {options} {menuId} {width} on:changed={(e) => dispatch('batOrderSelected', e.detail)} />
+<Select
+	{menuLabel}
+	{options}
+	{menuId}
+	{width}
+	displaySelectedOptionText={false}
+	on:changed={(e) => dispatch('batOrderSelected', e.detail)}
+/>

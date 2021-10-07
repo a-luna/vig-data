@@ -9,10 +9,19 @@
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import { teamStatFilter } from '$lib/stores/teamStatFilter';
-	import type { TeamID } from '$lib/types';
+	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
 	import { getRandomHexString } from '$lib/util';
 
+	export let settings: TeamStatFilter = {
+		season: $mostRecentSeason.year,
+		league: 'both',
+		statType: 'pitch',
+		batStatSplit: 'all',
+		pitchStatSplit: 'all',
+		defPosition: [],
+		batOrder: []
+	};
 	export let tableId: string = `team-pitch-stats-by-player`;
 	export let sortBy: string;
 	let sortDir: 'asc' | 'desc' = 'desc';
@@ -27,8 +36,6 @@
 	let startRow: number;
 	let endRow: number;
 
-	$: split = $teamStatFilter.pitchStatSplit;
-	$: year = $teamStatFilter.season;
 	$: totalRows = pitchStats.length;
 
 	function getDefaultTableId() {
@@ -42,7 +49,7 @@
 			rp: getPitchStatsForRpByPlayerForTeam
 		};
 		loading = true;
-		getPitchStatsResult = await pitchStatsMap[split](year, team);
+		getPitchStatsResult = await pitchStatsMap[settings.pitchStatSplit](settings.season, team);
 		if (!getPitchStatsResult.success) {
 			loading = false;
 			return getPitchStatsResult;
@@ -68,9 +75,10 @@
 
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
-		<div slot="content" class="responsive mb-2">
+		<div slot="content" class="mb-2 responsive">
 			<TeamPitchStatsByPlayerTable
 				tableId={tableId ? tableId : getDefaultTableId()}
+				bind:settings
 				bind:pitchStats
 				bind:team
 				bind:sortBy
