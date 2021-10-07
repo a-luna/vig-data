@@ -80,10 +80,14 @@
 								{playerTeamMap[atBatMap[atBatId].batter_id_mlb]}
 							</div>
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
-								{atBatMap[atBatId].batter_name}
+								<a sveltekit:prefetch href="/player/{atBatMap[atBatId].batter_id_mlb}/batting">
+									{atBatMap[atBatId].batter_name}
+								</a>
 							</div>
 							<div class="table-body-cell" class:bg-blue-300={selectedAtBatId === atBatId}>
-								{atBatMap[atBatId].pitcher_name}
+								<a sveltekit:prefetch href="/player/{atBatMap[atBatId].pitcher_id_mlb}/pitching">
+									{atBatMap[atBatId].pitcher_name}
+								</a>
 							</div>
 							<div class="table-body-cell hide-on-mobile" class:bg-blue-300={selectedAtBatId === atBatId}>
 								<FlexStrings stringArray={formatAtBatResult(atBatMap[atBatId].play_description)} />

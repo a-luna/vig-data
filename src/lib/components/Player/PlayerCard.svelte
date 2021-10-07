@@ -28,6 +28,7 @@
 	$: pos = role === 'pitching' ? pitchingRole : defPos ? defPos : 'BN';
 	$: playerName = `${details.name_first} ${details.name_last}`;
 	$: teamInfo = `${currentTeam.team_id} (${currentTeam.year})`;
+	$: playerLinks = role === 'pitching' ? [links[0]] : [links[1]];
 </script>
 
 <div
@@ -42,7 +43,7 @@
 			<strong class="mr-1 text-sm">Most Recent Team:</strong><span class="text-sm">{teamInfo}</span>
 		</div>
 		<ul class="flex-grow font-mono text-sm font-light list-none items-bottom">
-			{#each links as { text, url }}
+			{#each playerLinks as { text, url }}
 				<li><a sveltekit:prefetch href={url}>{text}</a></li>
 			{/each}
 		</ul>

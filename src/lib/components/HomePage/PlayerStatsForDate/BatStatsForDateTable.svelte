@@ -48,12 +48,12 @@
 
 <section class="datatable">
 	<div class="flex flex-col items-baseline flex-nowrap table-captions">
-		<div
-			class="table-caption flex-col justify-start mb-1  text-lg leading-none sm:leading-none tracking-wide flex-nowrap sm:text-xl"
+		<h3
+			class="table-caption flex-col justify-start mb-1.5 text-lg leading-none sm:leading-none tracking-wide flex-nowrap sm:text-xl"
 		>
 			Batting Stats
-		</div>
-		<div class="mb-1 text-sm italic leading-none sm:leading-none sort-description">
+		</h3>
+		<div class="mb-1.5 text-sm italic leading-none sm:leading-none sort-description">
 			{describeSortSetting(sortBy, sortDir)}
 		</div>
 	</div>

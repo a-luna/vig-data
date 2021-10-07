@@ -25,7 +25,7 @@
 			</span>
 			<span class="flex flex-row flex-nowrap">
 				<span class="val-type">At Bat:</span>
-				<a class="ml-1 player-name" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}">
+				<a class="ml-1 player-name" sveltekit:prefetch href="/player/{selectedAtBat.batter_id_mlb}/batting">
 					{selectedAtBat.batter_name}
 				</a>
 				<span class="ml-1 batter-stance">({selectedAtBat.batter_stance})</span>

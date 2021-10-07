@@ -12,11 +12,11 @@
 
 <div id={'standings-for-date'} class="flex flex-col flex-nowrap p-4">
 	<h3
-		class="mb-1 text-lg leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
+		class="mb-1.5 text-lg leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
 	>
 		MLB Standings
 	</h3>
-	<span class="mb-1 italic leading-none sm:leading-none text-center text-xs sm:text-sm sub-heading"
+	<span class="mb-1.5 italic leading-none sm:leading-none text-center text-xs sm:text-sm sub-heading"
 		>after {formatted}</span
 	>
 	<div class="flex flex-col flex-nowrap">

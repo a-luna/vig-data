@@ -18,7 +18,7 @@
 
 	function handleSeasonChanged(year: number) {
 		if (currentYear !== year) {
-			const matches = $allSeasons.seasons.filter((s) => s.year === year);
+			const matches = $allSeasons.filter((s) => s.year === year);
 			if (matches.length == 1) {
 				const season = matches[0];
 				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
