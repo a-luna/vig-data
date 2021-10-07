@@ -15,9 +15,8 @@
 	$: tableCaption = playerSeason === 'career' ? 'Career' : playerSeason;
 </script>
 
-<div class="mb-8 responsive">
+<div class="flex-grow responsive">
 	<div class="resp-table">
-		<div class="resp-table-caption">{tableCaption}</div>
 		<div class="resp-table-header col-header">
 			<div class="table-header-cell">Pitch Type</div>
 			<div class="table-header-cell">Count</div>
@@ -39,13 +38,13 @@
 							{getPitchTypeNameFromInt(pitchTypeMetrics.pitch_type_int)}
 						</div>
 					</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.total_pitches}</div>
-					<div class="table-body-cell text-right">{(pitchTypeMetrics.percent * 100).toFixed(0)}</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_speed.toFixed(1)}</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pfx_x.toFixed(2)}</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pfx_z.toFixed(2)}</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_px.toFixed(2)}</div>
-					<div class="table-body-cell text-right">{pitchTypeMetrics.avg_pz.toFixed(2)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.total_pitches}</div>
+					<div class="text-right table-body-cell">{(pitchTypeMetrics.percent * 100).toFixed(0)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.avg_speed.toFixed(1)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.avg_pfx_x.toFixed(2)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.avg_pfx_z.toFixed(2)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.avg_px.toFixed(2)}</div>
+					<div class="text-right table-body-cell">{pitchTypeMetrics.avg_pz.toFixed(2)}</div>
 				</div>
 			{/each}
 		</div>
@@ -55,11 +54,6 @@
 <style lang="postcss">
 	:global(#pfx-pitcher-stats) .resp-table {
 		width: auto;
-		margin: 0 auto;
-	}
-
-	:global(#pfx-pitcher-stats) .resp-table-caption {
-		font-size: 1.5rem;
 	}
 
 	.icon {

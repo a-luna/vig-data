@@ -6,14 +6,14 @@
 	export let hoverId: string;
 
 	function getColorStyles(slice: PieSlice, hoverId: string): string {
-		const hoverStyle = `color: var(--section-content-bg-color); background-color: ${slice.color}`;
-		const baseStyle = `color: ${slice.color}; background-color: var(--section-content-bg-color)`;
+		const hoverStyle = `color: var(--color-on-sec); background-color: ${slice.color}`;
+		const baseStyle = `color: ${slice.color}; background-color: inherit`;
 		return slice.id == hoverId ? hoverStyle : baseStyle;
 	}
 </script>
 
 <div
-	class="chart-legend flex flex-col items-end mt-2 mb-auto flex-initial"
+	class="flex flex-col items-end flex-initial mt-2 mb-auto chart-legend"
 	on:mouseenter={() => (hovering = true)}
 	on:mouseleave={() => (hovering = false)}
 >

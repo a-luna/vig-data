@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PitchType } from '$lib/api/types';
-	import Percentile from '$lib/components/PitchTypeStats/Percentiles/Percentile.svelte';
+	import Percentile from '$lib/components/Player/Pitching/Percentiles/Percentile.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 
 	export let percent: number;

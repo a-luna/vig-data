@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Percentiles from '$lib/components/PitchTypeStats/Percentiles/Percentiles.svelte';
+	import Percentiles from '$lib/components/Player/Pitching/Percentiles/Percentiles.svelte';
 	import { pitchTypePercentilesByBatterStance, pitchTypesByBatterStance } from '$lib/stores/pfxPitcherMetrics';
 </script>
 
 <div class="responsive">
-	<div class="flex flex-row justify-center overflow-x-auto flex-nowrap">
+	<div class="flex flex-row justify-start overflow-x-auto flex-nowrap">
 		<div class="flex flex-col justify-between pitch-type-percentiles flex-nowrap">
 			<h4>Both</h4>
 			{#each $pitchTypesByBatterStance.all as pitchType}

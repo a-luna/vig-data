@@ -219,10 +219,6 @@
 	--pitch-type-CU: var(--blue4);
 	--pitch-type-KC: var(--indigo3);
 	--pitch-type-KN: var(--blue3);
-	--pitch-type-IN: var(--black4);
-	--pitch-type-PO: var(--black4);
-	--pitch-type-SC: var(--black4);
-	--pitch-type-UN: var(--black4);
 
 	/* At Bat Pitch Location Chart */
 
@@ -335,6 +331,7 @@ body.light-mode {
 	--table-outer-border-color: var(--blue1);
 	--table-inner-border-vert-color: var(--gray3);
 	--table-inner-border-horiz-color: var(--gray2);
+	--table-sort-description-color: var(--pri-color);
 
 	--table-single-season-stats-bg-color: var(--light-gray4);
 	--table-separate-team-stats-bg-color: var(--light-gray2);
@@ -388,6 +385,10 @@ body.light-mode {
 	--pitch-type-SI: var(--green1);
 	--pitch-type-SL: var(--dark-teal2);
 	--pitch-type-EP: var(--dark-gray4);
+	--pitch-type-IN: var(--black4);
+	--pitch-type-PO: var(--black4);
+	--pitch-type-SC: var(--black4);
+	--pitch-type-UN: var(--black4);
 
 	--sdp-bg-color: var(--light-gray3);
 	--sdp-current-month: var(--light-gray4);
@@ -399,7 +400,7 @@ body.light-mode {
 	--sdp-bg-active-color: var(--pri-color);
 	--sdp-bg-selected-color: var(--pri-color);
 
-	--team-stat-filter-bg-color: var(--light-gray4);
+	--team-stat-filter-bg-color: var(--page-bg-color);
 	--team-stat-filter-border-color: var(--blue1);
 }
 
@@ -474,6 +475,7 @@ body.dark-mode {
 	--table-outer-border-color: var(--indigo1);
 	--table-inner-border-vert-color: var(--dark-gray2);
 	--table-inner-border-horiz-color: var(--dark-gray1);
+	--table-sort-description-color: var(--white3);
 
 	--table-single-season-stats-bg-color: var(--gray2);
 	--table-separate-team-stats-bg-color: var(--gray1);
@@ -527,6 +529,10 @@ body.dark-mode {
 	--pitch-type-SI: var(--yellow-green1);
 	--pitch-type-SL: var(--blue-green1);
 	--pitch-type-EP: var(--light-gray1);
+	--pitch-type-IN: var(--white3);
+	--pitch-type-PO: var(--white3);
+	--pitch-type-SC: var(--white3);
+	--pitch-type-UN: var(--white3);
 
 	--sdp-bg-color: var(--rich-black2);
 	--sdp-current-month: var(--rich-black3);
@@ -538,7 +544,7 @@ body.dark-mode {
 	--sdp-bg-active-color: var(--pri-color);
 	--sdp-bg-selected-color: var(--pri-color);
 
-	--team-stat-filter-bg-color: var(--rich-black2);
+	--team-stat-filter-bg-color: var(--page-bg-color);
 	--team-stat-filter-border-color: var(--pri-color);
 }
 
@@ -1125,14 +1131,14 @@ button:disabled:hover,
 	border-top: 1px solid var(--pri-color);
 	border-bottom: 1px solid var(--pri-color);
 	border-left: 1px solid var(--pri-color);
-	border-right: none;
+	border-right: 1px solid var(--pri-color);
 }
 
 .btn-group-secondary > button {
 	border-top: 1px solid var(--sec-color);
 	border-bottom: 1px solid var(--sec-color);
 	border-left: 1px solid var(--sec-color);
-	border-right: none;
+	border-right: 1px solid var(--sec-color);
 }
 
 .btn-group > button:hover,
@@ -1141,14 +1147,14 @@ button:disabled:hover,
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
 	border-left: 1px solid transparent;
-	border-right: none;
+	border-right: 1px solid transparent;
 }
 
 .btn-group-secondary > button.active {
 	border-top: 1px solid var(--sec-color-active);
 	border-bottom: 1px solid var(--sec-color-active);
 	border-left: 1px solid var(--sec-color-active);
-	border-right: none;
+	border-right: 1px solid var(--sec-color-active);
 }
 
 .btn-group > button:first-child {

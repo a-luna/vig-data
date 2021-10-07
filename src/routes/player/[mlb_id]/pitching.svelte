@@ -9,13 +9,12 @@
 		PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
 	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
-	import PitchTypePercentiles from '$lib/components/PitchTypeStats/Percentiles/PitchTypePercentiles.svelte';
-	import PitchTypeContentSelector from '$lib/components/PitchTypeStats/PitchTypeContentSelector.svelte';
-	import PlayerSeasonSelector from '$lib/components/PitchTypeStats/PlayerSeasonSelector.svelte';
-	import VeloLocation from '$lib/components/PitchTypeStats/VeloLocation/VeloLocation.svelte';
 	import CareerPitchStatsTable from '$lib/components/Player/Pitching/CareerPitchStatsTable.svelte';
-	import PitchMixForSeasonChart from '$lib/components/Player/Pitching/PitchMixForSeasonChart.svelte';
+	import PitchTypePercentiles from '$lib/components/Player/Pitching/Percentiles/PitchTypePercentiles.svelte';
+	import PitchMixForSeason from '$lib/components/Player/Pitching/PitchMix/PitchMixForSeason.svelte';
+	import PlayerPitchContentButtonGroup from '$lib/components/Player/Pitching/Selectors/PlayerPitchContentButtonGroup.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
+	import PlayerSeasonSelector from '$lib/components/Player/Selectors/PlayerSeasonSelector.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import type { PlayerContent } from '$lib/types';
@@ -27,10 +26,6 @@
 	let careerPitchStats: CareerPitchStats;
 	let playerName: string;
 	let contentShown: PlayerContent = 'career-stats';
-	let twMobile: string = 'flex flex-col items-center justify-center ml-auto mb-2 flex-nowrap text-base w-full';
-	let twSmall: string = 'sm:items-end sm:mt-2 sm:mb-5 sm:text-sm sm:w-auto';
-	let twMedium: string = 'md:text-base';
-	let twStyles = `${twMobile} ${twSmall} ${twMedium}`;
 	let loading = false;
 	let errorMessageModal: ErrorMessageModal;
 	let allApiRequests: Promise<
@@ -96,25 +91,35 @@
 		{#if result.every((r) => r.success)}
 			<div
 				id="player-details"
-				class="flex flex-col items-start justify-start sm:flex-row sm:justify-around sm:mb-5 flex-nowrap"
+				class="flex flex-col items-start justify-start gap-3 flex-nowrap"
 				use:removeLoadingScreen
 			>
-				<PlayerDetails {...playerDetails} />
-				<div class={twStyles}>
-					<PitchTypeContentSelector on:changed={(event) => (contentShown = event.detail)} />
-					<PlayerSeasonSelector />
+				<div class="flex flex-row flex-nowrap w-full justify-between">
+					<PlayerDetails {...playerDetails} />
+				</div>
+				<div
+					class="flex flex-col flex-nowrap justify-center gap-3 mx-auto w-auto sm:flex-row sm:justify-start sm:gap-5 sm:mb-3 sm:mx-0"
+				>
+					<PlayerSeasonSelector disabled={contentShown === 'career-stats'} />
+					<PlayerPitchContentButtonGroup on:changed={(event) => (contentShown = event.detail)} />
 				</div>
 			</div>
 			<div id="pfx-pitcher-stats">
 				{#if contentShown === 'career-stats'}
 					<CareerPitchStatsTable {careerPitchStats} sortBy={'year'} sortDir={'asc'} />
+				{:else if contentShown === 'pitch-mix'}
+					<PitchMixForSeason />
 				{:else if contentShown === 'pitch-type-percentiles'}
 					<PitchTypePercentiles />
-				{:else if contentShown === 'pitch-mix'}
-					<PitchMixForSeasonChart />
-					<VeloLocation />
 				{/if}
 			</div>
 		{/if}
 	{/await}
 {/if}
+
+<style lang="postcss">
+	#pfx-pitcher-stats {
+		border-radius: 4px;
+		border: none;
+	}
+</style>
