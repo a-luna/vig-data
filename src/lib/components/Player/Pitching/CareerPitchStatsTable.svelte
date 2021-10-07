@@ -55,8 +55,8 @@
 	}
 </script>
 
-<section class="datatable">
-	<div class="flex flex-col items-baseline flex-nowrap">
+<section class="section px-4">
+	<div class="flex flex-col items-baseline flex-nowrap mt-2">
 		<div class="table-caption m-0 text-xl tracking-wide sm:text-lg md:text-2xl overflow-ellipsis">{heading}</div>
 		<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 	</div>

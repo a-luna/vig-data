@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
-	import VeloLocationTable from '$lib/components/PitchTypeStats/VeloLocation/VeloLocationTable.svelte';
+	import PitchMixPieChart from '$lib/components/Player/Pitching/PitchMix/PitchMixPieChart.svelte';
+	import PitchMixTable from '$lib/components/Player/Pitching/PitchMix/PitchMixTable.svelte';
 	import { allPlayerSeasons, careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { BatterStance } from '$lib/types';
+
+	const allStances: BatterStance[] = ['all', 'rhb', 'lhb'];
 
 	$: allPitchTypes = Object.values($careerPfxData['all'][0])
 		.map((pfx) => pfx['metrics'])
@@ -33,14 +36,33 @@
 		});
 		return pfxDataForBatStanceByYear;
 	}
+
+	const getChartTitle = (year: number, stance: BatterStance): string =>
+		year === 0
+			? `${$allPlayerSeasons.slice(1, 2)}-${$allPlayerSeasons.slice(-1)} (vs${stance.toUpperCase()})`
+			: `${year} (vs${stance.toUpperCase()})`;
 </script>
 
-{#if $playerSeason === 0}
-	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('all')} playerSeason={'career'} />
-	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('rhb')} playerSeason={'career'} />
-	<VeloLocationTable pitchTypeMetrics={getCareerPfxData('lhb')} playerSeason={'career'} />
-{:else}
-	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('all')[$playerSeason]} playerSeason={$playerSeason} />
-	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('rhb')[$playerSeason]} playerSeason={$playerSeason} />
-	<VeloLocationTable pitchTypeMetrics={getPfxDataByYear('lhb')[$playerSeason]} playerSeason={$playerSeason} />
-{/if}
+<div class="flex flex-col justify-start gap-5 flex-nowrap">
+	{#each allStances as stance}
+		<div class="flex flex-col flex-nowrap mr-auto">
+			<h3 class="mt-3 chart-title">{getChartTitle($playerSeason, stance)}</h3>
+			<div class="flex flex-row justify-start gap-10 mb-5 flex-nowrap">
+				{#if $playerSeason === 0}
+					<PitchMixTable pitchTypeMetrics={getCareerPfxData(stance)} playerSeason={'career'} />
+				{:else}
+					<PitchMixTable pitchTypeMetrics={getPfxDataByYear(stance)[$playerSeason]} playerSeason={$playerSeason} />
+				{/if}
+				<PitchMixPieChart {stance} showTitle={false} />
+			</div>
+		</div>
+	{/each}
+</div>
+
+<style lang="postcss">
+	.chart-title {
+		font-size: 1.3rem;
+		margin-top: 0.75rem;
+		margin-bottom: 0;
+	}
+</style>

@@ -3,20 +3,19 @@
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP } from '$lib/constants';
 	import { pitchTypeMetricsByYearByStance } from '$lib/stores/pfxPitcherMetrics';
+	import { playerSeason } from '$lib/stores/singleValueStores';
 	import { BatterStance, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
-	export let chartTitle: string;
+	export let chartTitle: string = '';
 	export let stance: BatterStance = 'all';
-	export let year: number = 0;
+	export let showTitle: boolean = true;
 
-	const pieTotal = $pitchTypeMetricsByYearByStance['total_pitches'][year][stance];
-	const pieSlices = $pitchTypeMetricsByYearByStance['metrics'][year][stance].map((metrics) => createPieSlice(metrics));
-	const chartData = prepareSvgPieChart(pieSlices);
-	const totalBattersFaced = $pitchTypeMetricsByYearByStance['metrics'][year][stance]
-		.map((metrics) => metrics.total_at_bats)
-		.reduce((prev, current) => prev + current, 0);
-	const chartDescription = `${totalBattersFaced} total at bats`;
+	$: pieTotal = $pitchTypeMetricsByYearByStance['total_pitches'][$playerSeason][stance];
+	$: pieSlices = $pitchTypeMetricsByYearByStance['metrics'][$playerSeason][stance].map((metrics) =>
+		createPieSlice(metrics)
+	);
+	$: chartData = prepareSvgPieChart(pieSlices);
 
 	function createPieSlice(metrics: PitchFxMetrics): PieSlice {
 		const pitchTypeAbbrev = PITCH_TYPE_MAP[metrics.pitch_type_int];
@@ -34,4 +33,6 @@
 	}
 </script>
 
-<PieChart {chartData} {chartDescription} {chartTitle} />
+<div class="my-auto flex-initial">
+	<PieChart {chartData} {chartTitle} {showTitle} />
+</div>
