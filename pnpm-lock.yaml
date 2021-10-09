@@ -53,6 +53,7 @@ dependencies:
   '@sveltejs/kit': 1.0.0-next.180_sass@1.42.1+svelte@3.43.1
   date-fns: 2.25.0
   date-fns-tz: 1.1.6_date-fns@2.25.0
+  fuzzy: 0.1.3
   layercake: 4.1.1_svelte@3.43.1
   svelte-preprocess: 4.9.8_b1ccfb371c7d68f75291f5a547be0b14
 
@@ -73,7 +74,6 @@ devDependencies:
   eslint: 7.32.0
   eslint-config-prettier: 8.3.0_eslint@7.32.0
   eslint-plugin-svelte3: 3.2.1_eslint@7.32.0+svelte@3.43.1
-  fuzzy: 0.1.3
   highlight.js: 10.7.3
   postcss: 8.3.9
   postcss-load-config: 3.1.0
@@ -1421,7 +1421,6 @@ packages:
   /fuzzy/0.1.3:
     resolution: {integrity: sha1-THbsL/CsGjap3M+aAN+GIweNTtg=}
     engines: {node: '>= 0.6.0'}
-    dev: true
 
   /glob-parent/5.1.2:
     resolution: {integrity: sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==}
