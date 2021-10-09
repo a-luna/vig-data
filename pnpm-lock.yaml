@@ -48,13 +48,15 @@ specifiers:
   vite: ^2.6.5
 
 dependencies:
+  '@date-io/date-fns': 2.11.0_date-fns@2.25.0
   '@sveltejs/adapter-node': 1.0.0-next.53
   '@sveltejs/kit': 1.0.0-next.180_sass@1.42.1+svelte@3.43.1
+  date-fns: 2.25.0
+  date-fns-tz: 1.1.6_date-fns@2.25.0
   layercake: 4.1.1_svelte@3.43.1
   svelte-preprocess: 4.9.8_b1ccfb371c7d68f75291f5a547be0b14
 
 devDependencies:
-  '@date-io/date-fns': 2.11.0_date-fns@2.25.0
   '@sveltejs/adapter-netlify': 1.0.0-next.32
   '@sveltejs/adapter-static': 1.0.0-next.20
   '@sveltejs/vite-plugin-svelte': 1.0.0-next.27_svelte@3.43.1+vite@2.6.5
@@ -68,8 +70,6 @@ devDependencies:
   d3-interpolate: 3.0.1
   d3-scale: 4.0.2
   d3-time: 3.0.0
-  date-fns: 2.25.0
-  date-fns-tz: 1.1.6_date-fns@2.25.0
   eslint: 7.32.0
   eslint-config-prettier: 8.3.0_eslint@7.32.0
   eslint-plugin-svelte3: 3.2.1_eslint@7.32.0+svelte@3.43.1
@@ -127,7 +127,6 @@ packages:
 
   /@date-io/core/2.11.0:
     resolution: {integrity: sha512-DvPBnNoeuLaoSJZaxgpu54qzRhRKjSYVyQjhznTFrllKuDpm0sDFjHo6lvNLCM/cfMx2gb2PM2zY2kc9C8nmuw==}
-    dev: true
 
   /@date-io/date-fns/2.11.0_date-fns@2.25.0:
     resolution: {integrity: sha512-mPQ71plBeFrArvBSHtjWMHXA89IUbZ6kuo2dsjlRC/1uNOybo91spIb+wTu03NxKTl8ut07s0jJ9svF71afpRg==}
@@ -139,7 +138,7 @@ packages:
     dependencies:
       '@date-io/core': 2.11.0
       date-fns: 2.25.0
-    dev: true
+    dev: false
 
   /@eslint/eslintrc/0.4.3:
     resolution: {integrity: sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw==}
@@ -912,12 +911,12 @@ packages:
       date-fns: '>=2.0.0-alpha.13'
     dependencies:
       date-fns: 2.25.0
-    dev: true
+    dev: false
 
   /date-fns/2.25.0:
     resolution: {integrity: sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==}
     engines: {node: '>=0.11'}
-    dev: true
+    dev: false
 
   /debug/4.3.2:
     resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}
