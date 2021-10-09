@@ -1,9 +1,10 @@
 import { syncWidth } from '$lib/stores/elementWidth';
-import type { PageBreakPoint, PageBreakPointStore } from '$lib/types';
-import type { Readable, Writable } from 'svelte/store';
+import type { PageBreakPoint } from '$lib/types';
+// import type { Readable, Writable } from 'svelte/store';
 import { derived } from 'svelte/store';
 
-export const getPageWidth = (): Writable<number> => {
+// export const getPageWidth = (): Writable<number> => {
+export const getPageWidth = () => {
 	if (typeof window !== 'undefined') {
 		const svelteDiv = document.getElementById('svelte');
 		return svelteDiv ? syncWidth(svelteDiv) : null;
@@ -11,7 +12,8 @@ export const getPageWidth = (): Writable<number> => {
 	return null;
 };
 
-export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWidth(), ($pageWidth) => {
+// export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWidth(), ($pageWidth) => {
+export const pageBreakPoints = derived(getPageWidth(), ($pageWidth) => {
 	const isDefault = (width: number): boolean => width < 640;
 	const isSmall = (width: number): boolean => width >= 640 && width < 768;
 	const isMedium = (width: number): boolean => width >= 768 && width < 1024;

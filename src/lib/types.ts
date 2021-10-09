@@ -1,6 +1,6 @@
 import type { MlbSeason } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
-import type { Writable } from 'svelte/store';
+// import type { Writable } from 'svelte/store';
 import { getRandomHexString } from './util';
 
 export class HslColor {
@@ -140,14 +140,16 @@ export interface AllMlbSeasons {
 }
 
 export interface ScoreboardDateStore {
-	subscribe: Writable<Date>['subscribe'];
+	// subscribe: Writable<Date>['subscribe'];
+	subscribe: unknown;
 	nextDay: () => void;
 	prevDay: () => void;
 	changeDate: (date: Date) => void;
 }
 
 export interface TeamStatFilterStore {
-	subscribe: Writable<TeamStatFilter>['subscribe'];
+	// subscribe: Writable<TeamStatFilter>['subscribe'];
+	subscribe: unknown;
 	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
 	changeStatType: (statType: TeamStatType) => void;
@@ -158,7 +160,8 @@ export interface TeamStatFilterStore {
 }
 
 export interface AllMlbSeasonsStore {
-	subscribe: Writable<AllMlbSeasons>['subscribe'];
+	// subscribe: Writable<AllMlbSeasons>['subscribe'];
+	subscribe: unknown;
 	changeMlbSeasons: (seasons: MlbSeason[]) => void;
 }
 
