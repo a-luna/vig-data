@@ -43,7 +43,6 @@
 	let getPitchStatsComplete = false;
 	let getBatStatsComplete = false;
 	let getBarrelsComplete = false;
-	let errorMessageModal: ErrorMessageModal;
 
 	function removeLoadingScreen(_el: HTMLElement) {
 		loading = false;
@@ -54,7 +53,6 @@
 		if (!result.success) {
 			error = result.message;
 			getAllSeasonsComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		$allSeasons = result.value;
@@ -67,7 +65,6 @@
 		if (!result.success) {
 			error = result.message;
 			getStandingsComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		seasonStandings = result.value;
@@ -80,7 +77,6 @@
 		if (!result.success) {
 			error = result.message;
 			getScoreboardComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		const scoreboard = result.value;
@@ -94,7 +90,6 @@
 		if (!result.success) {
 			error = result.message;
 			getPitchStatsComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		pitchStats = result.value;
@@ -107,7 +102,6 @@
 		if (!result.success) {
 			error = result.message;
 			getBatStatsComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		batStats = result.value;
@@ -120,7 +114,6 @@
 		if (!result.success) {
 			error = result.message;
 			getBarrelsComplete = true;
-			errorMessageModal.toggleModal(error);
 			return result;
 		}
 		pfxBarrels = result.value;
@@ -132,7 +125,6 @@
 		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
 		if (!getSeasonDatesResult.success) {
 			error = getSeasonDatesResult.message;
-			errorMessageModal.toggleModal(error);
 			return getSeasonDatesResult;
 		}
 		[minDate, maxDate] = getSeasonDatesResult.value;
@@ -172,9 +164,12 @@
 </svelte:head>
 
 <LoadingScreen {loading} />
-<ErrorMessageModal bind:this={errorMessageModal} />
 
-{#if !loading && allRequestsComplete}
+{#if error}
+	<ErrorMessageModal {error} />
+{/if}
+
+{#if allRequestsComplete}
 	<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
 		<div class="hidden sm:block">
 			<DateNavigation bind:season on:dateChanged={() => handleDateChanged()} />
@@ -195,20 +190,25 @@
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab) {
 		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md focus:outline-none;
-		color: var(--sec-color);
-		border-top: 1px solid var(--sec-color);
-		border-bottom: 1px solid var(--sec-color);
-		border-left: 1px solid var(--sec-color);
-		border-right: none;
+		background-color: var(--sec-color);
+		color: var(--color-on-sec);
+		background-position: center;
+		transition: background 0.2s;
+		border: 1px solid var(--sec-color);
 	}
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:hover) {
-		background-color: var(--sec-color-hov);
+		background: var(--sec-color-hov) radial-gradient(circle, transparent 1%, var(--sec-color-hov) 1%) center/15000%;
 		color: var(--color-on-sec-hov);
-		border-top: 1px solid transparent;
-		border-bottom: 1px solid transparent;
-		border-left: 1px solid transparent;
-		border-right: none;
+		border: 1px solid transparent;
+	}
+
+	:global(.svelte-tabs__tab-list li.svelte-tabs__selected),
+	:global(.svelte-tabs__tab-list li.svelte-tabs__selected:hover) {
+		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md focus:outline-none;
+		background: var(--sec-color-hov);
+		color: var(--color-on-sec-hov);
+		border: 1px solid var(--sec-color-hov);
 	}
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:first-child),
@@ -216,20 +216,8 @@
 		@apply rounded-tr-none rounded-br-none rounded-tl-md rounded-bl-md;
 	}
 
-	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:last-child) {
-		@apply rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md;
-		border-right: 1px solid var(--sec-color);
-	}
-
+	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:last-child),
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:last-child:hover) {
 		@apply rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md;
-		border-right: 1px solid transparent;
-	}
-
-	:global(.svelte-tabs__tab-list li.svelte-tabs__selected),
-	:global(.svelte-tabs__tab-list li.svelte-tabs__selected:hover) {
-		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md focus:outline-none;
-		background: var(--sec-color);
-		color: var(--color-on-sec);
 	}
 </style>

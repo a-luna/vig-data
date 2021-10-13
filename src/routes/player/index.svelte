@@ -36,12 +36,12 @@
 
 <LoadingScreen bind:loading />
 
-<div class="container mx-auto mt-4">
-	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-		{#if !loading}
+{#if !loading}
+	<div class="container mx-auto mt-4">
+		<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 			{#each players as details}
 				<PlayerCard {details} links={createPlayerCardLinks(details.mlb_id)} />
 			{/each}
-		{/if}
+		</div>
 	</div>
-</div>
+{/if}

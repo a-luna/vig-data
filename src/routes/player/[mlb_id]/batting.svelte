@@ -8,6 +8,7 @@
 		PlayerDetails as PlayerDetailsSchema,
 		TeamBatStats
 	} from '$lib/api/types';
+	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerBatStatsTable from '$lib/components/Player/Batting/CareerBatStatsTable.svelte';
 	import DefPositionPieChart from '$lib/components/Player/Batting/PieCharts/DefPositionPieChart.svelte';
 	import StartBenchPieChart from '$lib/components/Player/Batting/PieCharts/StartBenchPieChart.svelte';
@@ -23,11 +24,13 @@
 	let mostRecentYearPlayed: number;
 	let careerDefPosMetrics: DefPositionMetrics[];
 	let mostRecentBatStats: TeamBatStats;
-	let getCareerPfxDataRequest: Promise<ApiResponse<CareerBatStats> | ApiResponse<PlayerDetailsSchema>>;
-	let getCareerPfxDataResult: ApiResponse<CareerBatStats>;
-	let getPlayerDetailsResult: ApiResponse<PlayerDetailsSchema>;
 	let loading = false;
+	let error: string = null;
+	let getCareerStatsComplete = false;
+	// let getCareerPfxComplete = false;
+	let getPlayerBioComplete = false;
 
+	$: allRequestsComplete = getCareerStatsComplete && getPlayerBioComplete;
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
 	$: if (careerBatStats) careerDefPosMetrics = careerBatStats.career.def_position_metrics;
 	$: if (careerBatStats)
@@ -43,65 +46,76 @@
 			.sort((a, b) => b.year - a.year)?.[0];
 
 	onMount(() => {
-		getCareerPfxDataRequest = getCareerBatStats();
+		loading = true;
+		const mlb_id = parseInt($page.params.mlb_id);
+		getCareerBatStats(mlb_id);
+		// getCareerPfxData(mlb_id);
+		getPlayerBio(mlb_id);
 	});
 
-	async function getCareerBatStats() {
-		const mlb_id = $page.params.mlb_id;
-		loading = true;
-		getCareerPfxDataResult = await getCareerBatStatsForPlayer(parseInt(mlb_id));
-		if (!getCareerPfxDataResult.success) {
-			loading = false;
-			return getCareerPfxDataResult;
+	async function getCareerBatStats(mlb_id: number) {
+		const result = await getCareerBatStatsForPlayer(mlb_id);
+		if (!result.success) {
+			error = result.message;
+			return result;
 		}
-		careerBatStats = getCareerPfxDataResult.value;
+		careerBatStats = result.value;
+		getCareerStatsComplete = true;
+		return result;
+	}
 
-		getPlayerDetailsResult = await getPlayerDetails(parseInt(mlb_id));
-		if (!getPlayerDetailsResult.success) {
-			loading = false;
-			return getPlayerDetailsResult;
+	// async function getCareerPfxData(mlb_id: number): Promise<ApiResponse<CareerPfxMetricsForPitcher>> {
+	// 	const result = await getCareerPfxDataForPitcher(mlb_id);
+	// 	if (!result.success) {
+	// 		error = result.message;
+	// 		return result;
+	// 	}
+	// 	$careerPfxData = result.value;
+	// 	getCareerPfxComplete = true;
+	// 	return result;
+	// }
+
+	async function getPlayerBio(mlb_id: number): Promise<ApiResponse<PlayerDetailsSchema>> {
+		const result = await getPlayerDetails(mlb_id);
+		if (!result.success) {
+			error = result.message;
+			return result;
 		}
-		playerDetails = getPlayerDetailsResult.value;
-		loading = false;
-		return getPlayerDetailsResult;
+		playerDetails = result.value;
+		getPlayerBioComplete = true;
+		return result;
 	}
 </script>
 
 <svelte:head>
 	<title>{playerName ? playerName : ''} Player Data | Vigorish</title>
 </svelte:head>
-{#if getCareerPfxDataRequest}
-	{#await getCareerPfxDataRequest}
-		<LoadingScreen bind:loading />
-	{:then result}
-		{#if result.success}
-			<div id="player-details" class="flex flex-row justify-between sm:mb-5">
-				<PlayerDetails {...playerDetails} />
-			</div>
-			<div class="flex flex-row flex-wrap justify-around gap-5 mb-5">
-				<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
-					<StartBenchPieChart
-						batStats={careerBatStats.career}
-						chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`}
-					/>
-					<StartBenchPieChart batStats={mostRecentBatStats} chartTitle={mostRecentYearPlayed.toString()} />
-				</div>
-				<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
-					<DefPositionPieChart
-						defPosMetrics={careerDefPosMetrics}
-						chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`}
-					/>
-					<DefPositionPieChart
-						defPosMetrics={mostRecentBatStats.def_position_metrics}
-						chartTitle={mostRecentYearPlayed.toString()}
-					/>
-				</div>
-			</div>
-			<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
-		{:else}
-			<div class="error">Error: {result.message}</div>
-		{/if}
-	{:catch error}
-		<div class="error">Error: {error.message}</div>
-	{/await}
+
+<LoadingScreen {loading} />
+
+{#if error}
+	<ErrorMessageModal {error} />
+{/if}
+
+{#if allRequestsComplete}
+	<div id="player-details" class="flex flex-row justify-between sm:mb-5">
+		<PlayerDetails {...playerDetails} />
+	</div>
+	<div class="flex flex-row flex-wrap justify-around gap-5 mb-5">
+		<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
+			<StartBenchPieChart batStats={careerBatStats.career} chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`} />
+			<StartBenchPieChart batStats={mostRecentBatStats} chartTitle={mostRecentYearPlayed.toString()} />
+		</div>
+		<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
+			<DefPositionPieChart
+				defPosMetrics={careerDefPosMetrics}
+				chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`}
+			/>
+			<DefPositionPieChart
+				defPosMetrics={mostRecentBatStats.def_position_metrics}
+				chartTitle={mostRecentYearPlayed.toString()}
+			/>
+		</div>
+	</div>
+	<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
 {/if}
