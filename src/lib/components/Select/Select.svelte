@@ -31,7 +31,8 @@
 </script>
 
 <div
-	class="relative inline-block flex-initial text-left"
+	class="relative flex-initial inline-block text-left"
+	style="width: {width ? width : 'auto'}"
 	use:clickOutside={{ enabled: dropdownShown, cb: () => (dropdownShown = !dropdownShown) }}
 >
 	<div>
@@ -53,14 +54,13 @@
 
 	{#if dropdownShown}
 		<div
-			class="absolute right-0 z-10 mt-2 origin-top-right rounded-md shadow-lg dropdown ring-1 ring-black ring-opacity-5 focus:outline-none"
+			class="absolute right-0 z-10 w-full mt-2 origin-top-right rounded-md shadow-lg dropdown ring-1 ring-black ring-opacity-5 focus:outline-none"
 			role="menu"
 			aria-orientation="vertical"
 			aria-labelledby="open-list-button"
 			tabindex="-1"
 			in:scale={{ duration: 100, start: 0.95, easing: cubicOut }}
 			out:scale={{ duration: 75, start: 0.95, easing: cubicIn }}
-			style="width: {width ? width : 'auto'}"
 		>
 			<div class="py-1" role="none">
 				{#each options as option}
