@@ -1,8 +1,10 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 
-	let error: string;
+	export let error: string = '';
 	let modalContainer: ModalContainer;
+
+	$: if (error) modalContainer.toggleModal();
 
 	export function toggleModal(message: string) {
 		error = message;
