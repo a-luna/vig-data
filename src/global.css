@@ -363,14 +363,15 @@ body.light-mode {
 
 	--pseq-top-bg-color: var(--gray1);
 	--pseq-bottom-bg-color: var(--gray1);
-	--pseq-legend-bg-color: var(--blue1);
-	--pseq-legend-text-color: var(--white3);
+	--pseq-legend-bg-color: var(--light-gray3);
+	--pseq-legend-text-color: var(--black4);
+	--pseq-legend-font-weight: 700;
 	--pseq-outer-border-color: var(--black4);
 	--ploc-chart-bg-color: var(--light-gray3);
 	--ploc-grid-color: var(--blue-gray4);
 	--ploc-axis-text-color: var(--black4);
 	--ploc-pitch-num-color: var(--black4);
-	--ploc-pitch-num-font-weight: 700;
+	--ploc-pitch-num-font-weight: 400;
 	--ploc-outer-border-color: var(--black4);
 	--strike-zone-border-color: var(--dark-gray1);
 
@@ -422,7 +423,7 @@ body.dark-mode {
 
 	--body-text-color: var(--white1);
 	--heading-text-color: var(--white3);
-	--site-bg-color: var(--gray1);
+	--site-bg-color: var(--dark-gray3);
 	--page-bg-color: var(--rich-black3);
 	--spinner-color: var(--sec-color);
 
@@ -510,6 +511,7 @@ body.dark-mode {
 	--pseq-bottom-bg-color: var(--indigo1);
 	--pseq-legend-bg-color: var(--rich-black1);
 	--pseq-legend-text-color: var(--white1);
+	--pseq-legend-font-weight: 400;
 	--pseq-outer-border-color: var(--indigo1);
 	--ploc-chart-bg-color: var(--rich-black1);
 	--ploc-grid-color: var(--dark-gray4);

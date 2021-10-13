@@ -166,7 +166,7 @@
 </script>
 
 <div class:not-shown={!shown} class="flex flex-col items-center justify-start w-full flex-nowrap">
-	<div class="at-bat-viewer">
+	<div class="text-sm at-bat-viewer">
 		<div class="flex flex-col justify-end at-bat-details-wrapper flex-nowrap">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
@@ -268,7 +268,6 @@
 		flex-flow: column nowrap;
 		justify-content: center;
 		align-items: center;
-		font-size: 0.75rem;
 	}
 
 	@media screen and (min-width: 550px) {
@@ -292,7 +291,6 @@
 		}
 
 		.at-bat-viewer {
-			font-size: 0.875rem;
 			max-width: 775px;
 		}
 	}

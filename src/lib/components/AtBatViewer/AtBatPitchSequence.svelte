@@ -3,6 +3,7 @@
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import { PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
 	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util';
+	import FaRocket from 'svelte-icons/fa/FaRocket.svelte';
 	import MdBlock from 'svelte-icons/md/MdBlock.svelte';
 	import MdErrorOutline from 'svelte-icons/md/MdErrorOutline.svelte';
 
@@ -10,9 +11,11 @@
 	export let pitchSequence: AtBatPitchDescription[];
 	let anyPitchBlocked: boolean;
 	let anyPitchOutOfBoundary: boolean;
+	let anyPitchBarreled: boolean;
 
 	$: if (pitchSequence) anyPitchBlocked = pitchSequence.some((p) => p.blocked_by_c);
 	$: if (pitchSequence) anyPitchOutOfBoundary = pitchSequence.some((p) => p.out_of_boundary);
+	$: if (pitchSequence) anyPitchBarreled = pitchSequence.some((p) => p.barreled);
 
 	function formatRunsOutsResult(runs_outs_result: string): string {
 		const runs_count = runs_outs_result.replace(/[^R]/g, '').length;
@@ -42,7 +45,7 @@
 	<div class="at-bat-pitch-sequence responsive-vert">
 		<table class="m-0 w-min">
 			<tbody>
-				{#each pitchSequence as { number, description, type, blocked_by_c, out_of_boundary, non_pitch_event }}
+				{#each pitchSequence as { number, description, type, blocked_by_c, out_of_boundary, barreled, non_pitch_event }}
 					<tr>
 						{#if non_pitch_event}
 							<td colspan="4" class="text-xs italic non-pitch-event">
@@ -65,6 +68,11 @@
 											<MdErrorOutline />
 										</div>
 									{/if}
+									{#if barreled}
+										<div class="ml-1 icon">
+											<FaRocket />
+										</div>
+									{/if}
 								</div>
 							</td>
 							<td class="pitch-speed" data-pitch-type={getPitchTypeAbbrevFromName(getPitchType(type))}>
@@ -80,7 +88,7 @@
 		</table>
 	</div>
 	{#if anyPitchBlocked}
-		<div class="flex flex-row items-baseline justify-start p-3 legend flex-nowrap">
+		<div class="flex flex-row items-baseline justify-start gap-1 p-3 legend flex-nowrap">
 			<div class="icon-small">
 				<MdBlock />
 			</div>
@@ -88,11 +96,21 @@
 		</div>
 	{/if}
 	{#if anyPitchOutOfBoundary}
-		<div class="flex flex-row items-baseline justify-start p-3 legend flex-nowrap">
+		<div class="flex flex-row items-baseline justify-start gap-1 p-3 legend flex-nowrap">
 			<div class="icon-small">
 				<MdErrorOutline />
 			</div>
 			<span class="text-xs italic">Pitch location is beyond the boundaries of this graph</span>
+		</div>
+	{/if}
+	{#if anyPitchBarreled}
+		<div class="flex flex-row items-baseline justify-start gap-1 p-3 legend flex-nowrap">
+			<div class="icon-small">
+				<FaRocket />
+			</div>
+			<span class="text-xs italic">
+				Batted ball is classified as a <a href="https://www.mlb.com/glossary/statcast/barrel" target="_blank">barrel</a>
+			</span>
 		</div>
 	{/if}
 	<div class="text-sm text-center play_description py-0.5">
@@ -134,7 +152,7 @@
 		color: var(--sec-color);
 		width: 12px;
 		height: 12px;
-		margin: 0 2px 0 0;
+		margin: 0 2px;
 	}
 
 	:global(.at-bat-result) {
@@ -156,12 +174,17 @@
 	}
 
 	.legend {
+		font-weight: var(--pseq-legend-font-weight);
 		background-color: var(--pseq-legend-bg-color);
 		color: var(--pseq-legend-text-color);
 		border-right: 1px solid var(--pseq-outer-border-color);
 		border-left: 1px solid var(--pseq-outer-border-color);
 		padding: 3px 2px;
 		line-height: 1;
+	}
+
+	.legend a {
+		color: var(--pri-color);
 	}
 
 	.play_description {

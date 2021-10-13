@@ -151,7 +151,7 @@
 	}
 
 	.half-inning .resp-table-body {
-		line-height: 1;
+		line-height: 1.25;
 	}
 
 	.show-on-mobile,
@@ -162,5 +162,11 @@
 	.resp-table-row:last-child .show-on-mobile,
 	.resp-table-row:last-child .hide-on-mobile {
 		border-bottom-right-radius: 4px;
+	}
+
+	@media screen and (min-width: 768px) {
+		.half-inning .resp-table-body {
+			line-height: 1;
+		}
 	}
 </style>
