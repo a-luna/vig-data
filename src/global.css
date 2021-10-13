@@ -1084,20 +1084,21 @@ button:disabled:hover,
 }
 
 .btn-secondary {
-	color: var(--color-on-sec);
 	background-color: var(--sec-color);
+	color: var(--color-on-sec);
 	background-position: center;
 	transition: background 0.2s;
 }
 
 .btn-secondary:hover {
-	background: var(--sec-color-hov) radial-gradient(circle, transparent 1%, var(--sec-color-hov) 1%) center/15000%;
-	color: var(--color-on-sec-hov);
+	background-color: var(--sec-color-active);
+	color: var(--color-on-sec-active);
+	border: 1px solid transparent;
 }
 
 .btn-secondary.active {
-	color: var(--color-on-sec-active);
-	background-color: var(--sec-color-active);
+	background-color: var(--sec-color-hov);
+	color: var(--color-on-sec-hov);
 	background-size: 100%;
 	transition: background 0.1s;
 }
@@ -1151,10 +1152,10 @@ button:disabled:hover,
 }
 
 .btn-group-secondary > button.active {
-	border-top: 1px solid var(--sec-color-active);
-	border-bottom: 1px solid var(--sec-color-active);
-	border-left: 1px solid var(--sec-color-active);
-	border-right: 1px solid var(--sec-color-active);
+	border-top: 1px solid var(--sec-color-hov);
+	border-bottom: 1px solid var(--sec-color-hov);
+	border-left: 1px solid var(--sec-color-hov);
+	border-right: 1px solid var(--sec-color-hov);
 }
 
 .btn-group > button:first-child {
@@ -1163,26 +1164,6 @@ button:disabled:hover,
 
 .btn-group > button:last-child {
 	@apply rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md;
-}
-
-.btn-group-primary > button:last-child {
-	border-right: 1px solid var(--pri-color);
-}
-
-.btn-group-secondary > button:last-child {
-	border-right: 1px solid var(--sec-color);
-}
-
-.btn-group-primary > button.active:last-child {
-	border-right: 1px solid var(--pri-color-active);
-}
-
-.btn-group-secondary > button.active:last-child {
-	border-right: 1px solid var(--sec-color-active);
-}
-
-.btn-group > button:last-child:hover {
-	border-right: 1px solid transparent;
 }
 
 .datatable {
