@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Linescore, PitcherResults, PlayerPitchStats } from '$lib/api/types';
-	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
+	import { TEAM_ID_TO_CITY_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import { shortenPlayerName } from '$lib/util';
 	import { onMount, tick } from 'svelte';
 
 	export let linescore: Linescore;
@@ -13,6 +15,8 @@
 	const { wp, lp, sv } = pitcher_results;
 
 	$: total_innings = inning_numbers.slice(-1)?.[0];
+	$: tiny_screen = $pageBreakPoints.width < 350;
+	$: gameWidth = getGameWidth($pageBreakPoints.width);
 	$: away_runs_scored = away_team_totals[0];
 	$: home_runs_scored = home_team_totals[0];
 	$: away_team_won = away_runs_scored > home_runs_scored;
@@ -22,6 +26,24 @@
 		await tick();
 		mounted = true;
 	});
+
+	function getGameWidth(pageWidth: number): number {
+		return pageWidth < 350
+			? Math.max(pageWidth * 0.5 - 38.5, 130)
+			: pageWidth < 640
+			? 175
+			: pageWidth < 1024
+			? 195
+			: 230;
+	}
+
+	function getTeamName(team_id: string, isMobile: boolean): string {
+		return isMobile ? TEAM_ID_TO_CITY_MAP[team_id] : TEAM_ID_TO_NAME_MAP[team_id];
+	}
+
+	function getPlayerName(name: string, isMobile: boolean): string {
+		return isMobile ? shortenPlayerName(name) : name;
+	}
 
 	function getPitchingStatsForPlayer(mlb_id: number): PlayerPitchStats {
 		const match = pitchStats.filter((p) => p.player_id_mlb == mlb_id);
@@ -48,39 +70,58 @@
 </script>
 
 {#if mounted}
-	<div class="flex flex-col justify-start flex-grow shadow-lg place-self-start game-result flex-nowrap">
+	<div
+		class="flex flex-col justify-start shadow-lg place-self-start game-result flex-nowrap"
+		style={`width: ${gameWidth}px`}
+	>
 		<div class="flex flex-col justify-start flex-grow-0 p-2 game-result-top flex-nowrap">
 			<div class="flex flex-row items-baseline justify-start away-team flex-nowrap">
-				<span class="flex-grow overflow-ellipsis whitespace-nowrap">{TEAM_ID_TO_NAME_MAP[away_team_id]}</span>
-				<div class="flex flex-row justify-end text-right flex-nowrap">
+				<span class="flex-grow overflow-ellipsis whitespace-nowrap">
+					{getTeamName(away_team_id, tiny_screen)}
+				</span>
+				<div class="flex flex-row justify-end right flex-nowrap">
 					<span class="away-team-runs" class:font-bold={away_team_won}>{away_runs_scored}</span>
-					<a class="w-8 ml-1" sveltekit:prefetch href="/game?id={game_id}&show=box">Final</a>
+					<a class="w-8 ml-2" sveltekit:prefetch href="/game?id={game_id}&show=box">Final</a>
 				</div>
 			</div>
 			<div class="flex flex-row items-baseline justify-start home-team flex-nowrap">
-				<span class="flex-grow overflow-ellipsis whitespace-nowrap">{TEAM_ID_TO_NAME_MAP[home_team_id]}</span>
+				<span class="flex-grow overflow-ellipsis whitespace-nowrap">
+					{getTeamName(home_team_id, tiny_screen)}
+				</span>
 				<div class="flex flex-row justify-end text-right flex-nowrap">
 					<span class="home-team-runs" class:font-bold={home_team_won}>{home_runs_scored}</span>
-					<span class="w-8 ml-1 text-right extra-innings">{@html extra_innings ? `(${total_innings})` : '&nbsp;'}</span>
+					<span class="w-8 ml-2 text-right extra-innings">{@html extra_innings ? `(${total_innings})` : '&nbsp;'}</span>
 				</div>
 			</div>
 		</div>
 		<div class="flex flex-col justify-start flex-grow-0 p-2 game-result-bottom flex-nowrap">
 			<div class="flex flex-row justify-start wp flex-nowrap">
 				<span class="w-3 mr-1.5 font-bold text-center">W</span>
-				<span class="mr-2"><a sveltekit:prefetch href={`/player/${wp.mlb_id}/pitching`}>{wp.name}</a></span>
-				<span>{getPitchingRecordForPlayer(wp.mlb_id)}</span>
+				<span class="mr-2 overflow-ellipsis whitespace-nowrap"
+					><a sveltekit:prefetch href={`/player/${wp.mlb_id}/pitching`}>
+						{getPlayerName(wp.name, tiny_screen)}
+					</a></span
+				>
+				<span class="overflow-ellipsis whitespace-nowrap">{getPitchingRecordForPlayer(wp.mlb_id)}</span>
 			</div>
 			<div class="flex flex-row justify-start lp flex-nowrap">
 				<span class="w-3 mr-1.5 font-bold text-center">L</span>
-				<span class="mr-2"><a sveltekit:prefetch href={`/player/${lp.mlb_id}/pitching`}>{lp.name}</a></span>
-				<span>{getPitchingRecordForPlayer(lp.mlb_id)}</span>
+				<span class="mr-2 overflow-ellipsis whitespace-nowrap"
+					><a sveltekit:prefetch href={`/player/${lp.mlb_id}/pitching`}>
+						{getPlayerName(lp.name, tiny_screen)}
+					</a></span
+				>
+				<span class="overflow-ellipsis whitespace-nowrap">{getPitchingRecordForPlayer(lp.mlb_id)}</span>
 			</div>
 			{#if sv}
 				<div class="flex flex-row justify-start sv flex-nowrap">
 					<span class="w-3 mr-1.5 font-bold text-center">S</span>
-					<span class="mr-2"><a sveltekit:prefetch href={`/player/${sv.mlb_id}/pitching`}>{sv.name}</a></span>
-					<span>{getTotalSavesForPlayer(sv.mlb_id)}</span>
+					<span class="mr-2 overflow-ellipsis whitespace-nowrap"
+						><a sveltekit:prefetch href={`/player/${sv.mlb_id}/pitching`}>
+							{getPlayerName(sv.name, tiny_screen)}
+						</a></span
+					>
+					<span class="overflow-ellipsis whitespace-nowrap">{getTotalSavesForPlayer(sv.mlb_id)}</span>
 				</div>
 			{/if}
 		</div>
@@ -89,7 +130,6 @@
 
 <style lang="postcss">
 	.game-result {
-		width: 195px;
 		color: var(--body-text-color);
 		background-color: var(--game-result-bg-color);
 	}
@@ -109,10 +149,15 @@
 	}
 
 	.game-result-bottom {
-		height: 65px;
+		height: 57px;
 	}
 
 	@media screen and (min-width: 640px) {
+		.game-result {
+			color: var(--body-text-color);
+			background-color: var(--game-result-bg-color);
+		}
+
 		.game-result-top {
 			border-left: 2px dotted var(--game-result-border-color);
 			border-top: 2px dotted var(--game-result-border-color);
@@ -129,10 +174,6 @@
 	}
 
 	@media screen and (min-width: 1024px) {
-		.game-result {
-			width: 230px;
-		}
-
 		.game-result-bottom {
 			height: 78px;
 		}
