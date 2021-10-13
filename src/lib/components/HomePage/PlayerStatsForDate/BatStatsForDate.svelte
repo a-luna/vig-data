@@ -19,7 +19,7 @@
 	}
 </script>
 
-<div class="flex flex-col mx-4 mb-4 player-stats-wrapper flex-nowrap responsive w-full">
+<div class="flex flex-col mb-4 player-stats-wrapper flex-nowrap responsive w-full">
 	<BatStatsForDateTable
 		tableId={tableId ? tableId : getDefaultTableId()}
 		bind:batStats

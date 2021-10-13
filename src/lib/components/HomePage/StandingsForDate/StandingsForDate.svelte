@@ -10,7 +10,7 @@
 	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'MMM do');
 </script>
 
-<div id={'standings-for-date'} class="flex flex-col flex-nowrap p-4">
+<div id={'standings-for-date'} class="flex flex-col flex-initial p-4 flex-nowrap">
 	<h3
 		class="mb-1.5 text-lg leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
 	>
@@ -20,7 +20,7 @@
 		>after {formatted}</span
 	>
 	<div class="flex flex-col flex-nowrap">
-		<div class="flex flex-col gap-3 items-center justify-center text-sm flex-nowrap">
+		<div class="flex flex-col items-center justify-center gap-3 text-sm flex-nowrap">
 			<LeagueStandings league={'al'} leagueStandings={seasonStandings['al']} />
 			<LeagueStandings league={'nl'} leagueStandings={seasonStandings['nl']} />
 		</div>
@@ -35,5 +35,23 @@
 
 	.sub-heading {
 		color: var(--sec-color);
+	}
+
+	@media screen and (min-width: 640px) {
+		#standings-for-date {
+			width: 199px;
+		}
+	}
+
+	@media screen and (min-width: 768px) {
+		#standings-for-date {
+			width: 208px;
+		}
+	}
+
+	@media screen and (min-width: 1024px) {
+		#standings-for-date {
+			width: 217px;
+		}
 	}
 </style>

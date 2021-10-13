@@ -6,8 +6,8 @@
 	export let pitchStats: PlayerPitchStats[];
 </script>
 
-<div id="scoreboard" class="flex flex-col items-center justify-start flex-nowrap mx-auto">
-	<div class="grid grid-cols-2 gap-1.5 mb-5 text-sm sm:gap-3 sm:grid-cols-3">
+<div id="scoreboard" class="flex flex-col items-center justify-start flex-nowrap">
+	<div class="grid grid-cols-2 gap-1.5 text-xs sm:text-sm sm:gap-3 sm:grid-cols-3">
 		{#each games_for_date as game_data}
 			<GameResult {...game_data} {pitchStats} />
 		{/each}

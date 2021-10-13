@@ -19,9 +19,9 @@
 </script>
 
 <div class="responsive">
-	<div id={tableId} class="league-standings resp-table m-0">
+	<div id={tableId} class="resp-table">
 		{#each allDivisions as div}
-			<div class="resp-table-header text-center">
+			<div class="text-center resp-table-header">
 				<div class="team-id table-header-cell">{getDivisionAbbrev(div)}</div>
 				<div class="num table-header-cell">W</div>
 				<div class="num table-header-cell">L</div>
@@ -46,23 +46,23 @@
 </div>
 
 <style lang="postcss">
-	:global(#standings-al) .resp-table-row:last-child .table-body-cell:first-child,
-	:global(#standings-nl) .resp-table-row:last-child .table-body-cell:first-child {
+	.resp-table-row:last-child .table-body-cell:first-child,
+	.resp-table-row:last-child .table-body-cell:first-child {
 		border-bottom-left-radius: 0;
 	}
 
-	:global(#standings-al) .resp-table-row:last-child .table-body-cell:last-child,
-	:global(#standings-nl) .resp-table-row:last-child .table-body-cell:last-child {
+	.resp-table-row:last-child .table-body-cell:last-child,
+	.resp-table-row:last-child .table-body-cell:last-child {
 		border-bottom-right-radius: 0;
 	}
 
-	:global(#standings-al) .resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:first-child,
-	:global(#standings-nl) .resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:first-child {
+	.resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:first-child,
+	.resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:first-child {
 		border-bottom-left-radius: 4px;
 	}
 
-	:global(#standings-al) .resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:last-child,
-	:global(#standings-nl) .resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:last-child {
+	.resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:last-child,
+	.resp-table-body:last-of-type .resp-table-row:last-child .table-body-cell:last-child {
 		border-bottom-right-radius: 4px;
 	}
 </style>
