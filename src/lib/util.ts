@@ -592,14 +592,17 @@ export function getDummyTeamBatStats(): TeamBatStats {
 		all_stats_for_stint: false,
 		career_stats_all_teams: false,
 		career_stats_for_team: false,
-		total_seasons: 0
+		total_seasons: 0,
+		row_id: ''
 	};
 }
 
 export function getDummyTeamPitchStats(): TeamPitchStats {
 	return {
 		year: 0,
+		age: 0,
 		team_id_bbref: '',
+		player_team_id_bbref: '',
 		opponent_team_id_bbref: '',
 		mlb_id: 0,
 		bbref_id: '',
@@ -645,7 +648,14 @@ export function getDummyTeamPitchStats(): TeamPitchStats {
 		wpa_pitch: 0,
 		re24_pitch: 0,
 		league: 'AL',
-		division: 'W'
+		division: 'W',
+		changed_teams_midseason: false,
+		all_stats_for_season: false,
+		all_stats_for_stint: false,
+		career_stats_all_teams: false,
+		career_stats_for_team: false,
+		total_seasons: 0,
+		row_id: ''
 	};
 }
 
