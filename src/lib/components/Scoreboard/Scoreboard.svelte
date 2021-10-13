@@ -5,6 +5,7 @@
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
+	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getSeasonDates, getStringFromDate } from '$lib/util';
@@ -48,7 +49,10 @@
 			<Spinner />
 		{:then _result}
 			{#if success}
-				<DateNavigation {minDate} {maxDate} on:showDatePicker={() => datePickerModal.toggleModal()} />
+				<div class="flex flex-row items-center justify-center gap-3 mb-5 flex-nowrap">
+					<SeasonDropDown width={'auto'} on:changed />
+					<DateNavigation {minDate} {maxDate} on:showDatePicker={() => datePickerModal.toggleModal()} />
+				</div>
 				<h3 class="my-2 text-xl text-center sm:text-2xl">Games Played on {value.toDateString()}</h3>
 				<div class="flex flex-row flex-wrap justify-center flex-grow-0 mx-auto my-0 text-sm scoreboard">
 					{#each games_for_date as { linescore, pitcher_results, game_id }}
