@@ -402,6 +402,7 @@ body.light-mode {
 
 	--team-stat-filter-bg-color: var(--page-bg-color);
 	--team-stat-filter-border-color: var(--blue1);
+	--team-stat-filter-query-sent: var(--gray2);
 }
 
 body.dark-mode {
@@ -546,6 +547,7 @@ body.dark-mode {
 
 	--team-stat-filter-bg-color: var(--page-bg-color);
 	--team-stat-filter-border-color: var(--pri-color);
+	--team-stat-filter-query-sent: var(--gray2);
 }
 
 [data-pitch-type='FF'] {

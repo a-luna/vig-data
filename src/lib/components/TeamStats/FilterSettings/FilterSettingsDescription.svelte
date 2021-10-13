@@ -5,6 +5,7 @@
 
 	export let settings: TeamStatFilter;
 	export let showFilters: boolean = false;
+	export let loading: boolean = false;
 
 	$: year = settings.season;
 	$: league = settings.league === 'both' ? 'AL & NL' : settings.league.toUpperCase();
@@ -59,19 +60,27 @@
 			return 'RP Only';
 		}
 	}
+
+	function handleClick() {
+		if (!loading) {
+			showFilters = !showFilters;
+		}
+	}
 </script>
 
-<div class="flex flex-row items-center justify-start mb-1 w-full text-sm leading-none flex-nowrap sm:text-base">
+<div class="flex flex-row items-center justify-start w-full mb-1 text-sm leading-none flex-nowrap sm:text-base">
 	<div
+		class:disabled={loading}
 		class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings sm:w-5 sm:h-5"
 		title="Change Settings"
-		on:click={() => (showFilters = !showFilters)}
+		on:click={() => handleClick()}
 	>
 		<MdSettings />
 	</div>
 	<div
+		class:disabled={loading}
 		class="flex flex-row flex-wrap items-end justify-start cursor-pointer current-settings"
-		on:click={() => (showFilters = !showFilters)}
+		on:click={() => handleClick()}
 	>
 		<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{year},</span>
 		<strong class="ml-2 mr-1 filter-label">League</strong><span class="filter-value">{league},</span>
@@ -86,6 +95,13 @@
 
 	.change-settings {
 		color: var(--sec-color);
+	}
+
+	.disabled,
+	.disabled .filter-label,
+	.disabled .filter-value {
+		cursor: default;
+		color: var(--team-stat-filter-query-sent);
 	}
 
 	.filter-label {
