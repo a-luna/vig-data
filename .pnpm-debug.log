@@ -1,0 +1,21 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "vig-data@0.0.1",
+    "stage": "dev",
+    "script": "svelte-kit dev --host",
+    "pkgname": "vig-data",
+    "err": {
+      "name": "pnpm",
+      "message": "vig-data@0.0.1 dev: `svelte-kit dev --host`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: vig-data@0.0.1 dev: `svelte-kit dev --host`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/usr/local/lib/node_modules/pnpm/dist/pnpm.cjs:92882:22)\n    at ChildProcess.emit (node:events:390:28)\n    at maybeClose (node:internal/child_process:1064:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:301:5)"
+    }
+  }
+}

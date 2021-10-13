@@ -21,7 +21,7 @@
 </script>
 
 <BatOrderDropDown width={'100%'} on:batOrderSelected={(e) => addBatOrderNumber(e.detail)} />
-<div class="flex flex-wrap items-center flex-grow w-auto">
+<div class="col-span-2 flex flex-wrap items-center flex-grow w-auto">
 	{#each selections as batOrderNumber (batOrderNumber)}
 		<div animate:flip={options} class="my-auto w-min">
 			<Chip id={batOrderNumber} label={batOrderNumber.toString()} on:dismissed={() => remove(batOrderNumber)} />

@@ -18,8 +18,8 @@
 	let expanded: boolean = true;
 	const options = { delay: 100, duration: 500, easing: quintInOut };
 
-	$: sortedBatStats = sortSeasonPitchStats(sortBy, sortDir, expanded);
-	$: statsTableRows = [...sortedBatStats, careerPitchStats.career, ...careerPitchStats.by_team];
+	$: sortedPitchStats = sortSeasonPitchStats(sortBy, sortDir, expanded);
+	$: statsTableRows = [...sortedPitchStats, careerPitchStats.career, ...careerPitchStats.by_team];
 
 	function sortSeasonPitchStats(sortStat: string, dir: 'asc' | 'desc', isExpanded: boolean): TeamPitchStats[] {
 		const combinedSeasonStats = [];
@@ -55,9 +55,9 @@
 	}
 </script>
 
-<section class="section px-4">
-	<div class="flex flex-col items-baseline flex-nowrap mt-2">
-		<div class="table-caption m-0 text-xl tracking-wide sm:text-lg md:text-2xl overflow-ellipsis">{heading}</div>
+<section class="px-4 section">
+	<div class="flex flex-col items-baseline mt-2 flex-nowrap">
+		<h3 class="table-caption m-0 text-xl tracking-wide sm:text-2xl overflow-ellipsis">{heading}</h3>
 		<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 	</div>
 	<article class="resp-table-container">
@@ -356,7 +356,7 @@
 									{#if stats.changed_teams_midseason && stats.all_stats_for_season}
 										<div class="flex flex-row justify-end flex-nowrap gap-x-1.5 leading-none">
 											<div
-												class="show-separate-season-stats-button my-auto cursor-pointer stroke-current stroke-2 asc"
+												class="my-auto cursor-pointer stroke-current stroke-2 show-separate-season-stats-button asc"
 												title={expanded ? 'Click to show only full season stats' : 'Click to show separate team stats'}
 												on:click={() => (expanded = !expanded)}
 											>

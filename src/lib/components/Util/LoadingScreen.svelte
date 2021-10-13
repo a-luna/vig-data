@@ -28,7 +28,8 @@
 	}
 
 	.loading-overlay {
-		@apply absolute w-full h-full bg-gray-900 opacity-50;
+		@apply absolute w-full h-full opacity-50;
+		background-color: var(--page-bg-color);
 	}
 
 	.loading-wrapper {

@@ -2,10 +2,9 @@
 	import type { PitchStats } from '$lib/api/types';
 
 	export let pitchStats: PitchStats;
-
 </script>
 
-<div class="player-details flex flex-row flex-nowrap justify-start items-center">
+<div class="flex flex-row items-center justify-start player-details flex-nowrap">
 	<span class="pitch-app-type">{pitchStats.pitch_app_type}</span>
 	<a class="player-name" sveltekit:prefetch href="/player/{pitchStats.mlb_id}/pitching">
 		{pitchStats.name}
@@ -21,5 +20,4 @@
 		font-size: 0.7rem;
 		width: 18px;
 	}
-
 </style>

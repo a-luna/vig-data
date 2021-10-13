@@ -58,10 +58,10 @@
 		transition:slide={showFilterSlideOptions}
 		use:saveCurrentSettings
 		id="stat-filters"
-		class="flex flex-col justify-start mt-1 mb-2 mr-auto flex-nowrap"
+		class="flex flex-col justify-center mt-1 mb-2 mr-auto sm:justify-start flex-nowrap"
 		class:invalid
 	>
-		<div class="grid grid-cols-2 gap-2 pt-2 px-2">
+		<div class="grid grid-cols-2 gap-2 px-2 pt-2">
 			<SeasonDropDown bind:selectedValue={settings.season} width={'100%'} />
 			<LeagueDropDown bind:selectedLeague={settings.league} width={'100%'} />
 			{#if pitching}

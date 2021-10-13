@@ -22,7 +22,7 @@
 </script>
 
 <DefPositionDropDown width={'100%'} on:defPosSelected={(e) => addDefPosition(e.detail)} />
-<div class="flex flex-wrap items-center flex-grow w-auto">
+<div class="flex flex-wrap items-center flex-grow w-auto col-span-2">
 	{#each selections as positionNumber (positionNumber)}
 		<div animate:flip={options} class="my-auto w-min">
 			<Chip

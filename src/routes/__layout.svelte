@@ -4,6 +4,6 @@
 </script>
 
 <MainNav />
-<main role="main" class="p-2 m-0 text-base sm:p-5 flex-grow">
+<main role="main" class="flex-grow px-3 py-5 m-0 text-base sm:p-5">
 	<slot />
 </main>
