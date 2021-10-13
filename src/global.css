@@ -832,7 +832,7 @@ label {
 
 .table-header-cell,
 .table-body-cell {
-	padding: 3px 5px;
+	padding: 1px 3px;
 }
 
 .table-body-cell:first-child,
@@ -1524,6 +1524,11 @@ button:disabled:hover,
 		--ploc-chart-size: 300px;
 		--papp-chart-size: 600px;
 		--ploc-data-point-radius: 8px;
+	}
+
+	.table-header-cell,
+	.table-body-cell {
+		padding: 3px 5px;
 	}
 }
 
