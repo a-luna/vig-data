@@ -33,6 +33,6 @@
 	}
 </script>
 
-<div class="my-auto flex-initial">
+<div class="flex-initial my-auto pitch-mix-chart">
 	<PieChart {chartData} {chartTitle} {showTitle} />
 </div>

@@ -37,17 +37,22 @@
 		return pfxDataForBatStanceByYear;
 	}
 
-	const getChartTitle = (year: number, stance: BatterStance): string =>
-		year === 0
-			? `${$allPlayerSeasons.slice(1, 2)}-${$allPlayerSeasons.slice(-1)} (vs${stance.toUpperCase()})`
-			: `${year} (vs${stance.toUpperCase()})`;
+	const getChartTitle = (playerSeason: number, stance: BatterStance): string => {
+		const year =
+			playerSeason === 0 ? `${$allPlayerSeasons.slice(1, 2)}-${$allPlayerSeasons.slice(-1)}` : playerSeason.toString();
+		const split =
+			stance === 'all' ? 'vs All Batters' : stance === 'rhb' ? 'vs Right-handed Batters' : 'vs Left-handed Batters';
+		return `${year} (${split})`;
+	};
 </script>
 
-<div class="flex flex-col justify-start gap-5 flex-nowrap">
+<div class="flex flex-col justify-start w-full gap-5 sm:w-auto flex-nowrap">
 	{#each allStances as stance}
-		<div class="flex flex-col flex-nowrap mr-auto">
-			<h3 class="mt-3 chart-title">{getChartTitle($playerSeason, stance)}</h3>
-			<div class="flex flex-row justify-start gap-10 mb-5 flex-nowrap">
+		<div class="flex flex-col flex-nowrap">
+			<h3 class="table-caption mb-1 text-xl tracking-wide sm:text-2xl overflow-ellipsis">
+				{getChartTitle($playerSeason, stance)}
+			</h3>
+			<div class="flex flex-row justify-start gap-5 flex-nowrap">
 				{#if $playerSeason === 0}
 					<PitchMixTable pitchTypeMetrics={getCareerPfxData(stance)} playerSeason={'career'} />
 				{:else}
