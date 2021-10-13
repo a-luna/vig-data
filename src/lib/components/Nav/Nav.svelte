@@ -28,7 +28,7 @@
 				<button
 					id="menu-button"
 					type="button"
-					class="inline-flex items-center justify-center p-2 rounded-md"
+					class="inline-flex items-center justify-center p-2 ml-2 rounded-md"
 					aria-controls="mobile-menu"
 					aria-expanded={open}
 					on:click={() => (open = !open)}
@@ -67,7 +67,7 @@
 	</div>
 
 	<div class:hidden={!open} class:md:block={open} id="mobile-menu" style="height: {$heightSpring}px">
-		<div class="pl-2 pr-4 py-4 flex flex-col flex-nowrap gap-2" bind:this={menuElement}>
+		<div class="flex flex-col gap-2 py-4 pl-2 pr-4 flex-nowrap" bind:this={menuElement}>
 			{#each items as { label, url }}
 				<NavItem {label} {url} on:click={() => (open = !open)} />
 			{/each}
@@ -90,15 +90,15 @@
 
 	#menu-button {
 		color: var(--nav-button-text-color);
-		background-color: var(--nav-button-bg-color);
+		background-color: var(--nav-button-bg-color-hov);
 	}
 
 	#menu-button:hover {
-		color: var(--nav-button-text-color-hov);
 		background-color: var(--nav-button-bg-color-hov);
 	}
 
 	#menu-button:focus {
+		color: var(--nav-button-text-color-hov);
 		outline: 2px solid transparent;
 		outline-offset: 2px;
 		box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
