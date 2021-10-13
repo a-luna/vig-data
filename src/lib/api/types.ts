@@ -562,6 +562,7 @@ export interface AtBatPitchDescription {
 	type: string;
 	blocked_by_c: boolean;
 	out_of_boundary: boolean;
+  barreled: boolean;
 	non_pitch_event: boolean;
 }
 

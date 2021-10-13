@@ -160,6 +160,7 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 		type: '',
 		blocked_by_c: false,
 		out_of_boundary: false,
+		barreled: false,
 		non_pitch_event: false
 	};
 	if (pitch_des.length === 3) {
@@ -179,6 +180,7 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 			const matches = pfx.filter((pfx) => pfx.ab_count === pitchNumber);
 			if (matches.length === 1) {
 				pitch.out_of_boundary = matches[0].is_out_of_boundary;
+				pitch.barreled = matches[0].is_barreled === 1;
 			}
 		}
 	}
