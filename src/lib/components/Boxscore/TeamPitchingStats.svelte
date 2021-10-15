@@ -10,7 +10,7 @@
 	}
 </script>
 
-<div class="resp-table-caption">{teamData.team_name}</div>
+<div class="resp-table-caption text-xl md:text-2xl">{teamData.team_name}</div>
 <section class="resp-table-container">
 	<div class="resp-table-wrapper mt-0">
 		<div id={getCaptionId()} class="resp-table">

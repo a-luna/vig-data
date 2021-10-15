@@ -27,12 +27,8 @@
 	}
 </script>
 
-<div id="play-by-play" class="mt-6">
-	<div
-		class="p-0 mx-0 mt-5 mb-0 text-xl font-normal leading-normal text-left resp-table-caption md:text-2xl whitespace-nowrap"
-	>
-		Play-By-Play
-	</div>
+<div id="play-by-play" class="p-4 mx-auto mt-5 section">
+	<div class="p-0 mb-2 text-xl resp-table-caption md:text-2xl">Play-By-Play</div>
 	{#each Object.entries(inningAtBatMap) as [inningId, atBatIds], inningIndex}
 		<div class="mb-4 responsive" class:mt-0={inningIndex == 0} class:mt-1={inningIndex > 0}>
 			<div class="resp-table">
@@ -118,8 +114,8 @@
 		font-size: 0.9rem;
 		font-style: italic;
 		line-height: 1.3;
+		background-color: var(--section-content-bg-color);
 		color: var(--body-text-color);
-		background-color: var(--page-bg-color);
 		padding: 3px 5px;
 	}
 

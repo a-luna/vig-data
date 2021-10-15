@@ -767,10 +767,7 @@ label {
 .resp-table-caption {
 	display: table-caption;
 	color: var(--table-caption-color);
-	font-size: 1.25rem;
-	line-height: 1.75rem;
 	white-space: nowrap;
-	margin-top: 20px;
 }
 
 .resp-table-header {
@@ -884,7 +881,6 @@ label {
 	display: flex;
 	flex-flow: column nowrap;
 	width: 100%;
-	margin: 0 auto;
 }
 
 #team-stat-tables .resp-table,

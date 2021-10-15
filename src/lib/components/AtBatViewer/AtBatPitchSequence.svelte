@@ -170,6 +170,7 @@
 	}
 
 	.pitch-number {
+		font-weight: 500;
 		color: var(--ploc-pitch-num-color);
 	}
 
