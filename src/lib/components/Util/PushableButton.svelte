@@ -1,13 +1,25 @@
 <script lang="ts">
+	import { siteTheme } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
+	import { getCSSPropNumber } from '$lib/util';
 
 	export let color: ThemeColor = 'primary';
+	const hueCustomProperty = color === 'primary' ? '--pri-color-hue' : '--sec-color-hue';
+	let hue: number;
+	let edgeGradient: string;
+
+	$: if ($siteTheme) hue = getCSSPropNumber(document.body, hueCustomProperty);
+	$: if (hue)
+		edgeGradient = `linear-gradient(to left, hsl(${hue}deg 100% 16%) 0%, hsl(${hue}deg 100% 32%) 8%, hsl(${hue}deg 100% 32%) 92%, hsl(${hue}deg 100% 16%) 100%)`;
+
+	$: console.log(`hue: ${hue}`);
+	$: console.log(`edgeGradient: ${edgeGradient}`);
 </script>
 
 <button class="pushable" on:click>
 	<span class="shadow" />
-	<span class="edge edge-{color}" />
-	<span class="front front-{color} leading-none tracking-wider font-bold">
+	<span class="edge edge-{color}" style="background: {edgeGradient}" />
+	<span class="front front-{color} leading-none tracking-wider font-medium">
 		<slot />
 	</span>
 </button>
@@ -33,6 +45,8 @@
 		will-change: transform;
 		transform: translateY(2px);
 		transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
+		filter: blur(4px);
+		-webkit-tap-highlight-color: transparent;
 	}
 	.edge {
 		position: absolute;
@@ -41,24 +55,6 @@
 		width: 100%;
 		height: 100%;
 		border-radius: 0.75rem;
-	}
-	.edge-primary {
-		background: linear-gradient(
-			to left,
-			var(--pri-color) 0%,
-			var(--pri-color) 8%,
-			var(--pri-color) 92%,
-			var(--pri-color) 100%
-		);
-	}
-	.edge-secondary {
-		background: linear-gradient(
-			to left,
-			var(--sec-color) 0%,
-			var(--sec-color) 8%,
-			var(--sec-color) 92%,
-			var(--sec-color) 100%
-		);
 	}
 	.front {
 		display: block;

@@ -261,6 +261,7 @@ body {
 }
 
 body.light-mode {
+  --pri-color-hue: 218;
 	--pri-color: var(--blue2);
 	--pri-color-hov: var(--blue3);
 	--pri-color-active: var(--blue1);
@@ -268,6 +269,7 @@ body.light-mode {
 	--color-on-pri-hov: var(--white4);
 	--color-on-pri-active: var(--white4);
 
+  --sec-color-hue: 113;
 	--sec-color: var(--green2);
 	--sec-color-hov: var(--green3);
 	--sec-color-active: var(--green1);
@@ -407,6 +409,7 @@ body.light-mode {
 }
 
 body.dark-mode {
+  --pri-color-hue: 251;
 	--pri-color: var(--indigo2);
 	--pri-color-hov: var(--indigo3);
 	--pri-color-active: var(--indigo1);
@@ -414,6 +417,7 @@ body.dark-mode {
 	--color-on-pri-hov: var(--white3);
 	--color-on-pri-active: var(--white3);
 
+  --sec-color-hue: 165;
 	--sec-color: var(--blue-green2);
 	--sec-color-hov: var(--blue-green3);
 	--sec-color-active: var(--blue-green1);
