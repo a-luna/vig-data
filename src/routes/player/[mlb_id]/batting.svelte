@@ -53,6 +53,10 @@
 		getPlayerBio(mlb_id);
 	});
 
+	function removeLoadingScreen(_el: HTMLElement) {
+		loading = false;
+	}
+
 	async function getCareerBatStats(mlb_id: number) {
 		const result = await getCareerBatStatsForPlayer(mlb_id);
 		if (!result.success) {
@@ -98,8 +102,10 @@
 {/if}
 
 {#if allRequestsComplete}
-	<div id="player-details" class="flex flex-row justify-between sm:mb-5">
-		<PlayerDetails {...playerDetails} />
+	<div id="player-details" class="flex flex-col items-start justify-start gap-3 flex-nowrap" use:removeLoadingScreen>
+		<div class="flex flex-row justify-between w-full flex-nowrap">
+			<PlayerDetails {...playerDetails} />
+		</div>
 	</div>
 	<div class="flex flex-row flex-wrap justify-around gap-5 mb-5">
 		<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
