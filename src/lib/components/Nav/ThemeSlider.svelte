@@ -6,6 +6,7 @@
 	import FaSun from 'svelte-icons/fa/FaSun.svelte';
 
 	$: checked = $siteTheme === 'dark';
+	$: title = $siteTheme === 'dark' ? 'Activate Light Mode' : 'Activate Dark Mode';
 
 	onMount(() => {
 		if ($siteTheme === 'notset') {
@@ -38,7 +39,7 @@
 	}
 </script>
 
-<div id="theme-toggle" class="flex items-center cursor-pointer" title="Toggle Light/Dark Theme">
+<div id="theme-toggle" class="flex items-center cursor-pointer" {title}>
 	<div class="relative" on:click={() => toggleDarkMode()}>
 		<input type="checkbox" class="sr-only" bind:checked />
 		<div class="block w-16 h-8 rounded-full slider-bg" />
