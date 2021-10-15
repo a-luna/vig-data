@@ -35,9 +35,9 @@
 	class="m-2 transition-transform duration-200 transform rounded card hover:shadow-md hover:border-opacity-0 hover:-translate-y-1"
 >
 	<div class="flex flex-col justify-between m-2 leading-none flex-nowrap h-5/6">
-		<div class="player-card-heading flex flex-row items-center justify-between flex-grow-0 mb-1 flex-nowrap">
-			<span class="text-lg">{playerName}</span>
-			<span class="text-base">{pos}</span>
+		<div class="flex flex-row items-center justify-between flex-grow-0 mb-1 player-card-heading flex-nowrap">
+			<span class="text-lg whitespace-nowrap">{playerName}</span>
+			<span class="def-pos">{pos}</span>
 		</div>
 		<div class="flex flex-row mb-1">
 			<strong class="mr-1 text-sm">Most Recent Team:</strong><span class="text-sm">{teamInfo}</span>
@@ -58,6 +58,10 @@
 
 	.player-card-heading {
 		color: var(--player-card-heading-text-color);
+	}
+
+	.def-pos {
+		font-size: 0.9rem;
 	}
 
 	li,
