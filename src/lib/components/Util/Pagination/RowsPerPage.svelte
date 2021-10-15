@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
+	export let color: ThemeColor = 'secondary';
 	export let showRowsPerPage: boolean = false;
 	export let pageSize: number = 5;
 	export let totalRows: number = 0;
@@ -17,10 +19,10 @@
 
 {#if showRowsPerPage}
 	<div transition:slide={options} class="flex flex-row items-center justify-start mt-2 rows-per-page">
-		<div class="flex flex-row">
+		<div class="flex flex-row btn-group btn-group-{color}">
 			<button
 				type="button"
-				class="btn-secondary"
+				class="btn-{color}"
 				class:disabled={totalRows <= 0}
 				class:active={pageSize === 5}
 				title="5 Rows/Page"
@@ -29,7 +31,7 @@
 			>
 			<button
 				type="button"
-				class="btn-secondary"
+				class="btn-{color}"
 				class:disabled={totalRows <= 5}
 				class:active={pageSize === 10}
 				title="10 Rows/Page"
@@ -38,7 +40,7 @@
 			>
 			<button
 				type="button"
-				class="btn-secondary"
+				class="btn-{color}"
 				class:disabled={totalRows <= 10}
 				class:active={pageSize === 15}
 				title="15 Rows/Page"

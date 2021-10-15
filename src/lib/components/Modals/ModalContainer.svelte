@@ -71,8 +71,4 @@
 		border-radius: 4px;
 		background-color: inherit;
 	}
-
-	#modal button {
-		@apply text-base leading-tight py-1.5 px-4 m-0;
-	}
 </style>

@@ -22,9 +22,9 @@
 
 </script>
 
-<div class="responsive m-2">
+<div class="m-2 responsive">
 	<div id={tableId} class="league-standings resp-table">
-		<div class="resp-table-caption">{`${leagueName} ${divName}`}</div>
+		<div class="text-xl resp-table-caption md:text-2xl">{`${leagueName} ${divName}`}</div>
 		<div class="resp-table-header col-header">
 			<div class="team-id table-header-cell">&nbsp;</div>
 			<div class="num table-header-cell">W</div>

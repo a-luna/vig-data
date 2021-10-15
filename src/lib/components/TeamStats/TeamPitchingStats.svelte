@@ -16,7 +16,7 @@
 	import { onMount } from 'svelte';
 
 	let settings: TeamStatFilter = {
-		season: $mostRecentSeason.year,
+		season: $mostRecentSeason ? $mostRecentSeason.year : null,
 		league: 'both',
 		statType: 'pitch',
 		batStatSplit: 'all',
@@ -80,7 +80,7 @@
 
 <div class="flex flex-col my-0 flex-nowrap">
 	<div class="flex flex-col items-start justify-end flex-nowrap">
-		<h3 class="mb-1 text-2xl tracking-wide sm:text-3xl">{tableHeading}</h3>
+		<h3 class="mb-1 text-xl tracking-wide md:text-2xl">{tableHeading}</h3>
 		<FilterSettingsDescription bind:settings bind:showFilters bind:loading />
 		<FilterSettings
 			pitching={true}

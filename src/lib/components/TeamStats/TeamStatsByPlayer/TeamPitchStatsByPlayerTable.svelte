@@ -57,9 +57,9 @@
 	}
 </script>
 
-<section class="datatable" style={backgroundColorRule}>
+<section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap">
-		<div class="table-caption m-0 text-xl tracking-wide sm:text-lg overflow-ellipsis">{heading}</div>
+		<div class="m-0 text-xl tracking-wide resp-table-caption overflow-ellipsis">{heading}</div>
 		<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 	</div>
 	<article class="resp-table-container">
