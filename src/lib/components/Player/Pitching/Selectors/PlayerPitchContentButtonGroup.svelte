@@ -16,22 +16,19 @@
 	}
 </script>
 
-<div class="btn-group btn-group-secondary mx-auto">
+<div class="btn-group btn-group-{color} mx-auto">
 	<button
 		type="button"
-		class={`btn btn-${color}`}
+		class="btn btn-{color}"
 		class:active={careerStatsShown}
 		on:click={() => handleChanged('career-stats')}>Career Stats</button
 	>
-	<button
-		type="button"
-		class={`btn btn-${color}`}
-		class:active={pitchMixShown}
-		on:click={() => handleChanged('pitch-mix')}>Pitch Mix</button
+	<button type="button" class="btn btn-{color}" class:active={pitchMixShown} on:click={() => handleChanged('pitch-mix')}
+		>Pitch Mix</button
 	>
 	<button
 		type="button"
-		class={`btn btn-${color}`}
+		class="btn btn-{color}"
 		class:active={percentilesShown}
 		on:click={() => handleChanged('pitch-type-percentiles')}>Pitch Type Percentiles</button
 	>

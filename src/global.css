@@ -1026,7 +1026,8 @@ input {
 }
 
 .btn {
-	@apply px-2 py-1 mr-1 font-normal rounded shadow-md focus:outline-none;
+	@apply px-2 py-1 mr-1 overflow-hidden font-normal rounded shadow-md whitespace-nowrap focus:outline-none;
+	transition: background 0.2s;
 }
 
 .btn.active {
@@ -1060,19 +1061,21 @@ button:disabled:hover,
 	color: var(--color-on-pri);
 	background-color: var(--pri-color);
 	background-position: center;
-	transition: background 0.2s;
+	border: 1px solid var(--pri-color);
 }
 
 .btn-primary:hover {
-	background: var(--pri-color-hov) radial-gradient(circle, transparent 1%, var(--pri-color-hov) 1%) center/15000%;
-	color: var(--color-on-pri-hov);
+	background-color: var(--pri-color-active);
+	color: var(--color-on-pri-active);
+	border: 1px solid transparent;
 }
 
 .btn-primary.active {
-	color: var(--color-on-pri-active);
-	background-color: var(--pri-color-active);
+	background-color: var(--sec-color-active);
+	color: var(--color-on-sec-active);
 	background-size: 100%;
 	transition: background 0.1s;
+	border: 1px solid transparent;
 }
 
 .btn-outline-primary {
@@ -1090,8 +1093,8 @@ button:disabled:hover,
 .btn-secondary {
 	background-color: var(--sec-color);
 	color: var(--color-on-sec);
-	background-position: center;
 	transition: background 0.2s;
+	border: 1px solid var(--sec-color);
 }
 
 .btn-secondary:hover {
@@ -1105,6 +1108,7 @@ button:disabled:hover,
 	color: var(--color-on-sec-hov);
 	background-size: 100%;
 	transition: background 0.1s;
+	border: 1px solid transparent;
 }
 
 .btn-outline-secondary {
@@ -1133,33 +1137,21 @@ button:disabled:hover,
 }
 
 .btn-group-primary > button {
-	border-top: 1px solid var(--pri-color);
-	border-bottom: 1px solid var(--pri-color);
-	border-left: 1px solid var(--pri-color);
-	border-right: 1px solid var(--pri-color);
+	border: 1px solid var(--pri-color);
 }
 
 .btn-group-secondary > button {
-	border-top: 1px solid var(--sec-color);
-	border-bottom: 1px solid var(--sec-color);
-	border-left: 1px solid var(--sec-color);
-	border-right: 1px solid var(--sec-color);
+	border: 1px solid var(--sec-color);
 }
 
 .btn-group > button:hover,
 .btn-group > button.active,
 .btn-group > button.active:hover {
-	border-top: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-right: 1px solid transparent;
+	border: 1px solid transparent;
 }
 
 .btn-group-secondary > button.active {
-	border-top: 1px solid var(--sec-color-hov);
-	border-bottom: 1px solid var(--sec-color-hov);
-	border-left: 1px solid var(--sec-color-hov);
-	border-right: 1px solid var(--sec-color-hov);
+	border: 1px solid var(--sec-color-hov);
 }
 
 .btn-group > button:first-child {
