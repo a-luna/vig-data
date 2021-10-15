@@ -12,7 +12,7 @@
   "devDependencies": {
     "@sveltejs/adapter-netlify": "^1.0.0-next.33",
     "@sveltejs/adapter-static": "^1.0.0-next.21",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.27",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.28",
     "@tsconfig/svelte": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -55,7 +55,7 @@
   "dependencies": {
     "@date-io/date-fns": "^2.11.0",
     "@sveltejs/adapter-node": "1.0.0-next.53",
-    "@sveltejs/kit": "^1.0.0-next.183",
+    "@sveltejs/kit": "^1.0.0-next.184",
     "date-fns": "^2.25.0",
     "date-fns-tz": "^1.1.6",
     "fuzzy": "^0.1.3",
