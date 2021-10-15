@@ -10,6 +10,7 @@
 	let players: PlayerDetails[] = [];
 
 	async function getAllPlayerDetails() {
+		players = [];
 		const allPlayerIds = Object.values(allPlayers);
 		const playerIdsShuffled = Array.from({ length: allPlayerIds.length }, () =>
 			Math.floor(Math.random() * allPlayerIds.length)
