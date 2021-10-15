@@ -54,7 +54,8 @@
 	}
 
 	#player-search :global([data-svelte-typeahead] input) {
-		@apply py-1.5 text-base leading-none w-full rounded-md pl-9 border-0 focus:outline-none;
+		@apply py-1.5 leading-none w-full rounded-md pl-9 border-0 focus:outline-none;
+		font-size: 16px;
 		background-color: var(--search-bg-color);
 		color: var(--search-text-color);
 		line-height: 1.4;
@@ -96,10 +97,10 @@
 
 	.search-icon {
 		color: var(--search-icon-color);
-		top: 0.45rem;
-		left: 0.3rem;
-		width: 1.3rem;
-		height: 1.3rem;
+		top: 9px;
+		left: 5px;
+		width: 16px;
+		height: 16px;
 		z-index: 1;
 	}
 </style>

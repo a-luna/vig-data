@@ -5,21 +5,21 @@
 	export let url: string;
 
 	$: current = url.split('?')[0] === $page.path;
-
 </script>
 
 {#if current}
-	<a href={url} class="current block px-3 py-1.5 rounded-md text-base font-medium" aria-current="page" on:click>
+	<a href={url} class="current block px-3 py-1.5 rounded-md font-medium" aria-current="page" on:click>
 		{label}
 	</a>
 {:else}
-	<a href={url} class="block px-3 py-1.5 rounded-md text-base font-medium" on:click>
+	<a href={url} class="block px-3 py-1.5 rounded-md font-medium" on:click>
 		{label}
 	</a>
 {/if}
 
 <style lang="postcss">
 	a {
+		font-size: 16px;
 		color: var(--nav-link-text-color);
 		background-color: var(--nav-link-bg-color);
 	}
@@ -35,5 +35,4 @@
 		color: var(--nav-link-text-color-active);
 		background-color: var(--nav-link-bg-color-active);
 	}
-
 </style>
