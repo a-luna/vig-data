@@ -3,7 +3,7 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatPercentStat, formatPosNegValue, formatRateStat, getDummyTeamBatStats } from '$lib/util';
+	import { formatNumber, formatPercentStat, formatPosNegValue, formatRateStat, getDummyTeamBatStats } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 
 	export let batStats: TeamBatStats[] = [];
@@ -230,7 +230,7 @@
 								{formatPercentStat(stats.k_rate.toString(), 1)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'at_bats'} data-stat-name="at_bats">
-								{stats.at_bats}
+								{formatNumber(stats.at_bats)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'hits'} data-stat-name="hits">
 								{stats.hits}

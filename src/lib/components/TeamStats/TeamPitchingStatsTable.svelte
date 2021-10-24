@@ -3,7 +3,7 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
+	import { formatNumber, formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
 	import { createEventDispatcher } from 'svelte';
 
 	export let pitchStats: TeamPitchStats[] = [];
@@ -387,43 +387,43 @@
 								class:highlight-stat={sortBy === 'innings_pitched'}
 								data-stat-name="innings_pitched"
 							>
-								{stats.innings_pitched.toFixed(1)}
+								{formatNumber(parseFloat(stats.innings_pitched.toFixed(1)), 1)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'total_outs'} data-stat-name="total_outs">
-								{stats.total_outs}
+								{formatNumber(stats.total_outs)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'batters_faced'}
 								data-stat-name="batters_faced"
 							>
-								{stats.batters_faced}
+								{formatNumber(stats.batters_faced)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'runs_allowed'}
 								data-stat-name="runs_allowed"
 							>
-								{stats.runs}
+								{formatNumber(stats.runs)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'earned_runs'} data-stat-name="earned_runs">
-								{stats.earned_runs}
+								{formatNumber(stats.earned_runs)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'hits'} data-stat-name="hits">
-								{stats.hits}
+								{formatNumber(stats.hits)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'homeruns'} data-stat-name="homeruns">
 								{stats.homeruns}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'strikeouts'} data-stat-name="strikeouts">
-								{stats.strikeouts}
+								{formatNumber(stats.strikeouts)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'bases_on_balls'}
 								data-stat-name="bases_on_balls"
 							>
-								{stats.bases_on_balls}
+								{formatNumber(stats.bases_on_balls)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'era'} data-stat-name="era">
 								{stats.era.toFixed(2)}
@@ -456,44 +456,44 @@
 								{stats.hr_per_fb.toFixed(1)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'pitch_count'} data-stat-name="pitch_count">
-								{stats.pitch_count}
+								{formatNumber(stats.pitch_count)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'strikes'} data-stat-name="strikes">
-								{stats.strikes}
+								{formatNumber(stats.strikes)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'strikes_contact'}
 								data-stat-name="strikes_contact"
 							>
-								{stats.strikes_contact}
+								{formatNumber(stats.strikes_contact)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'strikes_swinging'}
 								data-stat-name="strikes_swinging"
 							>
-								{stats.strikes_swinging}
+								{formatNumber(stats.strikes_swinging)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'strikes_looking'}
 								data-stat-name="strikes_looking"
 							>
-								{stats.strikes_looking}
+								{formatNumber(stats.strikes_looking)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'line_drives'} data-stat-name="line_drives">
-								{stats.line_drives}
+								{formatNumber(stats.line_drives)}
 							</div>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'ground_balls'}
 								data-stat-name="ground_balls"
 							>
-								{stats.ground_balls}
+								{formatNumber(stats.ground_balls)}
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'fly_balls'} data-stat-name="fly_balls">
-								{stats.fly_balls}
+								{formatNumber(stats.fly_balls)}
 							</div>
 							<div
 								class="table-body-cell"
