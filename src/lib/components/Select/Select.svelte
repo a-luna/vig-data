@@ -28,6 +28,12 @@
 			dropdownShown = false;
 		}
 	}
+
+	const handleButtonClicked = () => {
+		if (!disabled) {
+			dropdownShown = !dropdownShown;
+		}
+	};
 </script>
 
 <div
@@ -43,7 +49,7 @@
 			id="open-list-button"
 			aria-expanded={dropdownShown}
 			aria-haspopup="true"
-			on:click={() => (dropdownShown = !dropdownShown)}
+			on:click={() => handleButtonClicked()}
 		>
 			<span class="mx-auto leading-none whitespace-nowrap">{label}</span>
 			<div class="w-5 h-5 ml-1 -mr-2">
