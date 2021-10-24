@@ -6,3 +6,4 @@ node_modules
 /build
 /functions
 /.netlify/state.json
+src/lib/api/mock

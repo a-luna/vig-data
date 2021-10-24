@@ -20,6 +20,15 @@ export async function getCareerPitchStatsForPlayer(mlb_id: number): Promise<ApiR
 	return await validateApiResponse<CareerPitchStats>(response);
 }
 
+// import { careerPitchStatsMockData } from './mock/player/getCareerPitchStatsForPlayer';
+// export async function getCareerPitchStatsForPlayer(mlb_id: number): Promise<ApiResponse<CareerPitchStats>> {
+// 	return {
+// 		status: 200,
+// 		success: true,
+// 		value: careerPitchStatsMockData
+// 	};
+// }
+
 export async function getPlayerBatStatsByYear(mlb_id: number): Promise<ApiResponse<TeamBatStats[]>> {
 	if (!mlb_id) return { status: 400, success: false, message: 'No value was provided for player MLB ID' };
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/player/batting/by_year?mlb_id=${mlb_id}`);
