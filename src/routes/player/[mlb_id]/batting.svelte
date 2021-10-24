@@ -3,6 +3,7 @@
 	import { getCareerBatStatsForPlayer, getPlayerDetails } from '$lib/api/player';
 	import type {
 		ApiResponse,
+		BatOrderMetrics,
 		CareerBatStats,
 		DefPositionMetrics,
 		PlayerDetails as PlayerDetailsSchema,
@@ -10,8 +11,7 @@
 	} from '$lib/api/types';
 	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerBatStatsTable from '$lib/components/Player/Batting/CareerBatStatsTable.svelte';
-	import DefPositionPieChart from '$lib/components/Player/Batting/PieCharts/DefPositionPieChart.svelte';
-	import StartBenchPieChart from '$lib/components/Player/Batting/PieCharts/StartBenchPieChart.svelte';
+	import PlayerBatMetricsSlider from '$lib/components/Player/Batting/PlayerBatMetricsSlider.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { onMount } from 'svelte';
@@ -23,6 +23,7 @@
 	let firstYearPlayed: number;
 	let mostRecentYearPlayed: number;
 	let careerDefPosMetrics: DefPositionMetrics[];
+	let careerBatOrderMetrics: BatOrderMetrics[];
 	let mostRecentBatStats: TeamBatStats;
 	let loading = false;
 	let error: string = null;
@@ -33,6 +34,7 @@
 	$: allRequestsComplete = getCareerStatsComplete && getPlayerBioComplete;
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
 	$: if (careerBatStats) careerDefPosMetrics = careerBatStats.career.def_position_metrics;
+	$: if (careerBatStats) careerBatOrderMetrics = careerBatStats.career.bat_order_metrics;
 	$: if (careerBatStats)
 		allSeasonsPlayed = careerBatStats.by_team_by_year
 			.filter((s) => s.all_stats_for_season)
@@ -102,26 +104,11 @@
 {/if}
 
 {#if allRequestsComplete}
-	<div id="player-details" class="flex flex-col items-start justify-start gap-3 flex-nowrap" use:removeLoadingScreen>
-		<div class="flex flex-row justify-between w-full flex-nowrap">
+	<div id="player-details" class="flex flex-col items-start justify-start gap-5 flex-nowrap" use:removeLoadingScreen>
+		<div class="flex flex-col sm:flex-row justify-start sm:justify-between items-start w-auto sm:w-full flex-nowrap">
 			<PlayerDetails {...playerDetails} />
+			<PlayerBatMetricsSlider {careerBatStats} />
 		</div>
+		<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
 	</div>
-	<div class="flex flex-row flex-wrap justify-around gap-5 mb-5">
-		<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
-			<StartBenchPieChart batStats={careerBatStats.career} chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`} />
-			<StartBenchPieChart batStats={mostRecentBatStats} chartTitle={mostRecentYearPlayed.toString()} />
-		</div>
-		<div class="flex flex-row justify-between gap-3 p-3 flex-nowrap section">
-			<DefPositionPieChart
-				defPosMetrics={careerDefPosMetrics}
-				chartTitle={`${firstYearPlayed}-${mostRecentYearPlayed}`}
-			/>
-			<DefPositionPieChart
-				defPosMetrics={mostRecentBatStats.def_position_metrics}
-				chartTitle={mostRecentYearPlayed.toString()}
-			/>
-		</div>
-	</div>
-	<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
 {/if}

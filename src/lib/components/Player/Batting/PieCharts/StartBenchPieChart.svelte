@@ -17,17 +17,17 @@
 				value: batStats.total_games_started,
 				pieTotal: batStats.total_games,
 				label: 'ST',
-				color: 'var(--pri-color-hov)',
+				color: 'var(--pie-chart-start-color)',
 				unit: 'games',
-				description: `${batStats.total_games_started} games started (${percentStart}%))`
+				description: `${batStats.total_games_started} games started (${percentStart}%)`
 			}),
 			PieSlice.fromObject({
 				value: batStats.total_games_subbed,
 				pieTotal: batStats.total_games,
 				label: 'BN',
-				color: 'var(--sec-color-hov)',
+				color: 'var(--pie-chart-bench-color)',
 				unit: 'games',
-				description: `${batStats.total_games_subbed} games as sub (${percentSub}%))`
+				description: `${batStats.total_games_subbed} games as sub (${percentSub}%)`
 			})
 		];
 	}

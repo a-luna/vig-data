@@ -20,6 +20,7 @@
 
 	$: sortedBatStats = sortSeasonBatStats(sortBy, sortDir, expanded);
 	$: statsTableRows = [...sortedBatStats, careerBatStats.career, ...careerBatStats.by_team];
+	$: headingFontSize = $pageBreakPoints.width < 640 ? '28px' : $pageBreakPoints.width < 768 ? '30px' : '32px';
 
 	function sortSeasonBatStats(sortStat: string, dir: 'asc' | 'desc', isExpanded: boolean): TeamBatStats[] {
 		const combinedSeasonStats = [];
@@ -56,7 +57,7 @@
 </script>
 
 <div class="flex flex-col items-baseline flex-nowrap">
-	<div class="table-caption m-0 text-xl tracking-wide sm:text-lg md:text-2xl overflow-ellipsis">{heading}</div>
+	<div class="table-caption m-0 tracking-wide overflow-ellipsis" style="font-size: {headingFontSize}">{heading}</div>
 	<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 </div>
 <article class="resp-table-container">
