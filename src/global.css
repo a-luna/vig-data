@@ -48,7 +48,7 @@
 	--yellow2: hsl(57, 88%, 54%);
 	--yellow3: hsl(57, 88%, 64%);
 
-	--yellow-green1: hsl(84, 100%, 35%);
+	--yellow-green1: rgb(107, 179, 0);
 	--yellow-green2: hsl(84, 100%, 45%);
 	--yellow-green3: hsl(84, 100%, 55%);
 
@@ -80,6 +80,7 @@
 	--indigo1: hsl(251, 74%, 30%);
 	--indigo2: hsl(251, 74%, 40%); /* THEME */
 	--indigo3: hsl(251, 74%, 50%);
+	--indigo4: hsl(251, 74%, 60%);
 
 	--purple1: hsl(290, 100%, 35%);
 	--purple2: hsl(290, 100%, 45%);
@@ -261,7 +262,6 @@ body {
 }
 
 body.light-mode {
-  --pri-color-hue: 218;
 	--pri-color: var(--blue2);
 	--pri-color-hov: var(--blue3);
 	--pri-color-active: var(--blue1);
@@ -269,11 +269,10 @@ body.light-mode {
 	--color-on-pri-hov: var(--white4);
 	--color-on-pri-active: var(--white4);
 
-  --sec-color-hue: 113;
 	--sec-color: var(--green2);
 	--sec-color-hov: var(--green3);
 	--sec-color-active: var(--green1);
-	--color-on-sec: var(--white4);
+	--color-on-sec: var(--white1);
 	--color-on-sec-hov: var(--white4);
 	--color-on-sec-active: var(--white4);
 
@@ -314,8 +313,8 @@ body.light-mode {
 	--select-bg-color-hov: var(--white3);
 	--select-text-color: var(--black3);
 	--selected-item-bg-color: var(--light-gray2);
-	--button-disabled-bg-color: hsla(0, 0%, 20%, 45%);
-	--button-disabled-text-color: var(--light-gray4);
+	--button-disabled-bg-color: var(--gray1);
+	--button-disabled-text-color: var(--light-gray1);
 	--link-color: var(--blue2);
 	--label-color: var(--black1);
 
@@ -381,6 +380,30 @@ body.light-mode {
 	--pitch-type-percentiles-text-color: var(--black4);
 	--pitch-type-percentiles-border-color: var(--table-col-header-bg-color);
 
+	--bg-color-primary: var(--pri-color);
+	--bg-color-secondary: var(--sec-color);
+	--bg-color-red: var(--red2);
+	--bg-color-pink: var(--pink3);
+	--bg-color-orange: var(--orange2);
+	--bg-color-teal: var(--blue-green1);
+	--bg-color-green: var(--green2);
+	--bg-color-blue: var(--blue3);
+	--bg-color-gray: var(--gray4);
+	--bg-color-yellow: var(--yellow-green2);
+	--bg-color-indigo: var(--indigo2);
+
+	--fg-color-on-primary: var(--color-on-pri);
+	--fg-color-on-secondary: var(--color-on-sec);
+	--fg-color-on-red: var(--white1);
+	--fg-color-on-pink: var(--white1);
+	--fg-color-on-orange: var(--white1);
+	--fg-color-on-teal: var(--white1);
+	--fg-color-on-green: var(--white1);
+	--fg-color-on-blue: var(--white1);
+	--fg-color-on-gray: var(--white1);
+	--fg-color-on-yellow: var(--white1);
+	--fg-color-on-indigo: var(--white1);
+
 	--pitch-type-FF: var(--red1);
 	--pitch-type-FT: var(--pink1);
 	--pitch-type-FC: var(--orange1);
@@ -392,6 +415,30 @@ body.light-mode {
 	--pitch-type-PO: var(--black4);
 	--pitch-type-SC: var(--black4);
 	--pitch-type-UN: var(--black4);
+
+	--pie-chart-start-color: var(--pri-color);
+	--pie-chart-bench-color: var(--sec-color);
+
+	--def-pos-P: var(--blue4);
+	--def-pos-C: var(--pink1);
+	--def-pos-1B: var(--green1);
+	--def-pos-2B: var(--red1);
+	--def-pos-3B: var(--dark-teal1);
+	--def-pos-SS: var(--orange1);
+	--def-pos-LF: var(--dark-teal1);
+	--def-pos-CF: var(--blue3);
+	--def-pos-RF: var(--indigo3);
+	--def-pos-DH: var(--pink2);
+
+	--bat-order-1: var(--pink1);
+	--bat-order-2: var(--red1);
+	--bat-order-3: var(--orange1);
+	--bat-order-4: var(--green2);
+	--bat-order-5: var(--blue-green2);
+	--bat-order-6: var(--dark-teal2);
+	--bat-order-7: var(--blue2);
+	--bat-order-8: var(--indigo2);
+	--bat-order-9: var(--purple1);
 
 	--sdp-bg-color: var(--light-gray3);
 	--sdp-current-month: var(--light-gray4);
@@ -409,7 +456,6 @@ body.light-mode {
 }
 
 body.dark-mode {
-  --pri-color-hue: 251;
 	--pri-color: var(--indigo2);
 	--pri-color-hov: var(--indigo3);
 	--pri-color-active: var(--indigo1);
@@ -417,13 +463,12 @@ body.dark-mode {
 	--color-on-pri-hov: var(--white3);
 	--color-on-pri-active: var(--white3);
 
-  --sec-color-hue: 165;
 	--sec-color: var(--blue-green2);
 	--sec-color-hov: var(--blue-green3);
 	--sec-color-active: var(--blue-green1);
-	--color-on-sec: var(--black3);
-	--color-on-sec-hov: var(--black3);
-	--color-on-sec-active: var(--black3);
+	--color-on-sec: var(--black2);
+	--color-on-sec-hov: var(--black4);
+	--color-on-sec-active: var(--black4);
 
 	--body-text-color: var(--white1);
 	--heading-text-color: var(--white3);
@@ -462,8 +507,8 @@ body.dark-mode {
 	--select-bg-color-hov: var(--light-gray2);
 	--select-text-color: var(--black3);
 	--selected-item-bg-color: var(--light-gray2);
-	--button-disabled-bg-color: hsla(0, 0%, 45%, 45%);
-	--button-disabled-text-color: var(--black1);
+	--button-disabled-bg-color: var(--gray2);
+	--button-disabled-text-color: var(--dark-gray3);
 	--link-color: var(--sec-color);
 	--label-color: var(--sec-color);
 
@@ -529,6 +574,30 @@ body.dark-mode {
 	--pitch-type-percentiles-text-color: var(--white3);
 	--pitch-type-percentiles-border-color: var(--indigo1);
 
+	--bg-color-primary: var(--pri-color);
+	--bg-color-secondary: var(--sec-color);
+	--bg-color-red: var(--red2);
+	--bg-color-pink: var(--pink3);
+	--bg-color-orange: var(--orange2);
+	--bg-color-teal: var(--blue-green2);
+	--bg-color-green: var(--yellow-green1);
+	--bg-color-blue: var(--blue3);
+	--bg-color-gray: var(--gray4);
+	--bg-color-yellow: var(--yellow3);
+	--bg-color-indigo: var(--indigo2);
+
+	--fg-color-on-primary: var(--color-on-pri);
+	--fg-color-on-secondary: var(--color-on-sec);
+	--fg-color-on-red: var(--black4);
+	--fg-color-on-pink: var(--black4);
+	--fg-color-on-orange: var(--black4);
+	--fg-color-on-teal: var(--black4);
+	--fg-color-on-green: var(--black4);
+	--fg-color-on-blue: var(--black4);
+	--fg-color-on-gray: var(--black4);
+	--fg-color-on-yellow: var(--black4);
+	--fg-color-on-indigo: var(--black4);
+
 	--pitch-type-FF: var(--red2);
 	--pitch-type-FT: var(--pink3);
 	--pitch-type-FC: var(--orange2);
@@ -540,6 +609,30 @@ body.dark-mode {
 	--pitch-type-PO: var(--white3);
 	--pitch-type-SC: var(--white3);
 	--pitch-type-UN: var(--white3);
+
+	--pie-chart-start-color: var(--indigo4);
+	--pie-chart-bench-color: var(--sec-color);
+
+	--def-pos-P: var(--blue4);
+	--def-pos-C: var(--pink2);
+	--def-pos-1B: var(--yellow-green1);
+	--def-pos-2B: var(--red2);
+	--def-pos-3B: var(--teal1);
+	--def-pos-SS: var(--orange2);
+	--def-pos-LF: var(--dark-teal2);
+	--def-pos-CF: var(--blue3);
+	--def-pos-RF: var(--indigo3);
+	--def-pos-DH: var(--pink3);
+
+	--bat-order-1: var(--pink3);
+	--bat-order-2: var(--red2);
+	--bat-order-3: var(--orange2);
+	--bat-order-4: var(--yellow-green3);
+	--bat-order-5: var(--green3);
+	--bat-order-6: var(--teal2);
+	--bat-order-7: var(--dark-teal2);
+	--bat-order-8: var(--blue3);
+	--bat-order-9: var(--indigo3);
 
 	--sdp-bg-color: var(--rich-black2);
 	--sdp-current-month: var(--rich-black3);
@@ -657,32 +750,32 @@ p {
 
 h1 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-4xl font-normal leading-normal;
+	@apply m-0 text-4xl leading-none;
 }
 
 h2 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-3xl font-normal leading-normal;
+	@apply m-0 text-3xl leading-none;
 }
 
 h3 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-2xl font-normal leading-normal;
+	@apply m-0 text-2xl leading-none;
 }
 
 h4 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-xl font-normal leading-normal;
+	@apply m-0 text-xl leading-none;
 }
 
 h5 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-lg font-normal leading-normal;
+	@apply m-0 text-lg leading-none;
 }
 
 h6 {
 	color: var(--heading-text-color);
-	@apply mt-0 mb-2 text-base font-normal leading-normal;
+	@apply m-0 text-base leading-none;
 }
 
 mark {
@@ -828,7 +921,6 @@ label {
 	display: table-cell;
 	border-top: none;
 	border-left: 1px solid var(--table-inner-border-vert-color);
-	/* border-bottom: 1px dotted var(--table-inner-border-horiz-color); */
 }
 
 .resp-table .num {
@@ -1026,7 +1118,7 @@ input {
 }
 
 .btn {
-	@apply px-2 py-1 mr-1 overflow-hidden font-normal rounded shadow-md whitespace-nowrap focus:outline-none;
+	@apply px-2 py-1 overflow-hidden font-normal tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
 	transition: background 0.2s;
 }
 

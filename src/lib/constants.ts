@@ -24,30 +24,16 @@ export const DEF_POS_ABBREV_TO_NUM_MAP: { [key: string]: number } = {
 	DH: 10
 };
 
-export const DEF_POS_NUM_COLOR_MAP_LIGHT: { [key: number]: string } = {
-	1: '#1a6eff',
-	2: '#b30086',
-	3: '#0c6600',
-	4: '#b30600',
-	5: '#004d4b',
-	6: '#b34a00',
-	7: '#00807d',
-	8: '#0054e6',
-	9: '#4421de',
-	10: '#e600ac'
-};
-
-export const DEF_POS_NUM_COLOR_MAP_DARK: { [key: number]: string } = {
-	1: '#1a6eff',
-	2: '#e600ac',
-	3: '#6bb300',
-	4: '#e60800',
-	5: '#00b3b0',
-	6: '#e66000',
-	7: '#00807d',
-	8: '#0054e6',
-	9: '#4421de',
-	10: '#ff1ac6'
+export const BAT_ORDER_NUM_TO_ABBREV_MAP: { [key: number]: string } = {
+	1: '1st',
+	2: '2nd',
+	3: '3rd',
+	4: '4th',
+	5: '5th',
+	6: '6th',
+	7: '7th',
+	8: '8th',
+	9: '9th'
 };
 
 export const PITCH_TYPE_MAP: { [key: number]: string } = {

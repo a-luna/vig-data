@@ -38,6 +38,11 @@ export const getCSSPropNumberOfPixels = (element: HTMLElement, propName: string)
 	return match ? parseInt(match.groups.pixels) : 0;
 };
 
+export function formatNumber(input: number | string, precision = 0): string {
+	const unformatted = typeof input === 'number' ? input : parseFloat(input);
+	return unformatted.toLocaleString('en-US', { minimumFractionDigits: precision, maximumFractionDigits: precision });
+}
+
 export function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb }) {
 	const handleOutsideClick = ({ target }) => {
 		if (!node.contains(target)) {
@@ -62,11 +67,13 @@ export function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb })
 	};
 }
 
-export function getTimeDeltaAsString(start: Date, end: Date = new Date()): string {
-	return formatDuration(intervalToDuration({ start: start, end: end }), {
-		format: ['years', 'months', 'days'],
-		delimiter: ', '
-	});
+export function getTimeDeltaAsString(
+	start: Date,
+	end: Date = new Date(),
+	format: string[] = ['years', 'months', 'days'],
+	delimiter = ', '
+): string {
+	return formatDuration(intervalToDuration({ start, end }), { format, delimiter });
 }
 
 export function getDateFromString(date_str: string): Result<Date> {

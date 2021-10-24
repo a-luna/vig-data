@@ -401,7 +401,7 @@ export interface TeamPitchStats {
 	inherited_scored: number;
 	wpa_pitch: number;
 	re24_pitch: number;
-	league?: 'AL' | 'NL';
+	league?: 'AL' | 'NL' | 'MLB';
 	division?: 'C' | 'E' | 'W';
 	changed_teams_midseason?: boolean;
 	all_stats_for_season?: boolean;
@@ -562,7 +562,7 @@ export interface AtBatPitchDescription {
 	type: string;
 	blocked_by_c: boolean;
 	out_of_boundary: boolean;
-  barreled: boolean;
+	barreled: boolean;
 	non_pitch_event: boolean;
 }
 

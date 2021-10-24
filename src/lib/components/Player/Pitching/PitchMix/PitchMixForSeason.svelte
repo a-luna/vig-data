@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
-	import PitchMixPieChart from '$lib/components/Player/Pitching/PitchMix/PitchMixPieChart.svelte';
 	import PitchMixTable from '$lib/components/Player/Pitching/PitchMix/PitchMixTable.svelte';
 	import { allPlayerSeasons, careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import { playerSeason } from '$lib/stores/singleValueStores';
@@ -52,22 +51,11 @@
 			<h3 class="table-caption mb-1 text-xl tracking-wide sm:text-2xl overflow-ellipsis">
 				{getChartTitle($playerSeason, stance)}
 			</h3>
-			<div class="flex flex-row justify-start gap-5 flex-nowrap">
-				{#if $playerSeason === 0}
-					<PitchMixTable pitchTypeMetrics={getCareerPfxData(stance)} playerSeason={'career'} />
-				{:else}
-					<PitchMixTable pitchTypeMetrics={getPfxDataByYear(stance)[$playerSeason]} playerSeason={$playerSeason} />
-				{/if}
-				<PitchMixPieChart {stance} showTitle={false} />
-			</div>
+			{#if $playerSeason === 0}
+				<PitchMixTable pitchTypeMetrics={getCareerPfxData(stance)} playerSeason={'career'} />
+			{:else}
+				<PitchMixTable pitchTypeMetrics={getPfxDataByYear(stance)[$playerSeason]} playerSeason={$playerSeason} />
+			{/if}
 		</div>
 	{/each}
 </div>
-
-<style lang="postcss">
-	.chart-title {
-		font-size: 1.3rem;
-		margin-top: 0.75rem;
-		margin-bottom: 0;
-	}
-</style>

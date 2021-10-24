@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PitchFxMetrics, PitchType } from '$lib/api/types';
+	import type { PitchFxMetrics } from '$lib/api/types';
 	import { getPitchTypeNameFromInt } from '$lib/util';
 	import MdLens from 'svelte-icons/md/MdLens.svelte';
 
-	export let pitchTypeMetrics: Record<PitchType, PitchFxMetrics>;
+	export let pitchTypeMetrics: { [key: string]: PitchFxMetrics };
 	export let playerSeason: 'career' | number;
 	let metrics: PitchFxMetrics[];
 

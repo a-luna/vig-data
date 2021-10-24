@@ -8,7 +8,7 @@
 	export let hoverId: string;
 	const defaultCoordinates: [number, number] = [0, 0];
 
-	$: sliceIds = chartData.map((s) => s.id);
+	$: pieSlices = chartData.filter((s) => s.percent > 0);
 	$: lastCoordinates =
 		chartData && chartData.length > 0 ? chartData[chartData.length - 1].endCoordinates : defaultCoordinates;
 
@@ -31,7 +31,7 @@
 	on:mouseleave={() => (hovering = false)}
 >
 	<circle cx="0" cy="0" r="1.01" />
-	{#each chartData as slice}
+	{#each pieSlices as slice}
 		<path
 			d={getSvgPath(slice)}
 			fill={slice.color}
@@ -41,14 +41,14 @@
 			on:mouseleave={() => (hoverId = '')}
 		>
 			{#if showTooltip}
-				<title>{slice.description}</title>
+				<title>{slice.tooltip}</title>
 			{/if}
 		</path>
-		{#if chartData.length > 1}
+		{#if pieSlices.length > 1}
 			<path class="radial-line" d={getRadialLine(...slice.startCoordinates)} />
 		{/if}
 	{/each}
-	{#if chartData.length > 1}
+	{#if pieSlices.length > 1}
 		<path class="radial-line" d={getRadialLine(...lastCoordinates)} />
 	{/if}
 </svg>

@@ -2,6 +2,9 @@
 	import type { PieSlice } from '$lib/types';
 
 	export let chartData: PieSlice[] = [];
+	export let legendFontSize: string = '0.8rem';
+	export let legendFontWeight: number = 500;
+	export let showTooltip: boolean = true;
 	export let hovering: boolean = false;
 	export let hoverId: string;
 
@@ -13,27 +16,24 @@
 </script>
 
 <div
-	class="flex flex-col items-end flex-initial mt-2 mb-auto chart-legend"
+	class="flex flex-col flex-initial justify-center chart-legend"
 	on:mouseenter={() => (hovering = true)}
 	on:mouseleave={() => (hovering = false)}
 >
 	{#each chartData as slice}
 		<span
-			class="px-1 py-0.5 w-full text-right font-mono leading-none"
-			style="{getColorStyles(slice, hoverId)}; font-size: 0.8rem"
+			class="px-1 py-0.5 w-full text-right font-mono leading-none tracking-wider"
+			style="{getColorStyles(slice, hoverId)}; font-size: {legendFontSize}; font-weight: {legendFontWeight}"
+			title={showTooltip ? slice.tooltip : ''}
 			on:mouseenter={() => (hoverId = slice.id)}
 			on:mouseleave={() => (hoverId = '')}
 		>
-			{slice.legend}
+			{@html slice.legend}
 		</span>
 	{/each}
 </div>
 
 <style lang="postcss">
-	.chart-legend {
-		margin-top: 10px;
-	}
-
 	.chart-legend span {
 		border-radius: 4px;
 	}

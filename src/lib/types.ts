@@ -19,6 +19,24 @@ export class HslColor {
 	};
 }
 
+export interface CarouselSettings {
+	width: string;
+	padding: string;
+	props?: {
+		infinite?: boolean;
+		dots?: boolean;
+		particlesToShow?: number;
+	};
+}
+
+export interface PieChartSettings {
+	pieWidth: string;
+	chartHeight: string;
+	chartTitleFontSize: string;
+	legendFontSize: string;
+	legendFontWeight: number;
+}
+
 export interface PieSliceData {
 	value: number;
 	pieTotal: number;
@@ -27,6 +45,7 @@ export interface PieSliceData {
 	unit: string;
 	description?: string;
 	legend?: string;
+	tooltip?: string;
 }
 
 export class PieSlice {
@@ -46,18 +65,20 @@ export class PieSlice {
 		public unit: string = 'items'
 	) {
 		this.id = `${getRandomHexString(4)}-${getRandomHexString(4)}`;
-		this.percent = this.value / this.pieTotal;
-		this.description = `${(this.percent * 100).toFixed(0)}% ${this.label}`;
+		this.percent = parseFloat((this.value / this.pieTotal).toFixed(3));
+		this.description = `${Math.round(this.percent * 100)}% ${this.label}`;
 		this.legend = this.description;
-		this.tooltip = `${(this.percent * 100).toFixed(0)}% ${this.label} (${this.value} ${this.unit})`;
+		this.tooltip = `${Math.round(this.percent * 100)}% ${this.label} (${this.value} ${this.unit})`;
 		this.startCoordinates = [0, 0];
 		this.endCoordinates = [0, 0];
 		this.hovering = false;
 	}
+
 	public static fromObject = (obj: PieSliceData): PieSlice => {
 		const newSlice = new PieSlice(obj.value, obj.pieTotal, obj.label, obj.color, obj.unit);
 		newSlice.description = obj?.description ?? newSlice.description;
 		newSlice.legend = obj?.legend ?? newSlice.legend;
+		newSlice.tooltip = obj?.tooltip ?? newSlice.tooltip;
 		return newSlice;
 	};
 }
@@ -96,12 +117,25 @@ export type TeamID =
 	| 'TOR'
 	| 'WSN';
 export type ThemeColor = 'primary' | 'secondary';
+export type ButtonColor =
+	| 'red'
+	| 'pink'
+	| 'orange'
+	| 'teal'
+	| 'green'
+	| 'blue'
+	| 'gray'
+	| 'yellow'
+	| 'indigo'
+	| ThemeColor;
 export type SiteTheme = 'light' | 'dark' | 'notset';
 export type PageBreakPoint = 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type GameContent = 'box' | 'pbp' | 'charts';
 export type TeamStatType = 'bat' | 'pitch';
 export type PlayerContent = 'career-stats' | 'pitch-mix' | 'pitch-type-percentiles';
 export type League = 'both' | 'al' | 'nl';
+export type OffensiveRole = 'start/bench' | 'defpos' | 'batorder';
+export type PitchMetricOption = 'role' | 'pitch-mix';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';
 export type BatterStance = 'all' | 'rhb' | 'lhb';

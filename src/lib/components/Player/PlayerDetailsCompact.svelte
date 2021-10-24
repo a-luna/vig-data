@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getTimeDeltaAsString } from '$lib/util';
 
+	export let name_first: string;
 	export let name_last: string;
 	export let name_given: string;
 	export let bats: string;
@@ -15,11 +16,13 @@
 	export let birth_state: string = '';
 	export let birth_city: string = '';
 	export let fontSize: string;
+	export let majorGap: string;
+	export let minorGap: string;
 
-	$: debutDate = new Date(debut);
 	$: birthDate = new Date(birth_year, birth_month - 1, birth_day);
-	$: ageAtDebut = getTimeDeltaAsString(birthDate, debutDate);
-	$: playerAge = getTimeDeltaAsString(birthDate);
+	$: debutDate = new Date(debut);
+	$: playerAge = getTimeDeltaAsString(birthDate, new Date(), ['years']);
+	$: ageAtDebut = getTimeDeltaAsString(birthDate, debutDate, ['years']);
 	$: height_feet = Math.floor(height / 12);
 	$: height_inches = height % 12;
 	$: birthLocation =
@@ -29,13 +32,9 @@
 </script>
 
 <div
-	class="grid grid-cols-1 gap-0.5 w-full leading-snug whitespace-nowrap overflow-ellipsis"
+	class="flex flex-row flex-wrap {majorGap} justify-start w-full leading-tight whitespace-nowrap overflow-ellipsis"
 	style="font-size: {fontSize}"
 >
-	<div class="flex">
-		<strong class="mr-2">Full Name</strong>
-		<span>{name_given} {name_last}</span>
-	</div>
 	<div class="flex">
 		<strong class="mr-2">Bats</strong>
 		<span class="mr-2">{bats}</span>
