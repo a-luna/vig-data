@@ -10,9 +10,9 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-netlify": "^1.0.0-next.33",
+    "@sveltejs/adapter-netlify": "^1.0.0-next.34",
     "@sveltejs/adapter-static": "^1.0.0-next.21",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.28",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
     "@tsconfig/svelte": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -27,12 +27,12 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-svelte3": "^3.2.1",
     "highlight.js": "^10.7.3",
-    "postcss": "^8.3.9",
+    "postcss": "^8.3.11",
     "postcss-load-config": "^3.1.0",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.4.0",
-    "sass": "^1.43.2",
-    "svelte": "^3.43.2",
+    "sass": "^1.43.3",
+    "svelte": "^3.44.0",
     "svelte-carousel": "^1.0.16",
     "svelte-check": "^2.2.7",
     "svelte-icons": "^2.1.0",
@@ -40,13 +40,12 @@
     "svelte-loader": "^3.1.2",
     "svelte-loading-spinners": "^0.1.7",
     "svelte-search": "^1.1.0",
-    "svelte-slidy": "^2.7.1",
     "svelte-tabs": "^1.1.0",
     "svelte-typeahead": "^3.0.0",
     "tailwindcss": "^2.2.17",
     "tslib": "^2.3.1",
     "typescript": "^4.4.4",
-    "vite": "^2.6.7"
+    "vite": "^2.6.10"
   },
   "type": "module",
   "engines": {
@@ -55,7 +54,7 @@
   "dependencies": {
     "@date-io/date-fns": "^2.11.0",
     "@sveltejs/adapter-node": "1.0.0-next.53",
-    "@sveltejs/kit": "^1.0.0-next.184",
+    "@sveltejs/kit": "^1.0.0-next.189",
     "date-fns": "^2.25.0",
     "date-fns-tz": "^1.1.6",
     "fuzzy": "^0.1.3",

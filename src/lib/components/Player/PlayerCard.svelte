@@ -53,7 +53,7 @@
 <style lang="postcss">
 	.card {
 		background-color: var(--player-card-bg-color);
-		border: 1px dotted var(--player-card-border-color);
+		border: 2px dotted var(--player-card-border-color);
 	}
 
 	.player-card-heading {

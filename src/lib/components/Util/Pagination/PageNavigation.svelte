@@ -39,6 +39,6 @@
 
 <style lang="postcss">
 	button.text {
-		width: 70px;
+		width: 75px;
 	}
 </style>

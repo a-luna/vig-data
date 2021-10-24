@@ -99,8 +99,8 @@
 		color: var(--search-icon-color);
 		top: 9px;
 		left: 5px;
-		width: 16px;
-		height: 16px;
+		width: 18px;
+		height: 18px;
 		z-index: 1;
 	}
 </style>
