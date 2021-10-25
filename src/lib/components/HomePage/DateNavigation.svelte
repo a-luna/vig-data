@@ -5,7 +5,7 @@
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
-	import { getDateFromString } from '$lib/util';
+	import { getDateFromString } from '$lib/util/datetime';
 	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import GoCalendar from 'svelte-icons/go/GoCalendar.svelte';

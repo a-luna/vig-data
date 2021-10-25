@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getTimeDeltaAsString } from '$lib/util';
+	import { getTimeDeltaAsString } from '$lib/util/datetime';
 
 	export let name_last: string;
 	export let name_given: string;

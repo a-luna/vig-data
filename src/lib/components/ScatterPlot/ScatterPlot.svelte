@@ -3,7 +3,7 @@
 	import AxisX from '$lib/components/ScatterPlot/AxisX-html.svelte';
 	import AxisY from '$lib/components/ScatterPlot/AxisY-html.svelte';
 	import Scatter from '$lib/components/ScatterPlot/Scatter-html.svelte';
-	import { getXAxisMinMax, getYAxisMinMax } from '$lib/util';
+	import { getXAxisMinMax, getYAxisMinMax } from '$lib/util/gameData';
 	import LayerCake from '../../../../node_modules/layercake/src/LayerCake.svelte';
 	import Html from '../../../../node_modules/layercake/src/layouts/Html.svelte';
 

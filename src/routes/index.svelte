@@ -25,7 +25,7 @@
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { getSeasonDates, getStringFromDate } from '$lib/util';
+	import { getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 
 	let error: string = null;
 	let season: MlbSeason;

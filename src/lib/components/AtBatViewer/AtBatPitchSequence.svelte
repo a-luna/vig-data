@@ -2,7 +2,7 @@
 	import type { AtBatDetails, AtBatPitchDescription } from '$lib/api/types';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import { PITCH_SPEED_TYPE_REGEX } from '$lib/regex';
-	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util';
+	import { formatAtBatResult, getPitchTypeAbbrevFromName } from '$lib/util/gameData';
 	import FaRocket from 'svelte-icons/fa/FaRocket.svelte';
 	import MdBlock from 'svelte-icons/md/MdBlock.svelte';
 	import MdErrorOutline from 'svelte-icons/md/MdErrorOutline.svelte';

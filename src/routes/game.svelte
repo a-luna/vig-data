@@ -10,7 +10,7 @@
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { GameContent } from '$lib/types';
-	import { getDateFromGameId } from '$lib/util';
+	import { getDateFromGameId } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
 	let game_id: string;

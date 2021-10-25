@@ -2,7 +2,7 @@
 	import ChartLegend from '$lib/components/Util/PieChart/ChartLegend.svelte';
 	import SvgPieChart from '$lib/components/Util/PieChart/SvgPieChart.svelte';
 	import type { PieSlice } from '$lib/types';
-	import { formatNumber } from '$lib/util';
+	import { formatNumber } from '$lib/util/format';
 
 	export let pieWidth: string = '100px';
 	export let chartHeight: string = '130px';
@@ -35,10 +35,10 @@
 </script>
 
 <div
-	class="flex flex-col font-medium gap-1 mx-1 leading-none whitespace-nowrap justify-around items-center text-center"
+	class="flex flex-col items-center justify-around gap-1 mx-1 font-medium leading-none text-center whitespace-nowrap"
 	style="height: {chartHeight}"
 >
-	<div class="flex flex-row flex-nowrap gap-1 justify-start chart-inner-wrapper">
+	<div class="flex flex-row justify-start gap-1 flex-nowrap chart-inner-wrapper">
 		<div class="flex flex-col gap-1 flex-nowrap">
 			{#if showTitle}
 				<span class="flex-initial" style="font-size: {chartTitleFontSize}">{chartTitle}</span>

@@ -2,7 +2,7 @@
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util';
+	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
 	let mounted: boolean = false;

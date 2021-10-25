@@ -2,7 +2,7 @@
 	import type { TeamPitchStats } from '$lib/api/types';
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { PieChartSettings, PieSlice } from '$lib/types';
-	import { prepareSvgPieChart } from '$lib/util';
+	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let pitchStats: TeamPitchStats;

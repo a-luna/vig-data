@@ -1,29 +1,24 @@
 <script lang="ts">
-  import { siteTheme } from '$lib/stores/singleValueStores';
-  import type { ButtonColor } from '$lib/types';
-  import { HslColor } from '$lib/types';
-  import { getCSSPropValue } from '$lib/util';
+	import { siteTheme } from '$lib/stores/singleValueStores';
+	import type { ButtonColor } from '$lib/types';
+	import { HslColor } from '$lib/types';
+	import { getCSSPropValue } from '$lib/util/cssCustomProps';
 
 	export let size: 'sm' | 'md' | 'lg' = 'md';
 	export let color: ButtonColor = 'blue';
 	export let disabled: boolean = false;
-	const bgColorCssPropName = `--bg-color-${color}`;
-	const fgColorCssPropName = `--fg-color-on-${color}`;
-	const disabledBgColorCssPropName = '--button-disabled-bg-color';
-	const disabledFgColorCssPropName = '--button-disabled-text-color';
-	let buttonBgHslColor: HslColor;
+	const buttonSize = size === 'sm' ? 36 : size === 'md' ? 48 : 72;
+	const iconSize = size === 'sm' ? 16 : size === 'md' ? 24 : 36;
+	const padding = size === 'sm' ? 10 : size === 'md' ? 12 : 18;
+	const padAdjust = size === 'sm' ? 0 : size === 'md' ? 2 : 0;
+	let bgColor: HslColor;
 	let edgeGradient: string = '';
 
-	$: buttonFgColor = disabled ? disabledFgColorCssPropName : fgColorCssPropName;
-	$: buttonBgColor = disabled ? disabledBgColorCssPropName : bgColorCssPropName;
-	$: if ($siteTheme) buttonBgHslColor = HslColor.fromString(getCSSPropValue(document.body, buttonBgColor));
-	$: if (buttonBgHslColor)
-		edgeGradient = `linear-gradient(to left, hsl(${buttonBgHslColor.hue}deg ${buttonBgHslColor.saturation}% 16%) 0%, hsl(${buttonBgHslColor.hue}deg ${buttonBgHslColor.saturation}% 32%) 8%, hsl(${buttonBgHslColor.hue}deg ${buttonBgHslColor.saturation}% 32%) 92%, hsl(${buttonBgHslColor.hue}deg ${buttonBgHslColor.saturation}% 16%) 100%)`;
-
-	$: buttonSize = size === 'sm' ? 36 : size === 'md' ? 48 : 72;
-	$: iconSize = size === 'sm' ? 16 : size === 'md' ? 24 : 36;
-	$: padding = size === 'sm' ? 10 : size === 'md' ? 12 : 18;
-	$: padAdjust = size === 'sm' ? 0 : size === 'md' ? 2 : 0;
+	$: fgColorCssPropName = disabled ? '--button-disabled-text-color' : `--fg-color-on-${color}`;
+	$: bgColorCssPropName = disabled ? '--button-disabled-bg-color' : `--bg-color-${color}`;
+	$: if ($siteTheme) bgColor = HslColor.fromString(getCSSPropValue(document.body, bgColorCssPropName));
+	$: if (bgColor)
+		edgeGradient = `linear-gradient(to left, hsl(${bgColor.hue}deg ${bgColor.saturation}% 16%) 0%, hsl(${bgColor.hue}deg ${bgColor.saturation}% 32%) 8%, hsl(${bgColor.hue}deg ${bgColor.saturation}% 32%) 92%, hsl(${bgColor.hue}deg ${bgColor.saturation}% 16%) 100%)`;
 </script>
 
 <button {disabled} class="pushable" on:click>
@@ -31,7 +26,7 @@
 	<span class="edge" style="background: {edgeGradient}" />
 	<span
 		class="front"
-		style="color: var({buttonFgColor}); background: var({buttonBgColor}); width: {buttonSize}px; height: {buttonSize}px; padding: {padding +
+		style="color: var({fgColorCssPropName}); background: var({bgColorCssPropName}); width: {buttonSize}px; height: {buttonSize}px; padding: {padding +
 			padAdjust}px {padding}px {padding - padAdjust}px"
 	>
 		<div style="width: {iconSize}px; height: {iconSize}px; margin: auto">

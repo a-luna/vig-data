@@ -14,6 +14,12 @@ export async function getCareerPfxDataForPitcher(mlb_id: number): Promise<ApiRes
 	return await validateApiResponse<CareerPfxMetricsForPitcher>(response);
 }
 
+export async function getPitchFxForPitchApp(pitch_app_id: string): Promise<ApiResponse<PitchFx[]>> {
+	if (!pitch_app_id) return { status: 400, success: false, message: 'No value was provided for Pitch App ID' };
+	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/pfx/pitch_app?pitch_app_id=${pitch_app_id}`);
+	return await validateApiResponse<PitchFx[]>(response);
+}
+
 // import { careerPfxMockData } from './mock/pitchfx/getCareerPfxDataForPitcher';
 // export async function getCareerPfxDataForPitcher(mlb_id: number): Promise<ApiResponse<CareerPfxMetricsForPitcher>> {
 // 	return {
@@ -22,9 +28,3 @@ export async function getCareerPfxDataForPitcher(mlb_id: number): Promise<ApiRes
 // 		value: careerPfxMockData
 // 	};
 // }
-
-export async function getPitchFxForPitchApp(pitch_app_id: string): Promise<ApiResponse<PitchFx[]>> {
-	if (!pitch_app_id) return { status: 400, success: false, message: 'No value was provided for Pitch App ID' };
-	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/pfx/pitch_app?pitch_app_id=${pitch_app_id}`);
-	return await validateApiResponse<PitchFx[]>(response);
-}

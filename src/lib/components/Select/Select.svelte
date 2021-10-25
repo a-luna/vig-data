@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Option from '$lib/components/Select/Option.svelte';
 	import type { SelectMenuOption } from '$lib/types';
-	import { clickOutside } from '$lib/util';
+	import { clickOutside } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 	import MdArrowDropDown from 'svelte-icons/md/MdArrowDropDown.svelte';
 	import { cubicIn, cubicOut } from 'svelte/easing';

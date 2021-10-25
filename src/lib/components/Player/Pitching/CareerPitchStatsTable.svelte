@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { CareerPitchStats, TeamPitchStats } from '$lib/api/types';
+	import type { CareerPitchStats,TeamPitchStats } from '$lib/api/types';
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
-	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
+	import { describeSortSetting,getFixedColumnWidth,getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatPercentStat,formatPosNegValue } from '$lib/util/format';
 	import FaMinusCircle from 'svelte-icons/fa/FaMinusCircle.svelte';
 	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
 	import { flip } from 'svelte/animate';
@@ -18,6 +19,7 @@
 	let expanded: boolean = true;
 	const options = { delay: 100, duration: 500, easing: quintInOut };
 
+	$: dummyTeamPitchStats = getDummyObject('teamPitchStats') as TeamPitchStats;
 	$: sortedPitchStats = sortSeasonPitchStats(sortBy, sortDir, expanded);
 	$: statsTableRows = [...sortedPitchStats, careerPitchStats.career, ...careerPitchStats.by_team];
 	$: headingFontSize = $pageBreakPoints.width < 640 ? '24px' : $pageBreakPoints.width < 768 ? '24px' : '28px';
@@ -26,7 +28,7 @@
 		const combinedSeasonStats = [];
 		careerPitchStats.by_team_by_year
 			.filter((s) => s.all_stats_for_season)
-			.sort(getSortFunction(getDummyTeamPitchStats(), sortStat, dir))
+			.sort(getSortFunction(dummyTeamPitchStats, sortStat, dir))
 			.map((s) => {
 				combinedSeasonStats.push(s);
 				if (isExpanded) {

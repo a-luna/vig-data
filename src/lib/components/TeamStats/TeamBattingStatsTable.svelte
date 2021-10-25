@@ -3,7 +3,8 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatNumber, formatPercentStat, formatPosNegValue, formatRateStat, getDummyTeamBatStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatNumber, formatPercentStat, formatPosNegValue, formatRateStat } from '$lib/util/format';
 	import { createEventDispatcher } from 'svelte';
 
 	export let batStats: TeamBatStats[] = [];
@@ -17,7 +18,8 @@
 	export let tableId: string = '';
 	const dispatch = createEventDispatcher();
 
-	$: sortedBatStats = batStats.sort(getSortFunction(getDummyTeamBatStats(), sortBy, sortDir));
+	$: dummyTeamBatStats = getDummyObject('teamBatStats') as TeamBatStats;
+	$: sortedBatStats = batStats.sort(getSortFunction(dummyTeamBatStats, sortBy, sortDir));
 	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
 
 	function sortTableByStat(stat: string) {

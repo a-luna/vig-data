@@ -3,7 +3,9 @@
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP } from '$lib/constants';
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import { syncWidth } from '$lib/stores/elementWidth';
-	import { capitalize, getCSSPropNumberOfPixels, getToolTipPositionForPfxData } from '$lib/util';
+	import { getCSSPropNumberOfPixels } from '$lib/util/cssCustomProps';
+	import { capitalize } from '$lib/util/format';
+	import { getToolTipPositionForPfxData } from '$lib/util/gameData';
 
 	export let d: PitchFx;
 	export let pLocLeft: number;
@@ -67,7 +69,7 @@
 	class="absolute z-50 flex flex-col items-start justify-start p-1 leading-snug tracking-wide tooltip"
 	style={toolTipPosition}
 >
-	<strong class="description">
+	<strong data-pitch-type={d.mlbam_pitch_name}>
 		{d.start_speed.toFixed(1)} mph {capitalize(PITCH_TYPE_ABBREV_TO_NAME_MAP[d.mlbam_pitch_name])}
 	</strong>
 	{#if ballInPlay}

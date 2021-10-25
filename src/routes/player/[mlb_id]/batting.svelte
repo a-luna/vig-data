@@ -9,7 +9,7 @@
 	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { getPlayerPageSettings } from '$lib/util';
+	import { getPlayerPageSettings } from '$lib/util/ui';
 	import { onMount } from 'svelte';
 
 	let playerDetails: PlayerDetailsSchema;

@@ -4,7 +4,7 @@
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP } from '$lib/constants';
 	import { pitchTypeMetricsByYearByStance } from '$lib/stores/pfxPitcherMetrics';
 	import { BatterStance, PieChartSettings, PieSlice } from '$lib/types';
-	import { prepareSvgPieChart } from '$lib/util';
+	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let chartTitle: string = '';

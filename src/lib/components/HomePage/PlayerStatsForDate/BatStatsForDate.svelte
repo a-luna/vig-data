@@ -2,7 +2,7 @@
 	import type { PlayerBatStats } from '$lib/api/types';
 	import BatStatsForDateTable from '$lib/components/HomePage/PlayerStatsForDate/BatStatsForDateTable.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import { getRandomHexString } from '$lib/util';
+	import { getRandomHexString } from '$lib/util/ui';
 
 	export let tableId: string;
 	export let sortBy: string;
@@ -19,7 +19,7 @@
 	}
 </script>
 
-<div class="flex flex-col mb-4 player-stats-wrapper flex-nowrap responsive w-full">
+<div class="flex flex-col w-full mb-4 player-stats-wrapper flex-nowrap responsive">
 	<BatStatsForDateTable
 		tableId={tableId ? tableId : getDefaultTableId()}
 		bind:batStats

@@ -2,7 +2,7 @@ import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
 import type { ApiResponse, MlbSeason, PitchFx, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 import { GAME_DATE_REGEX } from '$lib/regex';
-import { getDateFromString, getStringFromDate } from '$lib/util';
+import { getDateFromString, getStringFromDate } from '$lib/util/datetime';
 
 export async function getAllValidSeasons(): Promise<ApiResponse<MlbSeason[]>> {
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/all`);

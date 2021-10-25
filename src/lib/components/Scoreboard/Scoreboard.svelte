@@ -8,7 +8,7 @@
 	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { getSeasonDates, getStringFromDate } from '$lib/util';
+	import { getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 
 	export let value: Date;
 	let success: boolean;

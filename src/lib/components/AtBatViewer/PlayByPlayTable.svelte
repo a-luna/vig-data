@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { AtBatDetails, InningSummary, PlayerSubEvent } from '$lib/api/types';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
-	import { formatAtBatResult, scrollToTop } from '$lib/util';
+	import { formatAtBatResult } from '$lib/util/gameData';
+	import { scrollToTop } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 
 	export let atBatMap: Record<string, AtBatDetails>;

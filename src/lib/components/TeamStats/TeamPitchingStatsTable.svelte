@@ -3,7 +3,8 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatNumber, formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatNumber, formatPercentStat, formatPosNegValue } from '$lib/util/format';
 	import { createEventDispatcher } from 'svelte';
 
 	export let pitchStats: TeamPitchStats[] = [];
@@ -17,7 +18,8 @@
 	export let tableId: string = '';
 	const dispatch = createEventDispatcher();
 
-	$: sortedBatStats = pitchStats.sort(getSortFunction(getDummyTeamPitchStats(), sortBy, sortDir));
+	$: dummyTeamPitchStats = getDummyObject('teamPitchStats') as TeamPitchStats;
+	$: sortedBatStats = pitchStats.sort(getSortFunction(dummyTeamPitchStats, sortBy, sortDir));
 	$: currentPagePitchStats = sortedBatStats.slice(startRow, endRow);
 
 	function sortTableByStat(stat: string) {
@@ -29,7 +31,7 @@
 
 <section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap mb-0.5 ml-1">
-		<div class="mb-1 text-sm font-medium italic tracking-wide sort-description">
+		<div class="mb-1 text-sm italic font-medium tracking-wide sort-description">
 			{describeSortSetting(sortBy, sortDir)}
 		</div>
 	</div>

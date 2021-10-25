@@ -3,7 +3,7 @@
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import InningLabel from '$lib/components/Util/InningLabel.svelte';
-	import { scrollToTop } from '$lib/util';
+	import { scrollToTop } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 
 	export let boxscore: Boxscore;
@@ -59,11 +59,11 @@
 <ModalContainer bind:this={modalContainer}>
 	<div slot="heading" class="modal-heading-flex">
 		<span class="text-base font-bold">{batterName} ({batterTeamId})</span>
-		<span class="text-base font-normal ml-2">{statLine}</span>
+		<span class="ml-2 text-base font-normal">{statLine}</span>
 	</div>
 
 	<div slot="content" class="responsive">
-		<div class="resp-table w-full text-sm">
+		<div class="w-full text-sm resp-table">
 			<div class="resp-table-header col-header">
 				<div class="table-header-cell">Inn</div>
 				<div class="num table-header-cell">Outs</div>
@@ -75,20 +75,20 @@
 			<div class="resp-table-body">
 				{#each atBatResults as at_bat}
 					<div class="resp-table-row">
-						<div class="table-body-cell text-center"><InningLabel inning={at_bat.inning} /></div>
-						<div class="table-body-cell text-center">{at_bat.outs}</div>
-						<div class="table-body-cell text-center">{at_bat.runners_on_base}</div>
+						<div class="text-center table-body-cell"><InningLabel inning={at_bat.inning} /></div>
+						<div class="text-center table-body-cell">{at_bat.outs}</div>
+						<div class="text-center table-body-cell">{at_bat.runners_on_base}</div>
 						<div class="table-body-cell">
 							<FlexStrings stringArray={formatAtBatResult(at_bat.play_description)} />
 						</div>
 						<div class="table-body-cell">{at_bat.pitcher_name}</div>
 						<div class="table-body-cell">
-							<a
-								href="#"
-								class="at-bat-link"
+							<span
+								class="cursor-pointer at-bat-link"
 								title="View PitchFX Data for At Bat"
-								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}>{at_bat.pitch_sequence}</a
-							>
+								on:click={() => viewPitchFxforAtBat(at_bat.at_bat_id)}
+								>{at_bat.pitch_sequence}
+							</span>
 						</div>
 					</div>
 				{/each}

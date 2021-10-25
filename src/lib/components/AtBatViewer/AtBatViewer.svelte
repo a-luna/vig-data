@@ -15,7 +15,11 @@
 	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
-	import { addStrikeZoneCornersToPfxData, createPitchDescriptionList, identifyPfxDataBeyondBoundary } from '$lib/util';
+	import {
+		addStrikeZoneCornersToPfxData,
+		createPitchDescriptionList,
+		identifyPfxDataBeyondBoundary
+	} from '$lib/util/gameData';
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let shown: boolean;

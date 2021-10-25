@@ -6,7 +6,8 @@
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { TeamID, TeamStatFilter } from '$lib/types';
-	import { formatPercentStat, formatRateStat, getDummyTeamBatStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatPercentStat, formatRateStat } from '$lib/util/format';
 	import { tick } from 'svelte';
 
 	export let settings: TeamStatFilter = {
@@ -37,7 +38,8 @@
 	$: batOrder = settings.batOrder;
 	$: year = settings.season;
 	$: heading = getTableHeading(team);
-	$: sortedBatStats = batStats.sort(getSortFunction(getDummyTeamBatStats(), sortBy, sortDir));
+	$: dummyTeamBatStats = getDummyObject('teamBatStats') as TeamBatStats;
+	$: sortedBatStats = batStats.sort(getSortFunction(dummyTeamBatStats, sortBy, sortDir));
 	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
 	$: if (currentPageBatStats) updateColumnWidths();
 
@@ -90,7 +92,7 @@
 
 <section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap">
-		<div class="resp-table-caption m-0 text-xl tracking-wide overflow-ellipsis">{heading}</div>
+		<div class="m-0 text-xl tracking-wide resp-table-caption overflow-ellipsis">{heading}</div>
 		<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 	</div>
 	<article class="resp-table-container">
@@ -395,15 +397,10 @@
 		padding: 2px 4px;
 	}
 
-	.table-caption {
-		color: var(--table-caption-color);
-	}
-
 	.sort-description {
 		color: var(--sec-color);
 	}
 
-	.table-caption,
 	.sort-description {
 		display: table-caption;
 		white-space: nowrap;

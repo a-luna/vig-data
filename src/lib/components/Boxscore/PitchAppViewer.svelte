@@ -4,7 +4,7 @@
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PitchAppIdDropDown from '$lib/components/Boxscore/PitchAppIdDropDown.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
-	import { addStrikeZoneCornersToPfxData, identifyPfxDataBeyondBoundary } from '$lib/util';
+	import { addStrikeZoneCornersToPfxData, identifyPfxDataBeyondBoundary } from '$lib/util/gameData';
 
 	export let shown: boolean;
 	export let boxscore: Boxscore;
@@ -27,7 +27,7 @@
 </script>
 
 <div class:not-shown={!shown}>
-	<div class="charts flex flex-col flex-nowrap">
+	<div class="flex flex-col charts flex-nowrap">
 		<PitchAppIdDropDown
 			bind:boxscore
 			on:pitchAppSelected={(e) => (getPfxForPitchAppRequest = getPfxForPitchApp(e.detail))}

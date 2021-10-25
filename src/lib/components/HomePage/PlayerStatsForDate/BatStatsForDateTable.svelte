@@ -3,7 +3,9 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatPosNegValue, getDummyPlayerBatStats, getHomeTeamIdFromGameId } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatPosNegValue } from '$lib/util/format';
+	import { getHomeTeamIdFromGameId } from '$lib/util/gameData';
 	import { tick } from 'svelte';
 
 	export let batStats: PlayerBatStats[] = [];
@@ -17,7 +19,8 @@
 	let statLineColWidth: number;
 	const cellPadding: number = 8;
 
-	$: sortedBatStats = batStats.sort(getSortFunction(getDummyPlayerBatStats(), sortBy, sortDir));
+	$: dummyPlayerBatStats = getDummyObject('playerBatStats') as PlayerBatStats;
+	$: sortedBatStats = batStats.sort(getSortFunction(dummyPlayerBatStats, sortBy, sortDir));
 	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
 	$: if (currentPageBatStats) updateColumnWidths();
 

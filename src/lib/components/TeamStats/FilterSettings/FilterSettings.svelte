@@ -6,7 +6,7 @@
 	import LeagueDropDown from '$lib/components/Util/LeagueDropDown.svelte';
 	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
 	import type { TeamStatFilter } from '$lib/types';
-	import { teamStatFilterSettingsAreInvalid } from '$lib/util';
+	import { teamStatFilterSettingsAreInvalid } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';

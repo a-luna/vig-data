@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { getStringFromDate } from '$lib/util';
+	import { getStringFromDate } from '$lib/util/datetime';
 	import DateFnsAdapter from '@date-io/date-fns';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';

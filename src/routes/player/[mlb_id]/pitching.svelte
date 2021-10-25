@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { getCareerPfxDataForPitcher } from '$lib/api/pitchfx';
-	import { getCareerPitchStatsForPlayer, getPlayerDetails } from '$lib/api/player';
+	import { getCareerPitchStatsForPlayer,getPlayerDetails } from '$lib/api/player';
 	import type {
-		ApiResponse,
-		CareerPfxMetricsForPitcher,
-		CareerPitchStats,
-		PlayerDetails as PlayerDetailsSchema
+	ApiResponse,
+	CareerPfxMetricsForPitcher,
+	CareerPitchStats,
+	PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
 	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerPitchStatsTable from '$lib/components/Player/Pitching/CareerPitchStatsTable.svelte';
@@ -20,7 +20,7 @@
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import type { PlayerContent } from '$lib/types';
-	import { getPlayerPageSettings } from '$lib/util';
+	import { getPlayerPageSettings } from '$lib/util/ui';
 	import { onMount } from 'svelte';
 
 	let playerDetails: PlayerDetailsSchema;

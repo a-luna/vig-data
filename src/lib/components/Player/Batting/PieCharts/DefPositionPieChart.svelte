@@ -3,7 +3,7 @@
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { PieChartSettings, PieSlice } from '$lib/types';
-	import { prepareSvgPieChart } from '$lib/util';
+	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let defPosMetrics: DefPositionMetrics[];

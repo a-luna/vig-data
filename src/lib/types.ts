@@ -1,7 +1,7 @@
 import type { MlbSeason } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 // import type { Writable } from 'svelte/store';
-import { getRandomHexString } from './util';
+import { getRandomHexString } from '$lib/util/ui';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}

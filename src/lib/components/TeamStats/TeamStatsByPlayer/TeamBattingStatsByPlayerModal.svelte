@@ -13,7 +13,7 @@
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import type { TeamID, TeamStatFilter } from '$lib/types';
-	import { getRandomHexString } from '$lib/util';
+	import { getRandomHexString } from '$lib/util/ui';
 
 	export let settings: TeamStatFilter = {
 		season: $mostRecentSeason.year,

@@ -2,7 +2,7 @@
 	import type { PlayerPitchStats } from '$lib/api/types';
 	import PitchStatsForDateTable from '$lib/components/HomePage/PlayerStatsForDate/PitchStatsForDateTable.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
-	import { getRandomHexString } from '$lib/util';
+	import { getRandomHexString } from '$lib/util/ui';
 
 	export let pitchStats: PlayerPitchStats[] = [];
 	export let sortBy: string;

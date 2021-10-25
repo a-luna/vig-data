@@ -4,7 +4,7 @@
 	import { BAT_ORDER_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { siteTheme } from '$lib/stores/singleValueStores';
 	import { PieChartSettings, PieSlice } from '$lib/types';
-	import { prepareSvgPieChart } from '$lib/util';
+	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let batOrderMetrics: BatOrderMetrics[];

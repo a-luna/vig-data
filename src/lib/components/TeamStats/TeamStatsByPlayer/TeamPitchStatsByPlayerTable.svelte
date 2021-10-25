@@ -6,7 +6,8 @@
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { TeamID, TeamStatFilter } from '$lib/types';
-	import { formatPercentStat, formatPosNegValue, getDummyTeamPitchStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatPercentStat, formatPosNegValue } from '$lib/util/format';
 	import { tick } from 'svelte';
 
 	export let settings: TeamStatFilter = {
@@ -33,7 +34,8 @@
 	$: split = settings.pitchStatSplit;
 	$: year = settings.season;
 	$: heading = getTableHeading(team);
-	$: sortedPitchStats = pitchStats.sort(getSortFunction(getDummyTeamPitchStats(), sortBy, sortDir));
+	$: dummyTeamPitchStats = getDummyObject('teamPitchStats') as TeamPitchStats;
+	$: sortedPitchStats = pitchStats.sort(getSortFunction(dummyTeamPitchStats, sortBy, sortDir));
 	$: currentPagePitchStats = sortedPitchStats.slice(startRow, endRow);
 	$: if (currentPagePitchStats) updateColumnWidths();
 
@@ -561,15 +563,10 @@
 		padding: 2px 4px;
 	}
 
-	.table-caption {
-		color: var(--table-caption-color);
-	}
-
 	.sort-description {
 		color: var(--sec-color);
 	}
 
-	.table-caption,
 	.sort-description {
 		display: table-caption;
 		white-space: nowrap;

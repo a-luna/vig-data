@@ -3,7 +3,8 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { formatPercentStat, formatRateStat, getDummyTeamBatStats } from '$lib/util';
+	import { getDummyObject } from '$lib/util/dummy';
+	import { formatPercentStat, formatRateStat } from '$lib/util/format';
 	import FaMinusCircle from 'svelte-icons/fa/FaMinusCircle.svelte';
 	import FaPlusCircle from 'svelte-icons/fa/FaPlusCircle.svelte';
 	import { flip } from 'svelte/animate';
@@ -18,6 +19,7 @@
 	let expanded: boolean = true;
 	const options = { delay: 100, duration: 500, easing: quintInOut };
 
+	$: dummyTeamBatStats = getDummyObject('teamBatStats') as TeamBatStats;
 	$: sortedBatStats = sortSeasonBatStats(sortBy, sortDir, expanded);
 	$: statsTableRows = [...sortedBatStats, careerBatStats.career, ...careerBatStats.by_team];
 	$: headingFontSize = $pageBreakPoints.width < 640 ? '24px' : $pageBreakPoints.width < 768 ? '24px' : '28px';
@@ -26,7 +28,7 @@
 		const combinedSeasonStats = [];
 		careerBatStats.by_team_by_year
 			.filter((s) => s.all_stats_for_season)
-			.sort(getSortFunction(getDummyTeamBatStats(), sortStat, dir))
+			.sort(getSortFunction(dummyTeamBatStats, sortStat, dir))
 			.map((s) => {
 				combinedSeasonStats.push(s);
 				if (isExpanded) {

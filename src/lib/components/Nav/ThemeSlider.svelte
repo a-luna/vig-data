@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { siteTheme } from '$lib/stores/singleValueStores';
-	import { prefersDarkTheme } from '$lib/util';
+	import { prefersDarkTheme } from '$lib/util/ui';
 	import { onMount } from 'svelte';
 	import FaMoon from 'svelte-icons/fa/FaMoon.svelte';
 	import FaSun from 'svelte-icons/fa/FaSun.svelte';

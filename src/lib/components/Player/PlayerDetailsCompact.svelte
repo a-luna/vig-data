@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getTimeDeltaAsString } from '$lib/util';
+	import { getTimeDeltaAsString } from '$lib/util/datetime';
 
-	export let name_first: string;
-	export let name_last: string;
-	export let name_given: string;
+	// export let name_first: string;
+	// export let name_last: string;
+	// export let name_given: string;
 	export let bats: string;
 	export let throws: string;
 	export let weight: number;
@@ -17,7 +17,7 @@
 	export let birth_city: string = '';
 	export let fontSize: string;
 	export let majorGap: string;
-	export let minorGap: string;
+	// export let minorGap: string;
 
 	$: birthDate = new Date(birth_year, birth_month - 1, birth_day);
 	$: debutDate = new Date(debut);

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PlayerId } from '$lib/api/types';
-	import { shortenPlayerName } from '$lib/util';
+	import { shortenPlayerName } from '$lib/util/format';
 
 	export let wp: PlayerId;
 	export let lp: PlayerId;
