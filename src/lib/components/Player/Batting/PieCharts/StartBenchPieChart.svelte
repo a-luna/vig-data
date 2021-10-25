@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { TeamBatStats } from '$lib/api/types';
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
-	import { PieSlice } from '$lib/types';
+	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
+	export let chartSettings: PieChartSettings;
 	export let batStats: TeamBatStats;
 	export let chartTitle: string;
 	let pieSlices: PieSlice[] = [];
 	const chartDescription = `${batStats.total_games} total games`;
+	export let showTitle: boolean = true;
+	export let showDescription: boolean = true;
 
 	$: if (batStats) {
 		const percentStart = ((batStats.total_games_started / batStats.total_games) * 100).toFixed(0);
@@ -34,4 +37,4 @@
 	$: chartData = prepareSvgPieChart(pieSlices);
 </script>
 
-<PieChart {chartData} {chartDescription} {chartTitle} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />

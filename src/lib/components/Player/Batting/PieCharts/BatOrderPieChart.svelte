@@ -3,13 +3,16 @@
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { BAT_ORDER_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { siteTheme } from '$lib/stores/singleValueStores';
-	import { PieSlice } from '$lib/types';
+	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
+	export let chartSettings: PieChartSettings;
 	export let batOrderMetrics: BatOrderMetrics[];
 	export let threshold: number;
 	export let chartTitle: string;
 	let chartData: PieSlice[] = [];
+	export let showTitle: boolean = true;
+	export let showDescription: boolean = true;
 
 	$: pieTotal = batOrderMetrics
 		.filter((batOrder) => batOrder.bat_order > 0 && batOrder.bat_order < 10)
@@ -38,4 +41,4 @@
 	}
 </script>
 
-<PieChart {chartData} {chartDescription} {chartTitle} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />

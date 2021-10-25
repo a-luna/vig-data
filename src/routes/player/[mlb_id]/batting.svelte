@@ -1,30 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { getCareerBatStatsForPlayer, getPlayerDetails } from '$lib/api/player';
-	import type {
-		ApiResponse,
-		BatOrderMetrics,
-		CareerBatStats,
-		DefPositionMetrics,
-		PlayerDetails as PlayerDetailsSchema,
-		TeamBatStats
-	} from '$lib/api/types';
+	import type { ApiResponse, CareerBatStats, PlayerDetails as PlayerDetailsSchema } from '$lib/api/types';
 	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerBatStatsTable from '$lib/components/Player/Batting/CareerBatStatsTable.svelte';
 	import PlayerBatMetricsSlider from '$lib/components/Player/Batting/PlayerBatMetricsSlider.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
+	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import { getPlayerPageSettings } from '$lib/util';
 	import { onMount } from 'svelte';
 
-	export let playerDetails: PlayerDetailsSchema;
+	let playerDetails: PlayerDetailsSchema;
 	let careerBatStats: CareerBatStats;
 	let playerName: string;
-	let allSeasonsPlayed: number[];
-	let firstYearPlayed: number;
-	let mostRecentYearPlayed: number;
-	let careerDefPosMetrics: DefPositionMetrics[];
-	let careerBatOrderMetrics: BatOrderMetrics[];
-	let mostRecentBatStats: TeamBatStats;
 	let loading = false;
 	let error: string = null;
 	let getCareerStatsComplete = false;
@@ -33,19 +23,13 @@
 
 	$: allRequestsComplete = getCareerStatsComplete && getPlayerBioComplete;
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
-	$: if (careerBatStats) careerDefPosMetrics = careerBatStats.career.def_position_metrics;
-	$: if (careerBatStats) careerBatOrderMetrics = careerBatStats.career.bat_order_metrics;
-	$: if (careerBatStats)
-		allSeasonsPlayed = careerBatStats.by_team_by_year
-			.filter((s) => s.all_stats_for_season)
-			.sort((a, b) => b.year - a.year)
-			.map((s) => s.year);
-	$: if (allSeasonsPlayed) firstYearPlayed = allSeasonsPlayed[allSeasonsPlayed.length - 1];
-	$: if (allSeasonsPlayed) mostRecentYearPlayed = allSeasonsPlayed[0];
-	$: if (careerBatStats)
-		mostRecentBatStats = careerBatStats.by_team_by_year
-			.filter((s) => s.all_stats_for_season)
-			.sort((a, b) => b.year - a.year)?.[0];
+	$: ({
+		playerDetailsFlexStyles,
+		playerNameFontSize,
+		playerDetailsSettings,
+		carouselSettings,
+		chartSettings
+	} = getPlayerPageSettings($pageBreakPoints.width));
 
 	onMount(() => {
 		loading = true;
@@ -104,11 +88,26 @@
 {/if}
 
 {#if allRequestsComplete}
-	<div id="player-details" class="flex flex-col items-start justify-start gap-5 flex-nowrap" use:removeLoadingScreen>
-		<div class="flex flex-col sm:flex-row justify-start sm:justify-between items-start w-auto sm:w-full flex-nowrap">
-			<PlayerDetails {...playerDetails} />
-			<PlayerBatMetricsSlider {careerBatStats} />
+	<div
+		id="player-details"
+		class="flex flex-col items-start justify-start gap-5 sm:gap-10 flex-nowrap"
+		use:removeLoadingScreen
+	>
+		<div class="flex flex-nowrap w-full {playerDetailsFlexStyles}">
+			<div class="flex flex-col self-start flex-initial gap-3 flex-nowrap sm:w-auto">
+				<h2 class="font-medium leading-none tracking-wide player-name" style="font-size: {playerNameFontSize}">
+					{playerDetails.name_first}
+					{playerDetails.name_last}
+				</h2>
+				{#if $pageBreakPoints.width < 640}
+					<PlayerDetailsCompact {...playerDetails} {...playerDetailsSettings} />
+				{:else}
+					<PlayerDetails {...playerDetails} fontSize={playerDetailsSettings.fontSize} />
+				{/if}
+			</div>
+			<PlayerBatMetricsSlider {careerBatStats} {carouselSettings} {chartSettings} />
 		</div>
-		<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
+		<div />
 	</div>
+	<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
 {/if}

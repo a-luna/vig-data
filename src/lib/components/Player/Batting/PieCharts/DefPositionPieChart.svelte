@@ -2,12 +2,15 @@
 	import type { DefPositionMetrics } from '$lib/api/types';
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
-	import { PieSlice } from '$lib/types';
+	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
+	export let chartSettings: PieChartSettings;
 	export let defPosMetrics: DefPositionMetrics[];
 	export let chartTitle: string;
 	let chartData: PieSlice[] = [];
+	export let showTitle: boolean = true;
+	export let showDescription: boolean = true;
 
 	$: pieTotal = defPosMetrics
 		.filter((d) => d.is_starter)
@@ -32,4 +35,4 @@
 	}
 </script>
 
-<PieChart {chartData} {chartDescription} {chartTitle} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />

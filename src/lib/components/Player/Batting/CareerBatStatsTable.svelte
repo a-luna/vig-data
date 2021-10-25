@@ -20,7 +20,7 @@
 
 	$: sortedBatStats = sortSeasonBatStats(sortBy, sortDir, expanded);
 	$: statsTableRows = [...sortedBatStats, careerBatStats.career, ...careerBatStats.by_team];
-	$: headingFontSize = $pageBreakPoints.width < 640 ? '28px' : $pageBreakPoints.width < 768 ? '30px' : '32px';
+	$: headingFontSize = $pageBreakPoints.width < 640 ? '24px' : $pageBreakPoints.width < 768 ? '24px' : '28px';
 
 	function sortSeasonBatStats(sortStat: string, dir: 'asc' | 'desc', isExpanded: boolean): TeamBatStats[] {
 		const combinedSeasonStats = [];
@@ -56,8 +56,8 @@
 	}
 </script>
 
-<div class="flex flex-col items-baseline flex-nowrap">
-	<div class="table-caption m-0 tracking-wide overflow-ellipsis" style="font-size: {headingFontSize}">{heading}</div>
+<div class="flex flex-col items-baseline mt-2 flex-nowrap">
+	<div class="table-caption" style="font-size: {headingFontSize}">{heading}</div>
 	<div class="mb-1 text-sm italic sort-description">{describeSortSetting(sortBy, sortDir)}</div>
 </div>
 <article class="resp-table-container">
@@ -512,15 +512,21 @@
 	.season-stats .table-body-cell,
 	.combined-team-stats .table-body-cell {
 		background-color: var(--table-single-season-stats-bg-color);
+		border-left: 1px solid var(--table-inner-border-vert-color);
+		border-top: 1px dotted var(--table-inner-border-vert-color);
+	}
+
+	.season-stats .table-body-cell:first-child,
+	.combined-team-stats .table-body-cell:first-child {
+		border-left: 1px solid var(--table-outer-border-color);
+	}
+	.season-stats:first-child .table-body-cell,
+	.combined-team-stats:first-child .table-body-cell {
+		border-top: none;
 	}
 
 	.separate-team-stats .table-body-cell {
 		background-color: var(--table-separate-team-stats-bg-color);
-	}
-
-	.resp-table-row.season-stats:last-child .table-body-cell,
-	.resp-table-row.combined-team-stats:last-child .table-body-cell {
-		border-bottom: none;
 	}
 
 	.season-stats .highlight-stat,
@@ -565,17 +571,14 @@
 	}
 
 	.table-caption {
+		@apply mb-1 text-2xl leading-none tracking-normal overflow-ellipsis whitespace-nowrap;
+		display: table-caption;
 		color: var(--table-caption-color);
 	}
 
 	.sort-description {
+		display: table-caption leading-none tracking-wide overflow-ellipsis whitespace-nowrap;
 		color: var(--sec-color);
-	}
-
-	.table-caption,
-	.sort-description {
-		display: table-caption;
-		white-space: nowrap;
 	}
 
 	.show-separate-season-stats-button {

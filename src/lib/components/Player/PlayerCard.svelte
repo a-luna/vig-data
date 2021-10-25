@@ -1,22 +1,22 @@
 <script lang="ts">
 	import type { PlayerDetails } from '$lib/api/types';
-	import { DEF_POS_ABBREV_TO_NUM_MAP } from '$lib/constants';
-	import type { PlayerCardLink } from '$lib/types';
-	let role: 'pitching' | 'batting';
+	import { DEF_POS_ABBREV_TO_NUM_MAP, DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
+	import type { DefPositionNumber, PlayerCardLink } from '$lib/types';
+	let role: 'pitching' | 'batting' | 'both';
+	let defPosList: DefPositionNumber[];
 	let defPos: string = '';
 	let pitchingRole: string = '';
 
 	export let details: PlayerDetails;
 	export let links: PlayerCardLink[];
 	$: currentTeam = details.all_teams.slice(-1)?.[0];
-	$: if (currentTeam) role = currentTeam.role;
-	$: if (currentTeam)
-		defPos = currentTeam.def_pos_list
+	$: if (currentTeam) {
+		defPosList = currentTeam.def_pos_list
 			.map((def) => def.def_pos)
 			.filter((def) => def != 'BN')
-			.sort((a, b) => DEF_POS_ABBREV_TO_NUM_MAP[a] - DEF_POS_ABBREV_TO_NUM_MAP[b])
-			.join('/');
-	$: if (currentTeam)
+			.map((def) => DEF_POS_ABBREV_TO_NUM_MAP[def])
+			.sort((a, b) => a - b);
+		defPos = defPosList.map((def) => DEF_POS_NUM_TO_ABBREV_MAP[def]).join('/');
 		pitchingRole =
 			currentTeam.percent_sp === 100
 				? 'SP'
@@ -25,10 +25,12 @@
 				: currentTeam.percent_sp > 0 && currentTeam.percent_rp > 0
 				? 'SP/RP'
 				: '';
+		role = currentTeam.role === 'pitching' && defPosList.some((defPos) => defPos !== 1) ? 'both' : currentTeam.role;
+	}
 	$: pos = role === 'pitching' ? pitchingRole : defPos ? defPos : 'BN';
 	$: playerName = `${details.name_first} ${details.name_last}`;
 	$: teamInfo = `${currentTeam.team_id} (${currentTeam.year})`;
-	$: playerLinks = role === 'pitching' ? [links[0]] : [links[1]];
+	$: playerLinks = role === 'both' ? links : role === 'pitching' ? [links[0]] : [links[1]];
 </script>
 
 <div
