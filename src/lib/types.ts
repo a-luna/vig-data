@@ -37,6 +37,14 @@ export interface PieChartSettings {
 	legendFontWeight: number;
 }
 
+export interface PlayerPageSettings {
+	playerDetailsFlexStyles: string;
+	playerNameFontSize: string;
+	playerDetailsSettings: { fontSize: string; majorGap: string; minorGap: string };
+	carouselSettings: CarouselSettings;
+	chartSettings: PieChartSettings;
+}
+
 export interface PieSliceData {
 	value: number;
 	pieTotal: number;
@@ -134,7 +142,7 @@ export type GameContent = 'box' | 'pbp' | 'charts';
 export type TeamStatType = 'bat' | 'pitch';
 export type PlayerContent = 'career-stats' | 'pitch-mix' | 'pitch-type-percentiles';
 export type League = 'both' | 'al' | 'nl';
-export type OffensiveRole = 'start/bench' | 'defpos' | 'batorder';
+export type BatMetricOption = 'start/bench' | 'defpos' | 'batorder';
 export type PitchMetricOption = 'role' | 'pitch-mix';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';

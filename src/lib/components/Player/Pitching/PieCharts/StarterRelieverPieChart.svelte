@@ -1,14 +1,10 @@
 <script lang="ts">
 	import type { TeamPitchStats } from '$lib/api/types';
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
-	import { PieSlice } from '$lib/types';
+	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
-	export let pieWidth: string = '100px';
-	export let chartHeight: string = '130px';
-	export let chartTitleFontSize: string = '1.2rem';
-	export let legendFontSize: string = '0.8rem';
-	export let legendFontWeight: number = 500;
+	export let chartSettings: PieChartSettings;
 	export let pitchStats: TeamPitchStats;
 	export let chartTitle: string;
 	let pieSlices: PieSlice[] = [];
@@ -41,15 +37,4 @@
 	$: chartData = prepareSvgPieChart(pieSlices);
 </script>
 
-<PieChart
-	{chartData}
-	{chartTitle}
-	{chartDescription}
-	{showTitle}
-	{showDescription}
-	{chartHeight}
-	{pieWidth}
-	{chartTitleFontSize}
-	{legendFontSize}
-	{legendFontWeight}
-/>
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />

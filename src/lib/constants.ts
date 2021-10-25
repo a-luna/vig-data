@@ -1,3 +1,5 @@
+import type { DefPositionNumber } from './types';
+
 export const DEF_POS_NUM_TO_ABBREV_MAP: { [key: number]: string } = {
 	1: 'P',
 	2: 'C',
@@ -11,7 +13,7 @@ export const DEF_POS_NUM_TO_ABBREV_MAP: { [key: number]: string } = {
 	10: 'DH'
 };
 
-export const DEF_POS_ABBREV_TO_NUM_MAP: { [key: string]: number } = {
+export const DEF_POS_ABBREV_TO_NUM_MAP: { [key: string]: DefPositionNumber } = {
 	P: 1,
 	C: 2,
 	'1B': 3,

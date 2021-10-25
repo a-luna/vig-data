@@ -3,15 +3,11 @@
 	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP } from '$lib/constants';
 	import { pitchTypeMetricsByYearByStance } from '$lib/stores/pfxPitcherMetrics';
-	import { BatterStance, PieSlice } from '$lib/types';
+	import { BatterStance, PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util';
 
-	export let pieWidth: string = '100px';
-	export let chartHeight: string = '130px';
-	export let chartTitleFontSize: string = '1.2rem';
-	export let legendFontSize: string = '0.8rem';
+	export let chartSettings: PieChartSettings;
 	export let chartTitle: string = '';
-	export let legendFontWeight: number = 500;
 	export let year: number = 0;
 	export let stance: BatterStance = 'all';
 	export let showTitle: boolean = true;
@@ -41,14 +37,4 @@
 	}
 </script>
 
-<PieChart
-	{chartData}
-	{chartTitle}
-	{showTitle}
-	{showDescription}
-	{chartHeight}
-	{pieWidth}
-	{chartTitleFontSize}
-	{legendFontSize}
-	{legendFontWeight}
-/>
+<PieChart {chartData} {chartTitle} {showTitle} {showDescription} {...chartSettings} />

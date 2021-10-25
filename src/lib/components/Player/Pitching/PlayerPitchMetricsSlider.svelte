@@ -9,12 +9,12 @@
 	export let careerPitchStats: CareerPitchStats;
 	export let carouselSettings: CarouselSettings;
 	export let chartSettings: PieChartSettings;
-	let seasonBatStats: { [key: number]: TeamPitchStats } = {};
+	let seasonPitchStats: { [key: number]: TeamPitchStats } = {};
 	let showMetrics: PitchMetricOption = 'pitch-mix';
 	let Carousel;
 
-	$: careerPitchStats.by_team_by_year.filter((s) => s.all_stats_for_season).map((s) => (seasonBatStats[s.year] = s));
-	$: allSeasonsPlayed = Object.keys(seasonBatStats)
+	$: careerPitchStats.by_team_by_year.filter((s) => s.all_stats_for_season).map((s) => (seasonPitchStats[s.year] = s));
+	$: allSeasonsPlayed = Object.keys(seasonPitchStats)
 		.map((k) => parseInt(k))
 		.sort((a, b) => b - a);
 	$: firstYearPlayed = allSeasonsPlayed.slice(-1);
@@ -34,35 +34,23 @@
 	<PitchingMetricsSelector on:changed={(e) => (showMetrics = e.detail)} />
 	{#if showMetrics === 'pitch-mix'}
 		<svelte:component this={Carousel} {...carouselSettings.props}>
-			<PitchMixPieChart
-				year={0}
-				stance={'all'}
-				{...chartSettings}
-				chartTitle={careerChartTitle}
-				showDescription={false}
-			/>
+			<PitchMixPieChart year={0} stance={'all'} {chartSettings} chartTitle={careerChartTitle} showDescription={false} />
 			{#each allSeasonsPlayed as year}
-				<PitchMixPieChart
-					{year}
-					stance={'all'}
-					{...chartSettings}
-					chartTitle={year.toString()}
-					showDescription={false}
-				/>
+				<PitchMixPieChart {year} stance={'all'} {chartSettings} chartTitle={year.toString()} showDescription={false} />
 			{/each}
 		</svelte:component>
 	{:else if showMetrics === 'role'}
 		<svelte:component this={Carousel} {...carouselSettings.props}>
 			<StarterRelieverPieChart
 				pitchStats={careerPitchStats.career}
-				{...chartSettings}
+				{chartSettings}
 				chartTitle={careerChartTitle}
 				showDescription={false}
 			/>
 			{#each allSeasonsPlayed as year}
 				<StarterRelieverPieChart
-					pitchStats={seasonBatStats[year]}
-					{...chartSettings}
+					pitchStats={seasonPitchStats[year]}
+					{chartSettings}
 					chartTitle={year.toString()}
 					showDescription={false}
 				/>
