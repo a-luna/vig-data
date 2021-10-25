@@ -2,12 +2,12 @@
 	import { page } from '$app/stores';
 	import { getCareerBatStatsForPlayer, getPlayerDetails } from '$lib/api/player';
 	import type { ApiResponse, CareerBatStats, PlayerDetails as PlayerDetailsSchema } from '$lib/api/types';
-	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerBatStatsTable from '$lib/components/Player/Batting/CareerBatStatsTable.svelte';
 	import PlayerBatMetricsSlider from '$lib/components/Player/Batting/PlayerBatMetricsSlider.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { getPlayerPageSettings } from '$lib/util/ui';
 	import { onMount } from 'svelte';

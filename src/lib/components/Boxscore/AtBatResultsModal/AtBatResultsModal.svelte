@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { AtBatSummary, BatStats, Boxscore } from '$lib/api/types';
-	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
+	import InningLabel from '$lib/components/Boxscore/AtBatResultsModal/InningLabel.svelte';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
-	import InningLabel from '$lib/components/Util/InningLabel.svelte';
+	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import { scrollToTop } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 

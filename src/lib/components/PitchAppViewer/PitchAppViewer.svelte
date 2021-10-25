@@ -2,7 +2,7 @@
 	import { getPitchFxForPitchApp } from '$lib/api/pitchfx';
 	import type { ApiResponse, Boxscore, PitchFx } from '$lib/api/types';
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
-	import PitchAppIdDropDown from '$lib/components/Boxscore/PitchAppIdDropDown.svelte';
+	import PitchAppIdDropDown from '$lib/components/PitchAppViewer/PitchAppIdDropDown.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import { addStrikeZoneCornersToPfxData, identifyPfxDataBeyondBoundary } from '$lib/util/gameData';
 

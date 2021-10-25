@@ -7,9 +7,9 @@
 		getBatStatsForStartingLineupByPlayerForTeam
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamBatStats } from '$lib/api/types';
-	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import type { TeamID, TeamStatFilter } from '$lib/types';

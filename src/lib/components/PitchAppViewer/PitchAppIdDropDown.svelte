@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Boxscore, PitchStats } from '$lib/api/types';
-	import Select from '$lib/components/Select/Select.svelte';
+	import Select from '$lib/components/Util/Select/Select.svelte';
 	import type { SelectMenuOption } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 

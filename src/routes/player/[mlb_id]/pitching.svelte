@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { getCareerPfxDataForPitcher } from '$lib/api/pitchfx';
-	import { getCareerPitchStatsForPlayer,getPlayerDetails } from '$lib/api/player';
+	import { getCareerPitchStatsForPlayer, getPlayerDetails } from '$lib/api/player';
 	import type {
-	ApiResponse,
-	CareerPfxMetricsForPitcher,
-	CareerPitchStats,
-	PlayerDetails as PlayerDetailsSchema
+		ApiResponse,
+		CareerPfxMetricsForPitcher,
+		CareerPitchStats,
+		PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
-	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import CareerPitchStatsTable from '$lib/components/Player/Pitching/CareerPitchStatsTable.svelte';
 	import PitchTypePercentiles from '$lib/components/Player/Pitching/Percentiles/PitchTypePercentiles.svelte';
 	import PitchMixForSeason from '$lib/components/Player/Pitching/PitchMix/PitchMixForSeason.svelte';
@@ -17,6 +16,7 @@
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import type { PlayerContent } from '$lib/types';

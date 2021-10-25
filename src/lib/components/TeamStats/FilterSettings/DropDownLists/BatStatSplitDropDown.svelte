@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Select from '$lib/components/Select/Select.svelte';
+	import Select from '$lib/components/Util/Select/Select.svelte';
 	import type { BatStatSplit, SelectMenuOption } from '$lib/types';
 	import { onMount, tick } from 'svelte';
 

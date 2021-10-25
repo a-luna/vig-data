@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
+	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 
 	export let error: string = '';
 	let modalContainer: ModalContainer;

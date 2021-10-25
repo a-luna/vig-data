@@ -4,9 +4,9 @@
 	import type { ApiResponse, AtBatDetails, Boxscore as BoxscoreSchema, Result } from '$lib/api/types';
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
-	import PitchAppViewer from '$lib/components/Boxscore/PitchAppViewer.svelte';
-	import GameContentSelector from '$lib/components/ButtonGroups/GameContentSelector.svelte';
+	import PitchAppViewer from '$lib/components/PitchAppViewer/PitchAppViewer.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import GameContentSelector from '$lib/components/Util/Selectors/GameContentSelector.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { GameContent } from '$lib/types';

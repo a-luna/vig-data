@@ -11,8 +11,8 @@
 	import AtBatContext from '$lib/components/AtBatViewer/AtBatContext.svelte';
 	import AtBatPitchSequence from '$lib/components/AtBatViewer/AtBatPitchSequence.svelte';
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
+	import PlayByPlayNavigation from '$lib/components/AtBatViewer/PlayByPlayNavigation.svelte';
 	import PlayByPlayTable from '$lib/components/AtBatViewer/PlayByPlayTable.svelte';
-	import PlayByPlayNavigation from '$lib/components/ButtonGroups/PlayByPlayNavigation.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
 	import {

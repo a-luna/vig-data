@@ -5,9 +5,9 @@
 		getPitchStatsForSpByPlayerForTeam
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
-	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
 	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import type { TeamID, TeamStatFilter } from '$lib/types';

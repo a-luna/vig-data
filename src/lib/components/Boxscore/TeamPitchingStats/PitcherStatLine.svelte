@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { PitchStats } from '$lib/api/types';
-	import OpenPlayerResultsModalButton from '$lib/components/Buttons/OpenPlayerResultsModalButton.svelte';
+	import OpenPlayerResultsModalButton from '$lib/components/Util/Buttons/OpenPlayerResultsModalButton.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let pitchStats: PitchStats;
 	const dispatch = createEventDispatcher();

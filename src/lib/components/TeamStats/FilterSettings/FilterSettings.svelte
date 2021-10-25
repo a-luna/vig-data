@@ -1,10 +1,10 @@
 <script lang="ts">
 	import BatStatSplitDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/BatStatSplitDropDown.svelte';
+	import LeagueDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/LeagueDropDown.svelte';
 	import PitchStatSplitDropDown from '$lib/components/TeamStats/FilterSettings/DropDownLists/PitchStatSplitDropDown.svelte';
 	import SelectedBatOrderNumbers from '$lib/components/TeamStats/FilterSettings/SelectedBatOrderNumbers.svelte';
 	import SelectedDefPositions from '$lib/components/TeamStats/FilterSettings/SelectedDefPositions.svelte';
-	import LeagueDropDown from '$lib/components/Util/LeagueDropDown.svelte';
-	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
+	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import type { TeamStatFilter } from '$lib/types';
 	import { teamStatFilterSettingsAreInvalid } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
@@ -62,7 +62,7 @@
 		class:invalid
 	>
 		<div class="grid grid-cols-2 gap-2 px-2 pt-2">
-			<SeasonDropDown bind:selectedValue={settings.season} width={'100%'} />
+			<SeasonSelector bind:selectedValue={settings.season} width={'100%'} />
 			<LeagueDropDown bind:selectedLeague={settings.league} width={'100%'} />
 			{#if pitching}
 				<PitchStatSplitDropDown bind:selectedValue={settings.pitchStatSplit} width={'100%'} />

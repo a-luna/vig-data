@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { MlbSeason } from '$lib/api/types';
-	import SeasonDropDown from '$lib/components/Util/SeasonDropDown.svelte';
+	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
@@ -54,7 +54,7 @@
 
 <div id="home-nav" class="flex flex-row justify-between mx-auto mb-6">
 	<div class="flex flex-row justify-start flex-initial my-auto">
-		<SeasonDropDown bind:selectedSeason={season} on:changed={(e) => handleSeasonChanged(e.detail)} />
+		<SeasonSelector bind:selectedSeason={season} on:changed={(e) => handleSeasonChanged(e.detail)} />
 	</div>
 	<div class="flex flex-row items-center flex-grow-0 my-auto text-center flex-nowrap">
 		<span class="ml-1 mr-2 leading-none">Scores & Stats for</span>

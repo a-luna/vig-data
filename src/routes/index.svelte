@@ -21,8 +21,8 @@
 	import DateNavigationMobile from '$lib/components/HomePage/DateNavigationMobile.svelte';
 	import HomePage from '$lib/components/HomePage/HomePage.svelte';
 	import HomePageMobile from '$lib/components/HomePage/HomePageMobile.svelte';
-	import ErrorMessageModal from '$lib/components/Modals/ErrorMessageModal.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getSeasonDates, getStringFromDate } from '$lib/util/datetime';

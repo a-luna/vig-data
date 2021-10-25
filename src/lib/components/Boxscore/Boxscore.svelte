@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { Boxscore } from '$lib/api/types';
+	import AtBatResultsModal from '$lib/components/Boxscore/AtBatResultsModal/AtBatResultsModal.svelte';
 	import GameMetaInfo from '$lib/components/Boxscore/GameMetaInfo.svelte';
 	import GameSummary from '$lib/components/Boxscore/GameSummary.svelte';
-	import TeamBattingStats from '$lib/components/Boxscore/TeamBattingStats.svelte';
-	import TeamPitchingStats from '$lib/components/Boxscore/TeamPitchingStats.svelte';
+	import PitcherInningTotalsModal from '$lib/components/Boxscore/PitcherInningTotalsModal.svelte';
+	import TeamBattingStats from '$lib/components/Boxscore/TeamBattingStats/TeamBattingStats.svelte';
+	import TeamPitchingStats from '$lib/components/Boxscore/TeamPitchingStats/TeamPitchingStats.svelte';
 	import Linescore from '$lib/components/Linescore/Linescore.svelte';
-	import AtBatResultsModal from '$lib/components/Modals/AtBatResultsModal.svelte';
-	import PitcherInningTotalsModal from '$lib/components/Modals/PitcherInningTotalsModal.svelte';
 
 	export let shown: boolean;
 	export let boxscore: Boxscore;

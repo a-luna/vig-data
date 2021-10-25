@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { MlbSeason } from '$lib/api/types';
-	import Select from '$lib/components/Select/Select.svelte';
+	import Select from '$lib/components/Util/Select/Select.svelte';
 	import { allSeasons, mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { createEventDispatcher } from 'svelte';
 

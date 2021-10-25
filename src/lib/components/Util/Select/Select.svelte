@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Option from '$lib/components/Select/Option.svelte';
 	import type { SelectMenuOption } from '$lib/types';
 	import { clickOutside } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
 	import MdArrowDropDown from 'svelte-icons/md/MdArrowDropDown.svelte';
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
+	import Option from './Option.svelte';
 
 	export let menuLabel: string = 'Options';
 	export let options: SelectMenuOption[];

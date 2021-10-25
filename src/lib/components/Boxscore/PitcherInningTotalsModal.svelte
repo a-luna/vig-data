@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Boxscore, InningTotalsMap, PitchStats, TeamData } from '$lib/api/types';
-	import ModalContainer from '$lib/components/Modals/ModalContainer.svelte';
+	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	export let boxscore: Boxscore;

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import type { BatStats } from '$lib/api/types';
-	import OpenPlayerResultsModalButton from '$lib/components/Buttons/OpenPlayerResultsModalButton.svelte';
+	import OpenPlayerResultsModalButton from '$lib/components/Util/Buttons/OpenPlayerResultsModalButton.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let batStats: BatStats;
 	const dispatch = createEventDispatcher();

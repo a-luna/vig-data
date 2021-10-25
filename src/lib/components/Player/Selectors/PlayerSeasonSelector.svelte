@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Select from '$lib/components/Select/Select.svelte';
+	import Select from '$lib/components/Util/Select/Select.svelte';
 	import { allPlayerSeasons } from '$lib/stores/pfxPitcherMetrics';
 	import { playerSeason } from '$lib/stores/singleValueStores';
 	import type { SelectMenuOption } from '$lib/types';
