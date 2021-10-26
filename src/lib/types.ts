@@ -1,4 +1,3 @@
-import type { MlbSeason } from '$lib/api/types';
 import { HSL_COLOR_REGEX } from '$lib/regex';
 // import type { Writable } from 'svelte/store';
 import { getRandomHexString } from '$lib/util/ui';
@@ -140,10 +139,10 @@ export type SiteTheme = 'light' | 'dark' | 'notset';
 export type PageBreakPoint = 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export type GameContent = 'box' | 'pbp' | 'charts';
 export type TeamStatType = 'bat' | 'pitch';
-export type PlayerContent = 'career-stats' | 'pitch-mix' | 'pitch-type-percentiles';
 export type League = 'both' | 'al' | 'nl';
-export type BatMetricOption = 'start/bench' | 'defpos' | 'batorder';
-export type PitchMetricOption = 'role' | 'pitch-mix';
+export type PlayerPitchContent = 'career-stats' | 'split-stats' | 'pitch-mix' | 'pitch-type-percentiles';
+export type BatterPieChart = 'start/bench' | 'defpos' | 'batorder';
+export type PitcherPieChart = 'role' | 'pitch-mix';
 export type BatStatSplit = 'all' | 'starters' | 'subs' | 'defpos' | 'batorder';
 export type PitchStatSplit = 'all' | 'sp' | 'rp';
 export type BatterStance = 'all' | 'rhb' | 'lhb';
@@ -177,10 +176,6 @@ export interface TeamStatFilter {
 	batOrder: BatOrder[];
 }
 
-export interface AllMlbSeasons {
-	seasons: MlbSeason[];
-}
-
 export interface ScoreboardDateStore {
 	// subscribe: Writable<Date>['subscribe'];
 	subscribe: unknown;
@@ -199,27 +194,6 @@ export interface TeamStatFilterStore {
 	changeBatStatSplit: (split: BatStatSplit) => void;
 	changeDefPosition: (defPosition: DefPositionNumber[]) => void;
 	changeBatOrder: (batOrder: BatOrder[]) => void;
-}
-
-export interface AllMlbSeasonsStore {
-	// subscribe: Writable<AllMlbSeasons>['subscribe'];
-	subscribe: unknown;
-	changeMlbSeasons: (seasons: MlbSeason[]) => void;
-}
-
-export interface TimeSpan {
-	years: number;
-	days: number;
-	hours: number;
-	minutes: number;
-	seconds: number;
-	milliseconds: number;
-	totalYears: number;
-	totalDays: number;
-	totalHours: number;
-	totalMinutes: number;
-	totalSeconds: number;
-	totalMilliseconds: number;
 }
 
 export interface PageBreakPointStore {

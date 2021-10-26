@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CareerBatStats, TeamBatStats } from '$lib/api/types';
-	import type { BatMetricOption, CarouselSettings, PieChartSettings } from '$lib/types';
+	import type { BatterPieChart, CarouselSettings, PieChartSettings } from '$lib/types';
 	import { onMount } from 'svelte';
 	import BatOrderPieChart from './PieCharts/BatOrderPieChart.svelte';
 	import DefPositionPieChart from './PieCharts/DefPositionPieChart.svelte';
@@ -11,7 +11,7 @@
 	export let carouselSettings: CarouselSettings;
 	export let chartSettings: PieChartSettings;
 	let seasonBatStats: { [key: number]: TeamBatStats } = {};
-	let showMetrics: BatMetricOption = 'start/bench';
+	let showMetrics: BatterPieChart = 'start/bench';
 	let Carousel;
 
 	$: careerBatStats.by_team_by_year.filter((s) => s.all_stats_for_season).map((s) => (seasonBatStats[s.year] = s));

@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { PlayerContent, ThemeColor } from '$lib/types';
+	import type { PlayerPitchContent, ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let color: ThemeColor = 'secondary';
-	let selectedValue: PlayerContent = 'career-stats';
+	let selectedValue: PlayerPitchContent = 'career-stats';
 	const dispatch = createEventDispatcher();
 
 	$: careerStatsShown = selectedValue === 'career-stats';
 	$: pitchMixShown = selectedValue === 'pitch-mix';
 	$: percentilesShown = selectedValue === 'pitch-type-percentiles';
 
-	function handleChanged(content: PlayerContent) {
+	function handleChanged(content: PlayerPitchContent) {
 		selectedValue = content;
 		dispatch('changed', content);
 	}

@@ -19,14 +19,14 @@
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
-	import type { PlayerContent } from '$lib/types';
+	import type { PlayerPitchContent } from '$lib/types';
 	import { getPlayerPageSettings } from '$lib/util/ui';
 	import { onMount } from 'svelte';
 
 	let playerDetails: PlayerDetailsSchema;
 	let careerPitchStats: CareerPitchStats;
 	let playerName: string;
-	let contentShown: PlayerContent = 'career-stats';
+	let contentShown: PlayerPitchContent = 'career-stats';
 	let loading = false;
 	let error: string = null;
 	let getCareerStatsComplete = false;

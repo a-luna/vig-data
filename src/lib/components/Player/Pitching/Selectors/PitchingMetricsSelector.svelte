@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { PitchMetricOption, ThemeColor } from '$lib/types';
+	import type { PitcherPieChart, ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let color: ThemeColor = 'secondary';
-	let selectedValue: PitchMetricOption = 'pitch-mix';
+	let selectedValue: PitcherPieChart = 'pitch-mix';
 	const dispatch = createEventDispatcher();
 
 	$: roleShown = selectedValue === 'role';
 	$: pitchMixShown = selectedValue === 'pitch-mix';
 
-	function handleChanged(content: PitchMetricOption) {
+	function handleChanged(content: PitcherPieChart) {
 		selectedValue = content;
 		dispatch('changed', content);
 	}

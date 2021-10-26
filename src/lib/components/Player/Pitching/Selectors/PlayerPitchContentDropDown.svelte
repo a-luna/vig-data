@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/Util/Select/Select.svelte';
-	import type { PlayerContent, SelectMenuOption } from '$lib/types';
+	import type { PlayerPitchContent, SelectMenuOption } from '$lib/types';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 
 	export let width = 'auto';
@@ -11,7 +11,7 @@
 	];
 	const dispatch = createEventDispatcher();
 	const menuId = 'player-pitching-content';
-	let selectedValue: PlayerContent = 'career-stats';
+	let selectedValue: PlayerPitchContent = 'career-stats';
 	let selectedOption: SelectMenuOption;
 
 	$: selectedOption = options.filter((l) => l.value === selectedValue)?.[0];
@@ -22,7 +22,7 @@
 		options.map((l) => (l.active = l.value === selectedValue));
 	});
 
-	function handleChanged(content: PlayerContent) {
+	function handleChanged(content: PlayerPitchContent) {
 		selectedValue = content;
 		dispatch('changed', content);
 	}

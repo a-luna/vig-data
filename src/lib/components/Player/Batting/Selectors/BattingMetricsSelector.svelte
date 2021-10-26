@@ -1,16 +1,16 @@
 <script lang="ts">
-	import type { OffensiveRole, ThemeColor } from '$lib/types';
+	import type { BatterPieChart, ThemeColor } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	export let color: ThemeColor = 'secondary';
-	let selectedValue: OffensiveRole = 'start/bench';
+	let selectedValue: BatterPieChart = 'start/bench';
 	const dispatch = createEventDispatcher();
 
 	$: startBenchShown = selectedValue === 'start/bench';
 	$: defPosShown = selectedValue === 'defpos';
 	$: batOrderShown = selectedValue === 'batorder';
 
-	function handleChanged(content: OffensiveRole) {
+	function handleChanged(content: BatterPieChart) {
 		selectedValue = content;
 		dispatch('changed', content);
 	}

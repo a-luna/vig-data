@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CareerPitchStats, TeamPitchStats } from '$lib/api/types';
-	import type { CarouselSettings, PieChartSettings, PitchMetricOption } from '$lib/types';
+	import type { CarouselSettings, PieChartSettings, PitcherPieChart } from '$lib/types';
 	import { onMount } from 'svelte';
 	import PitchMixPieChart from './PieCharts/PitchMixPieChart.svelte';
 	import StarterRelieverPieChart from './PieCharts/StarterRelieverPieChart.svelte';
@@ -10,7 +10,7 @@
 	export let carouselSettings: CarouselSettings;
 	export let chartSettings: PieChartSettings;
 	let seasonPitchStats: { [key: number]: TeamPitchStats } = {};
-	let showMetrics: PitchMetricOption = 'pitch-mix';
+	let showMetrics: PitcherPieChart = 'pitch-mix';
 	let Carousel;
 
 	$: careerPitchStats.by_team_by_year.filter((s) => s.all_stats_for_season).map((s) => (seasonPitchStats[s.year] = s));
