@@ -8,8 +8,8 @@
 	export let width = '100%';
 </script>
 
-{#if $pageBreakPoints.isDefault || $pageBreakPoints.isSmall}
-	<PlayerPitchContentDropDown {width} on:changed />
+{#if $pageBreakPoints.isDefault}
+	<PlayerPitchContentDropDown on:changed {width} />
 {:else}
-	<PlayerPitchContentButtonGroup {color} on:changed />
+	<PlayerPitchContentButtonGroup on:changed {color} />
 {/if}
