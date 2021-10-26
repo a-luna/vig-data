@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlayerDetails } from '$lib/api/types';
 	import { DEF_POS_ABBREV_TO_NUM_MAP } from '$lib/constants';
-	import type { DefPositionNumber,PlayerCardLink } from '$lib/types';
+	import type { DefPositionNumber, PlayerCardLink } from '$lib/types';
 	let role: 'pitching' | 'batting' | 'both';
 	let defPosList: DefPositionNumber[];
 	let pitchingRole: string = '';
@@ -117,12 +117,10 @@
 		font-size: 0.9rem;
 	}
 
-	li,
 	span {
 		color: var(--player-card-text-color);
 	}
 
-	li:hover,
 	span:hover {
 		color: var(--player-card-text-color-hov);
 	}

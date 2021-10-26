@@ -24,7 +24,7 @@
 		<GameSummary away_team={boxscore.away_team} home_team={boxscore.home_team} />
 		<Linescore {linescore} {linescore_complete} {extra_innings} expanded={true} />
 	</div>
-	<div id="team-stat-tables">
+	<div id="team-stat-tables" class="mx-auto">
 		<TeamBattingStats
 			teamData={boxscore.away_team}
 			on:viewAtBatResultsClicked={(e) => atBatResultsModal.viewAtBatResultsForPlayer(e.detail)}

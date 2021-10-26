@@ -1303,12 +1303,6 @@ button:disabled:hover,
 	#play-by-play .resp-table {
 		@apply text-sm;
 	}
-
-	#game-summary,
-	#team-stat-tables,
-	#play-by-play {
-		width: 95%;
-	}
 }
 
 @media screen and (min-width: 1024px) {
