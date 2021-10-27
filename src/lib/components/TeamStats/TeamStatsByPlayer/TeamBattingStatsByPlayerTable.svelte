@@ -5,7 +5,7 @@
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import type { TeamID, TeamStatFilter } from '$lib/types';
+	import type { PaginationStore, TeamID, TeamStatFilter } from '$lib/types';
 	import { getDummyObject } from '$lib/util/dummy';
 	import { formatPercentStat, formatRateStat } from '$lib/util/format';
 	import { tick } from 'svelte';
@@ -24,10 +24,9 @@
 	export let backgroundColorRule: string;
 	export let sortBy: string;
 	export let sortDir: 'asc' | 'desc';
-	export let currentPage: number;
-	export let startRow: number;
-	export let endRow: number;
+	export let pagination: PaginationStore;
 	export let tableId: string = '';
+	let currentPageBatStats: TeamBatStats[];
 	let playerColumnWidth: number;
 	let defPosColumnWidth: number;
 	let batOrderColumnWidth: number;
@@ -40,7 +39,7 @@
 	$: heading = getTableHeading(team);
 	$: dummyTeamBatStats = getDummyObject('teamBatStats') as TeamBatStats;
 	$: sortedBatStats = batStats.sort(getSortFunction(dummyTeamBatStats, sortBy, sortDir));
-	$: currentPageBatStats = sortedBatStats.slice(startRow, endRow);
+	$: if (sortedBatStats) currentPageBatStats = sortedBatStats.slice($pagination.startRow, $pagination.endRow);
 	$: if (currentPageBatStats) updateColumnWidths();
 
 	async function updateColumnWidths() {
@@ -61,7 +60,7 @@
 	function sortTableByStat(stat: string) {
 		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
 		sortBy = stat;
-		currentPage = 1;
+		pagination.firstPage();
 	}
 
 	function getTableHeading(teamId) {

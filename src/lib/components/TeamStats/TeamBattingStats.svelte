@@ -14,8 +14,8 @@
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import type { BatOrder, BatStatSplit, DefPositionNumber, TeamStatFilter } from '$lib/types';
-	import { onMount } from 'svelte';
+	import { createPaginationStore } from '$lib/stores/pagination';
+	import type { BatOrder, BatStatSplit, DefPositionNumber, PaginationStore, TeamStatFilter } from '$lib/types';
 
 	let settings: TeamStatFilter = {
 		season: $mostRecentSeason ? $mostRecentSeason.year : null,
@@ -29,19 +29,11 @@
 	let showFilters: boolean = false;
 	let teamBatStatsMap: TeamBatStatsMap;
 	let batStats: TeamBatStats[];
+	let pagination: PaginationStore = createPaginationStore(0, 0);
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let loading: boolean = false;
-	let pageSize: number = 10;
-	let currentPage: number = 1;
-	let startRow: number = 0;
-	let endRow: number = 10;
 	let teamBatStatsByPlayerModal: TeamBattingStatsByPlayerModal;
 	const tableHeading = 'Team Batting Stats';
-
-	$: batStats = getBatStatsfromTeamMap(teamBatStatsMap);
-	$: totalRows = batStats ? batStats.length : 0;
-
-	onMount(() => getSelectedBatStats(settings.season, settings.batStatSplit, settings.defPosition, settings.batOrder));
 
 	const batStatsMap = {
 		all: getBatStatsForAllTeams,
@@ -85,6 +77,14 @@
 			return filteredStats;
 		}
 	}
+
+	function setupPagination(_el: HTMLElement) {
+		batStats = getBatStatsfromTeamMap(teamBatStatsMap);
+		pagination.changeTotalRows(batStats.length);
+		pagination.changePageSize(10);
+	}
+
+	getSelectedBatStats(settings.season, settings.batStatSplit, settings.defPosition, settings.batOrder);
 </script>
 
 <TeamBattingStatsByPlayerModal
@@ -109,28 +109,17 @@
 	{#if loading}
 		<Spinner />
 	{:else}
-		<div class="flex flex-col w-full player-stats-wrapper flex-nowrap responsive">
+		<div class="flex flex-col w-full player-stats-wrapper flex-nowrap responsive" use:setupPagination>
 			<TeamBattingStatsTable
 				tableId={`team-bat-stats`}
 				sortBy={'re24_bat'}
+				bind:pagination
 				bind:batStats
 				bind:year={settings.season}
 				bind:sortDir
-				bind:currentPage
-				bind:startRow
-				bind:endRow
 				on:showPlayerStatsModal={(e) => teamBatStatsByPlayerModal.showModal(e.detail)}
 			/>
-			<Pagination
-				bind:totalRows
-				bind:pageSize
-				bind:currentPage
-				bind:startRow
-				bind:endRow
-				compactPageNav={false}
-				rowTypeSingle={'team'}
-				rowTypePlural={'teams'}
-			/>
+			<Pagination {pagination} alwaysUseCompact={false} rowTypeSingle={'team'} rowTypePlural={'teams'} />
 		</div>
 	{/if}
 </div>

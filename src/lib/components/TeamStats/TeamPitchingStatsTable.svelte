@@ -1,31 +1,39 @@
 <script lang="ts">
 	import type { TeamPitchStats } from '$lib/api/types';
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
-	import { describeSortSetting, getFixedColumnWidth, getSortFunction } from '$lib/dataTables';
+	import { TEAM_ID_TO_CITY_MAP } from '$lib/constants';
+	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import type { PaginationStore } from '$lib/types';
 	import { getDummyObject } from '$lib/util/dummy';
 	import { formatNumber, formatPercentStat, formatPosNegValue } from '$lib/util/format';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, tick } from 'svelte';
 
 	export let pitchStats: TeamPitchStats[] = [];
 	export let year: number;
 	export let backgroundColorRule: string = '';
 	export let sortBy: string;
 	export let sortDir: 'asc' | 'desc';
-	export let currentPage: number;
-	export let startRow: number;
-	export let endRow: number;
+	export let pagination: PaginationStore;
 	export let tableId: string = '';
+	let teamNameColWidth: number;
 	const dispatch = createEventDispatcher();
+	const cellPadding: number = 8;
 
 	$: dummyTeamPitchStats = getDummyObject('teamPitchStats') as TeamPitchStats;
-	$: sortedBatStats = pitchStats.sort(getSortFunction(dummyTeamPitchStats, sortBy, sortDir));
-	$: currentPagePitchStats = sortedBatStats.slice(startRow, endRow);
+	$: sortedPitchStats = pitchStats.sort(getSortFunction(dummyTeamPitchStats, sortBy, sortDir));
+	$: currentPagePitchStats = sortedPitchStats.slice($pagination.startRow, $pagination.endRow);
+	$: if (currentPagePitchStats) updateColumnWidths();
 
 	function sortTableByStat(stat: string) {
 		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
 		sortBy = stat;
-		currentPage = 1;
+		pagination.firstPage();
+	}
+
+	async function updateColumnWidths() {
+		await tick();
+		teamNameColWidth = getVariableColumnWidth(tableId, 'player_team_id_bbref', 'a', cellPadding);
 	}
 </script>
 
@@ -42,7 +50,7 @@
 					<SortableColumnHeader
 						colStat={'player_team_id_bbref'}
 						tooltip={'Team'}
-						width={getFixedColumnWidth($pageBreakPoints.current, 'player_team_id_bbref', sortBy)}
+						width={teamNameColWidth}
 						bind:sortBy
 						{sortDir}
 						on:sortTable={(e) => sortTableByStat(e.detail)}>Team</SortableColumnHeader
@@ -355,16 +363,15 @@
 				</div>
 				<div class="resp-table-body">
 					{#each currentPagePitchStats as stats}
-						<div
-							class="text-right resp-table-row"
-							on:click={() => dispatch('showPlayerStatsModal', stats.player_team_id_bbref)}
-						>
+						<div class="resp-table-row" on:click={() => dispatch('showPlayerStatsModal', stats.player_team_id_bbref)}>
 							<div
 								class="table-body-cell"
 								class:highlight-stat={sortBy === 'player_team_id_bbref'}
 								data-stat-name="player_team_id_bbref"
 							>
-								<a sveltekit:prefetch href="/team/{stats.player_team_id_bbref}/{year}">{stats.player_team_id_bbref}</a>
+								<a sveltekit:prefetch href="/team/{stats.player_team_id_bbref}/{year}"
+									>{TEAM_ID_TO_CITY_MAP[stats.player_team_id_bbref]}</a
+								>
 							</div>
 							<div class="table-body-cell" class:highlight-stat={sortBy === 'total_games'} data-stat-name="total_games">
 								{stats.total_games}
