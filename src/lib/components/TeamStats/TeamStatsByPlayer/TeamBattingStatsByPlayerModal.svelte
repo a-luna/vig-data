@@ -12,7 +12,8 @@
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import type { TeamID, TeamStatFilter } from '$lib/types';
+	import { createPaginationStore } from '$lib/stores/pagination';
+	import type { PaginationStore, TeamID, TeamStatFilter } from '$lib/types';
 	import { getRandomHexString } from '$lib/util/ui';
 
 	export let settings: TeamStatFilter = {
@@ -29,16 +30,11 @@
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let batStats: TeamBatStats[] = [];
 	let team: TeamID;
+	let pagination: PaginationStore = createPaginationStore(0, 0);
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
 	let loading: boolean = false;
-	let pageSize: number;
-	let currentPage: number;
-	let startRow: number;
-	let endRow: number;
-
-	$: totalRows = batStats.length;
 
 	function getDefaultTableId() {
 		return `team-bat-stats-by-player-${getRandomHexString(4)}`;
@@ -75,15 +71,13 @@
 		}
 
 		loading = false;
+		pagination.changeTotalRows(batStats.length);
+		pagination.changePageSize(5);
 		return getBatStatsResult;
 	}
 
 	export function showModal(teamId: TeamID) {
 		team = teamId;
-		pageSize = 5;
-		currentPage = 1;
-		startRow = 0;
-		endRow = 5;
 		batStats = [];
 		getSelectedBatStats();
 		modalContainer.toggleModal();
@@ -96,27 +90,16 @@
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="content" class="mb-2 responsive">
 			<TeamBattingStatsByPlayerTable
+				{pagination}
+				{backgroundColorRule}
 				tableId={tableId ? tableId : getDefaultTableId()}
 				bind:settings
 				bind:batStats
 				bind:team
 				bind:sortBy
 				bind:sortDir
-				bind:currentPage
-				bind:startRow
-				bind:endRow
-				{backgroundColorRule}
 			/>
-			<Pagination
-				bind:totalRows
-				bind:pageSize
-				bind:currentPage
-				bind:startRow
-				bind:endRow
-				{backgroundColorRule}
-				rowTypeSingle={'player'}
-				rowTypePlural={'players'}
-			/>
+			<Pagination {pagination} {backgroundColorRule} rowTypeSingle={'player'} rowTypePlural={'players'} />
 		</div>
 	</ModalContainer>
 {/if}

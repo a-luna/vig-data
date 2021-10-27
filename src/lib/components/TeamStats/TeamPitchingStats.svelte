@@ -12,8 +12,8 @@
 	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import type { PitchStatSplit, TeamStatFilter } from '$lib/types';
-	import { onMount } from 'svelte';
+	import { createPaginationStore } from '$lib/stores/pagination';
+	import type { PaginationStore, PitchStatSplit, TeamStatFilter } from '$lib/types';
 
 	let settings: TeamStatFilter = {
 		season: $mostRecentSeason ? $mostRecentSeason.year : null,
@@ -29,17 +29,9 @@
 	let pitchStats: TeamPitchStats[];
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let loading: boolean = false;
-	let pageSize: number = 10;
-	let currentPage: number = 1;
-	let startRow: number = 0;
-	let endRow: number = 10;
+	let pagination: PaginationStore = createPaginationStore(0, 0);
 	let teamPitchStatsByPlayerModal: TeamPitchStatsByPlayerModal;
 	const tableHeading = 'Team Pitching Stats';
-
-	$: pitchStats = getPitchStatsfromTeamMap(teamPitchStatsMap);
-	$: totalRows = pitchStats ? pitchStats.length : 0;
-
-	onMount(() => getSelectedPitchStats(settings.season, settings.pitchStatSplit));
 
 	const pitchStatsMap = {
 		all: getPitchStatsForAllTeams,
@@ -69,6 +61,14 @@
 			return filteredStats;
 		}
 	}
+
+	function setupPagination(_el: HTMLElement) {
+		pitchStats = getPitchStatsfromTeamMap(teamPitchStatsMap);
+		pagination.changeTotalRows(pitchStats.length);
+		pagination.changePageSize(10);
+	}
+
+	getSelectedPitchStats(settings.season, settings.pitchStatSplit);
 </script>
 
 <TeamPitchStatsByPlayerModal
@@ -92,28 +92,17 @@
 	{#if loading}
 		<Spinner />
 	{:else}
-		<div class="flex flex-col w-full player-stats-wrapper flex-nowrap responsive">
+		<div class="flex flex-col w-full player-stats-wrapper flex-nowrap responsive" use:setupPagination>
 			<TeamPitchingStatsTable
 				tableId={`team-bat-stats`}
 				sortBy={'re24_pitch'}
+				bind:pagination
 				bind:pitchStats
 				bind:year={settings.season}
 				bind:sortDir
-				bind:currentPage
-				bind:startRow
-				bind:endRow
 				on:showPlayerStatsModal={(e) => teamPitchStatsByPlayerModal.showModal(e.detail)}
 			/>
-			<Pagination
-				bind:totalRows
-				bind:pageSize
-				bind:currentPage
-				bind:startRow
-				bind:endRow
-				compactPageNav={false}
-				rowTypeSingle={'team'}
-				rowTypePlural={'teams'}
-			/>
+			<Pagination {pagination} alwaysUseCompact={false} rowTypeSingle={'team'} rowTypePlural={'teams'} />
 		</div>
 	{/if}
 </div>

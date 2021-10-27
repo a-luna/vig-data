@@ -206,3 +206,23 @@ export interface PageBreakPointStore {
 	isExtraLarge: boolean;
 	is2xExtraLarge: boolean;
 }
+
+export interface Pagination {
+	totalRows: number;
+	pageSize: number;
+	currentPage: number;
+	totalPages: number;
+	startRow: number;
+	endRow: number;
+}
+
+export interface PaginationStore {
+	subscribe: unknown;
+	changeTotalRows: (total: number) => void;
+	changePageSize: (size: number) => void;
+	changeCurrentPage: (page: number) => void;
+	firstPage: () => void;
+	prevPage: () => void;
+	nextPage: () => void;
+	lastPage: () => void;
+}

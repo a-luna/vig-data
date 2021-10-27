@@ -3,6 +3,7 @@
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
 	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import type { PaginationStore } from '$lib/types';
 	import { getDummyObject } from '$lib/util/dummy';
 	import { formatPosNegValue } from '$lib/util/format';
 	import { getHomeTeamIdFromGameId } from '$lib/util/gameData';
@@ -11,9 +12,7 @@
 	export let pitchStats: PlayerPitchStats[] = [];
 	export let sortBy: string;
 	export let sortDir: 'asc' | 'desc';
-	export let currentPage: number;
-	export let startRow: number;
-	export let endRow: number;
+	export let pagination: PaginationStore;
 	export let tableId: string = '';
 	let playerColWidth: number;
 	let statLineColWidth: number;
@@ -21,7 +20,7 @@
 
 	$: dummyPlayerPitchStats = getDummyObject('playerPitchStats') as PlayerPitchStats;
 	$: sortedPitchStats = pitchStats.sort(getSortFunction(dummyPlayerPitchStats, sortBy, sortDir));
-	$: currentPagePitchStats = sortedPitchStats.slice(startRow, endRow);
+	$: currentPagePitchStats = sortedPitchStats.slice($pagination.startRow, $pagination.endRow);
 	$: if (currentPagePitchStats) updateColumnWidths();
 
 	async function updateColumnWidths() {
@@ -33,7 +32,7 @@
 	function sortTableByStat(stat: string) {
 		sortDir = sortBy !== stat ? 'desc' : sortDir === 'asc' ? 'desc' : 'asc';
 		sortBy = stat;
-		currentPage = 1;
+		pagination.firstPage();
 	}
 
 	function getTableCaption(): string {

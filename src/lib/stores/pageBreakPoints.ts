@@ -1,10 +1,9 @@
 import { syncWidth } from '$lib/stores/elementWidth';
-import type { PageBreakPoint } from '$lib/types';
-// import type { Readable, Writable } from 'svelte/store';
+import type { PageBreakPoint, PageBreakPointStore } from '$lib/types';
+import type { Readable, Writable } from 'svelte/store';
 import { derived } from 'svelte/store';
 
-// export const getPageWidth = (): Writable<number> => {
-export const getPageWidth = () => {
+export const getPageWidth = (): Writable<number> => {
 	if (typeof window !== 'undefined') {
 		const svelteDiv = document.getElementById('svelte');
 		return svelteDiv ? syncWidth(svelteDiv) : null;
@@ -12,14 +11,14 @@ export const getPageWidth = () => {
 	return null;
 };
 
-// export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWidth(), ($pageWidth) => {
-export const pageBreakPoints = derived(getPageWidth(), ($pageWidth) => {
+export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWidth(), ($pageWidth) => {
 	const isDefault = (width: number): boolean => width < 640;
 	const isSmall = (width: number): boolean => width >= 640 && width < 768;
 	const isMedium = (width: number): boolean => width >= 768 && width < 1024;
 	const isLarge = (width: number): boolean => width >= 1024 && width < 1280;
 	const isExtraLarge = (width: number): boolean => width >= 1280 && width < 1536;
 	const is2xExtraLarge = (width: number): boolean => width >= 1536;
+	const isMobileDisplay = (width: number): boolean => width < 768;
 
 	const getCurrentPageBreakPoint = (width: number): PageBreakPoint =>
 		isDefault(width)
@@ -38,6 +37,7 @@ export const pageBreakPoints = derived(getPageWidth(), ($pageWidth) => {
 		return {
 			current: getCurrentPageBreakPoint($pageWidth),
 			width: $pageWidth,
+			isMobileDisplay: isMobileDisplay($pageWidth),
 			isDefault: isDefault($pageWidth),
 			isSmall: isSmall($pageWidth),
 			isMedium: isMedium($pageWidth),
