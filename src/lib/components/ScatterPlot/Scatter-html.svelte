@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+	import type { PitchFx } from '$lib/api/types';
 	import PitchFxToolTip from '$lib/components/AtBatViewer/PitchFxToolTip.svelte';
 	import Hoverable from '$lib/components/Util/Hoverable.svelte';
 	import { getContext } from 'svelte';
@@ -6,35 +7,41 @@
 	export let showPitchNumber = true;
 	export let showToolTip = true;
 	const { data, xGet, yGet, xScale, yScale } = getContext('LayerCake');
+	let pfxData: PitchFx[] = [];
 
-	function getLeftPosition(pfx) {
+	$: pfxData = $data;
+
+	function getLeftPosition(pfx: PitchFx) {
 		return $xGet(pfx) + ($xScale.bandwidth ? $xScale.bandwidth() / 2 : 0);
 	}
 
-	function getTopPosition(pfx) {
+	function getTopPosition(pfx: PitchFx) {
 		return $yGet(pfx) + ($yScale.bandwidth ? $yScale.bandwidth() / 2 : 0);
 	}
 </script>
 
 <div class="scatter-group">
-	{#each $data as d}
-		{#if !d.is_out_of_boundary}
+	{#each pfxData as pfx}
+		{#if !pfx.is_out_of_boundary}
 			<Hoverable let:hovering>
 				<div
-					class:circle={d.basic_type === 'S'}
-					class:square={d.basic_type === 'B'}
-					class:in-play={d.basic_type === 'X'}
-					class:strike-zone-corner={d.basic_type === 'Z'}
-					class:other={d.basic_type !== 'S' && d.basic_type !== 'B' && d.basic_type !== 'X' && d.basic_type !== 'Z'}
-					data-pitch-number={showPitchNumber ? d.ab_count : ''}
-					data-pitch-type={d.mlbam_pitch_name}
-					data-basic-type={d.basic_type}
-					data-left-position={getLeftPosition(d)}
-					data-top-position={getTopPosition(d)}
-					style="left: {getLeftPosition(d)}%; top: {getTopPosition(d)}%;"
+					class:circle={pfx.basic_type === 'S'}
+					class:square={pfx.basic_type === 'B'}
+					class:in-play={pfx.basic_type === 'X'}
+					class:strike-zone-corner={pfx.basic_type === 'Z'}
+					class:other={pfx.basic_type !== 'S' &&
+						pfx.basic_type !== 'B' &&
+						pfx.basic_type !== 'X' &&
+						pfx.basic_type !== 'Z'}
+					data-pitch-number={showPitchNumber ? pfx.ab_count : ''}
+					data-pitch-type={pfx.mlbam_pitch_name}
+					data-basic-type={pfx.basic_type}
+					data-left-position={getLeftPosition(pfx)}
+					data-top-position={getTopPosition(pfx)}
+					style="left: {getLeftPosition(pfx)}%; top: {getTopPosition(pfx)}%;"
 				/>
 				{#if hovering && showToolTip}
-					<PitchFxToolTip {d} pLocLeft={getLeftPosition(d)} pLocTop={getTopPosition(d)} />
+					<PitchFxToolTip {pfx} pLocLeft={getLeftPosition(pfx)} pLocTop={getTopPosition(pfx)} />
 				{/if}
 			</Hoverable>
 		{/if}

@@ -7,17 +7,17 @@
 	import { capitalize } from '$lib/util/format';
 	import { getToolTipPositionForPfxData } from '$lib/util/gameData';
 
-	export let d: PitchFx;
+	export let pfx: PitchFx;
 	export let pLocLeft: number;
 	export let pLocTop: number;
 	let toolTipDiv: HTMLElement;
 	let dimensions: [number, number];
 	let toolTipPosition: string;
 
-	$: position = getToolTipPositionForPfxData(d.px, d.pz);
-	$: ballInPlay = d.basic_type === 'X';
-	$: wrongCalledStrike = d.pdes === 'Called strike' && !isWithinStrikeZone(d);
-	$: wrongCalledBall = d.pdes === 'Ball' && isWithinStrikeZone(d);
+	$: position = getToolTipPositionForPfxData(pfx.px, pfx.pz);
+	$: ballInPlay = pfx.basic_type === 'X';
+	$: wrongCalledStrike = pfx.pdes === 'Called strike' && !isWithinStrikeZone(pfx);
+	$: wrongCalledBall = pfx.pdes === 'Ball' && isWithinStrikeZone(pfx);
 	$: heightStore = syncHeight(toolTipDiv);
 	$: widthStore = syncWidth(toolTipDiv);
 	$: hasBothDimensions = $heightStore !== null && $widthStore !== null;
@@ -69,26 +69,26 @@
 	class="absolute z-50 flex flex-col items-start justify-start p-1 leading-snug tracking-wide tooltip"
 	style={toolTipPosition}
 >
-	<strong data-pitch-type={d.mlbam_pitch_name}>
-		{d.start_speed.toFixed(1)} mph {capitalize(PITCH_TYPE_ABBREV_TO_NAME_MAP[d.mlbam_pitch_name])}
+	<strong data-pitch-type={pfx.mlbam_pitch_name} style="border: none">
+		{pfx.start_speed.toFixed(1)} mph {capitalize(PITCH_TYPE_ABBREV_TO_NAME_MAP[pfx.mlbam_pitch_name])}
 	</strong>
 	{#if ballInPlay}
-		<strong class="description">{bb_type_map[d.trajectory]} ({capitalize(d.hardness)} hit)</strong>
+		<strong class="description">{bb_type_map[pfx.trajectory]} ({capitalize(pfx.hardness)} hit)</strong>
 	{:else}
-		<strong class="description">{d.pdes}</strong>
+		<strong class="description">{pfx.pdes}</strong>
 	{/if}
 	<div class="flex flex-row justify-start flex-nowrap">
-		<strong class="mr-1">Spin Rate </strong><span>{d.spin_rate}</span>
+		<strong class="mr-1">Spin Rate </strong><span>{pfx.spin_rate}</span>
 	</div>
 	{#if ballInPlay}
 		<div class="flex flex-row justify-start flex-nowrap">
-			<strong class="mr-1">Exit Velo. </strong><span>{d.launch_speed} mph</span>
+			<strong class="mr-1">Exit Velo. </strong><span>{pfx.launch_speed} mph</span>
 		</div>
 		<div class="flex flex-row justify-start flex-nowrap">
-			<strong class="mr-1">Launch Angle </strong><span>{d.launch_angle} deg</span>
+			<strong class="mr-1">Launch Angle </strong><span>{pfx.launch_angle} deg</span>
 		</div>
 		<div class="flex flex-row justify-start flex-nowrap">
-			<strong class="mr-1">Distance </strong><span>{d.total_distance} ft</span>
+			<strong class="mr-1">Distance </strong><span>{pfx.total_distance} ft</span>
 		</div>
 	{/if}
 	{#if wrongCalledStrike}
@@ -97,10 +97,10 @@
 		<strong class="error">Called ball, inside strike zone!</strong>
 	{/if}
 	<div class="flex flex-row justify-start flex-nowrap">
-		<strong class="mr-1">Thrown At </strong><span>{d.time_pitch_thrown_est}</span>
+		<strong class="mr-1">Thrown At </strong><span>{pfx.time_pitch_thrown_est}</span>
 	</div>
 	<div class="flex flex-row justify-start flex-nowrap">
-		<strong class="mr-1">Location </strong><span>X: {d.px.toFixed(2)}ft, Y: {d.pz.toFixed(2)}ft</span>
+		<strong class="mr-1">Location </strong><span>X: {pfx.px.toFixed(2)}ft, Y: {pfx.pz.toFixed(2)}ft</span>
 	</div>
 </div>
 
