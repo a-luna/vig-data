@@ -31,7 +31,8 @@
     "postcss-load-config": "^3.1.0",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.4.0",
-    "sass": "^1.43.3",
+    "sass": "^1.43.4",
+    "svelecte": "^2.3.2",
     "svelte": "^3.44.0",
     "svelte-carousel": "^1.0.16",
     "svelte-check": "^2.2.7",
@@ -45,7 +46,7 @@
     "tailwindcss": "^2.2.17",
     "tslib": "^2.3.1",
     "typescript": "^4.4.4",
-    "vite": "^2.6.11"
+    "vite": "^2.6.12"
   },
   "type": "module",
   "engines": {

@@ -51,7 +51,7 @@
 
 	function getPitchStatSplitSetting(): string {
 		if (settings.pitchStatSplit === 'all') {
-			return 'All Pitchers';
+			return 'All Pitch Appearances';
 		}
 		if (settings.pitchStatSplit === 'sp') {
 			return 'SP Only';
