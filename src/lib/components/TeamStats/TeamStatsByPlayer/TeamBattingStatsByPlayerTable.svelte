@@ -89,6 +89,8 @@
 	}
 </script>
 
+<svelte:window on:resize={() => updateColumnWidths()} />
+
 <section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap">
 		<div class="m-0 text-xl tracking-wide resp-table-caption overflow-ellipsis">{heading}</div>

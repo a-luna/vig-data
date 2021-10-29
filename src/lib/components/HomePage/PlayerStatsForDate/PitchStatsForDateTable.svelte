@@ -57,6 +57,8 @@
 	}
 </script>
 
+<svelte:window on:resize={() => updateColumnWidths()} />
+
 <div class="flex flex-col items-baseline flex-nowrap table-captions">
 	<div
 		class="table-caption flex-col justify-start mb-1.5 text-lg leading-none sm:leading-none tracking-wide flex-nowrap sm:text-xl"

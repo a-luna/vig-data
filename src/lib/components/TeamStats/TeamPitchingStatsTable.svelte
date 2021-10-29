@@ -37,6 +37,8 @@
 	}
 </script>
 
+<svelte:window on:resize={() => updateColumnWidths()} />
+
 <section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap mb-0.5 ml-1">
 		<div class="mb-1 text-sm italic font-medium tracking-wide sort-description">
