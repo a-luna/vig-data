@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlayerBatStats } from '$lib/api/types';
 	import SortableColumnHeader from '$lib/components/Util/SortableColumnHeader.svelte';
-	import { describeSortSetting, getFixedColumnWidth, getSortFunction, getVariableColumnWidth } from '$lib/dataTables';
+	import { describeSortSetting,getFixedColumnWidth,getSortFunction,getVariableColumnWidth } from '$lib/dataTables';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { PaginationStore } from '$lib/types';
 	import { getDummyObject } from '$lib/util/dummy';
@@ -47,6 +47,8 @@
 		return isHomeTeam(stats) ? `vs${stats.opponent_team_id_bbref}` : `@${stats.opponent_team_id_bbref}`;
 	}
 </script>
+
+<svelte:window on:resize={() => updateColumnWidths()}/>
 
 <div class="flex flex-col items-baseline flex-nowrap table-captions">
 	<h3
