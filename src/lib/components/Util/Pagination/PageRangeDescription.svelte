@@ -3,7 +3,6 @@
 	import type { PaginationStore } from '$lib/types';
 	import MdSettings from 'svelte-icons/md/MdSettings.svelte';
 
-	export let showPageSizeSetting: boolean = false;
 	export let pagination: PaginationStore;
 	export let rowTypeSingle: string = 'entry';
 	export let rowTypePlural: string = 'entries';

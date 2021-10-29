@@ -10,7 +10,7 @@
 	export let seasonStandings: SeasonData;
 </script>
 
-<div class="flex flex-col justify-center gap-3 m-0 flex-nowrap">
+<div class="flex flex-col justify-center gap-10 m-0 flex-nowrap">
 	<ScoreboardForDate {games_for_date} {pitchStats} />
 	<div class="flex flex-row justify-center gap-3 flex-nowrap">
 		<StandingsForDate {seasonStandings} />
