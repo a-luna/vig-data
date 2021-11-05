@@ -68,8 +68,11 @@ export interface PlayerDetails {
 export interface MlbSeason {
 	year: number;
 	start_date: string;
+	start: Date;
 	end_date: string;
+	end: Date;
 	asg_date: string;
+	asg: Date;
 }
 
 export interface TeamSeasonData {
@@ -444,7 +447,7 @@ export interface Linescore {
 	away_team_runs: LinescoreDigit[];
 	away_team_totals: number[];
 	home_team_id: string;
-	home_team_runs: number[];
+	home_team_runs: LinescoreDigit[];
 	home_team_totals: number[];
 	extra_innings: boolean;
 	removed_innings?: boolean[];

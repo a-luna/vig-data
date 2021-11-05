@@ -2,6 +2,7 @@ import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
 import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 import { AT_BAT_ID_REGEX, GAME_DATE_REGEX, GAME_ID_REGEX } from '$lib/regex';
+import { getSeasonDates } from '$lib/util/datetime';
 
 export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore>> {
 	if (!game_id) return { status: 400, success: false, message: 'No value was provided for Game ID' };
@@ -18,7 +19,16 @@ export async function getScoreboardForDate(date: string): Promise<ApiResponse<Sc
 			message: 'Game date must be in the correct format: YYYYMMDD'
 		};
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/scoreboard?game_date=${date}`);
-	return await validateApiResponse<Scoreboard>(response);
+	const result = await validateApiResponse<Scoreboard>(response);
+	if (!result.success) {
+		return result;
+	}
+	const { season, games_for_date } = result.value;
+	return {
+		status: 200,
+		success: true,
+		value: { season: getSeasonDates(season).value, games_for_date }
+	};
 }
 
 export async function getAllPlayByPlayData(game_id: string): Promise<ApiResponse<AtBatDetails[]>> {
@@ -50,3 +60,14 @@ export async function getAllPitchAppIdsForGame(game_id: string): Promise<ApiResp
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/game/pitch_app_ids?game_id=${game_id}`);
 	return await validateApiResponse<string[]>(response);
 }
+
+// Mock Data
+// import { scoreboardForDateMockData } from './mock/game/getScoreboardForDate';
+// export async function getScoreboardForDate(date: string): Promise<ApiResponse<Scoreboard>> {
+// 	const { season, games_for_date } = scoreboardForDateMockData;
+// 	return {
+// 		status: 200,
+// 		success: true,
+// 		value: { season: getSeasonDates(season).value, games_for_date }
+// 	};
+// }

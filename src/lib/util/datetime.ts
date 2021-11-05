@@ -1,6 +1,18 @@
-import type { Result } from '$lib/api/types';
+import type { MlbSeason, Result } from '$lib/api/types';
 import { GAME_DATE_REGEX, GAME_ID_REGEX, SEASON_DATE_REGEX } from '$lib/regex';
 import { formatDuration, intervalToDuration } from 'date-fns';
+
+export function getNextDay(date: Date): Date {
+	const result = new Date(date);
+	result.setDate(result.getDate() + 1);
+	return result;
+}
+
+export function getPreviousDay(date: Date): Date {
+	const result = new Date(date);
+	result.setDate(result.getDate() - 1);
+	return result;
+}
 
 export function getTimeDeltaAsString(
 	start: Date,
@@ -33,23 +45,33 @@ export function formatDateString(date: Date): string {
 	}
 }
 
-export function getSeasonDates(start_str: string, end_str: string): Result<Date[]> {
-	const matchStartDate = SEASON_DATE_REGEX.exec(start_str);
-	const matchEndDate = SEASON_DATE_REGEX.exec(end_str);
-	if (!matchStartDate || !matchEndDate)
+export function getSeasonDates(season: {
+	year: number;
+	start_date: string;
+	end_date: string;
+	asg_date: string;
+}): Result<MlbSeason> {
+	const parseStartResult = getDateFromString(season.start_date);
+	const parseEndResult = getDateFromString(season.end_date);
+	if (!parseStartResult.success || !parseEndResult.success)
 		return {
 			success: false,
 			message: 'Season start/end dates must be in the correct format: YYYY-MM-DD'
 		};
-	const start_year = parseInt(matchStartDate.groups.year);
-	const start_month = parseInt(matchStartDate.groups.month) - 1;
-	const start_day = parseInt(matchStartDate.groups.day);
-	const end_year = parseInt(matchEndDate.groups.year);
-	const end_month = parseInt(matchEndDate.groups.month) - 1;
-	const end_day = parseInt(matchEndDate.groups.day);
+	const start_date = parseStartResult.value;
+	const end_date = parseEndResult.value;
+
+	const parseAsgResult = season.asg_date ? getDateFromString(season.asg_date) : null;
+	const asg_date = parseAsgResult?.success ? parseAsgResult.value : null;
+
 	return {
 		success: true,
-		value: [new Date(start_year, start_month, start_day), new Date(end_year, end_month, end_day)]
+		value: {
+			...season,
+			start: start_date,
+			end: end_date,
+			asg: asg_date
+		}
 	};
 }
 
