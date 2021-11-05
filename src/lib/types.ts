@@ -1,6 +1,6 @@
 import { HSL_COLOR_REGEX } from '$lib/regex';
-// import type { Writable } from 'svelte/store';
 import { getRandomHexString } from '$lib/util/ui';
+import type { Writable } from 'svelte/store';
 
 export class HslColor {
 	constructor(public hue: number, public saturation: number, public lightness: number) {}
@@ -176,17 +176,15 @@ export interface TeamStatFilter {
 	batOrder: BatOrder[];
 }
 
-export interface ScoreboardDateStore {
-	// subscribe: Writable<Date>['subscribe'];
-	subscribe: unknown;
+export interface GameDateStore {
+	subscribe: Writable<Date>['subscribe'];
 	nextDay: () => void;
 	prevDay: () => void;
 	changeDate: (date: Date) => void;
 }
 
 export interface TeamStatFilterStore {
-	// subscribe: Writable<TeamStatFilter>['subscribe'];
-	subscribe: unknown;
+	subscribe: Writable<TeamStatFilter>['subscribe'];
 	changeSeason: (season: number) => void;
 	changeLeague: (league: League) => void;
 	changeStatType: (statType: TeamStatType) => void;
@@ -217,7 +215,7 @@ export interface Pagination {
 }
 
 export interface PaginationStore {
-	subscribe: unknown;
+	subscribe: Writable<Pagination>['subscribe'];
 	changeTotalRows: (total: number) => void;
 	changePageSize: (size: number) => void;
 	changeCurrentPage: (page: number) => void;

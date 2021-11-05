@@ -1,11 +1,10 @@
 import type { CareerPfxMetricsForPitcher, PitchFxMetrics, PitchType, PitchTypePercentiles } from '$lib/api/types';
 import type { BatterStance } from '$lib/types';
-// import type { Writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 import { derived, writable } from 'svelte/store';
 import { playerSeason } from './singleValueStores';
 
-// export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);
-export const careerPfxData = writable({} as CareerPfxMetricsForPitcher);
+export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);
 
 export const allPlayerSeasons = derived(careerPfxData, ($careerPfxData) => {
 	if ($careerPfxData) {
