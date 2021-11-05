@@ -188,7 +188,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 		? {
 				playerDetailsFlexStyles: 'flex-row justify-between items-start',
 				playerNameFontSize: '2.2rem',
-				playerDetailsSettings: { fontSize: `1.05rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
+				playerDetailsSettings: { fontSize: `0.95rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
 				carouselSettings: {
 					width: '470px',
 					padding: 'p-3',
@@ -206,7 +206,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 		? {
 				playerDetailsFlexStyles: 'flex-row justify-between items-start',
 				playerNameFontSize: '2rem',
-				playerDetailsSettings: { fontSize: `1rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
+				playerDetailsSettings: { fontSize: `0.95rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
 				carouselSettings: {
 					width: '680px',
 					padding: 'p-3',
@@ -223,7 +223,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 		: {
 				playerDetailsFlexStyles: 'flex-row justify-between items-start',
 				playerNameFontSize: '2rem',
-				playerDetailsSettings: { fontSize: `1rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
+				playerDetailsSettings: { fontSize: `0.9rem`, majorGap: 'gap-5', minorGap: 'gap-2' },
 				carouselSettings: {
 					width: '710px',
 					padding: 'p-3',

@@ -46,18 +46,9 @@
 
 <style lang="postcss">
 	button.text {
-		width: 23px;
-		height: 23px;
-		font-size: 12px;
+		width: 30px;
+		height: 30px;
+		font-size: 14px;
 		padding: 0;
-	}
-
-	@media screen and (min-width: 640px) {
-		button.text {
-			width: 30px;
-			height: 30px;
-			font-size: 13px;
-			padding: 0;
-		}
 	}
 </style>

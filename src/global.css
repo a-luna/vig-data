@@ -40,15 +40,19 @@
 	--red2: hsl(2, 100%, 45%);
 	--red3: hsl(2, 100%, 55%);
 
-	--orange1: hsl(25, 100%, 35%);
-	--orange2: hsl(25, 100%, 45%);
-	--orange3: hsl(25, 100%, 55%);
+	--orange1: hsl(19, 100%, 35%);
+	--orange2: hsl(19, 100%, 45%);
+	--orange3: hsl(19, 100%, 55%);
 
-	--yellow1: hsl(58, 32%, 44%);
-	--yellow2: hsl(57, 88%, 54%);
-	--yellow3: hsl(57, 88%, 64%);
+	--orange-yellow1: hsl(35, 100%, 35%);
+	--orange-yellow2: hsl(35, 100%, 45%);
+	--orange-yellow3: hsl(35, 100%, 55%);
 
-	--yellow-green1: rgb(107, 179, 0);
+	--yellow1: hsl(60, 100%, 35%);
+	--yellow2: hsl(60, 100%, 45%);
+	--yellow3: hsl(60, 100%, 55%);
+
+	--yellow-green1: hsl(84, 100%, 35%);
 	--yellow-green2: hsl(84, 100%, 45%);
 	--yellow-green3: hsl(84, 100%, 55%);
 
@@ -80,7 +84,7 @@
 	--indigo1: hsl(251, 74%, 30%);
 	--indigo2: hsl(251, 74%, 40%); /* THEME */
 	--indigo3: hsl(251, 74%, 50%);
-	--indigo4: hsl(251, 74%, 60%);
+	--indigo4: hsl(251, 80%, 60%);
 
 	--purple1: hsl(290, 100%, 35%);
 	--purple2: hsl(290, 100%, 45%);
@@ -419,26 +423,26 @@ body.light-mode {
 	--pie-chart-start-color: var(--pri-color);
 	--pie-chart-bench-color: var(--sec-color);
 
-	--def-pos-P: var(--blue4);
-	--def-pos-C: var(--pink1);
-	--def-pos-1B: var(--green1);
-	--def-pos-2B: var(--red1);
-	--def-pos-3B: var(--dark-teal1);
+	--def-pos-P: var(--green2);
+	--def-pos-C: var(--orange-yellow2);
+	--def-pos-1B: var(--blue2);
+	--def-pos-2B: var(--indigo2);
+	--def-pos-3B: var(--green1);
 	--def-pos-SS: var(--orange1);
 	--def-pos-LF: var(--dark-teal1);
-	--def-pos-CF: var(--blue3);
-	--def-pos-RF: var(--indigo3);
+	--def-pos-CF: var(--yellow-green2);
+	--def-pos-RF: var(--red1);
 	--def-pos-DH: var(--pink2);
 
-	--bat-order-1: var(--pink1);
+	--bat-order-1: var(--pink2);
 	--bat-order-2: var(--red1);
 	--bat-order-3: var(--orange1);
-	--bat-order-4: var(--green2);
-	--bat-order-5: var(--blue-green2);
-	--bat-order-6: var(--dark-teal2);
-	--bat-order-7: var(--blue2);
-	--bat-order-8: var(--indigo2);
-	--bat-order-9: var(--purple1);
+	--bat-order-4: var(--yellow-green2);
+	--bat-order-5: var(--green2);
+	--bat-order-6: var(--teal1);
+	--bat-order-7: var(--dark-teal1);
+	--bat-order-8: var(--blue2);
+	--bat-order-9: var(--indigo2);
 
 	--sdp-bg-color: var(--light-gray3);
 	--sdp-current-month: var(--light-gray4);
@@ -613,15 +617,15 @@ body.dark-mode {
 	--pie-chart-start-color: var(--indigo4);
 	--pie-chart-bench-color: var(--sec-color);
 
-	--def-pos-P: var(--blue4);
-	--def-pos-C: var(--pink2);
-	--def-pos-1B: var(--yellow-green1);
-	--def-pos-2B: var(--red2);
-	--def-pos-3B: var(--teal1);
+	--def-pos-P: var(--green3);
+	--def-pos-C: var(--orange-yellow3);
+	--def-pos-1B: var(--blue3);
+	--def-pos-2B: var(--indigo4);
+	--def-pos-3B: var(--teal2);
 	--def-pos-SS: var(--orange2);
 	--def-pos-LF: var(--dark-teal2);
-	--def-pos-CF: var(--blue3);
-	--def-pos-RF: var(--indigo3);
+	--def-pos-CF: var(--yellow-green3);
+	--def-pos-RF: var(--red2);
 	--def-pos-DH: var(--pink3);
 
 	--bat-order-1: var(--pink3);
@@ -867,6 +871,10 @@ label {
 	white-space: nowrap;
 }
 
+.sub-heading {
+	color: var(--sec-color);
+}
+
 .resp-table-header {
 	display: table-header-group;
 }
@@ -929,7 +937,7 @@ label {
 
 .table-header-cell,
 .table-body-cell {
-	padding: 1px 3px;
+	padding: 3px 4px;
 }
 
 .table-body-cell:first-child,
@@ -1118,7 +1126,7 @@ input {
 }
 
 .btn {
-	@apply px-2 py-1 overflow-hidden font-normal tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
+	@apply px-2 py-1 overflow-hidden text-base font-normal tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
 	transition: background 0.2s;
 }
 
@@ -1163,8 +1171,8 @@ button:disabled:hover,
 }
 
 .btn-primary.active {
-	background-color: var(--sec-color-active);
-	color: var(--color-on-sec-active);
+	background-color: var(--pri-color-active);
+	color: var(--color-on-pri-active);
 	background-size: 100%;
 	transition: background 0.1s;
 	border: 1px solid transparent;
@@ -1240,6 +1248,10 @@ button:disabled:hover,
 .btn-group > button.active,
 .btn-group > button.active:hover {
 	border: 1px solid transparent;
+}
+
+.btn-group-primary > button.active {
+	border: 1px solid var(--pri-color-hov);
 }
 
 .btn-group-secondary > button.active {
