@@ -1,54 +1,46 @@
 <script lang="ts">
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
+	import type { MlbSeason } from '$lib/api/types';
+	import { scoreboardDate } from '$lib/stores/dateStore';
+	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
+	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
 	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
 
-	export let minDate: Date;
-	export let maxDate: Date;
+	export let season: MlbSeason;
 	export let color: ThemeColor = 'secondary';
 	let formatted: string = '';
 	const dispatch = createEventDispatcher();
 
 	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'P');
-	$: previous = prevDay($scoreboardDate);
-	$: next = nextDay($scoreboardDate);
-
-	function nextDay(date: Date): Date {
-		var result = new Date(date);
-		result.setDate(result.getDate() + 1);
-		return result;
-	}
-
-	function prevDay(date: Date): Date {
-		var result = new Date(date);
-		result.setDate(result.getDate() - 1);
-		return result;
-	}
+	$: previous = getPreviousDay($scoreboardDate);
+	$: prevDisabled = previous < season.start;
+	$: next = getNextDay($scoreboardDate);
+	$: nextDisabled = next > new Date(Math.min.apply(null, [season.end, $mostRecentScrapedDate]));
 </script>
 
 <div id="date-nav" class="pos">
-	<div class="btn-group btn-group-secondary">
+	<div class="btn-group btn-group-{color}">
 		<button
 			id="prev-date"
 			type="button"
 			class="btn btn-{color} p-1"
-			disabled={previous < minDate}
-			on:click={() => scoreboardDate.prevDay()}
+			disabled={prevDisabled}
+			on:click={() => dispatch('dateChanged', previous)}
 		>
 			<MdChevronLeft />
 		</button>
-		<button class="btn btn-{color} text-lg" on:click={() => dispatch('showDatePicker')}>
+		<button type="button" class="btn btn-{color} text-lg font-medium" on:click={() => dispatch('showDatePicker')}>
 			{formatted}
 		</button>
 		<button
 			id="next-date"
 			type="button"
 			class="btn btn-{color} p-1"
-			disabled={next > maxDate}
-			on:click={() => scoreboardDate.nextDay()}
+			disabled={nextDisabled}
+			on:click={() => dispatch('dateChanged', next)}
 		>
 			<MdChevronRight />
 		</button>
