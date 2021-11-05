@@ -1,41 +1,71 @@
 <script lang="ts">
+	import { getScoreboardForDate } from '$lib/api/game';
+	import { getMostRecentScrapedDate } from '$lib/api/season';
+	import type { GameData, MlbSeason } from '$lib/api/types';
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
+	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util/datetime';
+	import { scoreboardDate } from '$lib/stores/dateStore';
+	import { formatDateString, getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
-	let mounted: boolean = false;
-	let currentDate: Date = $scoreboardDate;
+	let season: MlbSeason;
+	let games_for_date: GameData[];
+	let loading: boolean = true;
+	let error: string = null;
 
-	$: if (mounted) changePageAddress($scoreboardDate);
-	$: currentYear = $scoreboardDate !== null ? $scoreboardDate.getFullYear() : 0;
-	$: pageTitle = `MLB Scoreboard for ${formatDateString(currentDate)}`;
+	$: pageTitle = `MLB Scoreboard for ${formatDateString($scoreboardDate)}`;
+
+	onMount(async () => {
+		const mostRecentDate = await getMostRecentScrapedDate();
+		await handleDateChanged(mostRecentDate);
+	});
+
+	async function getScoreboard(date: Date) {
+		let result = await getScoreboardForDate(getStringFromDate(date));
+		if (!result.success) {
+			error = result.message;
+			loading = false;
+			return result;
+		}
+		const scoreboard = result.value;
+		({ season, games_for_date } = scoreboard);
+		loading = false;
+	}
+
+	async function handleDateChanged(date: Date) {
+		loading = true;
+		scoreboardDate.changeDate(date);
+		changePageAddress(date);
+		await getScoreboard(date);
+	}
 
 	function handleSeasonChanged(year: number) {
-		if (currentYear !== year) {
-			const matches = $allSeasons.filter((s) => s.year === year);
-			if (matches.length == 1) {
-				const season = matches[0];
-				const [season_start, _] = getSeasonDates(season.start_date, season.end_date).value;
-				scoreboardDate.changeDate(season_start);
-				currentDate = $scoreboardDate;
+		if ($scoreboardDate.getFullYear() !== year) {
+			season = $allSeasons.find((s) => s.year === year);
+			if (season) {
+				handleDateChanged(season.start);
 			}
 		}
 	}
 
 	function changePageAddress(date: Date) {
-		if (getStringFromDate(currentDate) !== getStringFromDate(date)) {
+		if (getStringFromDate($scoreboardDate) !== getStringFromDate(date)) {
 			window.history.pushState({}, `${pageTitle} | Vigorish`, `/scoreboard?date=${getStringFromDate(date)}`);
-			currentDate = date;
 		}
 	}
-
-	onMount(() => {
-		mounted = true;
-	});
 </script>
 
+{#if error}
+	<ErrorMessageModal {error} />
+{/if}
+
 <div class="mb-5 sm:w-full">
-	<Scoreboard bind:value={currentDate} on:changed={(e) => handleSeasonChanged(e.detail)} />
+	<Scoreboard
+		{loading}
+		{games_for_date}
+		{season}
+		on:dateChanged={(e) => handleDateChanged(e.detail)}
+		on:seasonChanged={(e) => handleSeasonChanged(e.detail)}
+	/>
 </div>

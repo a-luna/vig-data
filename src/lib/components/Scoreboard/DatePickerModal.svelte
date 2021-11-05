@@ -1,29 +1,29 @@
 <script lang="ts">
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { getStringFromDate } from '$lib/util/datetime';
 	import DateFnsAdapter from '@date-io/date-fns';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
+	export let currentDate: Date;
 	export let minDate: Date;
 	export let maxDate: Date;
+	let selectedDate: Date = currentDate;
 	let modalContainer: ModalContainer;
-	let selectedDate: Date;
 	const dateAdapter = new DateFnsAdapter();
 	let dpValue: Date;
 	let dateChanged: boolean = false;
 	let mounted: boolean = false;
 	const dispatch = createEventDispatcher();
 
-	$: if (mounted) dpValue = dateAdapter.date($scoreboardDate);
-	$: if (mounted) dateChanged = getStringFromDate(selectedDate) !== getStringFromDate($scoreboardDate);
+	$: if (mounted) dpValue = dateAdapter.date(selectedDate);
+	$: if (mounted) dateChanged = getStringFromDate(currentDate) !== getStringFromDate(selectedDate);
+	// $: console.log(`currentDate=${getStringFromDate(currentDate)}, selectedDate=${getStringFromDate(selectedDate)}`);
 
 	onMount(async () => {
 		await tick();
 		mounted = true;
-		selectedDate = $scoreboardDate;
 	});
 
 	export function toggleModal() {
@@ -31,11 +31,9 @@
 	}
 
 	function changeDate() {
-		if (dateChanged) {
-			scoreboardDate.changeDate(selectedDate);
-			modalContainer.toggleModal();
-			dispatch('dateChanged', selectedDate);
-		}
+		currentDate = selectedDate;
+		modalContainer.toggleModal();
+		dispatch('dateChanged', currentDate);
 	}
 	// import { enUS } from 'date-fns/locale';
 	// import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
@@ -58,9 +56,9 @@
 		/>
 	</div>
 
-	<div slot="buttons" class="flex flex-row justify-end buttons flex-nowrap">
-		<button class="btn btn-secondary" disabled={!dateChanged} on:click={() => changeDate()}>Save</button>
-		<button class="btn btn-secondary" on:click={() => modalContainer.toggleModal()}>Cancel</button>
+	<div slot="buttons" class="flex flex-row justify-end gap-3 buttons flex-nowrap">
+		<button type="button" class="btn btn-secondary" disabled={!dateChanged} on:click={() => changeDate()}>Save</button>
+		<button type="button" class="btn btn-secondary" on:click={() => modalContainer.toggleModal()}>Cancel</button>
 	</div>
 </ModalContainer>
 
