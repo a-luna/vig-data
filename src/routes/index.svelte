@@ -3,6 +3,7 @@
 	import {
 		getAllValidSeasons,
 		getBarrelsForDate,
+		getMostRecentScrapedDate,
 		getPlayerBatStatsForDate,
 		getPlayerPitchStatsForDate,
 		getStandingsOnDate
@@ -24,19 +25,18 @@
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
-	import { getSeasonDates, getStringFromDate } from '$lib/util/datetime';
+	import { homePageDate } from '$lib/stores/dateStore';
+	import { getStringFromDate } from '$lib/util/datetime';
+	import { onMount } from 'svelte';
 
-	let error: string = null;
 	let season: MlbSeason;
-	let minDate: Date;
-	let maxDate: Date;
 	let seasonStandings: SeasonData;
 	let games_for_date: GameData[];
 	let pitchStats: PlayerPitchStats[] = [];
 	let batStats: PlayerBatStats[] = [];
 	let pfxBarrels: PitchFx[] = [];
 	let loading = true;
+	let error: string = null;
 	let getAllSeasonsComplete = false;
 	let getStandingsComplete = false;
 	let getScoreboardComplete = false;
@@ -44,9 +44,13 @@
 	let getBatStatsComplete = false;
 	let getBarrelsComplete = false;
 
-	function removeLoadingScreen(_el: HTMLElement) {
-		loading = false;
-	}
+	$: allRequestsComplete =
+		getAllSeasonsComplete &&
+		getStandingsComplete &&
+		getScoreboardComplete &&
+		getPitchStatsComplete &&
+		getBatStatsComplete &&
+		getBarrelsComplete;
 
 	async function getAllSeasons(): Promise<ApiResponse<MlbSeason[]>> {
 		const result = await getAllValidSeasons();
@@ -121,42 +125,40 @@
 		return result;
 	}
 
-	function getSeasonStartAndEndDates() {
-		const getSeasonDatesResult = getSeasonDates(season.start_date, season.end_date);
-		if (!getSeasonDatesResult.success) {
-			error = getSeasonDatesResult.message;
-			return getSeasonDatesResult;
-		}
-		[minDate, maxDate] = getSeasonDatesResult.value;
-	}
-
-	function handleDateChanged() {
+	async function handleDateChanged(newDate: Date) {
 		loading = true;
-		getAllSeasonsComplete = false;
-		getStandingsComplete = false;
 		getScoreboardComplete = false;
+		getStandingsComplete = false;
 		getPitchStatsComplete = false;
 		getBatStatsComplete = false;
 		getBarrelsComplete = false;
+
+		homePageDate.changeDate(newDate);
+		await getScoreboard($homePageDate);
+		await getStandings($homePageDate);
+		await getPitchStatsForDate($homePageDate);
+		await getBatStatsForDate($homePageDate);
+		await getAllBarrelsForDate($homePageDate);
 	}
 
-	$: if ($scoreboardDate) {
-		loading = true;
-		getAllSeasons();
-		getScoreboard($scoreboardDate);
-		getStandings($scoreboardDate);
-		getPitchStatsForDate($scoreboardDate);
-		getBatStatsForDate($scoreboardDate);
-		getAllBarrelsForDate($scoreboardDate);
+	function handleSeasonChanged(year: number) {
+		if ($allSeasons) {
+			season = $allSeasons.find((s) => s.year === year);
+			if (season) {
+				handleDateChanged(season.start);
+			}
+		}
 	}
-	$: if (season) getSeasonStartAndEndDates();
-	$: allRequestsComplete =
-		getAllSeasonsComplete &&
-		getStandingsComplete &&
-		getScoreboardComplete &&
-		getPitchStatsComplete &&
-		getBatStatsComplete &&
-		getBarrelsComplete;
+
+	function removeLoadingScreen(_el: HTMLElement) {
+		loading = false;
+	}
+
+	onMount(async () => {
+		await getAllSeasons();
+		const mostRecentDate = await getMostRecentScrapedDate();
+		await handleDateChanged(mostRecentDate);
+	});
 </script>
 
 <svelte:head>
@@ -172,11 +174,21 @@
 {#if allRequestsComplete}
 	<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
 		<div class="hidden sm:block">
-			<DateNavigation bind:season on:dateChanged={() => handleDateChanged()} />
+			<DateNavigation
+				{season}
+				color={'secondary'}
+				on:dateChanged={(e) => handleDateChanged(e.detail)}
+				on:seasonChanged={(e) => handleSeasonChanged(e.detail)}
+			/>
 			<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} />
 		</div>
 		<div class="block sm:hidden">
-			<DateNavigationMobile {minDate} {maxDate} on:dateChanged={() => handleDateChanged()} />
+			<DateNavigationMobile
+				{season}
+				color={'secondary'}
+				on:dateChanged={(e) => handleDateChanged(e.detail)}
+				on:seasonChanged={(e) => handleSeasonChanged(e.detail)}
+			/>
 			<HomePageMobile {games_for_date} {seasonStandings} {pitchStats} {batStats} />
 		</div>
 	</div>

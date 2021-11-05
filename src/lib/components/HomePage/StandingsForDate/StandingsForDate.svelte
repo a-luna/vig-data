@@ -1,22 +1,22 @@
 <script lang="ts">
 	import type { SeasonData } from '$lib/api/types';
 	import LeagueStandings from '$lib/components/HomePage/StandingsForDate/LeagueStandings.svelte';
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
+	import { homePageDate } from '$lib/stores/dateStore';
 	import { format } from 'date-fns';
 
 	export let seasonStandings: SeasonData;
 	let formatted: string = '';
 
-	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'MMM do');
+	$: if ($homePageDate) formatted = format($homePageDate, 'MMM do');
 </script>
 
 <div id={'standings-for-date'} class="flex flex-col flex-initial p-4 flex-nowrap">
 	<h3
-		class="mb-1.5 text-lg leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
+		class="mb-1.5 text-2xl leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
 	>
 		MLB Standings
 	</h3>
-	<span class="mb-1.5 italic leading-none sm:leading-none text-center text-xs sm:text-sm sub-heading"
+	<span class="mb-1.5 italic leading-none sm:leading-none text-center text-base sm:text-sm sub-heading"
 		>after {formatted}</span
 	>
 	<div class="flex flex-col flex-nowrap">
@@ -30,11 +30,7 @@
 <style lang="postcss">
 	#standings-for-date {
 		background-color: var(--section-content-bg-color);
-		border: 2px dotted var(--section-content-border-color);
-	}
-
-	.sub-heading {
-		color: var(--sec-color);
+		border: var(--sec-color);
 	}
 
 	@media screen and (min-width: 640px) {

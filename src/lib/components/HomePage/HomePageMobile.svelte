@@ -2,8 +2,8 @@
 	import type { GameData, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
 	import ScoreboardForDate from '$lib/components/HomePage/ScoreboardForDate/ScoreboardForDate.svelte';
 	import LeagueStandings from '$lib/components/HomePage/StandingsForDate/LeagueStandings.svelte';
+	import { homePageDate } from '$lib/stores/dateStore';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { scoreboardDate } from '$lib/stores/scoreboardDate';
 	import { format } from 'date-fns';
 	import { Tab, TabList, TabPanel, Tabs } from 'svelte-tabs';
 	import BatStatsForDate from './PlayerStatsForDate/BatStatsForDate.svelte';
@@ -16,7 +16,7 @@
 	const tableIdSuffix = $pageBreakPoints.isDefault ? '-mobile' : '';
 	let formatted: string = '';
 
-	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'MMM do');
+	$: if ($homePageDate) formatted = format($homePageDate, 'MMM do');
 </script>
 
 <Tabs>
@@ -32,9 +32,14 @@
 
 	<TabPanel>
 		<div class="flex flex-col flex-nowrap">
-			<h3 class="mb-2 text-xl font-normal tracking-wide text-center whitespace-nowrap">
-				MLB Standings after {formatted}
+			<h3
+				class="mb-1.5 text-lg leading-none sm:leading-none tracking-wide sm:text-xl font-normal text-center whitespace-nowrap"
+			>
+				MLB Standings
 			</h3>
+			<span class="mb-1.5 italic leading-none sm:leading-none text-center text-xs sm:text-sm sub-heading"
+				>after {formatted}</span
+			>
 			<div class="flex flex-row items-center justify-center gap-5 flex-nowrap">
 				<div class="flex flex-col items-center justify-center league-wrapper flex-nowrap">
 					<LeagueStandings league={'al'} leagueStandings={seasonStandings['al']} />
