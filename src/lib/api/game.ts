@@ -1,5 +1,5 @@
 import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
-import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard } from '$lib/api/types';
+import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard, ScoreboardApiResponse } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 import { AT_BAT_ID_REGEX, GAME_DATE_REGEX, GAME_ID_REGEX } from '$lib/regex';
 import { getSeasonDates } from '$lib/util/datetime';
@@ -10,7 +10,9 @@ export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore
 	return await validateApiResponse<Boxscore>(response);
 }
 
-export async function getScoreboardForDate(date: string): Promise<ApiResponse<Scoreboard>> {
+export async function getScoreboardForDate(
+	date: string
+): Promise<ApiResponse<Scoreboard> | ApiResponse<ScoreboardApiResponse>> {
 	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
 	if (!GAME_DATE_REGEX.test(date))
 		return {
@@ -19,7 +21,7 @@ export async function getScoreboardForDate(date: string): Promise<ApiResponse<Sc
 			message: 'Game date must be in the correct format: YYYYMMDD'
 		};
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/scoreboard?game_date=${date}`);
-	const result = await validateApiResponse<Scoreboard>(response);
+	const result = await validateApiResponse<ScoreboardApiResponse>(response);
 	if (!result.success) {
 		return result;
 	}

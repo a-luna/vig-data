@@ -12,13 +12,17 @@
 	export let season: MlbSeason;
 	export let color: ThemeColor = 'secondary';
 	let formatted: string = '';
+	let minDate: Date = new Date(2021, 3, 1);
+	let maxDate: Date = new Date(2021, 9, 3);
 	const dispatch = createEventDispatcher();
 
 	$: if ($scoreboardDate) formatted = format($scoreboardDate, 'P');
+	$: if (season) minDate = season.start;
+	$: if (season) maxDate = season.end;
 	$: previous = getPreviousDay($scoreboardDate);
-	$: prevDisabled = previous < season.start;
+	$: prevDisabled = previous < minDate;
 	$: next = getNextDay($scoreboardDate);
-	$: nextDisabled = next > new Date(Math.min.apply(null, [season.end, $mostRecentScrapedDate]));
+	$: nextDisabled = next > new Date(Math.min.apply(null, [maxDate, $mostRecentScrapedDate]));
 </script>
 
 <div id="date-nav" class="pos">
