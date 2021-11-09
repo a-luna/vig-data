@@ -3,7 +3,6 @@
 	import {
 		getAllValidSeasons,
 		getBarrelsForDate,
-		getMostRecentScrapedDate,
 		getPlayerBatStatsForDate,
 		getPlayerPitchStatsForDate,
 		getStandingsOnDate
@@ -26,6 +25,7 @@
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { homePageDate } from '$lib/stores/dateStore';
+	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import { getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
@@ -156,8 +156,7 @@
 
 	onMount(async () => {
 		await getAllSeasons();
-		const mostRecentDate = await getMostRecentScrapedDate();
-		await handleDateChanged(mostRecentDate);
+		await handleDateChanged($mostRecentScrapedDate);
 	});
 </script>
 
