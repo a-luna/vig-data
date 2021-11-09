@@ -30,3 +30,4 @@ function gameDateStore(): GameDateStore {
 
 export const scoreboardDate = gameDateStore();
 export const homePageDate = gameDateStore();
+// export const createDateStore = () => gameDateStore();

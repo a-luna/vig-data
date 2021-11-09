@@ -6,8 +6,8 @@ export function createPaginationStore(totalRows: number, pageSize: number): Pagi
 
 	function resetPageSettings(totalRows: number, pageSize: number): Pagination {
 		return {
-			totalRows: totalRows,
-			pageSize: pageSize,
+			totalRows,
+			pageSize,
 			currentPage: 1,
 			totalPages: Math.ceil(totalRows / pageSize),
 			startRow: 0,
@@ -17,8 +17,8 @@ export function createPaginationStore(totalRows: number, pageSize: number): Pagi
 
 	function getPageSettings(totalRows: number, pageSize: number, pageNumber: number): Pagination {
 		return {
-			totalRows: totalRows,
-			pageSize: pageSize,
+			totalRows,
+			pageSize,
 			currentPage: pageNumber,
 			totalPages: Math.ceil(totalRows / pageSize),
 			startRow: (pageNumber - 1) * pageSize,

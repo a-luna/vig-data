@@ -6,24 +6,21 @@ import { playerSeason } from './singleValueStores';
 
 export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);
 
-export const allPlayerSeasons = derived(careerPfxData, ($careerPfxData) => {
-	if ($careerPfxData) {
-		return Array.from(Object.keys($careerPfxData['all'])).map((year) => parseInt(year));
-	}
-	return [];
-});
+export const allPlayerSeasons = derived(careerPfxData, ($careerPfxData) =>
+	$careerPfxData ? Array.from(Object.keys($careerPfxData.all)).map((year) => parseInt(year)) : []
+);
 
 export const pitchTypeMetricsByYearByStance = derived(careerPfxData, ($careerPfxData) => {
 	const batterStanceSplits: BatterStance[] = ['all', 'rhb', 'lhb'];
 	function getAllPlayerSeasons(): number[] {
 		if ($careerPfxData) {
-			return Array.from(Object.keys($careerPfxData['all'])).map((year) => parseInt(year));
+			return Array.from(Object.keys($careerPfxData.all)).map((year) => parseInt(year));
 		}
 	}
 
 	function getPitchTypeMetrics(year: number, stance: BatterStance): PitchFxMetrics[] {
 		if ($careerPfxData) {
-			return Object.values($careerPfxData[stance][year]).map((pfx) => pfx['metrics']);
+			return Object.values($careerPfxData[stance][year]).map((pfx) => pfx.metrics);
 		}
 	}
 
@@ -55,7 +52,7 @@ export const pitchTypesByBatterStance = derived([careerPfxData, playerSeason], (
 	function getPitchTypesForSeason(stance: BatterStance): PitchType[] {
 		if ($careerPfxData) {
 			return Object.values($careerPfxData[stance][$playerSeason])
-				.map((pfx) => pfx['metrics'])
+				.map((pfx) => pfx.metrics)
 				.sort((a, b) => b.percent - a.percent)
 				.map((metrics) => metrics.pitch_type[0])
 				.filter((pt) => pt !== 'UN');
@@ -77,7 +74,7 @@ export const pitchTypePercentilesByBatterStance = derived(
 			if ($careerPfxData) {
 				const percentilesForSeason = {} as Record<PitchType, PitchTypePercentiles>;
 				Object.values($careerPfxData[stance][$playerSeason])
-					.map((pfx) => pfx['percentiles'])
+					.map((pfx) => pfx.percentiles)
 					.sort((a, b) => b.percent - a.percent)
 					.map((perc) => (percentilesForSeason[perc.pitch_type] = perc));
 				return percentilesForSeason;
