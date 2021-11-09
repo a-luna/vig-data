@@ -33,28 +33,26 @@ export const pageBreakPoints: Readable<PageBreakPointStore> = derived(getPageWid
 			? 'xl'
 			: '2xl';
 
-	if ($pageWidth > 0) {
-		return {
-			current: getCurrentPageBreakPoint($pageWidth),
-			width: $pageWidth,
-			isMobileDisplay: isMobileDisplay($pageWidth),
-			isDefault: isDefault($pageWidth),
-			isSmall: isSmall($pageWidth),
-			isMedium: isMedium($pageWidth),
-			isLarge: isLarge($pageWidth),
-			isExtraLarge: isExtraLarge($pageWidth),
-			is2xExtraLarge: is2xExtraLarge($pageWidth)
-		};
-	} else {
-		return {
-			current: 'default',
-			width: 0,
-			isDefault: true,
-			isSmall: false,
-			isMedium: false,
-			isLarge: false,
-			isExtraLarge: false,
-			is2xExtraLarge: false
-		};
-	}
+	return $pageWidth > 0
+		? {
+				current: getCurrentPageBreakPoint($pageWidth),
+				width: $pageWidth,
+				isMobileDisplay: isMobileDisplay($pageWidth),
+				isDefault: isDefault($pageWidth),
+				isSmall: isSmall($pageWidth),
+				isMedium: isMedium($pageWidth),
+				isLarge: isLarge($pageWidth),
+				isExtraLarge: isExtraLarge($pageWidth),
+				is2xExtraLarge: is2xExtraLarge($pageWidth)
+		  }
+		: {
+				current: 'default',
+				width: 0,
+				isDefault: true,
+				isSmall: false,
+				isMedium: false,
+				isLarge: false,
+				isExtraLarge: false,
+				is2xExtraLarge: false
+		  };
 });

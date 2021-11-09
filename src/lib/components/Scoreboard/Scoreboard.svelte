@@ -13,19 +13,17 @@
 	export let loading: boolean = true;
 	export let games_for_date: GameData[] = [];
 	let formatted: string;
+	let minDate: Date = new Date(2021, 3, 1);
+	let maxDate: Date = new Date(2021, 9, 3);
 	let datePickerModal: DatePickerModal;
 	const dispatch = createEventDispatcher();
 
 	$: if ($scoreboardDate) formatted = $scoreboardDate.toDateString();
+	$: if (season) minDate = season.start;
+	$: if (season) maxDate = season.end;
 </script>
 
-<DatePickerModal
-	bind:this={datePickerModal}
-	currentDate={$scoreboardDate}
-	minDate={season.start}
-	maxDate={season.end}
-	on:dateChanged
-/>
+<DatePickerModal bind:this={datePickerModal} currentDate={$scoreboardDate} {minDate} {maxDate} on:dateChanged />
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if loading}
@@ -33,7 +31,11 @@
 	{:else}
 		<div class="flex flex-row items-center justify-center gap-3 mb-5 flex-nowrap">
 			<div class="flex flex-col flex-nowrap gap-2">
-				<SeasonSelector width={'100%'} on:changed={(e) => dispatch('seasonChanged', e.detail)} />
+				<SeasonSelector
+					selectedSeason={season}
+					width={'100%'}
+					on:changed={(e) => dispatch('seasonChanged', e.detail)}
+				/>
 				<DateNavigation
 					{season}
 					color={'secondary'}

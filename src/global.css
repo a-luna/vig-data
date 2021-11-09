@@ -60,9 +60,9 @@
 	--green2: hsl(113, 100%, 30%);
 	--green3: hsl(113, 100%, 40%);
 
-	--blue-green1: hsl(165, 96%, 29%);
-	--blue-green2: hsl(165, 96%, 49%); /* THEME */
-	--blue-green3: hsl(165, 96%, 79%);
+	--blue-green1: hsl(165, 100%, 35%);
+	--blue-green2: hsl(165, 100%, 45%); /* THEME */
+	--blue-green3: hsl(165, 100%, 55%);
 
 	--dark-teal1: hsl(179, 100%, 15%);
 	--dark-teal2: hsl(179, 100%, 25%);
@@ -234,15 +234,6 @@
 	--ploc-x-max: 3;
 	--ploc-y-min: -2;
 	--ploc-y-max: 5;
-
-	/*
-  color: none;
-  background-color: none;
-  border-top: none;
-  border-left: none;
-  border-bottom: none;
-  border-right: none;
-  */
 }
 
 html {
@@ -370,6 +361,7 @@ body.light-mode {
 	--pseq-bottom-bg-color: var(--gray1);
 	--pseq-legend-bg-color: var(--light-gray3);
 	--pseq-legend-text-color: var(--black4);
+	--pseq-legend-link-color: var(--pri-color);
 	--pseq-legend-font-weight: 700;
 	--pseq-outer-border-color: var(--black4);
 	--ploc-chart-bg-color: var(--light-gray3);
@@ -564,6 +556,7 @@ body.dark-mode {
 	--pseq-bottom-bg-color: var(--indigo1);
 	--pseq-legend-bg-color: var(--rich-black1);
 	--pseq-legend-text-color: var(--white1);
+	--pseq-legend-link-color: var(--sec-color);
 	--pseq-legend-font-weight: 400;
 	--pseq-outer-border-color: var(--indigo1);
 	--ploc-chart-bg-color: var(--rich-black1);

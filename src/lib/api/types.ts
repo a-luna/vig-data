@@ -518,6 +518,19 @@ export interface Boxscore {
 	inning_summaries: { [key: string]: InningSummary };
 }
 
+export interface ScoreboardApiResponse {
+	season: {
+		year: number;
+		start_date: string;
+		start?: Date;
+		end_date: string;
+		end?: Date;
+		asg_date: string;
+		asg?: Date;
+	};
+	games_for_date: GameData[];
+}
+
 export interface Scoreboard {
 	season: MlbSeason;
 	games_for_date: GameData[];

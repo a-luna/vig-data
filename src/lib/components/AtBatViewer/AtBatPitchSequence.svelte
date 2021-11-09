@@ -185,7 +185,7 @@
 	}
 
 	.legend a {
-		color: var(--pri-color);
+		color: var(--pseq-legend-link-color);
 	}
 
 	.play_description {

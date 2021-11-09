@@ -39,22 +39,18 @@ export function teamStatFilterSettingsAreInvalid(
 	batOrderNumbers: BatOrder[]
 ): { invalid: boolean; error: string } {
 	if (teamStatType === 'bat') {
-		if (batStatSplit === 'defpos') {
-			if (defPositions.length === 0) {
-				return { invalid: true, error: 'You must select at least one Defensive Position!' };
-			}
+		if (batStatSplit === 'defpos' && defPositions.length === 0) {
+			return { invalid: true, error: 'You must select at least one Defensive Position!' };
 		}
-		if (batStatSplit === 'batorder') {
-			if (batOrderNumbers.length === 0) {
-				return { invalid: true, error: 'You must select at least one Bat Order number!' };
-			}
+		if (batStatSplit === 'batorder' && batOrderNumbers.length === 0) {
+			return { invalid: true, error: 'You must select at least one Bat Order number!' };
 		}
 	}
 	return { invalid: false, error: '' };
 }
 
 export function getRandomHexString(length: number): string {
-	return Array.from({ length: length }, () => Math.floor(Math.random() * 16))
+	return Array.from({ length }, () => Math.floor(Math.random() * 16))
 		.map((n) => Number(n).toString(16))
 		.join('');
 }
