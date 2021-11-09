@@ -1,7 +1,7 @@
-import { getMostRecentScrapedDate } from '$lib/api/season';
 import type { PlayerDetails } from '$lib/api/types';
 import type { GameContent, SiteTheme } from '$lib/types';
-import { writable } from 'svelte/store';
+import { getDateFromString } from '$lib/util';
+import { derived, writable } from 'svelte/store';
 import { createLocalStorageValue } from './util';
 
 export const gameContentShown = writable<GameContent>('box');
@@ -9,13 +9,10 @@ export const playerSeason = writable<number>(0);
 export const siteTheme = createLocalStorageValue<SiteTheme>('vig-theme', 'notset');
 export const searchResults = writable<PlayerDetails[]>([]);
 
-export const mostRecentScrapedDate = writable<Date>(null, (set) => {
-	getMostRecentScrapedDate()
-		.then(set)
-		.catch((err) => {
-			console.error('Failed to fetch most recent scraped date!', err);
-		});
-	return () => {
-		//
-	};
+export const mostRecentScrapedDateStore = createLocalStorageValue<string>('most-recent-scraped-date', '20211003');
+export const mostRecentScrapedDate = derived(mostRecentScrapedDateStore, ($mostRecentScrapedDateStore) => {
+	if ($mostRecentScrapedDateStore) {
+		return getDateFromString($mostRecentScrapedDateStore).value;
+	}
+	return null;
 });

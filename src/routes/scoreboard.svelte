@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { getScoreboardForDate } from '$lib/api/game';
-	import { getMostRecentScrapedDate } from '$lib/api/season';
-	import type { GameData,MlbSeason } from '$lib/api/types';
+	import type { GameData, MlbSeason } from '$lib/api/types';
 	import Scoreboard from '$lib/components/Scoreboard/Scoreboard.svelte';
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/dateStore';
-	import { formatDateString,getSeasonDates,getStringFromDate } from '$lib/util/datetime';
+	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
+	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
 	let season: MlbSeason;
@@ -17,8 +17,7 @@
 	$: pageTitle = `MLB Scoreboard for ${formatDateString($scoreboardDate)}`;
 
 	onMount(async () => {
-		const mostRecentDate = await getMostRecentScrapedDate();
-		await handleDateChanged(mostRecentDate);
+		await handleDateChanged($mostRecentScrapedDate);
 	});
 
 	async function getScoreboard(date: Date) {
@@ -35,23 +34,16 @@
 	}
 
 	async function handleDateChanged(date: Date) {
-		console.log(`handleDateChanged: date=${date}`);
-    console.log(`handleDateChanged: $scoreboardDate=${$scoreboardDate} (before)`);
 		loading = true;
 		scoreboardDate.changeDate(date);
-    console.log(`handleDateChanged: $scoreboardDate=${$scoreboardDate} (after)`);
 		changePageAddress(date);
 		await getScoreboard(date);
 	}
 
 	function handleSeasonChanged(year: number) {
-		console.log(`handleSeasonChanged: $scoreboardDate.getFullYear()=${$scoreboardDate.getFullYear()}`);
-		console.log(`handleSeasonChanged: year=${year}`);
 		if ($scoreboardDate.getFullYear() !== year) {
 			season = $allSeasons.find((s) => s.year === year);
-			console.log(`handleSeasonChanged: season=${season}`);
 			if (season) {
-				console.log(`handleSeasonChanged: season.start=${season.start}`);
 				handleDateChanged(season.start);
 			}
 		}
