@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { MlbSeason } from '$lib/api/types';
-	import { scoreboardDate } from '$lib/stores/dateStore';
-	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
+	import { mostRecentScrapedDate, scoreboardDate } from '$lib/stores/dateStore';
 	import type { ThemeColor } from '$lib/types';
 	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
 	import { format } from 'date-fns';

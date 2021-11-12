@@ -178,9 +178,10 @@ export interface TeamStatFilter {
 
 export interface GameDateStore {
 	subscribe: Writable<Date>['subscribe'];
+	update: Writable<Date>['update'];
+	set: Writable<Date>['set'];
 	nextDay: () => void;
 	prevDay: () => void;
-	changeDate: (date: Date) => void;
 }
 
 export interface TeamStatFilterStore {

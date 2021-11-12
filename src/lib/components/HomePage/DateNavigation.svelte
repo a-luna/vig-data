@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { MlbSeason } from '$lib/api/types';
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
-	import { homePageDate } from '$lib/stores/dateStore';
+	import { homePageDate, mostRecentScrapedDate } from '$lib/stores/dateStore';
 	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
-	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import type { ThemeColor } from '$lib/types';
 	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
 	import { format } from 'date-fns';
@@ -33,9 +32,9 @@
 
 <DatePickerModal
 	bind:this={datePickerModal}
-	currentDate={$homePageDate}
-	minDate={season.start}
-	maxDate={season.end}
+	bind:currentDate={$homePageDate}
+	bind:minDate={season.start}
+	bind:maxDate={season.end}
 	on:dateChanged
 />
 
