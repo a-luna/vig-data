@@ -9,12 +9,11 @@
 		PitchFx
 	} from '$lib/api/types';
 	import AtBatContext from '$lib/components/AtBatViewer/AtBatContext.svelte';
+	import AtBatDetailsPlaceholder from '$lib/components/AtBatViewer/AtBatDetailsPlaceholder.svelte';
 	import AtBatPitchSequence from '$lib/components/AtBatViewer/AtBatPitchSequence.svelte';
 	import PitchLocationChart from '$lib/components/AtBatViewer/PitchLocationChart.svelte';
 	import PlayByPlayNavigation from '$lib/components/AtBatViewer/PlayByPlayNavigation.svelte';
 	import PlayByPlayTable from '$lib/components/AtBatViewer/PlayByPlayTable.svelte';
-	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { syncHeight } from '$lib/stores/elementHeight';
 	import {
 		addStrikeZoneCornersToPfxData,
 		createPitchDescriptionList,
@@ -45,7 +44,6 @@
 	let goToNextAtBatDisabled: boolean;
 	let getPfxForAtBatReqeust: Promise<ApiResponse<PitchFx[]>>;
 	let getPfxForAtBatResult: ApiResponse<PitchFx[]>;
-	let chartContainer: HTMLElement;
 	const dispatch = createEventDispatcher();
 
 	$: if (pfxAtBatIds) {
@@ -55,7 +53,6 @@
 		goToPrevAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === firstPfxAtBatId : true;
 		goToNextAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === lastPfxAtBatId : true;
 	}
-	$: heightStore = syncHeight(chartContainer);
 
 	onMount(() => dispatch('readyForData'));
 
@@ -174,11 +171,7 @@
 		<div class="flex flex-col justify-end at-bat-details-wrapper flex-nowrap">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
-					<div class="pending" style="height: {$heightStore}px">
-						<div class="m-auto">
-							<Spinner />
-						</div>
-					</div>
+					<AtBatDetailsPlaceholder />
 				{:then result}
 					{#if result.success}
 						<div class="flex flex-col">
@@ -206,7 +199,7 @@
 				/>
 			</div>
 		</div>
-		<div id="at-bat-viewer" class="flex-grow-0 pitch-location" bind:this={chartContainer}>
+		<div id="at-bat-viewer" class="flex-grow-0 pitch-location">
 			{#if getPfxForAtBatReqeust}
 				{#await getPfxForAtBatReqeust}
 					<div class="pending" />

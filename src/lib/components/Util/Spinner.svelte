@@ -2,8 +2,8 @@
 	import { Pulse } from '../../../../node_modules/svelte-loading-spinners/src';
 </script>
 
-<div class="flex flex-row flex-nowrap justify-center align-middle w-full h-full mt-2">
-	<div class="spinner m-auto">
+<div class="m-auto spinner">
+	<div class="my-5">
 		<Pulse size="40" color={`currentColor`} />
 	</div>
 </div>

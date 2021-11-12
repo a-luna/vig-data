@@ -59,7 +59,7 @@
 		"date-fns": "^2.25.0",
 		"date-fns-tz": "^1.1.6",
 		"fuzzy": "^0.1.3",
-		"layercake": "^4.1.1",
+		"layercake": "^5.0.0",
 		"svelte-preprocess": "^4.9.8"
 	}
 }
