@@ -15,6 +15,7 @@
 		PlayerBatStats,
 		PlayerPitchStats,
 		Scoreboard,
+		ScoreboardApiResponse,
 		SeasonData
 	} from '$lib/api/types';
 	import DateNavigation from '$lib/components/HomePage/DateNavigation.svelte';
@@ -25,8 +26,7 @@
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { homePageDate } from '$lib/stores/dateStore';
-	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
-	import { getStringFromDate } from '$lib/util/datetime';
+	import { getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
 	let season: MlbSeason;
@@ -76,7 +76,7 @@
 		return result;
 	}
 
-	async function getScoreboard(date: Date): Promise<ApiResponse<Scoreboard>> {
+	async function getScoreboard(date: Date): Promise<ApiResponse<Scoreboard> | ApiResponse<ScoreboardApiResponse>> {
 		const result = await getScoreboardForDate(getStringFromDate(date));
 		if (!result.success) {
 			error = result.message;
@@ -84,7 +84,8 @@
 			return result;
 		}
 		const scoreboard = result.value;
-		({ season, games_for_date } = scoreboard);
+		season = getSeasonDates(scoreboard.season).value;
+		games_for_date = scoreboard.games_for_date;
 		getScoreboardComplete = true;
 		return result;
 	}
@@ -125,20 +126,22 @@
 		return result;
 	}
 
-	async function handleDateChanged(newDate: Date) {
-		loading = true;
-		getScoreboardComplete = false;
-		getStandingsComplete = false;
-		getPitchStatsComplete = false;
-		getBatStatsComplete = false;
-		getBarrelsComplete = false;
+	async function handleDateChanged(date: Date) {
+		if ($homePageDate) {
+			loading = true;
+			getScoreboardComplete = false;
+			getStandingsComplete = false;
+			getPitchStatsComplete = false;
+			getBatStatsComplete = false;
+			getBarrelsComplete = false;
 
-		homePageDate.changeDate(newDate);
-		await getScoreboard($homePageDate);
-		await getStandings($homePageDate);
-		await getPitchStatsForDate($homePageDate);
-		await getBatStatsForDate($homePageDate);
-		await getAllBarrelsForDate($homePageDate);
+			$homePageDate = date;
+			await getScoreboard($homePageDate);
+			await getStandings($homePageDate);
+			await getPitchStatsForDate($homePageDate);
+			await getBatStatsForDate($homePageDate);
+			await getAllBarrelsForDate($homePageDate);
+		}
 	}
 
 	function handleSeasonChanged(year: number) {
@@ -156,7 +159,7 @@
 
 	onMount(async () => {
 		await getAllSeasons();
-		await handleDateChanged($mostRecentScrapedDate);
+		await handleDateChanged($homePageDate);
 	});
 </script>
 

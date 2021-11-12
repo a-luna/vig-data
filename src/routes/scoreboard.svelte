@@ -5,7 +5,6 @@
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import { scoreboardDate } from '$lib/stores/dateStore';
-	import { mostRecentScrapedDate } from '$lib/stores/singleValueStores';
 	import { formatDateString, getSeasonDates, getStringFromDate } from '$lib/util/datetime';
 	import { onMount } from 'svelte';
 
@@ -17,7 +16,7 @@
 	$: pageTitle = `MLB Scoreboard for ${formatDateString($scoreboardDate)}`;
 
 	onMount(async () => {
-		await handleDateChanged($mostRecentScrapedDate);
+		await handleDateChanged($scoreboardDate);
 	});
 
 	async function getScoreboard(date: Date) {
@@ -35,7 +34,7 @@
 
 	async function handleDateChanged(date: Date) {
 		loading = true;
-		scoreboardDate.changeDate(date);
+		$scoreboardDate = date;
 		changePageAddress(date);
 		await getScoreboard(date);
 	}

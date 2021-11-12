@@ -23,7 +23,13 @@
 	$: if (season) maxDate = season.end;
 </script>
 
-<DatePickerModal bind:this={datePickerModal} currentDate={$scoreboardDate} {minDate} {maxDate} on:dateChanged />
+<DatePickerModal
+	bind:this={datePickerModal}
+	bind:currentDate={$scoreboardDate}
+	bind:minDate
+	bind:maxDate
+	on:dateChanged
+/>
 
 <div id="scoreboard" class="scoreboard-wrapper">
 	{#if loading}
