@@ -31,11 +31,14 @@
 	#standings-for-date {
 		background-color: var(--section-content-bg-color);
 		border: var(--sec-color);
+		border-radius: 4px;
 	}
 
 	@media screen and (min-width: 640px) {
 		#standings-for-date {
 			width: 199px;
+			background-color: var(--section-content-bg-color);
+			border: 2px dotted var(--section-content-border-color);
 		}
 	}
 

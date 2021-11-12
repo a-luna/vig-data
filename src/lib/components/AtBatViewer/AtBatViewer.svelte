@@ -142,7 +142,7 @@
 	export function viewAtBat(viewAtBatId: string) {
 		if (viewAtBatId) {
 			selectedAtBatId = viewAtBatId;
-			if (Object.prototype.hasOwnProperty.call(pfxCache, viewAtBatId)) {
+			if (viewAtBatId in pfxCache) {
 				selectedAtBat = atBatMap[selectedAtBatId];
 				selectedAtBatPfx = pfxCache[selectedAtBatId];
 				pitchSequence = createPitchDescriptionList(selectedAtBat.pitch_sequence_description, selectedAtBatPfx);
@@ -228,7 +228,7 @@
 		{playerTeamMap}
 		{inningSummaries}
 		{selectedAtBatId}
-		on:showAtBat={(event) => viewAtBat(event.detail)}
+		on:showAtBat={(e) => viewAtBat(e.detail)}
 	/>
 </div>
 

@@ -80,9 +80,7 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 }
 
 export function getPitchTypeAbbrevFromName(pitchType: string): string {
-	return Object.prototype.hasOwnProperty.call(PITCH_TYPE_NAME_TO_ABBREV_MAP, pitchType.toLowerCase())
-		? PITCH_TYPE_NAME_TO_ABBREV_MAP[pitchType.toLowerCase()]
-		: PITCH_TYPE_NAME_TO_ABBREV_MAP['unknown'];
+	return PITCH_TYPE_NAME_TO_ABBREV_MAP?.[pitchType.toLowerCase()] ?? PITCH_TYPE_NAME_TO_ABBREV_MAP.unknown;
 }
 
 export function getXAxisMinMax(): [number, number] {

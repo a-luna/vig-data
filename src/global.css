@@ -361,7 +361,7 @@ body.light-mode {
 	--pseq-bottom-bg-color: var(--gray1);
 	--pseq-legend-bg-color: var(--light-gray3);
 	--pseq-legend-text-color: var(--black4);
-	--pseq-legend-link-color: var(--pri-color);
+	--pseq-legend-link-color: var(--sec-color);
 	--pseq-legend-font-weight: 700;
 	--pseq-outer-border-color: var(--black4);
 	--ploc-chart-bg-color: var(--light-gray3);
