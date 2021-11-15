@@ -7,9 +7,9 @@
 	<title>Sortable Team Stats | Vigorish</title>
 </svelte:head>
 
-<div class="section p-4 mb-5 lg:w-11/12">
+<div class="section p-4 mb-5">
 	<TeamBattingStats />
 </div>
-<div class="section p-4 lg:w-11/12">
+<div class="section p-4">
 	<TeamPitchingStats />
 </div>

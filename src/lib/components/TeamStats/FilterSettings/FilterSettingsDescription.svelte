@@ -67,10 +67,10 @@
 	}
 </script>
 
-<div class="flex flex-row items-center justify-start w-full mb-1 text-sm leading-none flex-nowrap sm:text-base">
+<div class="flex flex-row items-center justify-start w-full mb-1 text-sm leading-none tracking-wider flex-nowrap">
 	<div
 		class:disabled={loading}
-		class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings sm:w-5 sm:h-5"
+		class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings"
 		title="Change Settings"
 		on:click={() => handleClick()}
 	>

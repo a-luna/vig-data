@@ -30,7 +30,7 @@
 	$: seasonMenuWidth = $pageBreakPoints.isDefault ? `${$widthStore}px` : 'auto';
 </script>
 
-<div class="flex flex-col sm:flex-row flex-nowrap gap-2 mb-5">
+<div class="flex flex-col sm:flex-row flex-nowrap justify-center gap-2 mb-5">
 	<SeasonSelector
 		selectedSeason={season}
 		width={seasonMenuWidth}

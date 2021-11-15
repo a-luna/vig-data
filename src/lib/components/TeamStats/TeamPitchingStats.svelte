@@ -78,9 +78,9 @@
 	sortBy={'innings_pitched'}
 />
 
-<div class="flex flex-col gap-2 my-0 flex-nowrap">
+<div class="flex flex-col gap-1 my-0 flex-nowrap">
 	<div class="flex flex-col items-start justify-end flex-nowrap">
-		<h3 class="mb-1 text-2xl tracking-wide md:text-3xl">{tableHeading}</h3>
+		<h3 class="mb-1 text-2xl tracking-wide">{tableHeading}</h3>
 		<FilterSettingsDescription bind:settings bind:showFilters bind:loading />
 		<FilterSettings
 			pitching={true}
