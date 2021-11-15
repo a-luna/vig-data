@@ -1,33 +1,30 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { getAllPlayByPlayData, getBoxscore } from '$lib/api/game';
-	import type { ApiResponse, AtBatDetails, Boxscore as BoxscoreSchema, Result } from '$lib/api/types';
-	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
-	import Boxscore from '$lib/components/Boxscore/Boxscore.svelte';
+	import { getAllPlayByPlayData,getBoxscore } from '$lib/api/game';
+	import type { ApiResponse,AtBatDetails,Boxscore as BoxscoreSchema,Result } from '$lib/api/types';
+	import Boxscore from '$lib/components/Game/Boxscore/Boxscore.svelte';
+	import PlayByPlay from '$lib/components/Game/PlayByPlay/PlayByPlay.svelte';
 	import PitchAppViewer from '$lib/components/PitchAppViewer/PitchAppViewer.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import GameContentSelector from '$lib/components/Util/Selectors/GameContentSelector.svelte';
 	import { GAME_ID_REGEX } from '$lib/regex';
 	import { gameContentShown } from '$lib/stores/singleValueStores';
 	import type { GameContent } from '$lib/types';
 	import { getDateFromGameId } from '$lib/util/datetime';
-	import { onMount } from 'svelte';
+	import { onMount,tick } from 'svelte';
 
 	let game_id: string;
 	let game_summary: string;
 	let boxscore: BoxscoreSchema;
 	let all_pbp: AtBatDetails[];
-	let atBatViewer: AtBatViewer;
 	let date_str: string;
-	let getAllGameDataRequest: Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>>;
 	let getBoxscoreResult: ApiResponse<BoxscoreSchema>;
 	let getGameDateResult: Result<Date>;
 	let getAllPBPResult: ApiResponse<AtBatDetails[]>;
+	let playByPlayComponent: PlayByPlay;
+	let error: string;
 	let loading = false;
-
-	$: pbpShown = $gameContentShown === 'pbp';
-	$: boxShown = $gameContentShown === 'box';
-	$: chartsShown = $gameContentShown === 'charts';
 
 	$: if (game_id !== undefined && game_id !== $page.query.get('id')) {
 		updateGameData($page.query.get('id'));
@@ -35,24 +32,25 @@
 
 	onMount(() => {
 		$gameContentShown = ($page.query.get('show') as GameContent) || 'box';
-		getAllGameDataRequest = getAllGameData($page.query.get('id'));
+		getAllGameData($page.query.get('id'));
 	});
 
-	async function getAllGameData(
-		newGameId: string
-	): Promise<ApiResponse<BoxscoreSchema> | Result<Date> | ApiResponse<AtBatDetails[]>> {
+	async function getAllGameData(newGameId: string) {
 		loading = true;
 		getBoxscoreResult = await getBoxscore(newGameId);
 		if (!getBoxscoreResult.success) {
-			return getBoxscoreResult;
+			error = getBoxscoreResult.message;
+			loading = false;
+			return;
 		}
 		game_id = newGameId;
 		boxscore = getBoxscoreResult.value;
 
 		getGameDateResult = getDateFromGameId(game_id);
 		if (!getGameDateResult.success) {
+			error = getGameDateResult.message;
 			loading = false;
-			return getGameDateResult;
+			return;
 		}
 		const game_date = getGameDateResult.value;
 		date_str = `${game_date.getMonth() + 1}/${game_date.getDate()}/${game_date.getFullYear()}`;
@@ -60,17 +58,18 @@
 
 		getAllPBPResult = await getAllPlayByPlayData(game_id);
 		if (!getAllPBPResult.success) {
+			error = getAllPBPResult.message;
 			loading = false;
-			return getAllPBPResult;
+			return;
 		}
 		all_pbp = getAllPBPResult.value;
 		loading = false;
-		return getAllPBPResult;
 	}
 
-	function viewAtBat(atBatId: string): void {
-		atBatViewer.viewAtBat(atBatId);
+	async function viewAtBat(atBatId: string) {
 		$gameContentShown = 'pbp';
+    await tick();
+		playByPlayComponent.viewAtBat(atBatId);
 		changePageAddress('pbp');
 	}
 
@@ -79,7 +78,7 @@
 			$gameContentShown = 'box';
 			changePageAddress('box');
 		}
-		getAllGameDataRequest = getAllGameData(newGameId);
+		getAllGameData(newGameId);
 	}
 
 	function changePageAddress(gameContent: 'pbp' | 'box' | 'charts') {
@@ -104,29 +103,21 @@
 	<title>{game_summary ? game_summary : getDefaultGameSummary()} | Vigorish</title>
 </svelte:head>
 
-<div id="game">
-	<GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
-	{#if getAllGameDataRequest}
-		{#await getAllGameDataRequest}
-			<LoadingScreen bind:loading />
-		{:then result}
-			{#if result.success}
-				<Boxscore
-					bind:boxscore
-					bind:shown={boxShown}
-					on:viewPitchFxForAtBatClicked={(event) => viewAtBat(event.detail)}
-				/>
-				<AtBatViewer
-					bind:this={atBatViewer}
-					bind:shown={pbpShown}
-					on:readyForData={() => atBatViewer.init(all_pbp, boxscore)}
-				/>
-				<PitchAppViewer bind:shown={chartsShown} bind:boxscore />
-			{:else}
-				<div class="error">Error: {result.message}</div>
-			{/if}
-		{:catch error}
-			<div class="error">Error: {error.message}</div>
-		{/await}
-	{/if}
-</div>
+<LoadingScreen {loading} />
+
+{#if error}
+	<ErrorMessageModal {error} />
+{/if}
+
+{#if !loading}
+	<div id="game">
+		<GameContentSelector color={'secondary'} on:changed={(event) => changePageAddress(event.detail)} />
+		{#if $gameContentShown === 'box'}
+			<Boxscore {boxscore} on:viewPitchFxForAtBat={(event) => viewAtBat(event.detail)} />
+		{:else if $gameContentShown === 'pbp'}
+			<PlayByPlay bind:this={playByPlayComponent} {boxscore} {all_pbp} />
+		{:else if $gameContentShown === 'charts'}
+			<PitchAppViewer {boxscore} />
+		{/if}
+	</div>
+{/if}
