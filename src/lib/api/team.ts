@@ -154,3 +154,23 @@ export async function getPitchStatsForRpByPlayerForTeam(
 	);
 	return await validateApiResponse<TeamPitchStats[]>(response);
 }
+
+// Mock Data
+// import { allTeamsBatStatsMockData } from './mock/team/getBatStatsForAllTeams';
+// import { allTeamsPitchStatsMockData } from './mock/team/getPitchStatsForAllTeams';
+
+// export async function getBatStatsForAllTeams(_year: number): Promise<ApiResponse<TeamBatStatsMap>> {
+// 	return {
+// 		status: 200,
+// 		success: true,
+// 		value: allTeamsBatStatsMockData
+// 	};
+// }
+
+// export async function getPitchStatsForAllTeams(_year: number): Promise<ApiResponse<TeamPitchStatsMap>> {
+// 	return {
+// 		status: 200,
+// 		success: true,
+// 		value: allTeamsPitchStatsMockData
+// 	};
+// }

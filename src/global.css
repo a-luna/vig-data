@@ -1119,7 +1119,7 @@ input {
 }
 
 .btn {
-	@apply px-2 py-1 overflow-hidden text-base font-normal tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
+	@apply px-2 py-1 overflow-hidden text-base font-medium tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
 	transition: background 0.2s;
 }
 
