@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ChartLegend from '$lib/components/Util/PieChart/ChartLegend.svelte';
-	import SvgPieChart from '$lib/components/Util/PieChart/SvgPieChart.svelte';
+	import ChartLegend from '$lib/components/Charts/PieChart/ChartLegend.svelte';
+	import SvgPieChart from '$lib/components/Charts/PieChart/SvgPieChart.svelte';
 	import type { PieSlice } from '$lib/types';
 	import { formatNumber } from '$lib/util/format';
 

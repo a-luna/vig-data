@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { TeamData } from '$lib/api/types';
-	import PitcherDetails from '$lib/components/Boxscore/TeamPitchingStats/PitcherDetails.svelte';
-	import PitcherStatLine from '$lib/components/Boxscore/TeamPitchingStats/PitcherStatLine.svelte';
+	import PitcherDetails from '$lib/components/Game/Boxscore/TeamPitchingStats/PitcherDetails.svelte';
+	import PitcherStatLine from '$lib/components/Game/Boxscore/TeamPitchingStats/PitcherStatLine.svelte';
 
 	export let teamData: TeamData;
 

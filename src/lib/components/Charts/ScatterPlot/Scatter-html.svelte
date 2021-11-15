@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PitchFx } from '$lib/api/types';
-	import PitchFxToolTip from '$lib/components/AtBatViewer/PitchFxToolTip.svelte';
+	import PitchFxToolTip from '$lib/components/Charts/PitchFxToolTip.svelte';
 	import Hoverable from '$lib/components/Util/Hoverable.svelte';
 	import { getContext } from 'svelte';
 
