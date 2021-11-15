@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { DefPositionMetrics } from '$lib/api/types';
-	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
+	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util/ui';

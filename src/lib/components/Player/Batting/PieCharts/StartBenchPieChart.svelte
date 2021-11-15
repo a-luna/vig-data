@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TeamBatStats } from '$lib/api/types';
-	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
+	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { PieChartSettings, PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util/ui';
 

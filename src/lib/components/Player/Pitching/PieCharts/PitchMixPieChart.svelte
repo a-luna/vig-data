@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PitchFxMetrics } from '$lib/api/types';
-	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
+	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP } from '$lib/constants';
 	import { pitchTypeMetricsByYearByStance } from '$lib/stores/pfxPitcherMetrics';
 	import { BatterStance, PieChartSettings, PieSlice } from '$lib/types';

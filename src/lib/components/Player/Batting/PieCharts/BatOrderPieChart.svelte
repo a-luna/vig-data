@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { BatOrderMetrics } from '$lib/api/types';
-	import PieChart from '$lib/components/Util/PieChart/PieChart.svelte';
+	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { BAT_ORDER_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { siteTheme } from '$lib/stores/singleValueStores';
 	import { PieChartSettings, PieSlice } from '$lib/types';
