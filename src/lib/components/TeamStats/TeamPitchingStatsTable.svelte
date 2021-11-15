@@ -41,7 +41,7 @@
 
 <section style={backgroundColorRule}>
 	<div class="flex flex-col items-baseline flex-nowrap mb-0.5 ml-1">
-		<div class="mb-1 text-sm italic font-medium tracking-wide sort-description">
+		<div class="mb-1 text-sm italic tracking-wide sort-description table-caption whitespace-nowrap">
 			{describeSortSetting(sortBy, sortDir)}
 		</div>
 	</div>
@@ -553,14 +553,5 @@
 	.table-body-cell {
 		cursor: pointer;
 		padding: 2px 4px;
-	}
-
-	.sort-description {
-		color: var(--sec-color);
-	}
-
-	.sort-description {
-		display: table-caption;
-		white-space: nowrap;
 	}
 </style>

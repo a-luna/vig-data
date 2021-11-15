@@ -5,6 +5,7 @@
 	import SelectedBatOrderNumbers from '$lib/components/TeamStats/FilterSettings/SelectedBatOrderNumbers.svelte';
 	import SelectedDefPositions from '$lib/components/TeamStats/FilterSettings/SelectedDefPositions.svelte';
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
+	import { allSeasons } from '$lib/stores/allMlbSeasons';
 	import type { TeamStatFilter } from '$lib/types';
 	import { teamStatFilterSettingsAreInvalid } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
@@ -22,6 +23,7 @@
 	const showErrorSlideOptions = { duration: 1000, easing: cubicInOut };
 	let prevSettings: TeamStatFilter;
 
+	$: season = $allSeasons.find((s) => s.year === settings.season);
 	$: defposSelected = settings.batStatSplit === 'defpos';
 	$: batorderSelected = settings.batStatSplit === 'batorder';
 	$: ({ invalid, error } = checkFilterSettings(settings));
@@ -62,7 +64,7 @@
 		class:invalid
 	>
 		<div class="grid grid-cols-2 gap-2 px-2 pt-2">
-			<SeasonSelector bind:selectedValue={settings.season} width={'100%'} />
+			<SeasonSelector selectedSeason={season} on:changed={(e) => (settings.season = e.detail)} width={'100%'} />
 			<LeagueDropDown bind:selectedLeague={settings.league} width={'100%'} />
 			{#if pitching}
 				<PitchStatSplitDropDown bind:selectedValue={settings.pitchStatSplit} width={'100%'} />

@@ -7,7 +7,6 @@
 	export let showFilters: boolean = false;
 	export let loading: boolean = false;
 
-	$: year = settings.season;
 	$: league = settings.league === 'both' ? 'AL & NL' : settings.league.toUpperCase();
 	$: splitTitle = settings.statType === 'bat' ? getBatStatSplitTitle() : 'Split';
 	$: splitSetting = settings.statType === 'bat' ? getBatStatSplitSetting() : getPitchStatSplitSetting();
@@ -82,7 +81,7 @@
 		class="flex flex-row flex-wrap items-end justify-start cursor-pointer current-settings"
 		on:click={() => handleClick()}
 	>
-		<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{year},</span>
+		<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{settings.season},</span>
 		<strong class="ml-2 mr-1 filter-label">League</strong><span class="filter-value">{league},</span>
 		<strong class="ml-2 mr-1 filter-label">{splitTitle}</strong><span class="filter-value">{splitSetting}</span>
 	</div>

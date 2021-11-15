@@ -13,20 +13,14 @@
 		active: false
 	}));
 	const dispatch = createEventDispatcher();
-  let selectedValue: number;
 	let menuId = 'season-menu';
 
-	$: if (selectedSeason) selectedValue = selectedSeason.year;
-	$: menuLabel = selectedValue ? `MLB ${selectedValue}` : 'Select Season';
+	$: menuLabel = selectedSeason?.year ? `MLB ${selectedSeason.year}` : 'Select Season';
 
 	function handleSelectionChanged(year: number) {
-		if (selectedValue !== year) {
-			selectedValue = year;
-			const matches = $allSeasons.filter((s) => s.year === selectedValue);
-			if (matches.length > 0) {
-				selectedSeason = matches[0];
-				dispatch('changed', selectedSeason.year);
-			}
+		if (selectedSeason.year !== year) {
+			selectedSeason = $allSeasons.find((s) => s.year === selectedSeason.year);
+			dispatch('changed', selectedSeason.year);
 		}
 	}
 </script>
