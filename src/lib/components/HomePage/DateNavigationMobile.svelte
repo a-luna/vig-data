@@ -3,6 +3,8 @@
 	import DatePickerModal from '$lib/components//Scoreboard/DatePickerModal.svelte';
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import { homePageDate, mostRecentScrapedDate } from '$lib/stores/dateStore';
+	import { syncWidth } from '$lib/stores/elementWidth';
+	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { ThemeColor } from '$lib/types';
 	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
 	import { format } from 'date-fns';
@@ -14,6 +16,7 @@
 	export let color: ThemeColor = 'secondary';
 	let formatted: string = '';
 	let datePickerModal: DatePickerModal;
+	let dateNavElement: HTMLElement;
 	const dispatch = createEventDispatcher();
 
 	$: if ($homePageDate) formatted = format($homePageDate, 'MMMM do, yyyy');
@@ -21,6 +24,8 @@
 	$: prevDisabled = previous < season.start;
 	$: next = getNextDay($homePageDate);
 	$: nextDisabled = next > new Date(Math.min.apply(null, [season.end, $mostRecentScrapedDate]));
+	$: widthStore = syncWidth(dateNavElement);
+	$: seasonMenuWidth = $pageBreakPoints.isDefault ? `${$widthStore}px` : 'auto';
 </script>
 
 <DatePickerModal
@@ -31,9 +36,13 @@
 	on:dateChanged
 />
 
-<div class="flex flex-row items-center justify-center gap-2 flex-nowrap">
-	<SeasonSelector bind:selectedSeason={season} on:changed={(e) => dispatch('seasonChanged', e.detail)} />
-	<div id="date-nav" class="pos">
+<div class="flex flex-col sm:flex-row items-center justify-center gap-2 flex-nowrap">
+	<SeasonSelector
+		bind:selectedSeason={season}
+		width={seasonMenuWidth}
+		on:changed={(e) => dispatch('seasonChanged', e.detail)}
+	/>
+	<div id="date-nav" class="pos" bind:this={dateNavElement}>
 		<div class="btn-group btn-group-{color}">
 			<button
 				id="prev-date"

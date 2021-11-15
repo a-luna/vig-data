@@ -4,7 +4,6 @@
 	import PitcherResults from '$lib/components/Linescore/PitcherResults.svelte';
 	import DateNavigation from '$lib/components/Scoreboard/DateNavigation.svelte';
 	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
-	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { scoreboardDate } from '$lib/stores/dateStore';
 	import { createEventDispatcher } from 'svelte';
@@ -35,21 +34,12 @@
 	{#if loading}
 		<Spinner />
 	{:else}
-		<div class="flex flex-row items-center justify-center gap-3 mb-5 flex-nowrap">
-			<div class="flex flex-col flex-nowrap gap-2">
-				<SeasonSelector
-					selectedSeason={season}
-					width={'100%'}
-					on:changed={(e) => dispatch('seasonChanged', e.detail)}
-				/>
-				<DateNavigation
-					{season}
-					color={'secondary'}
-					on:showDatePicker={() => datePickerModal.toggleModal()}
-					on:dateChanged
-				/>
-			</div>
-		</div>
+		<DateNavigation
+			{season}
+			color={'secondary'}
+			on:showDatePicker={() => datePickerModal.toggleModal()}
+			on:dateChanged
+		/>
 		<h3 class="my-2 text-xl text-center sm:text-2xl">Games Played on {formatted}</h3>
 		<div class="flex flex-row flex-wrap justify-center flex-grow-0 mx-auto my-0 text-sm scoreboard">
 			{#each games_for_date as { linescore, pitcher_results, game_id }}
