@@ -2,7 +2,7 @@
 	import type { SelectMenuOption } from '$lib/types';
 	import { clickOutside } from '$lib/util/ui';
 	import { createEventDispatcher } from 'svelte';
-	import MdArrowDropDown from 'svelte-icons/md/MdArrowDropDown.svelte';
+	import FaCaretDown from 'svelte-icons/fa/FaCaretDown.svelte';
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import { scale } from 'svelte/transition';
 	import Option from './Option.svelte';
@@ -10,21 +10,31 @@
 	export let menuLabel: string = 'Options';
 	export let options: SelectMenuOption[];
 	export let width: string = 'auto';
+	export let fontSize: string = '0.95rem';
 	export let disabled: boolean = false;
 	export let displaySelectedOptionText = true;
 	export let menuId: string = '';
+	export let buttonLayout = 'inline-flex items-center justify-between gap-2.5 w-full py-2.5 px-2';
+	export let buttonBorder =
+		'border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-800';
+	export let menuLayout = 'absolute right-0 z-10 w-full mt-2';
+	export let menuBorder = 'rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none';
 	let selectedOption: SelectMenuOption;
 	let dropdownShown: boolean = false;
 	const dispatch = createEventDispatcher();
 
-	$: label = disabled ? 'N/A' : displaySelectedOptionText ? selectedOption?.text || menuLabel : menuLabel;
+	$: label = disabled ? 'N/A' : displaySelectedOptionText ? selectedOption?.text ?? menuLabel : menuLabel;
+	$: buttonStyles = `font-medium ${buttonLayout} ${buttonBorder}`;
+	$: menuStyles = `dropdown origin-top-right ${menuLayout} ${menuBorder}`;
 
 	export function handleOptionClicked(selectedOptionNumber: number) {
 		if (options.length > 0) {
 			options.map((menuOption) => (menuOption.active = false));
-			selectedOption = options.filter((menuOption) => menuOption.optionNumber == selectedOptionNumber)[0];
-			selectedOption.active = true;
-			dispatch('changed', selectedOption.value);
+			selectedOption = options.find((menuOption) => menuOption.optionNumber == selectedOptionNumber);
+			if (selectedOption) {
+				selectedOption.active = true;
+				dispatch('changed', selectedOption.value);
+			}
 			dropdownShown = false;
 		}
 	}
@@ -44,23 +54,24 @@
 	<div>
 		<button
 			type="button"
-			class="inline-flex items-center justify-center w-full p-2 text-sm font-medium border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-800"
+			class={buttonStyles}
 			class:disabled
 			id="open-list-button"
 			aria-expanded={dropdownShown}
 			aria-haspopup="true"
+			style="font-size: {fontSize}"
 			on:click={() => handleButtonClicked()}
 		>
-			<span class="mx-auto leading-none whitespace-nowrap">{label}</span>
-			<div class="w-5 h-5 ml-1 -mr-2">
-				<MdArrowDropDown />
+			<span class="leading-none whitespace-nowrap mx-auto">{label}</span>
+			<div style="width: {fontSize}; height: {fontSize}">
+				<FaCaretDown />
 			</div>
 		</button>
 	</div>
 
 	{#if dropdownShown}
 		<div
-			class="absolute right-0 z-10 w-full mt-2 origin-top-right rounded-md shadow-lg dropdown ring-1 ring-black ring-opacity-5 focus:outline-none"
+			class={menuStyles}
 			role="menu"
 			aria-orientation="vertical"
 			aria-labelledby="open-list-button"
