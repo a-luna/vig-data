@@ -12,7 +12,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-<div class="flex flex-row flex-nowrap justify-center">
+<div class="flex flex-row flex-nowrap justify-center flex-grow-0 pbp-nav">
 	<div class="btn-group btn-group-secondary">
 		<button
 			id="first-at-bat"
@@ -68,6 +68,11 @@
 </div>
 
 <style lang="postcss">
+	.pbp-nav {
+		width: auto;
+		margin-top: 10px;
+	}
+
 	#first-at-bat {
 		padding: 2px 8px;
 	}

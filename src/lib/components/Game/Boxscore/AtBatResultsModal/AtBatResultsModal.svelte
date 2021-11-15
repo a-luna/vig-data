@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AtBatSummary, BatStats, Boxscore } from '$lib/api/types';
-	import InningLabel from '$lib/components/Boxscore/AtBatResultsModal/InningLabel.svelte';
+	import InningLabel from '$lib/components/Game/Boxscore/AtBatResultsModal/InningLabel.svelte';
 	import FlexStrings from '$lib/components/Util/FlexStrings.svelte';
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import { scrollToTop } from '$lib/util/ui';
@@ -51,7 +51,7 @@
 	}
 
 	function viewPitchFxforAtBat(at_bat_id: string) {
-		dispatch('viewPitchFxForAtBatClicked', at_bat_id);
+		dispatch('viewPitchFxForAtBat', at_bat_id);
 		modalContainer.toggleModal();
 	}
 </script>
