@@ -21,10 +21,6 @@ export function formatPercentStat(value: string, precision: number): string {
 	return `${percent}%`;
 }
 
-export function formatSpeedStat(value: string, precision: number): string {
-	return parseFloat(value).toFixed(precision);
-}
-
 export function capitalize(string: string): string {
 	return string.charAt(0).toUpperCase() + string.substring(1);
 }

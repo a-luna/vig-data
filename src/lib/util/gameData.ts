@@ -1,6 +1,6 @@
 import type { AtBatPitchDescription, PitchFx, Result, StrikeZoneCorner, StrikeZoneDimensions } from '$lib/api/types';
 import { PITCH_TYPE_ABBREV_TO_NAME_MAP, PITCH_TYPE_MAP, PITCH_TYPE_NAME_TO_ABBREV_MAP } from '$lib/constants';
-import { GAME_ID_REGEX, PITCH_SEQ_NUMS_REGEX } from '$lib/regex';
+import { BBREF_GAME_ID_REGEX, BB_GAME_ID_REGEX, PITCH_SEQ_NUMS_REGEX } from '$lib/regex';
 import type { TeamID } from '$lib/types';
 import { getCSSPropNumber, getCSSPropNumberOfPixels } from '$lib/util/cssCustomProps';
 import { getDummyObject } from '$lib/util/dummy';
@@ -9,8 +9,8 @@ export function getPitchTypeNameFromInt(pitchTypeInt: number): string {
 	return PITCH_TYPE_ABBREV_TO_NAME_MAP[PITCH_TYPE_MAP[pitchTypeInt]];
 }
 
-export function getHomeTeamIdFromGameId(game_id: string): Result<TeamID> {
-	const match = GAME_ID_REGEX.exec(game_id);
+export function getHomeTeamIdFromBBrefGameId(game_id: string): Result<TeamID> {
+	const match = BBREF_GAME_ID_REGEX.exec(game_id);
 	if (!match)
 		return {
 			success: false,
@@ -19,6 +19,19 @@ export function getHomeTeamIdFromGameId(game_id: string): Result<TeamID> {
 	return {
 		success: true,
 		value: match.groups.home_team_id as TeamID
+	};
+}
+
+export function getHomeTeamIdFromBrooksGameId(game_id: string): Result<string> {
+	const match = BB_GAME_ID_REGEX.exec(game_id);
+	if (!match)
+		return {
+			success: false,
+			message: 'Brooks Game ID was not in the expected format!'
+		};
+	return {
+		success: true,
+		value: match.groups.home_team
 	};
 }
 

@@ -16,7 +16,6 @@ export {
 	formatPercentStat,
 	formatPosNegValue,
 	formatRateStat,
-	formatSpeedStat,
 	shortenPlayerName
 } from './format';
 export {
@@ -26,7 +25,8 @@ export {
 	formatAtBatResult,
 	getAngleOfLineBetweenTwoPoints,
 	getAngleOfPitchLocation,
-	getHomeTeamIdFromGameId,
+	getHomeTeamIdFromBBrefGameId,
+	getHomeTeamIdFromBrooksGameId,
 	getPitchTypeAbbrevFromName,
 	getPitchTypeNameFromInt,
 	getTeamColdColor,

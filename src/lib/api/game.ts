@@ -1,7 +1,7 @@
 import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
 import type { ApiResponse, AtBatDetails, Boxscore, Scoreboard, ScoreboardApiResponse } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
-import { AT_BAT_ID_REGEX, GAME_DATE_REGEX, GAME_ID_REGEX } from '$lib/regex';
+import { AT_BAT_ID_REGEX, BBREF_GAME_ID_REGEX, GAME_DATE_REGEX } from '$lib/regex';
 import { getSeasonDates } from '$lib/util/datetime';
 
 export async function getBoxscore(game_id: string): Promise<ApiResponse<Boxscore>> {
@@ -53,7 +53,7 @@ export async function getAtBatDetails(at_bat_id: string): Promise<ApiResponse<At
 
 export async function getAllPitchAppIdsForGame(game_id: string): Promise<ApiResponse<string[]>> {
 	if (!game_id) return { status: 400, success: false, message: 'No value was provided for Game ID' };
-	if (!GAME_ID_REGEX.test(game_id))
+	if (!BBREF_GAME_ID_REGEX.test(game_id))
 		return {
 			status: 400,
 			success: false,

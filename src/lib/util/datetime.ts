@@ -1,5 +1,5 @@
 import type { MlbSeason, Result } from '$lib/api/types';
-import { GAME_DATE_REGEX, GAME_ID_REGEX, SEASON_DATE_REGEX } from '$lib/regex';
+import { BBREF_GAME_ID_REGEX, GAME_DATE_REGEX, SEASON_DATE_REGEX } from '$lib/regex';
 import { formatDuration, intervalToDuration } from 'date-fns';
 
 export function getNextDay(date: Date): Date {
@@ -76,7 +76,7 @@ export function getSeasonDates(season: {
 }
 
 export function getDateFromGameId(game_id: string): Result<Date> {
-	return GAME_ID_REGEX.test(game_id)
+	return BBREF_GAME_ID_REGEX.test(game_id)
 		? getDateFromString(game_id.slice(3, 11))
 		: {
 				success: false,
