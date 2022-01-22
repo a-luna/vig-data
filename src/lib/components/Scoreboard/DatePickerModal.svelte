@@ -2,8 +2,8 @@
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
 	import { getStringFromDate } from '$lib/util/datetime';
 	import DateFnsAdapter from '@date-io/date-fns';
+	import { enUS } from 'date-fns/locale';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
-	import enUS from '../../../../node_modules/date-fns/locale/en-US/index';
 	import DatePicker from '../../../../node_modules/svelte-inclusive-datepicker/src/components/DatePicker.svelte';
 
 	export let currentDate: Date;

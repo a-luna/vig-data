@@ -127,7 +127,15 @@ function getDummyPitchFxData(): PitchFx {
 		is_patched: 0,
 		is_invalid_ibb: 0,
 		is_out_of_sequence: 0,
-		is_out_of_boundary: false
+		is_out_of_boundary: false,
+		pitcher_name: '',
+		batter_name: '',
+		runs_outs_result: '',
+		runs_scored: 0,
+		count: '',
+		pitch_sequence: '',
+		outs_before_play: 0,
+		ab_outcome: ''
 	};
 }
 

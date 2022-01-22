@@ -336,8 +336,8 @@ export interface TeamBatStats {
 	wpa_bat_pos: number;
 	wpa_bat_neg: number;
 	re24_bat: number;
-	league: 'AL' | 'NL';
-	division: 'C' | 'E' | 'W';
+	league: 'AL' | 'NL' | 'MLB';
+	division: 'C' | 'E' | 'W' | '';
 	changed_teams_midseason?: boolean;
 	all_stats_for_season?: boolean;
 	all_stats_for_stint?: boolean;
@@ -405,7 +405,7 @@ export interface TeamPitchStats {
 	wpa_pitch: number;
 	re24_pitch: number;
 	league?: 'AL' | 'NL' | 'MLB';
-	division?: 'C' | 'E' | 'W';
+	division?: 'C' | 'E' | 'W' | '';
 	changed_teams_midseason?: boolean;
 	all_stats_for_season?: boolean;
 	all_stats_for_stint?: boolean;
@@ -428,6 +428,8 @@ export interface CareerPitchStats {
 	by_team: TeamPitchStats[];
 	by_team_by_year: TeamPitchStats[];
 }
+
+export type TeamStats = TeamBatStats | TeamPitchStats;
 
 export type LinescoreDigit = string | number;
 
@@ -709,6 +711,15 @@ export interface PitchFx {
 	is_invalid_ibb: number;
 	is_out_of_sequence: number;
 	is_out_of_boundary?: boolean;
+	pitcher_name?: string;
+	batter_name?: string;
+	runs_outs_result?: string;
+	runs_scored?: number;
+	count?: string;
+	two_strike_count?: boolean;
+	pitch_sequence?: string;
+	outs_before_play?: number;
+	ab_outcome?: string;
 }
 
 export interface PitchFxMetrics {
@@ -965,5 +976,3 @@ export interface PlayerBatStats {
 	player_name?: string;
 	stat_line?: string;
 }
-
-export type SortableStats = PlayerBatStats | PlayerPitchStats | TeamBatStats | TeamPitchStats;

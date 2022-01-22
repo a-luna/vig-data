@@ -36,7 +36,7 @@
 	let batStats: PlayerBatStats[] = [];
 	let pfxBarrels: PitchFx[] = [];
 	let loading = true;
-	let error: string = null;
+	let errorModal: ErrorMessageModal;
 	let getAllSeasonsComplete = false;
 	let getStandingsComplete = false;
 	let getScoreboardComplete = false;
@@ -55,7 +55,7 @@
 	async function getAllSeasons(): Promise<ApiResponse<MlbSeason[]>> {
 		const result = await getAllValidSeasons();
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getAllSeasonsComplete = true;
 			return result;
 		}
@@ -67,7 +67,7 @@
 	async function getStandings(date: Date): Promise<ApiResponse<SeasonData>> {
 		const result = await getStandingsOnDate(date);
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getStandingsComplete = true;
 			return result;
 		}
@@ -79,7 +79,7 @@
 	async function getScoreboard(date: Date): Promise<ApiResponse<Scoreboard> | ApiResponse<ScoreboardApiResponse>> {
 		const result = await getScoreboardForDate(getStringFromDate(date));
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getScoreboardComplete = true;
 			return result;
 		}
@@ -93,7 +93,7 @@
 	async function getPitchStatsForDate(date: Date): Promise<ApiResponse<PlayerPitchStats[]>> {
 		const result = await getPlayerPitchStatsForDate(getStringFromDate(date));
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getPitchStatsComplete = true;
 			return result;
 		}
@@ -105,7 +105,7 @@
 	async function getBatStatsForDate(date: Date): Promise<ApiResponse<PlayerBatStats[]>> {
 		const result = await getPlayerBatStatsForDate(getStringFromDate(date));
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getBatStatsComplete = true;
 			return result;
 		}
@@ -117,7 +117,7 @@
 	async function getAllBarrelsForDate(date: Date): Promise<ApiResponse<PitchFx[]>> {
 		const result = await getBarrelsForDate(getStringFromDate(date));
 		if (!result.success) {
-			error = result.message;
+			errorModal.toggleModal(result.message);
 			getBarrelsComplete = true;
 			return result;
 		}
@@ -169,9 +169,7 @@
 
 <LoadingScreen {loading} />
 
-{#if error}
-	<ErrorMessageModal {error} />
-{/if}
+<ErrorMessageModal bind:this={errorModal} />
 
 {#if allRequestsComplete}
 	<div id="home" class="flex flex-col flex-nowrap" use:removeLoadingScreen>
@@ -182,7 +180,7 @@
 				on:dateChanged={(e) => handleDateChanged(e.detail)}
 				on:seasonChanged={(e) => handleSeasonChanged(e.detail)}
 			/>
-			<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} />
+			<HomePage {games_for_date} {seasonStandings} {pitchStats} {batStats} {pfxBarrels} />
 		</div>
 		<div class="block sm:hidden">
 			<DateNavigationMobile
@@ -191,24 +189,31 @@
 				on:dateChanged={(e) => handleDateChanged(e.detail)}
 				on:seasonChanged={(e) => handleSeasonChanged(e.detail)}
 			/>
-			<HomePageMobile {games_for_date} {seasonStandings} {pitchStats} {batStats} />
+			<HomePageMobile {games_for_date} {seasonStandings} {pitchStats} {batStats} {pfxBarrels} />
 		</div>
 	</div>
 {/if}
 
 <style lang="postcss">
-	:global(#home .svelte-tabs__tab-list) {
+	:global(#home .svelte-tabs__tab-list),
+	:global(#game .svelte-tabs__tab-list) {
 		@apply flex flex-row justify-center flex-grow-0 flex-nowrap text-center my-5;
 		border-bottom: none;
 	}
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab) {
-		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md focus:outline-none;
+		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md;
 		background-color: var(--sec-color);
 		color: var(--color-on-sec);
 		background-position: center;
 		transition: background 0.2s;
 		border: 1px solid var(--sec-color);
+	}
+
+	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:focus),
+	:global(.svelte-tabs__tab-list li.svelte-tabs__selected:focus) {
+		outline: 2px solid transparent;
+		outline-offset: 2px;
 	}
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__tab:hover) {
@@ -219,7 +224,7 @@
 
 	:global(.svelte-tabs__tab-list li.svelte-tabs__selected),
 	:global(.svelte-tabs__tab-list li.svelte-tabs__selected:hover) {
-		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md focus:outline-none;
+		@apply px-2 py-1 m-0 font-normal rounded-none shadow-md;
 		background: var(--sec-color-hov);
 		color: var(--color-on-sec-hov);
 		border: 1px solid var(--sec-color-hov);

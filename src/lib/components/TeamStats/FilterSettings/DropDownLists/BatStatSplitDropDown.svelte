@@ -10,7 +10,7 @@
 		{ text: 'Starting Lineup', value: 'starters', optionNumber: 2, active: false },
 		{ text: 'Bench Players', value: 'subs', optionNumber: 3, active: false },
 		{ text: 'By Def. Position', value: 'defpos', optionNumber: 4, active: false },
-		{ text: 'By Batting Order', value: 'batorder', optionNumber: 5, active: false }
+		{ text: 'By Batting Order', value: 'batorder', optionNumber: 5, active: false },
 	];
 	const menuId = 'teamBatStats';
 	const menuLabel = 'Team Batting Splits';

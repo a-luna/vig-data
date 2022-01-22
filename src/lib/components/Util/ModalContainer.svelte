@@ -36,7 +36,7 @@
 	}
 
 	.error .modal-heading {
-		@apply text-lg md:text-xl tracking-wide italic;
+		@apply text-lg tracking-wide italic;
 	}
 
 	:global(body.modal-active) {
@@ -70,5 +70,11 @@
 		white-space: nowrap;
 		border-radius: 4px;
 		background-color: inherit;
+	}
+
+	@media screen and (min-width: 768px) {
+		.error .modal-heading {
+			@apply text-xl;
+		}
 	}
 </style>

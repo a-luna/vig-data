@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type { MlbSeason } from '$lib/api/types';
+	import DatePickerModal from '$lib/components/Scoreboard/DatePickerModal.svelte';
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import { homePageDate, mostRecentScrapedDate } from '$lib/stores/dateStore';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { ThemeColor } from '$lib/types';
 	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import GoCalendar from 'svelte-icons/go/GoCalendar.svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
 	import MdChevronRight from 'svelte-icons/md/MdChevronRight.svelte';
-	import DatePickerModal from '../Scoreboard/DatePickerModal.svelte';
 
 	export let season: MlbSeason;
 	export let color: ThemeColor = 'secondary';
@@ -20,14 +20,14 @@
 	let datePickerModal: DatePickerModal;
 	const dispatch = createEventDispatcher();
 
-	$: formatStr = $pageBreakPoints.width < 840 ? 'MMM do, yyyy' : 'MMMM do, yyyy';
+	$: formatStr = $pageWidth.current < 840 ? 'MMM do, yyyy' : 'MMMM do, yyyy';
 	$: if ($homePageDate) formatted = format($homePageDate, formatStr);
 	$: previous = getPreviousDay($homePageDate);
 	$: prevDisabled = previous < season.start;
-	$: prevFormatted = $pageBreakPoints.width < 840 ? format(previous, 'MMM d') : format(previous, 'MMM do');
+	$: prevFormatted = $pageWidth.current < 840 ? format(previous, 'MMM d') : format(previous, 'MMM do');
 	$: next = getNextDay($homePageDate);
 	$: nextDisabled = next > new Date(Math.min.apply(null, [season.end, $mostRecentScrapedDate]));
-	$: nextFormatted = $pageBreakPoints.width < 840 ? format(next, 'MMM d') : format(next, 'MMM do');
+	$: nextFormatted = $pageWidth.current < 840 ? format(next, 'MMM d') : format(next, 'MMM do');
 </script>
 
 <DatePickerModal

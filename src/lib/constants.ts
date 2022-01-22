@@ -189,6 +189,36 @@ export const TEAM_ID_TO_CITY_MAP: { [key: string]: string } = {
 	WSN: 'Washington'
 };
 
+export const BBREF_BROOKS_TEAM_ID_MAP = {
+	CHW: 'CHA',
+	CHC: 'CHN',
+	KCR: 'KCA',
+	LAA: 'ANA',
+	LAD: 'LAN',
+	NYY: 'NYA',
+	NYM: 'NYN',
+	SDP: 'SDN',
+	SFG: 'SFN',
+	STL: 'SLN',
+	TBR: 'TBA',
+	WSN: 'WAS'
+};
+
+export const BROOKS_BBREF_TEAM_ID_MAP = {
+	CHA: 'CHW',
+	CHN: 'CHC',
+	KCA: 'KCR',
+	ANA: 'LAA',
+	LAN: 'LAD',
+	NYA: 'NYY',
+	NYN: 'NYM',
+	SDN: 'SDP',
+	SFN: 'SFG',
+	SLN: 'STL',
+	TBA: 'TBR',
+	WAS: 'WSN'
+};
+
 export const DEC_TO_HEX: { [key: number]: string } = {
 	0: '0',
 	1: '1',

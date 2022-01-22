@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Linescore, PitcherResults, PlayerPitchStats } from '$lib/api/types';
 	import { TEAM_ID_TO_CITY_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { shortenPlayerName } from '$lib/util';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { onMount, tick } from 'svelte';
 
 	export let linescore: Linescore;
@@ -15,8 +15,8 @@
 	const { wp, lp, sv } = pitcher_results;
 
 	$: total_innings = inning_numbers.slice(-1)?.[0];
-	$: tiny_screen = $pageBreakPoints.width < 350;
-	$: gameWidth = getGameWidth($pageBreakPoints.width);
+	$: tiny_screen = $pageWidth.current < 350;
+	$: gameWidth = getGameWidth($pageWidth.current);
 	$: away_runs_scored = away_team_totals[0];
 	$: home_runs_scored = home_team_totals[0];
 	$: away_team_won = away_runs_scored > home_runs_scored;

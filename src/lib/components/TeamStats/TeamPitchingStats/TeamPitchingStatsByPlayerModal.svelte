@@ -5,14 +5,17 @@
 		getPitchStatsForSpByPlayerForTeam
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamPitchStats } from '$lib/api/types';
-	import TeamPitchStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamPitchStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
-	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
+	import { TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import { createPaginationStore } from '$lib/stores/pagination';
-	import type { PaginationStore, TeamID, TeamStatFilter } from '$lib/types';
-	import { getRandomHexString } from '$lib/util/ui';
+	import { siteTheme } from '$lib/stores/singleValueStores';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
+	import { prefersDarkTheme } from '$lib/util/ui';
+	import SimpleTable from '@a-luna/svelte-simple-tables';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
+	import type { TableSettings, TableState } from '@a-luna/svelte-simple-tables/types';
+	import { playerColumnSettings } from './columnSettings';
 
 	export let settings: TeamStatFilter = {
 		season: $mostRecentSeason.year,
@@ -28,14 +31,40 @@
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let pitchStats: TeamPitchStats[] = [];
 	let team: TeamID;
-	let pagination: PaginationStore = createPaginationStore(0, 0);
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getPitchStatsResult: ApiResponse<TeamPitchStats[]>;
 	let loading: boolean = false;
+	let tableState: TableState;
+	const tableIdSuffix = $pageWidth.isDefault ? '-mobile' : '';
 
-	function getDefaultTableId() {
-		return `team-pitch-stats-by-player-${getRandomHexString(4)}`;
+	$: themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
+	$: split = settings.pitchStatSplit;
+	$: year = settings.season;
+	$: heading = getTableHeading(team);
+	$: $tableState.header = heading;
+
+	const tableSettings: TableSettings = {
+		tableId: `${tableId}${tableIdSuffix}`,
+		showHeader: true,
+		header: heading,
+		showSortDescription: true,
+		sortBy,
+		sortDir,
+		themeName,
+		paginated: true,
+		pageSize: 5,
+		pageSizeOptions: [5, 10, 15],
+		pageNavFormat: 'compact',
+		rowType: 'players'
+	};
+
+	function getTableHeading(teamId) {
+		heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Pitching Stats by Player `;
+		if (split !== 'all') {
+			heading += `(${split.toUpperCase()} Only)`;
+		}
+		return heading;
 	}
 
 	async function getSelectedPitchStats(): Promise<ApiResponse<TeamPitchStats[]>> {
@@ -52,8 +81,7 @@
 		}
 		pitchStats = getPitchStatsResult.value;
 		loading = false;
-		pagination.changeTotalRows(pitchStats.length);
-		pagination.changePageSize(5);
+		tableState.reset(pitchStats.length, 5);
 		return getPitchStatsResult;
 	}
 
@@ -70,17 +98,7 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="content" class="mb-2 responsive">
-			<TeamPitchStatsByPlayerTable
-				{pagination}
-				{backgroundColorRule}
-				tableId={tableId ? tableId : getDefaultTableId()}
-				bind:settings
-				bind:pitchStats
-				bind:team
-				bind:sortBy
-				bind:sortDir
-			/>
-			<Pagination {pagination} {backgroundColorRule} rowTypeSingle={'player'} rowTypePlural={'players'} />
+			<SimpleTable data={pitchStats} columnSettings={playerColumnSettings} {tableSettings} bind:tableState />
 		</div>
 	</ModalContainer>
 {/if}

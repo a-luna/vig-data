@@ -2,14 +2,14 @@
 	import { page } from '$app/stores';
 	import { getCareerBatStatsForPlayer, getPlayerDetails } from '$lib/api/player';
 	import type { ApiResponse, CareerBatStats, PlayerDetails as PlayerDetailsSchema } from '$lib/api/types';
-	import CareerBatStatsTable from '$lib/components/Player/Batting/CareerBatStatsTable.svelte';
 	import PlayerBatMetricsSlider from '$lib/components/Player/Batting/PlayerBatMetricsSlider.svelte';
+	import CareerBattingStats from '$lib/components/Player/CareerStats/CareerBattingStats.svelte';
 	import PlayerDetails from '$lib/components/Player/PlayerDetails.svelte';
 	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { getPlayerPageSettings } from '$lib/util/ui';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { onMount } from 'svelte';
 
 	let playerDetails: PlayerDetailsSchema;
@@ -23,13 +23,8 @@
 
 	$: allRequestsComplete = getCareerStatsComplete && getPlayerBioComplete;
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
-	$: ({
-		playerDetailsFlexStyles,
-		playerNameFontSize,
-		playerDetailsSettings,
-		carouselSettings,
-		chartSettings
-	} = getPlayerPageSettings($pageBreakPoints.width));
+	$: ({ playerDetailsFlexStyles, playerNameFontSize, playerDetailsSettings, carouselSettings, chartSettings } =
+		getPlayerPageSettings($pageWidth.current));
 
 	onMount(() => {
 		loading = true;
@@ -99,7 +94,7 @@
 					{playerDetails.name_first}
 					{playerDetails.name_last}
 				</h2>
-				{#if $pageBreakPoints.width < 640}
+				{#if $pageWidth.current < 640}
 					<PlayerDetailsCompact {...playerDetails} {...playerDetailsSettings} />
 				{:else}
 					<PlayerDetails {...playerDetails} fontSize={playerDetailsSettings.fontSize} />
@@ -109,5 +104,5 @@
 		</div>
 		<div />
 	</div>
-	<CareerBatStatsTable {careerBatStats} sortBy={'year'} sortDir={'asc'} />
+	<CareerBattingStats {careerBatStats} sortBy={'year'} sortDir={'asc'} />
 {/if}

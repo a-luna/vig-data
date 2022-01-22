@@ -3,8 +3,8 @@
 	import ThemeSlider from '$lib/components/Nav/ThemeSlider.svelte';
 	import PlayerSearch from '$lib/components/PlayerSearch/PlayerSearch.svelte';
 	import { syncHeight } from '$lib/stores/elementHeight';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { NavMenuItem } from '$lib/types';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import GiMoebiusTriangle from 'svelte-icons/gi/GiMoebiusTriangle.svelte';
 	import MdClose from 'svelte-icons/md/MdClose.svelte';
 	import MdMenu from 'svelte-icons/md/MdMenu.svelte';
@@ -17,7 +17,7 @@
 
 	$: heightStore = syncHeight(menuElement);
 	$: heightSpring.set(open ? $heightStore || 0 : 0);
-	$: if ($pageBreakPoints.isMedium || $pageBreakPoints.isLarge) open = false;
+	$: if ($pageWidth.isMedium || $pageWidth.isLarge) open = false;
 </script>
 
 <nav>

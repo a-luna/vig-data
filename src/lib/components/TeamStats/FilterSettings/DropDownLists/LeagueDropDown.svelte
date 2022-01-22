@@ -8,7 +8,7 @@
 	const options: SelectMenuOption[] = [
 		{ text: 'AL & NL', value: 'both', optionNumber: 1, active: false },
 		{ text: 'AL', value: 'al', optionNumber: 2, active: false },
-		{ text: 'NL', value: 'nl', optionNumber: 3, active: false }
+		{ text: 'NL', value: 'nl', optionNumber: 3, active: false },
 	];
 	const menuId = 'league-menu';
 	const menuLabel = 'League';

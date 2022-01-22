@@ -19,7 +19,7 @@
 		const away_team_options = boxscore.away_team.pitching.map((p, i) => createMenuOption(away_team_id, p, i));
 		const home_team_id = boxscore.home_team.team_id;
 		const home_team_options = boxscore.home_team.pitching.map((p, i) =>
-			createMenuOption(home_team_id, p, i + away_team_options.length)
+			createMenuOption(home_team_id, p, i + away_team_options.length),
 		);
 		return away_team_options.concat(home_team_options);
 	}
@@ -29,7 +29,7 @@
 			text: `${pitchStats.name} ${teamId} (${pitchStats.pitch_app_type})`,
 			value: pitchStats.pitch_app_id,
 			optionNumber: index + 1,
-			active: false
+			active: false,
 		};
 	}
 

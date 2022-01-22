@@ -3,9 +3,9 @@
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
 	import { mostRecentScrapedDate, scoreboardDate } from '$lib/stores/dateStore';
 	import { syncWidth } from '$lib/stores/elementWidth';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { ThemeColor } from '$lib/types';
 	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
@@ -27,16 +27,16 @@
 	$: next = getNextDay($scoreboardDate);
 	$: nextDisabled = next > new Date(Math.min.apply(null, [maxDate, $mostRecentScrapedDate]));
 	$: widthStore = syncWidth(dateNavElement);
-	$: seasonMenuWidth = $pageBreakPoints.isDefault ? `${$widthStore}px` : 'auto';
+	$: seasonMenuWidth = $pageWidth.isDefault ? `${$widthStore}px` : 'auto';
 </script>
 
-<div class="flex flex-col sm:flex-row flex-nowrap justify-center gap-2 mb-5">
+<div class="flex flex-col justify-center gap-2 mb-5 sm:flex-row flex-nowrap">
 	<SeasonSelector
 		selectedSeason={season}
 		width={seasonMenuWidth}
 		on:changed={(e) => dispatch('seasonChanged', e.detail)}
 	/>
-	<div id="date-nav" class="pos font-medium" bind:this={dateNavElement}>
+	<div id="date-nav" class="font-medium pos" bind:this={dateNavElement}>
 		<div class="btn-group btn-group-{color}">
 			<button
 				id="prev-date"

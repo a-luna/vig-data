@@ -234,3 +234,10 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				}
 		  };
 }
+
+export function getQueryStringParameter(param: string): string {
+	if (typeof window !== 'undefined') {
+		const urlParams = new URLSearchParams(window.location.search);
+		return urlParams.has(param) ? urlParams.get(param) : '';
+	}
+}

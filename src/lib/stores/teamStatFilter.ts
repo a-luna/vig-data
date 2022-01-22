@@ -6,7 +6,7 @@ import type {
 	PitchStatSplit,
 	TeamStatFilter,
 	TeamStatFilterStore,
-	TeamStatType
+	TeamStatType,
 } from '$lib/types';
 import { writable } from 'svelte/store';
 
@@ -18,7 +18,7 @@ function createTeamStatFilterStore(): TeamStatFilterStore {
 		pitchStatSplit: 'all',
 		batStatSplit: 'all',
 		defPosition: [],
-		batOrder: []
+		batOrder: [],
 	});
 
 	return {
@@ -29,7 +29,7 @@ function createTeamStatFilterStore(): TeamStatFilterStore {
 		changePitchStatSplit: (split: PitchStatSplit) => update((state) => ({ ...state, pitchStatSplit: split })),
 		changeBatStatSplit: (split: BatStatSplit) => update((state) => ({ ...state, batStatSplit: split })),
 		changeDefPosition: (defPosition: DefPositionNumber[]) => update((state) => ({ ...state, defPosition })),
-		changeBatOrder: (batOrder: BatOrder[]) => update((state) => ({ ...state, batOrder }))
+		changeBatOrder: (batOrder: BatOrder[]) => update((state) => ({ ...state, batOrder })),
 	};
 }
 

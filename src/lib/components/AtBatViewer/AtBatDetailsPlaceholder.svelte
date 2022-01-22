@@ -1,45 +1,39 @@
 <script lang="ts">
 	import Spinner from '$lib/components/Util/Spinner.svelte';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 
 	$: totalWidth =
-		$pageBreakPoints.width < 550
+		$pageWidth.current < 550
 			? '280px'
-			: $pageBreakPoints.width < 640
+			: $pageWidth.current < 640
 			? '276.42px'
-			: $pageBreakPoints.width < 1024
+			: $pageWidth.current < 1024
 			? '300px'
 			: '350px';
 	$: totalHeight =
-		$pageBreakPoints.width < 550
+		$pageWidth.current < 550
 			? '148px'
-			: $pageBreakPoints.width < 640
+			: $pageWidth.current < 640
 			? '207.5px'
-			: $pageBreakPoints.width < 1024
+			: $pageWidth.current < 1024
 			? '260.75px'
 			: '304px';
 	$: detailsTopHeight =
-		$pageBreakPoints.width < 550
-			? '57px'
-			: $pageBreakPoints.width < 640
-			? '57px'
-			: $pageBreakPoints.width < 1024
-			? '60px'
-			: '63px';
+		$pageWidth.current < 550 ? '57px' : $pageWidth.current < 640 ? '57px' : $pageWidth.current < 1024 ? '60px' : '63px';
 	$: pitchSeqHeight =
-		$pageBreakPoints.width < 550
+		$pageWidth.current < 550
 			? 'calc(27px + 2.5rem)'
-			: $pageBreakPoints.width < 640
+			: $pageWidth.current < 640
 			? '121.5px'
-			: $pageBreakPoints.width < 1024
+			: $pageWidth.current < 1024
 			? '170.25px'
 			: '208px';
 	$: playDescHeight =
-		$pageBreakPoints.width < 550
+		$pageWidth.current < 550
 			? '23.5px'
-			: $pageBreakPoints.width < 640
+			: $pageWidth.current < 640
 			? '23.5px'
-			: $pageBreakPoints.width < 1024
+			: $pageWidth.current < 1024
 			? '24.75px'
 			: '27px';
 </script>

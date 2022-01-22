@@ -14,7 +14,7 @@
 		players = [];
 		const allPlayerIds = Object.values(allPlayers);
 		const playerIdsShuffled = Array.from({ length: allPlayerIds.length }, () =>
-			Math.floor(Math.random() * allPlayerIds.length)
+			Math.floor(Math.random() * allPlayerIds.length),
 		).map((i) => allPlayerIds[i]);
 		loading = true;
 		for (const player of playerIdsShuffled.slice(0, 9)) {
@@ -29,7 +29,7 @@
 	function createPlayerCardLinks(mlb_id: number): PlayerCardLink[] {
 		return [
 			{ text: 'Pitch Stats', url: `/player/${mlb_id}/pitching` },
-			{ text: 'Bat Stats', url: `/player/${mlb_id}/batting` }
+			{ text: 'Bat Stats', url: `/player/${mlb_id}/batting` },
 		];
 	}
 

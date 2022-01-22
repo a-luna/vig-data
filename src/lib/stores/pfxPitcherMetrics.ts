@@ -7,7 +7,7 @@ import { playerSeason } from './singleValueStores';
 export const careerPfxData: Writable<CareerPfxMetricsForPitcher> = writable({} as CareerPfxMetricsForPitcher);
 
 export const allPlayerSeasons = derived(careerPfxData, ($careerPfxData) =>
-	$careerPfxData ? Array.from(Object.keys($careerPfxData.all)).map((year) => parseInt(year)) : []
+	$careerPfxData ? Array.from(Object.keys($careerPfxData.all)).map((year) => parseInt(year)) : [],
 );
 
 export const pitchTypeMetricsByYearByStance = derived(careerPfxData, ($careerPfxData) => {
@@ -38,13 +38,13 @@ export const pitchTypeMetricsByYearByStance = derived(careerPfxData, ($careerPfx
 	getAllPlayerSeasons().map((year) => {
 		totalPitchesByYearByStance[year] = {} as { [key: string]: number };
 		batterStanceSplits.map(
-			(stance) => (totalPitchesByYearByStance[year][stance] = getTotalPitches(getPitchTypeMetrics(year, stance)))
+			(stance) => (totalPitchesByYearByStance[year][stance] = getTotalPitches(getPitchTypeMetrics(year, stance))),
 		);
 	});
 
 	return {
 		metrics: metricsByYearByStance,
-		total_pitches: totalPitchesByYearByStance
+		total_pitches: totalPitchesByYearByStance,
 	};
 });
 
@@ -63,7 +63,7 @@ export const pitchTypesByBatterStance = derived([careerPfxData, playerSeason], (
 	return {
 		all: getPitchTypesForSeason('all'),
 		rhb: getPitchTypesForSeason('rhb'),
-		lhb: getPitchTypesForSeason('lhb')
+		lhb: getPitchTypesForSeason('lhb'),
 	};
 });
 
@@ -85,7 +85,7 @@ export const pitchTypePercentilesByBatterStance = derived(
 		return {
 			all: getPitchTypePercentilesForSeason('all'),
 			rhb: getPitchTypePercentilesForSeason('rhb'),
-			lhb: getPitchTypePercentilesForSeason('lhb')
+			lhb: getPitchTypePercentilesForSeason('lhb'),
 		};
-	}
+	},
 );

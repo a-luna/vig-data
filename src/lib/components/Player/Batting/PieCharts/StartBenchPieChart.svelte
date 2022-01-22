@@ -22,7 +22,7 @@
 				label: 'ST',
 				color: 'var(--pie-chart-start-color)',
 				unit: 'games',
-				description: `${batStats.total_games_started} games started (${percentStart}%)`
+				description: `${batStats.total_games_started} games started (${percentStart}%)`,
 			}),
 			PieSlice.fromObject({
 				value: batStats.total_games_subbed,
@@ -30,8 +30,8 @@
 				label: 'BN',
 				color: 'var(--pie-chart-bench-color)',
 				unit: 'games',
-				description: `${batStats.total_games_subbed} games as sub (${percentSub}%)`
-			})
+				description: `${batStats.total_games_subbed} games as sub (${percentSub}%)`,
+			}),
 		];
 	}
 	$: chartData = prepareSvgPieChart(pieSlices);

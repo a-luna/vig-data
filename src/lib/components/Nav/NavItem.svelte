@@ -4,7 +4,7 @@
 	export let label: string;
 	export let url: string;
 
-	$: current = url.split('?')[0] === $page.path;
+	$: current = url.split('?')[0] === $page.url.pathname;
 </script>
 
 {#if current}

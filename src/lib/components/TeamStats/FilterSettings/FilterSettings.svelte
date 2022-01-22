@@ -34,7 +34,7 @@
 				checkSettings.statType,
 				checkSettings.batStatSplit,
 				checkSettings.defPosition,
-				checkSettings.batOrder
+				checkSettings.batOrder,
 			);
 		}
 		return { invalid: false, error: '' };

@@ -35,7 +35,7 @@
 			label: abbrev,
 			color: `var(--bat-order-${batOrder.bat_order})`,
 			unit: 'games',
-			description: `${percent}% ${abbrev} (${batOrder.total_games} games)`
+			description: `${percent}% ${abbrev} (${batOrder.total_games} games)`,
 		};
 		return PieSlice.fromObject(sliceData);
 	}

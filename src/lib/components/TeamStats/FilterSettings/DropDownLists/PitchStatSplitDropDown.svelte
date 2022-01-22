@@ -8,7 +8,7 @@
 	const options: SelectMenuOption[] = [
 		{ text: 'All', value: 'all', optionNumber: 1, active: false },
 		{ text: 'SP', value: 'sp', optionNumber: 2, active: false },
-		{ text: 'RP', value: 'rp', optionNumber: 3, active: false }
+		{ text: 'RP', value: 'rp', optionNumber: 3, active: false },
 	];
 	const menuId = 'teamPitchStats';
 	const menuLabel = 'Team Pitching Splits';

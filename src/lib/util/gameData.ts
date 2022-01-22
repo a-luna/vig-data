@@ -14,11 +14,11 @@ export function getHomeTeamIdFromBBrefGameId(game_id: string): Result<TeamID> {
 	if (!match)
 		return {
 			success: false,
-			message: 'BBRef Game ID was not in the expected format!'
+			message: 'BBRef Game ID was not in the expected format!',
 		};
 	return {
 		success: true,
-		value: match.groups.home_team_id as TeamID
+		value: match.groups.home_team_id as TeamID,
 	};
 }
 
@@ -27,11 +27,11 @@ export function getHomeTeamIdFromBrooksGameId(game_id: string): Result<string> {
 	if (!match)
 		return {
 			success: false,
-			message: 'Brooks Game ID was not in the expected format!'
+			message: 'Brooks Game ID was not in the expected format!',
 		};
 	return {
 		success: true,
-		value: match.groups.home_team
+		value: match.groups.home_team,
 	};
 }
 
@@ -66,7 +66,7 @@ function formatPitchDescription(pitch_des: string[], pfx: PitchFx[]): AtBatPitch
 		blocked_by_c: false,
 		out_of_boundary: false,
 		barreled: false,
-		non_pitch_event: false
+		non_pitch_event: false,
 	};
 	if (pitch_des.length === 3) {
 		const match = PITCH_SEQ_NUMS_REGEX.exec(pitch_des[0]);
@@ -188,7 +188,7 @@ function getZoneCorner(pfx: HTMLElement): StrikeZoneCorner {
 	return {
 		corner: pfx.dataset.pitchType,
 		left: parseFloat(pfx.dataset.leftPosition),
-		top: parseFloat(pfx.dataset.topPosition)
+		top: parseFloat(pfx.dataset.topPosition),
 	};
 }
 

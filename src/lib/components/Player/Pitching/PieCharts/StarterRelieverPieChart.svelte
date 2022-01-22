@@ -22,7 +22,7 @@
 				label: 'SP',
 				color: 'var(--pie-chart-start-color)',
 				unit: 'games',
-				description: `${pitchStats.games_as_sp} as SP (${percentSp}%)`
+				description: `${pitchStats.games_as_sp} as SP (${percentSp}%)`,
 			}),
 			PieSlice.fromObject({
 				value: pitchStats.games_as_rp,
@@ -30,8 +30,8 @@
 				label: 'RP',
 				color: 'var(--pie-chart-bench-color)',
 				unit: 'games',
-				description: `${pitchStats.games_as_rp} as RP (${percentRp}%)`
-			})
+				description: `${pitchStats.games_as_rp} as RP (${percentRp}%)`,
+			}),
 		];
 	}
 	$: chartData = prepareSvgPieChart(pieSlices);

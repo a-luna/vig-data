@@ -1,21 +1,25 @@
 <script lang="ts">
 	import {
-		getBatStatsForAllTeams,
-		getBatStatsForBenchForAllTeams,
-		getBatStatsForDefPositionForAllTeams,
-		getBatStatsForLineupSpotForAllTeams,
-		getBatStatsForStartingLineupForAllTeams
+	getBatStatsForAllTeams,
+	getBatStatsForBenchForAllTeams,
+	getBatStatsForDefPositionForAllTeams,
+	getBatStatsForLineupSpotForAllTeams,
+	getBatStatsForStartingLineupForAllTeams
 	} from '$lib/api/team';
-	import type { ApiResponse, TeamBatStats, TeamBatStatsMap } from '$lib/api/types';
+	import type { ApiResponse,TeamBatStats,TeamBatStatsMap } from '$lib/api/types';
 	import FilterSettings from '$lib/components/TeamStats/FilterSettings/FilterSettings.svelte';
 	import FilterSettingsDescription from '$lib/components/TeamStats/FilterSettings/FilterSettingsDescription.svelte';
-	import TeamBattingStatsTable from '$lib/components/TeamStats/TeamBattingStatsTable.svelte';
-	import TeamBattingStatsByPlayerModal from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerModal.svelte';
-	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
+	import TeamBattingStatsByPlayerModal from '$lib/components/TeamStats/TeamBattingStats/TeamBattingStatsByPlayerModal.svelte';
 	import Spinner from '$lib/components/Util/Spinner.svelte';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import { createPaginationStore } from '$lib/stores/pagination';
-	import type { BatOrder, BatStatSplit, DefPositionNumber, PaginationStore, TeamStatFilter } from '$lib/types';
+	import { siteTheme } from '$lib/stores/singleValueStores';
+	import type { BatOrder,BatStatSplit,DefPositionNumber,TeamStatFilter } from '$lib/types';
+	import { prefersDarkTheme } from '$lib/util';
+	import { isTeamID } from '$lib/util/typeguards';
+	import SimpleTable from '@a-luna/svelte-simple-tables';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
+	import type { TableSettings,TableState } from '@a-luna/svelte-simple-tables/types';
+	import { teamColumnSettings } from './columnSettings';
 
 	let settings: TeamStatFilter = {
 		season: $mostRecentSeason ? $mostRecentSeason.year : null,
@@ -29,11 +33,31 @@
 	let showFilters: boolean = false;
 	let teamBatStatsMap: TeamBatStatsMap;
 	let batStats: TeamBatStats[];
-	let pagination: PaginationStore = createPaginationStore(0, 0);
+	let sortBy = 're24_bat';
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let loading: boolean = false;
 	let teamBatStatsByPlayerModal: TeamBattingStatsByPlayerModal;
+	let tableState: TableState;
+	const tableId = 'team-bat-stats';
 	const tableHeading = 'Team Batting Stats';
+	const tableIdSuffix = $pageWidth.isDefault ? '-mobile' : '';
+
+	$: themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
+
+	const tableSettings: TableSettings = {
+		tableId: `${tableId}${tableIdSuffix}`,
+		showHeader: false,
+		showSortDescription: true,
+		sortBy,
+		sortDir,
+		themeName,
+		clickableRows: true,
+		paginated: true,
+		pageSize: 5,
+		pageSizeOptions: [5, 10, 15, 20, 25],
+		pageNavFormat: 'auto',
+		rowType: 'batters'
+	};
 
 	const batStatsMap = {
 		all: getBatStatsForAllTeams,
@@ -80,8 +104,13 @@
 
 	function setupPagination(_el: HTMLElement) {
 		batStats = getBatStatsfromTeamMap(teamBatStatsMap);
-		pagination.changeTotalRows(batStats.length);
-		pagination.changePageSize(10);
+		tableState.reset(batStats.length, 10);
+	}
+
+	function showPlayerStatsModal(stats: TeamBatStats) {
+		if (isTeamID(stats.player_team_id_bbref)) {
+			teamBatStatsByPlayerModal.showModal(stats.player_team_id_bbref);
+		}
 	}
 
 	getSelectedBatStats(settings.season, settings.batStatSplit, settings.defPosition, settings.batOrder);
@@ -109,17 +138,14 @@
 	{#if loading}
 		<Spinner />
 	{:else}
-		<div class="flex flex-col w-full player-stats-wrapper flex-nowrap responsive" use:setupPagination>
-			<TeamBattingStatsTable
-				tableId={`team-bat-stats`}
-				sortBy={'re24_bat'}
-				bind:pagination
-				bind:batStats
-				bind:year={settings.season}
-				bind:sortDir
-				on:showPlayerStatsModal={(e) => teamBatStatsByPlayerModal.showModal(e.detail)}
+		<div use:setupPagination>
+			<SimpleTable
+				data={batStats}
+				columnSettings={teamColumnSettings}
+				{tableSettings}
+				bind:tableState
+				on:rowClicked={(e) => showPlayerStatsModal(e.detail)}
 			/>
-			<Pagination {pagination} alwaysUseCompact={false} rowTypeSingle={'team'} rowTypePlural={'teams'} />
 		</div>
 	{/if}
 </div>

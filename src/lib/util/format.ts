@@ -1,4 +1,4 @@
-export function formatNumber(input: number | string, precision = 0): string {
+export function formatNumber(input, precision = 0) {
 	const unformatted = typeof input === 'number' ? input : parseFloat(input);
 	return unformatted.toLocaleString('en-US', { minimumFractionDigits: precision, maximumFractionDigits: precision });
 }

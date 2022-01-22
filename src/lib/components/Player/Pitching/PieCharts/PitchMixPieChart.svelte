@@ -31,7 +31,7 @@
 			color: `var(--pitch-type-${pitchTypeAbbrev})`,
 			unit: unit,
 			description: `${(percent * 100).toFixed(0)}% ${pitchTypeName}`,
-			tooltip: `${Math.round(percent * 100)}% ${pitchTypeName} (${metrics.total_pitches} ${unit})`
+			tooltip: `${Math.round(percent * 100)}% ${pitchTypeName} (${metrics.total_pitches} ${unit})`,
 		};
 		return PieSlice.fromObject(sliceData);
 	}

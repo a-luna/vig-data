@@ -8,7 +8,7 @@
 		CareerPitchStats,
 		PlayerDetails as PlayerDetailsSchema
 	} from '$lib/api/types';
-	import CareerPitchStatsTable from '$lib/components/Player/Pitching/CareerPitchStatsTable.svelte';
+	import CareerPitchingStats from '$lib/components/Player/CareerStats/CareerPitchingStats.svelte';
 	import PitchTypePercentiles from '$lib/components/Player/Pitching/Percentiles/PitchTypePercentiles.svelte';
 	import PitchMixForSeason from '$lib/components/Player/Pitching/PitchMix/PitchMixForSeason.svelte';
 	import PlayerPitchMetricsSlider from '$lib/components/Player/Pitching/PlayerPitchMetricsSlider.svelte';
@@ -17,10 +17,10 @@
 	import PlayerDetailsCompact from '$lib/components/Player/PlayerDetailsCompact.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { careerPfxData } from '$lib/stores/pfxPitcherMetrics';
 	import type { PlayerPitchContent } from '$lib/types';
 	import { getPlayerPageSettings } from '$lib/util/ui';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { onMount } from 'svelte';
 
 	let playerDetails: PlayerDetailsSchema;
@@ -35,13 +35,8 @@
 
 	$: if (playerDetails) playerName = `${playerDetails.name_first} ${playerDetails.name_last}`;
 	$: allRequestsComplete = getCareerStatsComplete && getCareerPfxComplete && getPlayerBioComplete;
-	$: ({
-		playerDetailsFlexStyles,
-		playerNameFontSize,
-		playerDetailsSettings,
-		carouselSettings,
-		chartSettings
-	} = getPlayerPageSettings($pageBreakPoints.width));
+	$: ({ playerDetailsFlexStyles, playerNameFontSize, playerDetailsSettings, carouselSettings, chartSettings } =
+		getPlayerPageSettings($pageWidth.current));
 
 	onMount(() => {
 		loading = true;
@@ -111,7 +106,7 @@
 					{playerDetails.name_first}
 					{playerDetails.name_last}
 				</h2>
-				{#if $pageBreakPoints.width < 640}
+				{#if $pageWidth.current < 640}
 					<PlayerDetailsCompact {...playerDetails} {...playerDetailsSettings} />
 				{:else}
 					<PlayerDetails {...playerDetails} fontSize={playerDetailsSettings.fontSize} />
@@ -123,7 +118,7 @@
 	</div>
 	<div id="pfx-pitcher-stats">
 		{#if contentShown === 'career-stats'}
-			<CareerPitchStatsTable {careerPitchStats} sortBy={'year'} sortDir={'asc'} />
+			<CareerPitchingStats {careerPitchStats} sortBy={'year'} sortDir={'asc'} />
 		{:else if contentShown === 'pitch-mix'}
 			<PitchMixForSeason />
 		{:else if contentShown === 'pitch-type-percentiles'}

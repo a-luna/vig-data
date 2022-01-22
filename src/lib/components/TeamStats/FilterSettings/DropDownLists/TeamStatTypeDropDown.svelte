@@ -7,7 +7,7 @@
 	export let width = '100%';
 	const options: SelectMenuOption[] = [
 		{ text: 'Team Batting', value: 'bat', optionNumber: 1, active: false },
-		{ text: 'Team Pitching', value: 'pitch', optionNumber: 2, active: false }
+		{ text: 'Team Pitching', value: 'pitch', optionNumber: 2, active: false },
 	];
 	const menuId = 'stat-type';
 	const menuLabel = '';

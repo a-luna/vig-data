@@ -1,4 +1,5 @@
-import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import { API_URL_ROOT, API_VERSION, useMockApiData } from '$lib/api/config';
+import { getCareerPfxDataForPitcherMock } from '$lib/api/mock/mockApi';
 import type { ApiResponse, CareerPfxMetricsForPitcher, PitchFx } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 
@@ -9,6 +10,9 @@ export async function getPitchFxForAtBat(at_bat_id: string): Promise<ApiResponse
 }
 
 export async function getCareerPfxDataForPitcher(mlb_id: number): Promise<ApiResponse<CareerPfxMetricsForPitcher>> {
+	if (useMockApiData()) {
+		return getCareerPfxDataForPitcherMock(mlb_id);
+	}
 	if (!mlb_id) return { status: 400, success: false, message: 'No value was provided for player MLB ID' };
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/player/pitching/pfx/career_pfx?mlb_id=${mlb_id}`);
 	return await validateApiResponse<CareerPfxMetricsForPitcher>(response);
@@ -19,12 +23,3 @@ export async function getPitchFxForPitchApp(pitch_app_id: string): Promise<ApiRe
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/pfx/pitch_app?pitch_app_id=${pitch_app_id}`);
 	return await validateApiResponse<PitchFx[]>(response);
 }
-
-// import { careerPfxMockData } from './mock/pitchfx/getCareerPfxDataForPitcher';
-// export async function getCareerPfxDataForPitcher(mlb_id: number): Promise<ApiResponse<CareerPfxMetricsForPitcher>> {
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: careerPfxMockData
-// 	};
-// }

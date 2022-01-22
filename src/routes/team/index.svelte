@@ -1,6 +1,6 @@
 <script lang="ts">
-	import TeamBattingStats from '$lib/components/TeamStats/TeamBattingStats.svelte';
-	import TeamPitchingStats from '$lib/components/TeamStats/TeamPitchingStats.svelte';
+	import TeamBattingStats from '$lib/components/TeamStats/TeamBattingStats/TeamBattingStats.svelte';
+	import TeamPitchingStats from '$lib/components/TeamStats/TeamPitchingStats/TeamPitchingStats.svelte';
 </script>
 
 <svelte:head>

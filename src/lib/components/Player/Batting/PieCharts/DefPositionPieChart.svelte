@@ -29,7 +29,7 @@
 			label: posAbbrev,
 			color: `var(--def-pos-${posAbbrev})`,
 			unit: 'games',
-			description: `${percent}% ${posAbbrev} (${d.total_games} games)`
+			description: `${percent}% ${posAbbrev} (${d.total_games} games)`,
 		};
 		return PieSlice.fromObject(sliceData);
 	}

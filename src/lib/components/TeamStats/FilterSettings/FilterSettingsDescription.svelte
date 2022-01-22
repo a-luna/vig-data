@@ -67,31 +67,30 @@
 	}
 </script>
 
-<div class="flex flex-row items-center justify-start w-full mb-1 text-sm leading-none tracking-wider flex-nowrap">
+<div
+	class:disabled={loading}
+	class:change-settings={!loading}
+	class="flex flex-row flex-wrap items-center justify-start w-full text-sm leading-none tracking-wider cursor-pointer"
+>
 	<div
-		class:disabled={loading}
-		class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2 change-settings"
+		class="block w-4 h-4 my-auto ml-1 cursor-pointer stroke-current stroke-2"
 		title="Change Settings"
 		on:click={() => handleClick()}
 	>
 		<MdSettings />
 	</div>
-	<div
-		class:disabled={loading}
-		class="flex flex-row flex-wrap items-end justify-start cursor-pointer current-settings"
-		on:click={() => handleClick()}
-	>
+	<div class="flex flex-row flex-nowrap items-end justify-start mt-1 mb-0.5" on:click={() => handleClick()}>
 		<strong class="filter-label ml-1.5 mr-1">Year</strong><span class="filter-value">{settings.season},</span>
+	</div>
+	<div class="flex flex-row flex-nowrap items-end justify-start mt-1 mb-0.5" on:click={() => handleClick()}>
 		<strong class="ml-2 mr-1 filter-label">League</strong><span class="filter-value">{league},</span>
+	</div>
+	<div class="flex flex-row flex-nowrap items-end justify-start mt-1 mb-0.5" on:click={() => handleClick()}>
 		<strong class="ml-2 mr-1 filter-label">{splitTitle}</strong><span class="filter-value">{splitSetting}</span>
 	</div>
 </div>
 
 <style lang="postcss">
-	.current-settings {
-		color: var(--sec-color);
-	}
-
 	.change-settings {
 		color: var(--sec-color);
 	}

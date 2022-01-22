@@ -58,7 +58,7 @@ function gameDateStore(key: string): GameDateStore {
 		set,
 		update,
 		nextDay,
-		prevDay
+		prevDay,
 	};
 }
 

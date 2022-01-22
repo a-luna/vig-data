@@ -15,7 +15,7 @@
 		{ text: 'LF', value: 7, optionNumber: 7, active: false },
 		{ text: 'CF', value: 8, optionNumber: 8, active: false },
 		{ text: 'RF', value: 9, optionNumber: 9, active: false },
-		{ text: 'DH', value: 10, optionNumber: 10, active: false }
+		{ text: 'DH', value: 10, optionNumber: 10, active: false },
 	];
 	const menuId = 'def-pos';
 

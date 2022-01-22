@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import PlayerCard from '$lib/components/Player/PlayerCard.svelte';
 	import { searchResults } from '$lib/stores/singleValueStores';
 	import type { PlayerCardLink } from '$lib/types';
+	import { getQueryStringParameter } from '$lib/util/ui';
 
-	$: query = $page.query.get('q');
+	$: query = getQueryStringParameter('q');
 	$: endIndex = $searchResults.length <= 10 ? $searchResults.length : 11;
 
 	function createPlayerCardLink(mlb_id: number): PlayerCardLink {

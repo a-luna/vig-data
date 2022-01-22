@@ -1,4 +1,12 @@
-import { API_URL_ROOT, API_VERSION } from '$lib/api/config';
+import { API_URL_ROOT, API_VERSION, useMockApiData } from '$lib/api/config';
+import {
+	getAllValidSeasonsMock,
+	getBarrelsForDateMock,
+	getMostRecentScrapedDateMock,
+	getPlayerBatStatsForDateMock,
+	getPlayerPitchStatsForDateMock,
+	getStandingsOnDateMock
+} from '$lib/api/mock/mockApi';
 import type { ApiResponse, MlbSeason, PitchFx, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
 import { validateApiResponse } from '$lib/api/util';
 import { GAME_DATE_REGEX } from '$lib/regex';
@@ -10,6 +18,9 @@ export async function getSeasonStandings(year: number): Promise<ApiResponse<Seas
 }
 
 export async function getAllValidSeasons(): Promise<ApiResponse<MlbSeason[]>> {
+	if (useMockApiData()) {
+		return getAllValidSeasonsMock();
+	}
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/all`);
 	const result = await validateApiResponse<MlbSeason[]>(response);
 	if (!result.success) {
@@ -23,6 +34,9 @@ export async function getAllValidSeasons(): Promise<ApiResponse<MlbSeason[]>> {
 }
 
 export async function getStandingsOnDate(date: Date): Promise<ApiResponse<SeasonData>> {
+	if (useMockApiData()) {
+		return getStandingsOnDateMock(date);
+	}
 	const response = await fetch(
 		`${API_URL_ROOT}/${API_VERSION}/season/standings_on_date?game_date=${getStringFromDate(date)}`
 	);
@@ -30,6 +44,9 @@ export async function getStandingsOnDate(date: Date): Promise<ApiResponse<Season
 }
 
 export async function getMostRecentScrapedDate(): Promise<Date> {
+	if (useMockApiData()) {
+		return getMostRecentScrapedDateMock();
+	}
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/most_recent_scraped_date`);
 	const result = await validateApiResponse<string>(response);
 	if (result.success) {
@@ -42,6 +59,9 @@ export async function getMostRecentScrapedDate(): Promise<Date> {
 }
 
 export async function getPlayerPitchStatsForDate(date: string): Promise<ApiResponse<PlayerPitchStats[]>> {
+	if (useMockApiData()) {
+		return getPlayerPitchStatsForDateMock(date);
+	}
 	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
 	if (!GAME_DATE_REGEX.test(date))
 		return {
@@ -54,6 +74,9 @@ export async function getPlayerPitchStatsForDate(date: string): Promise<ApiRespo
 }
 
 export async function getPlayerBatStatsForDate(date: string): Promise<ApiResponse<PlayerBatStats[]>> {
+	if (useMockApiData()) {
+		return getPlayerBatStatsForDateMock(date);
+	}
 	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
 	if (!GAME_DATE_REGEX.test(date))
 		return {
@@ -66,6 +89,9 @@ export async function getPlayerBatStatsForDate(date: string): Promise<ApiRespons
 }
 
 export async function getBarrelsForDate(date: string): Promise<ApiResponse<PitchFx[]>> {
+	if (useMockApiData()) {
+		return getBarrelsForDateMock(date);
+	}
 	if (!date) return { status: 400, success: false, message: 'No value was provided for game date' };
 	if (!GAME_DATE_REGEX.test(date))
 		return {
@@ -76,56 +102,3 @@ export async function getBarrelsForDate(date: string): Promise<ApiResponse<Pitch
 	const response = await fetch(`${API_URL_ROOT}/${API_VERSION}/season/barrels_for_date?game_date=${date}`);
 	return await validateApiResponse<PitchFx[]>(response);
 }
-
-// Mock Data
-// import { allSeasonsMockData } from './mock/season/getAllValidSeasons';
-// import { barrelsForDateMockData } from './mock/season/getBarrelsForDate';
-// import { mostRecentScrapedDateMockData } from './mock/season/getMostRecentScrapedDate';
-// import { PlayerBatStatsForDateMockData } from './mock/season/getPlayerBatStatsForDate';
-// import { PlayerPitchStatsForDateMockData } from './mock/season/getPlayerPitchStatsForDate';
-// import { standingsOnDateMockData } from './mock/season/getStandingsOnDate';
-
-// export async function getAllValidSeasons(): Promise<ApiResponse<MlbSeason[]>> {
-// 	const allSeasons = allSeasonsMockData;
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: allSeasons.map((s) => getSeasonDates(s).value)
-// 	};
-// }
-
-// export async function getStandingsOnDate(date: Date): Promise<ApiResponse<SeasonData>> {
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: standingsOnDateMockData
-// 	};
-// }
-
-// export async function getMostRecentScrapedDate(): Promise<Date> {
-// 	return mostRecentScrapedDateMockData;
-// }
-
-// export async function getPlayerPitchStatsForDate(date: string): Promise<ApiResponse<PlayerPitchStats[]>> {
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: PlayerPitchStatsForDateMockData
-// 	};
-// }
-
-// export async function getPlayerBatStatsForDate(date: string): Promise<ApiResponse<PlayerBatStats[]>> {
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: PlayerBatStatsForDateMockData
-// 	};
-// }
-
-// export async function getBarrelsForDate(date: string): Promise<ApiResponse<PitchFx[]>> {
-// 	return {
-// 		status: 200,
-// 		success: true,
-// 		value: barrelsForDateMockData
-// 	};
-// }

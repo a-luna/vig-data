@@ -2,11 +2,11 @@
 	import type { MlbSeason } from '$lib/api/types';
 	import DatePickerModal from '$lib/components//Scoreboard/DatePickerModal.svelte';
 	import SeasonSelector from '$lib/components/Util/Selectors/SeasonSelector.svelte';
-	import { homePageDate, mostRecentScrapedDate } from '$lib/stores/dateStore';
+	import { homePageDate,mostRecentScrapedDate } from '$lib/stores/dateStore';
 	import { syncWidth } from '$lib/stores/elementWidth';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import type { ThemeColor } from '$lib/types';
-	import { getNextDay, getPreviousDay } from '$lib/util/datetime';
+	import { getNextDay,getPreviousDay } from '$lib/util/datetime';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
 	import { format } from 'date-fns';
 	import { createEventDispatcher } from 'svelte';
 	import MdChevronLeft from 'svelte-icons/md/MdChevronLeft.svelte';
@@ -25,7 +25,7 @@
 	$: next = getNextDay($homePageDate);
 	$: nextDisabled = next > new Date(Math.min.apply(null, [season.end, $mostRecentScrapedDate]));
 	$: widthStore = syncWidth(dateNavElement);
-	$: seasonMenuWidth = $pageBreakPoints.isDefault ? `${$widthStore}px` : 'auto';
+	$: seasonMenuWidth = $pageWidth.isDefault ? `${$widthStore}px` : 'auto';
 </script>
 
 <DatePickerModal

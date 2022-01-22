@@ -23,7 +23,7 @@
 			text: year === 0 ? 'Career' : year.toString(),
 			value: year,
 			optionNumber: i + 1,
-			active: false
+			active: false,
 		}));
 
 	const getMenuLabel = (selected: SelectMenuOption): string =>

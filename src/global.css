@@ -256,6 +256,15 @@ body {
 	transition-duration: 500ms;
 }
 
+svg.icon {
+	stroke: currentColor;
+	fill: currentColor;
+	stroke-width: 0;
+	width: 100%;
+	height: auto;
+	max-height: 100%;
+}
+
 body.light-mode {
 	--pri-color: var(--blue2);
 	--pri-color-hov: var(--blue3);
@@ -327,7 +336,7 @@ body.light-mode {
 	--table-outer-border-color: var(--blue1);
 	--table-inner-border-vert-color: var(--gray3);
 	--table-inner-border-horiz-color: var(--gray2);
-	--table-sort-description-color: var(--pri-color);
+	--table-sort-description-text-color: var(--pri-color);
 
 	--table-single-season-stats-bg-color: var(--light-gray4);
 	--table-separate-team-stats-bg-color: var(--light-gray2);
@@ -522,7 +531,7 @@ body.dark-mode {
 	--table-outer-border-color: var(--indigo1);
 	--table-inner-border-vert-color: var(--dark-gray2);
 	--table-inner-border-horiz-color: var(--dark-gray1);
-	--table-sort-description-color: var(--white3);
+	--table-sort-description-text-color: var(--white3);
 
 	--table-single-season-stats-bg-color: var(--gray2);
 	--table-separate-team-stats-bg-color: var(--gray1);
@@ -827,149 +836,15 @@ label {
 }
 
 .section {
-	background-color: var(--section-content-bg-color);
+	/* background-color: var(--section-content-bg-color); */
+	background-color: hsl(220, 23%, 5%);
 	border: 2px dotted var(--section-content-border-color);
 	border-radius: 4px;
 }
 
 .section-content {
-	background-color: var(--section-content-bg-color);
-}
-
-/* Responsive Tables */
-
-.resp-table-container {
-	overflow-x: auto;
-	white-space: nowrap;
-	width: 100%;
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	padding-bottom: 0.5rem;
-}
-
-.resp-table-wrapper {
-	display: inline-block;
-	width: 100%;
-}
-
-.resp-table {
-	display: table;
-	width: 100%;
-	color: var(--table-body-color);
-}
-
-.resp-table-caption {
-	display: table-caption;
-	color: var(--table-caption-color);
-	white-space: nowrap;
-}
-
-.sub-heading {
-	color: var(--sec-color);
-}
-
-.resp-table-header {
-	display: table-header-group;
-}
-
-.table-header-cell {
-	display: table-cell;
-	text-align: center;
-	color: var(--table-col-header-color);
-	background-color: var(--table-col-header-bg-color);
-}
-
-.resp-table-header:first-child .table-header-cell:first-child,
-.col-header .table-header-cell:first-child {
-	border-top-left-radius: 4px;
-}
-
-.resp-table-header:first-child .table-header-cell:last-child,
-.col-header .table-header-cell:last-child {
-	border-top-right-radius: 4px;
-}
-
-.resp-table-body .table-header-cell,
-.col-header .table-header-cell {
-	border-top: 1px solid var(--table-outer-border-color);
-}
-
-.resp-table-body {
-	display: table-row-group;
-}
-
-.resp-table-body a {
-	color: var(--table-body-link-color);
-}
-
-.resp-table-body a:hover {
-	color: var(--table-body-link-color-hov);
-}
-
-.resp-table-row {
-	display: table-row;
-}
-
-.resp-table-row:nth-child(even) {
-	background-color: var(--table-body-bg-color-even);
-}
-
-.resp-table-row:nth-child(odd) {
-	background-color: var(--table-body-bg-color-odd);
-}
-
-.table-body-cell {
-	display: table-cell;
-	border-top: none;
-	border-left: 1px solid var(--table-inner-border-vert-color);
-}
-
-.resp-table .num {
-	text-align: right;
-}
-
-.table-header-cell,
-.table-body-cell {
-	padding: 3px 4px;
-}
-
-.table-body-cell:first-child,
-.resp-table-header:first-child .table-header-cell:first-child,
-.col-header .table-header-cell:first-child {
-	border-left: 1px solid var(--table-outer-border-color);
-}
-
-.table-body-cell:last-child,
-.resp-table-header:first-child .table-header-cell:last-child,
-.col-header .table-header-cell:last-child {
-	border-right: 1px solid var(--table-outer-border-color);
-}
-
-.resp-table-row:last-child {
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-}
-
-.resp-table-row:last-child .table-body-cell {
-	border-bottom: 1px solid var(--table-outer-border-color);
-}
-
-.resp-table-row:last-child .table-body-cell:first-child {
-	border-bottom-left-radius: 4px;
-}
-
-.resp-table-row:last-child .table-body-cell:last-child {
-	border-bottom-right-radius: 4px;
-}
-
-.resp-table-footer {
-	display: table-footer-group;
-}
-
-.table-footer-cell {
-	display: table-cell;
-	text-align: justify;
-	background-color: var(--page-bg-color);
+	/* background-color: var(--section-content-bg-color); */
+	background-color: hsl(220, 23%, 5%);
 }
 
 #game-summary,
@@ -1116,147 +991,6 @@ tfoot td {
 
 input {
 	@apply border border-transparent focus:outline-none focus:ring-2 focus:ring-gray-800;
-}
-
-.btn {
-	@apply px-2 py-1 overflow-hidden text-base font-medium tracking-wide rounded shadow-md whitespace-nowrap focus:outline-none;
-	transition: background 0.2s;
-}
-
-.btn.active {
-	@apply cursor-default;
-}
-
-.btn.disabled {
-	@apply text-gray-500 bg-current border-gray-500;
-}
-
-button:disabled,
-button:disabled:hover,
-.btn-group > button:disabled,
-.btn-group > button:disabled:hover,
-.btn-group > button:last-child:disabled,
-.btn-group > button:last-child:disabled:hover {
-	color: var(--button-disabled-text-color);
-	background-color: var(--button-disabled-bg-color);
-	border-top: 1px solid transparent;
-	border-left: 1px solid transparent;
-	border-bottom: 1px solid transparent;
-	border-right: 1px solid transparent;
-	cursor: default;
-}
-
-.btn-round {
-	@apply flex items-center uppercase rounded-full shadow-sm max-w-max hover:shadow-lg;
-}
-
-.btn-primary {
-	color: var(--color-on-pri);
-	background-color: var(--pri-color);
-	background-position: center;
-	border: 1px solid var(--pri-color);
-}
-
-.btn-primary:hover {
-	background-color: var(--pri-color-active);
-	color: var(--color-on-pri-active);
-	border: 1px solid transparent;
-}
-
-.btn-primary.active {
-	background-color: var(--pri-color-active);
-	color: var(--color-on-pri-active);
-	background-size: 100%;
-	transition: background 0.1s;
-	border: 1px solid transparent;
-}
-
-.btn-outline-primary {
-	background-color: var(--section-content-bg-color);
-	color: var(--pri-color);
-	border: 1px solid var(--pri-color);
-}
-
-.btn-outline-primary:hover {
-	background-color: var(--pri-color-hov);
-	color: var(--color-on-pri-hov);
-	border: 1px solid transparent;
-}
-
-.btn-secondary {
-	background-color: var(--sec-color);
-	color: var(--color-on-sec);
-	transition: background 0.2s;
-	border: 1px solid var(--sec-color);
-}
-
-.btn-secondary:hover {
-	background-color: var(--sec-color-active);
-	color: var(--color-on-sec-active);
-	border: 1px solid transparent;
-}
-
-.btn-secondary.active {
-	background-color: var(--sec-color-hov);
-	color: var(--color-on-sec-hov);
-	background-size: 100%;
-	transition: background 0.1s;
-	border: 1px solid transparent;
-}
-
-.btn-outline-secondary {
-	background-color: var(--section-content-bg-color);
-	color: var(--sec-color);
-	border: 1px solid var(--sec-color);
-}
-
-.btn-outline-secondary:hover {
-	background-color: var(--sec-color-hov);
-	color: var(--color-on-sec-hov);
-	border: 1px solid transparent;
-}
-
-.btn-outline-secondary.active {
-	background-color: var(--sec-color-active);
-	color: var(--color-on-sec-active);
-}
-
-.btn-group {
-	@apply flex flex-row justify-center flex-grow-0 flex-nowrap;
-}
-
-.btn-group > button {
-	@apply m-0 rounded-none;
-}
-
-.btn-group-primary > button {
-	border: 1px solid var(--pri-color);
-}
-
-.btn-group-secondary > button {
-	border: 1px solid var(--sec-color);
-}
-
-.btn-group > button:hover,
-.btn-group > button.active,
-.btn-group > button.active:hover {
-	border: 1px solid transparent;
-}
-
-.btn-group-primary > button.active {
-	border: 1px solid var(--pri-color-hov);
-}
-
-.btn-group-secondary > button.active {
-	border: 1px solid var(--sec-color-hov);
-}
-
-.btn-group > button:first-child {
-	@apply rounded-tr-none rounded-br-none rounded-tl-md rounded-bl-md;
-}
-
-.btn-group > button:last-child {
-	@apply rounded-tl-none rounded-bl-none rounded-tr-md rounded-br-md;
 }
 
 @media screen and (min-width: 550px) {

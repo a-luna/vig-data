@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { getPitchFxForAtBat } from '$lib/api/pitchfx';
 	import type {
-		ApiResponse,
-		AtBatDetails as AtBatDetailsSchema,
-		AtBatPitchDescription,
-		Boxscore,
-		InningSummary,
-		PitchFx
+	ApiResponse,
+	AtBatDetails as AtBatDetailsSchema,
+	AtBatPitchDescription,
+	Boxscore,
+	InningSummary,
+	PitchFx
 	} from '$lib/api/types';
 	import AtBatViewer from '$lib/components/AtBatViewer/AtBatViewer.svelte';
 	import PlayByPlayTable from '$lib/components/Game/PlayByPlay/PlayByPlayTable.svelte';
 	import ErrorMessageModal from '$lib/components/Util/Modals/ErrorMessageModal.svelte';
 	import {
-		addStrikeZoneCornersToPfxData,
-		createPitchDescriptionList,
-		identifyPfxDataBeyondBoundary
+	addStrikeZoneCornersToPfxData,
+	createPitchDescriptionList,
+	identifyPfxDataBeyondBoundary
 	} from '$lib/util/gameData';
 
 	export let all_pbp: AtBatDetailsSchema[];
@@ -57,21 +57,6 @@
 		const lastPfxAtBatId = pfxAtBatIds[pfxAtBatIds.length - 1];
 		goToPrevAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === firstPfxAtBatId : true;
 		goToNextAtBatDisabled = pfxAtBatIds.length > 0 ? selectedAtBatPfxAtBatId === lastPfxAtBatId : true;
-	}
-
-	async function getPfxForAtBat(): Promise<ApiResponse<PitchFx[]>> {
-		selectedAtBat = atBatMap[selectedAtBatId];
-		loading = true;
-		const result = await getPitchFxForAtBat(selectedAtBatId);
-		if (!result.success) {
-			error = result.message;
-			return result;
-		}
-		selectedAtBatPfx = addStrikeZoneCornersToPfxData(identifyPfxDataBeyondBoundary(result.value));
-		pfxCache[selectedAtBatId] = selectedAtBatPfx;
-		pitchSequence = createPitchDescriptionList(selectedAtBat.pitch_sequence_description, selectedAtBatPfx);
-		loading = false;
-		return result;
 	}
 
 	function createAtBatMap() {
@@ -140,6 +125,21 @@
 			}
 		}
 	}
+
+async function getPfxForAtBat(): Promise<ApiResponse<PitchFx[]>> {
+  selectedAtBat = atBatMap[selectedAtBatId];
+  loading = true;
+  const result = await getPitchFxForAtBat(selectedAtBatId);
+  if (!result.success) {
+    error = result.message;
+    return result;
+  }
+  selectedAtBatPfx = addStrikeZoneCornersToPfxData(identifyPfxDataBeyondBoundary(result.value));
+  pfxCache[selectedAtBatId] = selectedAtBatPfx;
+  pitchSequence = createPitchDescriptionList(selectedAtBat.pitch_sequence_description, selectedAtBatPfx);
+  loading = false;
+  return result;
+}
 
 	function viewFirstAtBat() {
 		viewAtBat(atBatOrderToAtBatId[pfxAtBatIds[0]]);

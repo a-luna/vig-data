@@ -92,37 +92,39 @@ export class PieSlice {
 
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
-export type TeamID =
-	| 'ARI'
-	| 'ATL'
-	| 'BAL'
-	| 'BOS'
-	| 'CHW'
-	| 'CHC'
-	| 'CIN'
-	| 'CLE'
-	| 'COL'
-	| 'DET'
-	| 'HOU'
-	| 'KCR'
-	| 'LAA'
-	| 'LAD'
-	| 'MIA'
-	| 'MIL'
-	| 'MIN'
-	| 'NYY'
-	| 'NYM'
-	| 'OAK'
-	| 'PHI'
-	| 'PIT'
-	| 'SDP'
-	| 'SEA'
-	| 'SFG'
-	| 'STL'
-	| 'TBR'
-	| 'TEX'
-	| 'TOR'
-	| 'WSN';
+export const TEAM_IDS = [
+	'ARI',
+	'ATL',
+	'BAL',
+	'BOS',
+	'CHW',
+	'CHC',
+	'CIN',
+	'CLE',
+	'COL',
+	'DET',
+	'HOU',
+	'KCR',
+	'LAA',
+	'LAD',
+	'MIA',
+	'MIL',
+	'MIN',
+	'NYY',
+	'NYM',
+	'OAK',
+	'PHI',
+	'PIT',
+	'SDP',
+	'SEA',
+	'SFG',
+	'STL',
+	'TBR',
+	'TEX',
+	'TOR',
+	'WSN'
+] as const;
+export type TeamID = typeof TEAM_IDS[number];
 export type ThemeColor = 'primary' | 'secondary';
 export type ButtonColor =
 	| 'red'
@@ -136,7 +138,7 @@ export type ButtonColor =
 	| 'indigo'
 	| ThemeColor;
 export type SiteTheme = 'light' | 'dark' | 'notset';
-export type PageBreakPoint = 'default' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type ApiSource = 'dev' | 'mock' | 'prod';
 export type GameContent = 'box' | 'pbp' | 'charts';
 export type TeamStatType = 'bat' | 'pitch';
 export type League = 'both' | 'al' | 'nl';
@@ -193,35 +195,4 @@ export interface TeamStatFilterStore {
 	changeBatStatSplit: (split: BatStatSplit) => void;
 	changeDefPosition: (defPosition: DefPositionNumber[]) => void;
 	changeBatOrder: (batOrder: BatOrder[]) => void;
-}
-
-export interface PageBreakPointStore {
-	current: string;
-	width: number;
-	isDefault: boolean;
-	isSmall: boolean;
-	isMedium: boolean;
-	isLarge: boolean;
-	isExtraLarge: boolean;
-	is2xExtraLarge: boolean;
-}
-
-export interface Pagination {
-	totalRows: number;
-	pageSize: number;
-	currentPage: number;
-	totalPages: number;
-	startRow: number;
-	endRow: number;
-}
-
-export interface PaginationStore {
-	subscribe: Writable<Pagination>['subscribe'];
-	changeTotalRows: (total: number) => void;
-	changePageSize: (size: number) => void;
-	changeCurrentPage: (page: number) => void;
-	firstPage: () => void;
-	prevPage: () => void;
-	nextPage: () => void;
-	lastPage: () => void;
 }

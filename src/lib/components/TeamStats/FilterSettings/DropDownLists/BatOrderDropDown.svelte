@@ -14,7 +14,7 @@
 		{ text: '6', value: '6', optionNumber: 6, active: false },
 		{ text: '7', value: '7', optionNumber: 7, active: false },
 		{ text: '8', value: '8', optionNumber: 8, active: false },
-		{ text: '9', value: '9', optionNumber: 9, active: false }
+		{ text: '9', value: '9', optionNumber: 9, active: false },
 	];
 	const menuId = 'bat-order';
 	const menuLabel = 'Select Bat #s';

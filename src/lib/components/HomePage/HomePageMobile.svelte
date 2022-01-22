@@ -1,19 +1,19 @@
 <script lang="ts">
-	import type { GameData, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
+	import type { GameData, PitchFx, PlayerBatStats, PlayerPitchStats, SeasonData } from '$lib/api/types';
+	import BarrelsForDate from '$lib/components/HomePage/PlayerStatsForDate/BarrelsForDate/BarrelsForDate.svelte';
+	import BatStatsForDate from '$lib/components/HomePage/PlayerStatsForDate/BatStatsForDate/BatStatsForDate.svelte';
+	import PitchStatsForDate from '$lib/components/HomePage/PlayerStatsForDate/PitchStatsForDate/PitchStatsForDate.svelte';
 	import ScoreboardForDate from '$lib/components/HomePage/ScoreboardForDate/ScoreboardForDate.svelte';
 	import LeagueStandings from '$lib/components/HomePage/StandingsForDate/LeagueStandings.svelte';
 	import { homePageDate } from '$lib/stores/dateStore';
-	import { pageBreakPoints } from '$lib/stores/pageBreakPoints';
 	import { format } from 'date-fns';
 	import { Tab, TabList, TabPanel, Tabs } from 'svelte-tabs';
-	import BatStatsForDate from './PlayerStatsForDate/BatStatsForDate.svelte';
-	import PitchStatsForDate from './PlayerStatsForDate/PitchStatsForDate.svelte';
 
 	export let games_for_date: GameData[];
 	export let pitchStats: PlayerPitchStats[] = [];
 	export let batStats: PlayerBatStats[] = [];
+	export let pfxBarrels: PitchFx[] = [];
 	export let seasonStandings: SeasonData;
-	const tableIdSuffix = $pageBreakPoints.isDefault ? '-mobile' : '';
 	let formatted: string = '';
 
 	$: if ($homePageDate) formatted = format($homePageDate, 'MMM do');
@@ -55,19 +55,24 @@
 		<div class="p-2 mb-2 section">
 			<PitchStatsForDate
 				pitchStats={pitchStats.filter((p) => p.is_sp == 1)}
+				tableHeading={'Starting Pitcher Stats'}
+				tableId={`sp-stats`}
 				sortBy={'game_score'}
-				tableId={`sp-stats${tableIdSuffix}`}
 			/>
 		</div>
 		<div class="p-2 mb-2 section">
 			<PitchStatsForDate
 				pitchStats={pitchStats.filter((p) => p.is_rp == 1)}
+				tableHeading={'Relief Pitcher Stats'}
+				tableId={`rp-stats`}
 				sortBy={'wpa_pitch'}
-				tableId={`rp-stats${tableIdSuffix}`}
 			/>
 		</div>
+		<div class="p-2 mb-2 section">
+			<BatStatsForDate {batStats} tableHeading={'Batting Stats'} tableId={`all-bat-stats`} sortBy={'total_bases'} />
+		</div>
 		<div class="p-2 section">
-			<BatStatsForDate {batStats} sortBy={'total_bases'} tableId={`all-bat-stats${tableIdSuffix}`} />
+			<BarrelsForDate {pfxBarrels} tableHeading={'Barrels'} tableId={'all-barrels'} sortBy={'launch_speed'} />
 		</div>
 	</TabPanel>
 </Tabs>

@@ -7,7 +7,7 @@
 	const options: SelectMenuOption[] = [
 		{ text: 'Career Stats', value: 'career-stats', optionNumber: 1, active: false },
 		{ text: 'Pitch Mix', value: 'pitch-mix', optionNumber: 2, active: false },
-		{ text: 'Pitch Type Percentiles', value: 'pitch-type-percentiles', optionNumber: 3, active: false }
+		{ text: 'Pitch Type Percentiles', value: 'pitch-type-percentiles', optionNumber: 3, active: false },
 	];
 	const dispatch = createEventDispatcher();
 	const menuId = 'player-pitching-content';

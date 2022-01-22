@@ -7,14 +7,17 @@
 		getBatStatsForStartingLineupByPlayerForTeam
 	} from '$lib/api/team';
 	import type { ApiResponse, TeamBatStats } from '$lib/api/types';
-	import TeamBattingStatsByPlayerTable from '$lib/components/TeamStats/TeamStatsByPlayer/TeamBattingStatsByPlayerTable.svelte';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
 	import ModalContainer from '$lib/components/Util/ModalContainer.svelte';
-	import Pagination from '$lib/components/Util/Pagination/Pagination.svelte';
+	import { DEF_POS_NUM_TO_ABBREV_MAP, TEAM_ID_TO_NAME_MAP } from '$lib/constants';
 	import { mostRecentSeason } from '$lib/stores/allMlbSeasons';
-	import { createPaginationStore } from '$lib/stores/pagination';
-	import type { PaginationStore, TeamID, TeamStatFilter } from '$lib/types';
-	import { getRandomHexString } from '$lib/util/ui';
+	import { siteTheme } from '$lib/stores/singleValueStores';
+	import type { TeamID, TeamStatFilter } from '$lib/types';
+	import { prefersDarkTheme } from '$lib/util/ui';
+	import SimpleTable from '@a-luna/svelte-simple-tables';
+	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
+	import type { TableSettings, TableState } from '@a-luna/svelte-simple-tables/types';
+	import { playerColumnSettings } from './columnSettings';
 
 	export let settings: TeamStatFilter = {
 		season: $mostRecentSeason.year,
@@ -30,14 +33,59 @@
 	let sortDir: 'asc' | 'desc' = 'desc';
 	let batStats: TeamBatStats[] = [];
 	let team: TeamID;
-	let pagination: PaginationStore = createPaginationStore(0, 0);
 	let hidden: boolean;
 	let modalContainer: ModalContainer;
 	let getBatStatsResult: ApiResponse<TeamBatStats[]>;
 	let loading: boolean = false;
+	let tableState: TableState;
+	const tableIdSuffix = $pageWidth.isDefault ? '-mobile' : '';
 
-	function getDefaultTableId() {
-		return `team-bat-stats-by-player-${getRandomHexString(4)}`;
+	$: themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
+	$: split = settings.batStatSplit;
+	$: defPosition = settings.defPosition;
+	$: batOrder = settings.batOrder;
+	$: year = settings.season;
+	$: heading = getTableHeading(team);
+	$: $tableState.header = heading;
+
+	const tableSettings: TableSettings = {
+		tableId: `${tableId}${tableIdSuffix}`,
+		showHeader: true,
+		header: heading,
+		showSortDescription: true,
+		sortBy,
+		sortDir,
+		themeName,
+		paginated: true,
+		pageSize: 5,
+		pageSizeOptions: [5, 10, 15],
+		pageNavFormat: 'compact',
+		rowType: 'players'
+	};
+
+	function getTableHeading(teamId) {
+		let heading = `${year} ${TEAM_ID_TO_NAME_MAP[teamId]} Batting Stats by Player `;
+		if (split === 'all') {
+			heading += '(Split: All Players)';
+		} else if (split === 'starters') {
+			heading += '(Split: Starting Lineup)';
+		} else if (split === 'subs') {
+			heading += '(Split: Bench Players)';
+		} else if (split === 'defpos') {
+			heading += `(Def. Position: ${getDefPosAbbreviations()})`;
+		} else {
+			heading += `(Bat Order: ${getBatOrderNumbers()})`;
+		}
+		return heading;
+	}
+
+	function getDefPosAbbreviations() {
+		const defPosAbbrevs = defPosition.sort((a, b) => a - b).map((def) => DEF_POS_NUM_TO_ABBREV_MAP[def]);
+		return defPosAbbrevs.join(', ');
+	}
+
+	function getBatOrderNumbers() {
+		return batOrder.sort((a, b) => a - b).join(', ');
 	}
 
 	async function getSelectedBatStats(): Promise<ApiResponse<TeamBatStats[]>> {
@@ -71,8 +119,7 @@
 		}
 
 		loading = false;
-		pagination.changeTotalRows(batStats.length);
-		pagination.changePageSize(5);
+		tableState.reset(batStats.length, 5);
 		return getBatStatsResult;
 	}
 
@@ -89,17 +136,7 @@
 {#if !loading}
 	<ModalContainer bind:this={modalContainer} bind:hidden let:backgroundColorRule>
 		<div slot="content" class="mb-2 responsive">
-			<TeamBattingStatsByPlayerTable
-				{pagination}
-				{backgroundColorRule}
-				tableId={tableId ? tableId : getDefaultTableId()}
-				bind:settings
-				bind:batStats
-				bind:team
-				bind:sortBy
-				bind:sortDir
-			/>
-			<Pagination {pagination} {backgroundColorRule} rowTypeSingle={'player'} rowTypePlural={'players'} />
+			<SimpleTable data={batStats} columnSettings={playerColumnSettings} {tableSettings} bind:tableState />
 		</div>
 	</ModalContainer>
 {/if}
