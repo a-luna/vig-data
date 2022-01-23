@@ -196,3 +196,10 @@ export interface TeamStatFilterStore {
 	changeDefPosition: (defPosition: DefPositionNumber[]) => void;
 	changeBatOrder: (batOrder: BatOrder[]) => void;
 }
+
+export interface SearchResult<T> {
+	string: string;
+	score: number;
+	index: number;
+	original: T;
+}

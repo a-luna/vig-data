@@ -458,7 +458,7 @@ export interface Linescore {
 export interface PlayerId {
 	mlb_id: number;
 	name: string;
-	team_id: string;
+	team_id?: string;
 }
 
 export interface PitcherResults {

@@ -1,27 +1,44 @@
-<script>
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { getPlayerDetails } from '$lib/api/player';
+	import type { PlayerDetails, PlayerId } from '$lib/api/types';
 	import LoadingScreen from '$lib/components/Util/LoadingScreen.svelte';
+	import { searchResults } from '$lib/stores/singleValueStores';
+	import type { SearchResult } from '$lib/types';
+	import fuzzy from 'fuzzy';
 	import FaSearch from 'svelte-icons/fa/FaSearch.svelte';
-	import Typeahead from 'svelte-typeahead';
 	import { allPlayers } from './player_search';
 
-	const maxItems = 5;
-	const hideLabel = true;
-	let query;
+	export let maxItems = 10;
+	let query: string;
 	let loading = false;
+	const extract = (pid: PlayerId): string => pid.name;
 
-	async function goToPlayerPage(item) {
-		loading = true;
-		const result = await getPlayerDetails(item.mlb_id);
-		if (result.success) {
-			const playerDetails = result.value;
-			const currentTeam = playerDetails.all_teams.slice(-1)?.[0];
-			if (currentTeam) {
-				goto(`/player/${item.mlb_id}/${currentTeam.role}`);
+	const fuzzySearch = (q: string): SearchResult<PlayerId>[] =>
+		fuzzy
+			.filter(query, allPlayers, { pre: '<mark>', post: '</mark>', extract })
+			.filter(({ score }) => score > 0)
+			.slice(0, maxItems)
+			.map((result) => ({ ...result }));
+
+	async function getAllPlayerDetails(playerIds: number[]): Promise<PlayerDetails[]> {
+		const allRequests = await Promise.all(playerIds.map((mlb_id) => getPlayerDetails(mlb_id)));
+		return allRequests.filter((response) => response.success).map((response) => response.value);
+	}
+
+	async function handleSubmit(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			const results = fuzzySearch(query);
+			if (results) {
+				loading = true;
+				const playerIds = results.map((result) => result.original.mlb_id);
+				$searchResults = await getAllPlayerDetails(playerIds);
+				loading = false;
+				if ($searchResults) {
+					goto(`/search?q=${query}`);
+				}
 			}
 		}
-		loading = false;
 	}
 </script>
 
@@ -33,66 +50,31 @@
 			<div class="p-0 focus:outline-none focus:shadow-outline">
 				<FaSearch />
 			</div>
+			<input placeholder={'Player Search'} bind:value={query} on:keydown={(e) => handleSubmit(e)} />
 		</span>
-		<Typeahead
-			data={allPlayers}
-			extract={(item) => item.name}
-			limit={maxItems}
-			placeholder={'Player Search'}
-			inputAfterSelect={'clear'}
-			{hideLabel}
-			bind:value={query}
-			on:select={(e) => goToPlayerPage(e.detail.original)}
-			on:select
-		/>
 	</div>
 </div>
 
 <style lang="postcss">
-	#player-search :global([data-svelte-typeahead]) {
+	#player-search {
 		background-color: var(--header-bg-color);
 	}
 
-	#player-search :global([data-svelte-typeahead] input) {
-		@apply py-1.5 leading-none w-full rounded-md pl-9 border-0 focus:outline-none;
+	#player-search input {
+		@apply py-1.5 leading-none w-full rounded-md pl-9 border-0;
 		font-size: 16px;
 		background-color: var(--search-bg-color);
 		color: var(--search-text-color);
 		line-height: 1.4;
 	}
 
-	#player-search :global([data-svelte-typeahead] input:focus) {
+	#player-search input:focus {
 		background-color: var(--search-bg-color-focus);
 		color: var(--search-text-color-focus);
 		outline: 2px solid var(--search-focus-outline-color);
 		offset: 0;
-	}
-	#player-search :global([data-svelte-typeahead] ul) {
-		top: 35px;
-		z-index: 1;
-		border-radius: 4px;
-	}
-
-	#player-search :global([data-svelte-typeahead] ul li) {
-		@apply px-3 py-1.5;
-		color: var(--nav-link-text-color);
-		background-color: var(--nav-link-bg-color);
-		border: none;
-	}
-
-	#player-search :global([data-svelte-typeahead] ul li:first-child) {
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
-	}
-
-	#player-search :global([data-svelte-typeahead] ul li:last-child) {
-		border-bottom-left-radius: 4px;
-		border-bottom-right-radius: 4px;
-	}
-
-	#player-search :global([data-svelte-typeahead] ul li.selected) {
-		color: var(--nav-link-text-color-hov);
-		background-color: var(--nav-link-bg-color-hov);
+		outline: 2px solid transparent;
+		outline-offset: 2px;
 	}
 
 	.search-icon {
