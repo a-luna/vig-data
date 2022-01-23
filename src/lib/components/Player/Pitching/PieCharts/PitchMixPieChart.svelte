@@ -12,6 +12,7 @@
 	export let stance: BatterStance = 'all';
 	export let showTitle: boolean = true;
 	export let showDescription: boolean = true;
+	export let slideContent = false;
 
 	$: pieTotal = $pitchTypeMetricsByYearByStance['total_pitches'][year][stance];
 	$: pieSlices = $pitchTypeMetricsByYearByStance['metrics'][year][stance]
@@ -31,10 +32,10 @@
 			color: `var(--pitch-type-${pitchTypeAbbrev})`,
 			unit: unit,
 			description: `${(percent * 100).toFixed(0)}% ${pitchTypeName}`,
-			tooltip: `${Math.round(percent * 100)}% ${pitchTypeName} (${metrics.total_pitches} ${unit})`,
+			tooltip: `${Math.round(percent * 100)}% ${pitchTypeName} (${metrics.total_pitches} ${unit})`
 		};
 		return PieSlice.fromObject(sliceData);
 	}
 </script>
 
-<PieChart {chartData} {chartTitle} {showTitle} {showDescription} {...chartSettings} />
+<PieChart {chartData} {chartTitle} {showTitle} {showDescription} {slideContent} {...chartSettings} />

@@ -22,9 +22,9 @@ export interface CarouselSettings {
 	width: string;
 	padding: string;
 	props?: {
-		infinite?: boolean;
+		loop?: boolean;
 		dots?: boolean;
-		particlesToShow?: number;
+		perPage?: number;
 	};
 }
 

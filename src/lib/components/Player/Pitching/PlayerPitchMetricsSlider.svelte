@@ -1,17 +1,16 @@
 <script lang="ts">
 	import type { CareerPitchStats, TeamPitchStats } from '$lib/api/types';
+	import PitchMixPieChart from '$lib/components/Player/Pitching/PieCharts/PitchMixPieChart.svelte';
+	import StarterRelieverPieChart from '$lib/components/Player/Pitching/PieCharts/StarterRelieverPieChart.svelte';
+	import PitchingMetricsSelector from '$lib/components/Player/Pitching/Selectors/PitchingMetricsSelector.svelte';
 	import type { CarouselSettings, PieChartSettings, PitcherPieChart } from '$lib/types';
-	import { onMount } from 'svelte';
-	import PitchMixPieChart from './PieCharts/PitchMixPieChart.svelte';
-	import StarterRelieverPieChart from './PieCharts/StarterRelieverPieChart.svelte';
-	import PitchingMetricsSelector from './Selectors/PitchingMetricsSelector.svelte';
+	import Carousel from '@beyonk/svelte-carousel/src/Carousel.svelte';
 
 	export let careerPitchStats: CareerPitchStats;
 	export let carouselSettings: CarouselSettings;
 	export let chartSettings: PieChartSettings;
 	let seasonPitchStats: { [key: number]: TeamPitchStats } = {};
 	let showMetrics: PitcherPieChart = 'pitch-mix';
-	let Carousel;
 
 	$: careerPitchStats.by_team_by_year.filter((s) => s.all_stats_for_season).map((s) => (seasonPitchStats[s.year] = s));
 	$: allSeasonsPlayed = Object.keys(seasonPitchStats)
@@ -20,11 +19,6 @@
 	$: firstYearPlayed = allSeasonsPlayed.slice(-1);
 	$: mostRecentYearPlayed = allSeasonsPlayed.slice(0, 1);
 	$: careerChartTitle = `${firstYearPlayed}-${mostRecentYearPlayed}`;
-
-	onMount(async () => {
-		const module = await import('svelte-carousel');
-		Carousel = module.default;
-	});
 </script>
 
 <div
@@ -33,15 +27,30 @@
 >
 	<PitchingMetricsSelector on:changed={(e) => (showMetrics = e.detail)} />
 	{#if showMetrics === 'pitch-mix'}
-		<svelte:component this={Carousel} {...carouselSettings.props}>
-			<PitchMixPieChart year={0} stance={'all'} {chartSettings} chartTitle={careerChartTitle} showDescription={false} />
+		<Carousel {...carouselSettings.props}>
+			<PitchMixPieChart
+				slideContent={true}
+				year={0}
+				stance={'all'}
+				{chartSettings}
+				chartTitle={careerChartTitle}
+				showDescription={false}
+			/>
 			{#each allSeasonsPlayed as year}
-				<PitchMixPieChart {year} stance={'all'} {chartSettings} chartTitle={year.toString()} showDescription={false} />
+				<PitchMixPieChart
+					slideContent={true}
+					{year}
+					stance={'all'}
+					{chartSettings}
+					chartTitle={year.toString()}
+					showDescription={false}
+				/>
 			{/each}
-		</svelte:component>
+		</Carousel>
 	{:else if showMetrics === 'role'}
-		<svelte:component this={Carousel} {...carouselSettings.props}>
+		<Carousel {...carouselSettings.props}>
 			<StarterRelieverPieChart
+				slideContent={true}
 				pitchStats={careerPitchStats.career}
 				{chartSettings}
 				chartTitle={careerChartTitle}
@@ -49,12 +58,13 @@
 			/>
 			{#each allSeasonsPlayed as year}
 				<StarterRelieverPieChart
+					slideContent={true}
 					pitchStats={seasonPitchStats[year]}
 					{chartSettings}
 					chartTitle={year.toString()}
 					showDescription={false}
 				/>
 			{/each}
-		</svelte:component>
+		</Carousel>
 	{/if}
 </div>

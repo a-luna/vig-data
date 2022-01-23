@@ -80,7 +80,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: `calc(${pageWidth}px - 2.5rem)`,
 					padding: 'py-3 px-2',
-					props: { infinite: true, dots: true, particlesToShow: 1 }
+					props: { loop: true, dots: true, perPage: 1 }
 				},
 				chartSettings: {
 					chartHeight: '145px',
@@ -98,7 +98,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: `calc(${pageWidth}px - 2.5rem)`,
 					padding: 'py-3 px-2',
-					props: { infinite: true, dots: true, particlesToShow: 1 }
+					props: { loop: true, dots: true, perPage: 1 }
 				},
 				chartSettings: {
 					chartHeight: '145px',
@@ -116,7 +116,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: `calc(${pageWidth}px - 2.5rem)`,
 					padding: 'py-3 px-2',
-					props: { infinite: false, dots: false, particlesToShow: 2 }
+					props: { loop: false, dots: false, perPage: 2 }
 				},
 				chartSettings: {
 					chartHeight: '120px',
@@ -134,7 +134,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: `calc(${pageWidth}px - 2.5rem)`,
 					padding: 'py-3 px-1',
-					props: { infinite: false, dots: false, particlesToShow: 3 }
+					props: { loop: false, dots: false, perPage: 3 }
 				},
 				chartSettings: {
 					chartHeight: '100px',
@@ -152,7 +152,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: '325px',
 					padding: 'p-3',
-					props: { infinite: false, dots: false, particlesToShow: 1 }
+					props: { loop: false, dots: false, perPage: 1 }
 				},
 				chartSettings: {
 					chartHeight: '135px',
@@ -170,7 +170,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: '450px',
 					padding: 'p-3',
-					props: { infinite: false, dots: false, particlesToShow: 2 }
+					props: { loop: false, dots: false, perPage: 2 }
 				},
 				chartSettings: {
 					chartHeight: '135px',
@@ -188,7 +188,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: '470px',
 					padding: 'p-3',
-					props: { infinite: false, dots: false, particlesToShow: 2 }
+					props: { loop: false, dots: false, perPage: 2 }
 				},
 				chartSettings: {
 					chartHeight: '140px',
@@ -206,7 +206,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: '680px',
 					padding: 'p-3',
-					props: { infinite: false, dots: false, particlesToShow: 3 }
+					props: { loop: false, dots: false, perPage: 3 }
 				},
 				chartSettings: {
 					chartHeight: '140px',
@@ -223,7 +223,7 @@ export function getPlayerPageSettings(pageWidth: number): PlayerPageSettings {
 				carouselSettings: {
 					width: '710px',
 					padding: 'p-3',
-					props: { infinite: false, dots: false, particlesToShow: 3 }
+					props: { loop: false, dots: false, perPage: 3 }
 				},
 				chartSettings: {
 					chartHeight: '152px',

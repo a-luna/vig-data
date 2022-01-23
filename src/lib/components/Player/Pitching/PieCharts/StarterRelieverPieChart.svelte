@@ -7,6 +7,7 @@
 	export let chartSettings: PieChartSettings;
 	export let pitchStats: TeamPitchStats;
 	export let chartTitle: string;
+	export let slideContent = false;
 	let pieSlices: PieSlice[] = [];
 	const chartDescription = `${pitchStats.total_games} total games`;
 	export let showTitle: boolean = true;
@@ -22,7 +23,7 @@
 				label: 'SP',
 				color: 'var(--pie-chart-start-color)',
 				unit: 'games',
-				description: `${pitchStats.games_as_sp} as SP (${percentSp}%)`,
+				description: `${pitchStats.games_as_sp} as SP (${percentSp}%)`
 			}),
 			PieSlice.fromObject({
 				value: pitchStats.games_as_rp,
@@ -30,11 +31,11 @@
 				label: 'RP',
 				color: 'var(--pie-chart-bench-color)',
 				unit: 'games',
-				description: `${pitchStats.games_as_rp} as RP (${percentRp}%)`,
-			}),
+				description: `${pitchStats.games_as_rp} as RP (${percentRp}%)`
+			})
 		];
 	}
 	$: chartData = prepareSvgPieChart(pieSlices);
 </script>
 
-<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {slideContent} {...chartSettings} />

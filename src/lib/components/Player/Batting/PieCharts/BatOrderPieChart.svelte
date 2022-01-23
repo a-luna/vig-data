@@ -3,13 +3,14 @@
 	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { BAT_ORDER_NUM_TO_ABBREV_MAP } from '$lib/constants';
 	import { siteTheme } from '$lib/stores/singleValueStores';
-	import { PieChartSettings, PieSlice } from '$lib/types';
+	import { PieChartSettings,PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let batOrderMetrics: BatOrderMetrics[];
 	export let threshold: number;
 	export let chartTitle: string;
+	export let slideContent = false;
 	let chartData: PieSlice[] = [];
 	export let showTitle: boolean = true;
 	export let showDescription: boolean = true;
@@ -41,4 +42,4 @@
 	}
 </script>
 
-<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {slideContent} {...chartSettings} />

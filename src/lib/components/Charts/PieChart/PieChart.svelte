@@ -16,6 +16,7 @@
 	export let showTitle: boolean = true;
 	export let showDescription: boolean = true;
 	export let showLegend: boolean = true;
+  export let slideContent = false;
 	let description: string;
 	let hovering: boolean = false;
 	let hoverId: string = null;
@@ -35,6 +36,7 @@
 </script>
 
 <div
+  class:slide-content={slideContent}
 	class="flex flex-col items-center justify-around gap-1 mx-1 font-medium leading-none text-center whitespace-nowrap"
 	style="height: {chartHeight}"
 >

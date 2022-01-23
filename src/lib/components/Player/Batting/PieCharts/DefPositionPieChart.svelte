@@ -2,12 +2,13 @@
 	import type { DefPositionMetrics } from '$lib/api/types';
 	import PieChart from '$lib/components/Charts/PieChart/PieChart.svelte';
 	import { DEF_POS_NUM_TO_ABBREV_MAP } from '$lib/constants';
-	import { PieChartSettings, PieSlice } from '$lib/types';
+	import { PieChartSettings,PieSlice } from '$lib/types';
 	import { prepareSvgPieChart } from '$lib/util/ui';
 
 	export let chartSettings: PieChartSettings;
 	export let defPosMetrics: DefPositionMetrics[];
 	export let chartTitle: string;
+	export let slideContent = false;
 	let chartData: PieSlice[] = [];
 	export let showTitle: boolean = true;
 	export let showDescription: boolean = true;
@@ -35,4 +36,4 @@
 	}
 </script>
 
-<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {...chartSettings} />
+<PieChart {chartData} {chartTitle} {chartDescription} {showTitle} {showDescription} {slideContent} {...chartSettings} />
