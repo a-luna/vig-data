@@ -12,7 +12,12 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		target: '#svelte',
-
+		prerender: {
+			crawl: false,
+			enabled: true,
+			entries: ['*'],
+			onError: 'continue'
+		},
 		vite: {
 			ssr: {
 				noExternal: []
