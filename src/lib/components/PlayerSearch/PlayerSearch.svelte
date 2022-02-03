@@ -50,8 +50,8 @@
 			<div class="p-0 focus:outline-none focus:shadow-outline">
 				<FaSearch />
 			</div>
-			<input placeholder={'Player Search'} bind:value={query} on:keydown={(e) => handleSubmit(e)} />
 		</span>
+		<input placeholder={'Player Search'} bind:value={query} on:keydown={(e) => handleSubmit(e)} />
 	</div>
 </div>
 
