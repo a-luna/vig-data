@@ -10,7 +10,7 @@
 		"format": "prettier --write ."
 	},
 	"devDependencies": {
-		"@a-luna/svelte-simple-tables": "^0.0.16",
+		"@a-luna/svelte-simple-tables": "^0.0.17",
 		"@beyonk/svelte-carousel": "^2.9.0",
 		"@leveluptuts/svelte-toy": "^0.0.15",
 		"@sveltejs/adapter-netlify": "^1.0.0-next.42",
