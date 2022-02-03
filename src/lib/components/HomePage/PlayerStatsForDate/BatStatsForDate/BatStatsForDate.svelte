@@ -4,7 +4,7 @@
 	import { prefersDarkTheme } from '$lib/util/ui';
 	import SimpleTable from '@a-luna/svelte-simple-tables';
 	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
-	import type { TableSettings } from '@a-luna/svelte-simple-tables/types';
+	import type { TableSettings, TableState } from '@a-luna/svelte-simple-tables/types';
 	import { getDefaultTableId } from '@a-luna/svelte-simple-tables/util';
 	import { columnSettings } from './columnSettings';
 
@@ -14,8 +14,9 @@
 	let sortDir: 'asc' | 'desc' = 'desc';
 	export let tableId: string = getDefaultTableId();
 	const tableIdSuffix = $pageWidth.isDefault ? '-mobile' : '';
+	let tableState: TableState;
 
-	$: themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
+	$: if (tableState) $tableState.themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
 
 	const tableSettings: TableSettings = {
 		tableId: `${tableId}${tableIdSuffix}`,
@@ -24,7 +25,6 @@
 		showSortDescription: true,
 		sortBy,
 		sortDir,
-		themeName,
 		paginated: true,
 		pageSize: 5,
 		pageSizeOptions: [5, 10, 15, 20, 25],
@@ -33,4 +33,4 @@
 	};
 </script>
 
-<SimpleTable data={batStats} {columnSettings} {tableSettings} />
+<SimpleTable data={batStats} {columnSettings} {tableSettings} bind:tableState />

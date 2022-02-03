@@ -4,7 +4,7 @@
 	import { prefersDarkTheme } from '$lib/util/ui';
 	import SimpleTable from '@a-luna/svelte-simple-tables';
 	import { pageWidth } from '@a-luna/svelte-simple-tables/stores';
-	import type { TableSettings } from '@a-luna/svelte-simple-tables/types';
+	import type { TableSettings, TableState } from '@a-luna/svelte-simple-tables/types';
 	import { columnSettings } from './columnSettings';
 
 	export let pfxBarrels: PitchFx[] = [];
@@ -12,8 +12,9 @@
 	export let sortBy: string;
 	export let tableId: string;
 	const tableIdSuffix = $pageWidth.isDefault ? '-mobile' : '';
+	let tableState: TableState;
 
-	$: themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
+	$: if (tableState) $tableState.themeName = $siteTheme !== 'notset' ? $siteTheme : prefersDarkTheme() ? 'dark' : 'light';
 
 	const tableSettings: TableSettings = {
 		tableId: `${tableId}${tableIdSuffix}`,
@@ -22,7 +23,6 @@
 		showSortDescription: true,
 		sortBy,
 		sortDir: 'desc',
-		themeName,
 		paginated: true,
 		pageSize: 5,
 		pageSizeOptions: [5, 10, 15, 20, 25],
@@ -31,4 +31,4 @@
 	};
 </script>
 
-<SimpleTable data={pfxBarrels} {columnSettings} {tableSettings} />
+<SimpleTable data={pfxBarrels} {columnSettings} {tableSettings} bind:tableState />

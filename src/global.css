@@ -458,6 +458,8 @@ body.light-mode {
 	--team-stat-filter-bg-color: var(--page-bg-color);
 	--team-stat-filter-border-color: var(--blue1);
 	--team-stat-filter-query-sent: var(--gray2);
+
+	--sst-table-wrapper-bg-color: var(--white1);
 }
 
 body.dark-mode {
@@ -836,15 +838,149 @@ label {
 }
 
 .section {
-	/* background-color: var(--section-content-bg-color); */
-	background-color: hsl(220, 23%, 5%);
+	background-color: var(--section-content-bg-color);
 	border: 2px dotted var(--section-content-border-color);
 	border-radius: 4px;
 }
 
 .section-content {
-	/* background-color: var(--section-content-bg-color); */
-	background-color: hsl(220, 23%, 5%);
+	background-color: var(--section-content-bg-color);
+}
+
+/* Responsive Tables */
+
+#standings-for-date .resp-table-container {
+	overflow-x: auto;
+	white-space: nowrap;
+	width: 100%;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	padding-bottom: 0.5rem;
+}
+
+#standings-for-date .resp-table-wrapper {
+	display: inline-block;
+	width: 100%;
+}
+
+#standings-for-date .resp-table {
+	display: table;
+	width: 100%;
+	color: var(--table-body-color);
+}
+
+#standings-for-date .resp-table-caption {
+	display: table-caption;
+	color: var(--table-caption-color);
+	white-space: nowrap;
+}
+
+#standings-for-date .sub-heading {
+	color: var(--sec-color);
+}
+
+#standings-for-date .resp-table-header {
+	display: table-header-group;
+}
+
+#standings-for-date .table-header-cell {
+	display: table-cell;
+	text-align: center;
+	color: var(--table-col-header-color);
+	background-color: var(--table-col-header-bg-color);
+}
+
+#standings-for-date .resp-table-header:first-child .table-header-cell:first-child,
+.col-header .table-header-cell:first-child {
+	border-top-left-radius: 4px;
+}
+
+#standings-for-date .resp-table-header:first-child .table-header-cell:last-child,
+.col-header .table-header-cell:last-child {
+	border-top-right-radius: 4px;
+}
+
+#standings-for-date .resp-table-body .table-header-cell,
+.col-header .table-header-cell {
+	border-top: 1px solid var(--table-outer-border-color);
+}
+
+#standings-for-date .resp-table-body {
+	display: table-row-group;
+}
+
+#standings-for-date .resp-table-body a {
+	color: var(--table-body-link-color);
+}
+
+#standings-for-date .resp-table-body a:hover {
+	color: var(--table-body-link-color-hov);
+}
+
+#standings-for-date .resp-table-row {
+	display: table-row;
+}
+
+#standings-for-date .resp-table-row:nth-child(even) {
+	background-color: var(--table-body-bg-color-even);
+}
+
+#standings-for-date .resp-table-row:nth-child(odd) {
+	background-color: var(--table-body-bg-color-odd);
+}
+
+#standings-for-date .table-body-cell {
+	display: table-cell;
+	border-top: none;
+	border-left: 1px solid var(--table-inner-border-vert-color);
+}
+
+#standings-for-date .resp-table .num {
+	text-align: right;
+}
+
+#standings-for-date .table-header-cell,
+#standings-for-date .table-body-cell {
+	padding: 3px 4px;
+}
+
+#standings-for-date .table-body-cell:first-child,
+#standings-for-date .resp-table-header:first-child .table-header-cell:first-child,
+#standings-for-date .col-header .table-header-cell:first-child {
+	border-left: 1px solid var(--table-outer-border-color);
+}
+
+#standings-for-date .table-body-cell:last-child,
+#standings-for-date .resp-table-header:first-child .table-header-cell:last-child,
+#standings-for-date .col-header .table-header-cell:last-child {
+	border-right: 1px solid var(--table-outer-border-color);
+}
+
+#standings-for-date .resp-table-row:last-child {
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+#standings-for-date .resp-table-row:last-child .table-body-cell {
+	border-bottom: 1px solid var(--table-outer-border-color);
+}
+
+#standings-for-date .resp-table-row:last-child .table-body-cell:first-child {
+	border-bottom-left-radius: 4px;
+}
+
+#standings-for-date .resp-table-row:last-child .table-body-cell:last-child {
+	border-bottom-right-radius: 4px;
+}
+
+#standings-for-date .resp-table-footer {
+	display: table-footer-group;
+}
+
+#standings-for-date .table-footer-cell {
+	display: table-cell;
+	text-align: justify;
+	background-color: var(--page-bg-color);
 }
 
 #game-summary,
