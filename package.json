@@ -59,7 +59,7 @@
 	"dependencies": {
 		"@date-io/date-fns": "^2.11.0",
 		"@sveltejs/adapter-node": "1.0.0-next.53",
-		"@sveltejs/kit": "^1.0.0-next.240",
+		"@sveltejs/kit": "^1.15.1",
 		"date-fns": "^2.28.0",
 		"date-fns-tz": "^1.2.2",
 		"fuzzy": "^0.1.3",
